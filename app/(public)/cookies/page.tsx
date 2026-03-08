@@ -139,7 +139,7 @@ export default function CookiePolicyPage() {
       <section className="relative min-h-[50vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1920"
+            src="/images/Random images/45_resize.jpg"
             alt="Cookie policy"
             fill
             className="object-cover"

@@ -42,7 +42,7 @@ Our chefs bring decades of experience and family recipes passed down through gen
 3. **Try the signature dishes** for a true taste of the region
 4. **Save room for dessert** - our mango sticky rice is legendary
     `,
-    image: 'https://images.unsplash.com/photo-1559314809-0d155014e29e?w=800',
+    image: '/images/Random images/32_resize.jpg',
     author: 'Three Monkeys Team',
     publishedAt: '2025-02-20',
     category: 'Cuisine',
@@ -94,7 +94,7 @@ Our romantic dinner packages include:
 
 Romance is best when planned. Contact us to arrange your special evening and let us create memories that will last a lifetime.
     `,
-    image: 'https://images.unsplash.com/photo-1529543544277-750e2ea84ba5?w=800',
+    image: '/images/Random images/33_resize.jpg',
     author: 'Three Monkeys Team',
     publishedAt: '2025-02-15',
     category: 'Romance',
@@ -159,7 +159,7 @@ The best memories are made around the table. Let Three Monkeys be the backdrop f
 
 Contact us at least 48 hours in advance for celebration bookings. For larger events, we recommend 1-2 weeks notice.
     `,
-    image: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=800',
+    image: '/images/Random images/34_resize.jpg',
     author: 'Three Monkeys Team',
     publishedAt: '2025-02-10',
     category: 'Celebrations',
@@ -213,7 +213,7 @@ From traditional Thai iced tea to premium oolong and jasmine varieties, our tea 
 
 Our staff can recommend the perfect drink pairing for your meal. Whether you prefer wine, cocktails, or non-alcoholic options, we'll help you find the ideal complement to your dining experience.
     `,
-    image: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=800',
+    image: '/images/Random images/35_resize.jpg',
     author: 'Three Monkeys Team',
     publishedAt: '2025-02-05',
     category: 'Drinks',
@@ -271,7 +271,7 @@ Whether you're celebrating a special occasion or simply want a unique dining exp
 
 Reservations recommended, especially for sunset dining and special zones.
     `,
-    image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800',
+    image: '/images/Random images/39_resize.jpg',
     author: 'Three Monkeys Team',
     publishedAt: '2025-01-28',
     category: 'Experience',
@@ -327,7 +327,7 @@ Three Monkeys isn't just a restaurant – it's a destination. Whether you're a f
 
 Don't just take our word for it. Come see why we're Phuket's most talked-about dining destination.
     `,
-    image: 'https://images.unsplash.com/photo-1544124499-58912cbddaad?w=800',
+    image: '/images/Random images/40_resize.jpg',
     author: 'Three Monkeys Team',
     publishedAt: '2025-01-20',
     category: 'Guide',

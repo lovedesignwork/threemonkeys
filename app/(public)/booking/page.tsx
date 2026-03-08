@@ -23,7 +23,7 @@ const promotionalAddons = [
     originalPrice: 1000,
     discount: '20% OFF',
     icon: Wine,
-    image: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400',
+    image: '/images/Random images/39_resize.jpg',
   },
   {
     id: 'dessert-platter',
@@ -33,7 +33,7 @@ const promotionalAddons = [
     originalPrice: 650,
     discount: '15% OFF',
     icon: Cake,
-    image: 'https://images.unsplash.com/photo-1551024506-0bccd828d307?w=400',
+    image: '/images/Random images/40_resize.jpg',
   },
   {
     id: 'appetizer-set',
@@ -43,7 +43,7 @@ const promotionalAddons = [
     originalPrice: 900,
     discount: '17% OFF',
     icon: UtensilsCrossed,
-    image: 'https://images.unsplash.com/photo-1541014741259-de529411b96a?w=400',
+    image: '/images/Random images/41_resize.jpg',
   },
 ];
 
@@ -285,7 +285,7 @@ function BookingContent() {
       <section className="relative py-32 overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1920"
+            src="/images/Random images/42_resize.jpg"
             alt="Restaurant"
             fill
             className="object-cover"

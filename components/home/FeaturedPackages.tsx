@@ -11,7 +11,7 @@ const seats = [
     name: 'Monkey Dome',
     description: 'Signature treehouse dining with panoramic jungle views',
     capacity: '2-6 guests',
-    image: 'https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=800',
+    image: '/images/Random images/35_resize.jpg',
     href: '/packages/monkey-dome',
   },
   {
@@ -19,7 +19,7 @@ const seats = [
     name: 'Monkey Nest',
     description: 'Intimate canopy seating for romantic dinners',
     capacity: '2-4 guests',
-    image: 'https://images.unsplash.com/photo-1559339352-11d035aa65de?w=800',
+    image: '/images/Random images/39_resize.jpg',
     href: '/packages/monkey-nest',
   },
   {
@@ -27,7 +27,7 @@ const seats = [
     name: 'Bamboo Pavilion',
     description: 'Open-air pavilion with traditional Thai architecture',
     capacity: '4-12 guests',
-    image: 'https://images.unsplash.com/photo-1544148103-0773bf10d330?w=800',
+    image: '/images/Random images/40_resize.jpg',
     href: '/packages/bamboo-pavilion',
   },
   {
@@ -35,7 +35,7 @@ const seats = [
     name: 'Rooftop Romantic',
     description: 'Exclusive rooftop with sunset forest views',
     capacity: '2 guests',
-    image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800',
+    image: '/images/Random images/41_resize.jpg',
     href: '/packages/rooftop-romantic',
   },
   {
@@ -43,7 +43,7 @@ const seats = [
     name: 'Garden Terrace',
     description: 'Ground-level dining surrounded by tropical gardens',
     capacity: '4-8 guests',
-    image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800',
+    image: '/images/Random images/42_resize.jpg',
     href: '/packages/garden-terrace',
   },
   {
@@ -51,7 +51,7 @@ const seats = [
     name: 'Private Sala',
     description: 'Secluded Thai-style pavilion for exclusive gatherings',
     capacity: '6-20 guests',
-    image: 'https://images.unsplash.com/photo-1552566626-52f8b828add9?w=800',
+    image: '/images/Random images/43_resize.jpg',
     href: '/packages/private-sala',
   },
 ];

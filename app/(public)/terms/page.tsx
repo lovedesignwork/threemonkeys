@@ -60,7 +60,7 @@ export default function TermsPage() {
       <section className="relative min-h-[50vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1920"
+            src="/images/Random images/42_resize.jpg"
             alt="Legal document"
             fill
             className="object-cover"

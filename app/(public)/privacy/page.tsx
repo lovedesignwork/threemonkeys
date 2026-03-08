@@ -63,7 +63,7 @@ export default function PrivacyPage() {
       <section className="relative min-h-[50vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1920"
+            src="/images/Random images/43_resize.jpg"
             alt="Privacy and security"
             fill
             className="object-cover"

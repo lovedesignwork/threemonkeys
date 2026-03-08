@@ -24,7 +24,7 @@ export default function CombinedPackagesPage() {
     <main className="min-h-screen">
       {/* Hero Section */}
       <section className="relative py-24 bg-[#1a1a1a] overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1920&q=80')] bg-cover bg-center opacity-20" />
+        <div className="absolute inset-0 bg-[url('/images/Random images/43_resize.jpg')] bg-cover bg-center opacity-20" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#1a1a1a] via-transparent to-[#1a1a1a]" />
         
         <Container className="relative z-10">

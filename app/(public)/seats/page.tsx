@@ -32,7 +32,7 @@ export default function SeatsPage() {
       <section className="relative min-h-[50vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1920"
+            src="/images/Random images/39_resize.jpg"
             alt="Our Seats"
             fill
             className="object-cover"

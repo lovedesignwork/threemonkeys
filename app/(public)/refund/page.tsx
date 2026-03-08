@@ -60,7 +60,7 @@ export default function RefundPage() {
       <section className="relative min-h-[50vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1920"
+            src="/images/Random images/44_resize.jpg"
             alt="Refund policy"
             fill
             className="object-cover"

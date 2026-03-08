@@ -16,7 +16,7 @@ export default function SpecialPackagesPage() {
       <section className="relative min-h-[50vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=1920"
+            src="/images/Random images/40_resize.jpg"
             alt="Special Packages"
             fill
             className="object-cover"
@@ -157,7 +157,7 @@ export default function SpecialPackagesPage() {
       <section className="py-24 relative overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=1920"
+            src="/images/Random images/41_resize.jpg"
             alt=""
             fill
             className="object-cover"

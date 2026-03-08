@@ -6,14 +6,14 @@ import Image from 'next/image';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const galleryImages = [
-  { src: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80', alt: 'Elegant Restaurant Interior' },
-  { src: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80', alt: 'Fine Dining Dish' },
-  { src: 'https://images.unsplash.com/photo-1559339352-11d035aa65de?w=800&q=80', alt: 'Thai Cuisine Presentation' },
-  { src: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80', alt: 'Cozy Dining Ambiance' },
-  { src: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80', alt: 'Gourmet Plate' },
-  { src: 'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=800&q=80', alt: 'Fresh Ingredients' },
-  { src: 'https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=800&q=80', alt: 'Chef Preparation' },
-  { src: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&q=80', alt: 'Culinary Excellence' },
+  { src: '/images/Random images/32_resize.jpg', alt: 'Elegant Restaurant Interior' },
+  { src: '/images/Random images/33_resize.jpg', alt: 'Fine Dining Dish' },
+  { src: '/images/Random images/34_resize.jpg', alt: 'Thai Cuisine Presentation' },
+  { src: '/images/Random images/35_resize.jpg', alt: 'Cozy Dining Ambiance' },
+  { src: '/images/Random images/39_resize.jpg', alt: 'Gourmet Plate' },
+  { src: '/images/Random images/40_resize.jpg', alt: 'Fresh Ingredients' },
+  { src: '/images/Random images/41_resize.jpg', alt: 'Chef Preparation' },
+  { src: '/images/Random images/42_resize.jpg', alt: 'Culinary Excellence' },
 ];
 
 export function PhotoGallery() {
@@ -39,7 +39,7 @@ export function PhotoGallery() {
       {/* Leaves Background with Green Overlay */}
       <div className="absolute inset-0">
         <Image
-          src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=1920"
+          src="/images/Random images/43_resize.jpg"
           alt=""
           fill
           className="object-cover"

@@ -12,7 +12,7 @@ export default function PackagesLandingPage() {
       <section className="relative min-h-[50vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1920"
+            src="/images/Random images/47_resize.jpg"
             alt="Dining Experience"
             fill
             className="object-cover"
@@ -65,7 +65,7 @@ export default function PackagesLandingPage() {
                   {/* Image */}
                   <div className="relative aspect-[16/10] overflow-hidden">
                     <Image
-                      src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=1200"
+                      src="/images/Random images/48_resize.jpg"
                       alt="Our Seats"
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-110"
@@ -118,7 +118,7 @@ export default function PackagesLandingPage() {
                   {/* Image */}
                   <div className="relative aspect-[16/10] overflow-hidden">
                     <Image
-                      src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=1200"
+                      src="/images/Random images/32_resize.jpg"
                       alt="Special Packages"
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-110"

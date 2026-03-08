@@ -55,17 +55,17 @@ const experiences = [
   {
     title: 'Monkey Dome',
     description: 'Our signature treehouse dining with panoramic jungle views',
-    image: 'https://images.unsplash.com/photo-1559339352-11d035aa65de?w=800',
+    image: '/images/Random images/44_resize.jpg',
   },
   {
     title: 'Rooftop Zone',
     description: 'Elevated dining under the stars with sunset views',
-    image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800',
+    image: '/images/Random images/45_resize.jpg',
   },
   {
     title: 'Bamboo Pavilion',
     description: 'Traditional Thai architecture meets modern comfort',
-    image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800',
+    image: '/images/Random images/46_resize.jpg',
   },
 ];
 
@@ -87,7 +87,7 @@ export default function AboutPage() {
           style={{ y: y1 }}
         >
           <Image
-            src="https://images.unsplash.com/photo-1448375240586-882707db888b?w=1920"
+            src="/images/Random images/47_resize.jpg"
             alt="Rainforest"
             fill
             className="object-cover scale-110"
@@ -198,7 +198,7 @@ export default function AboutPage() {
                 <div className="space-y-4">
                   <div className="relative aspect-[3/4] rounded-2xl overflow-hidden">
                     <Image
-                      src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600"
+                      src="/images/Random images/32_resize.jpg"
                       alt="Fine Dining"
                       fill
                       className="object-cover"
@@ -207,7 +207,7 @@ export default function AboutPage() {
                   </div>
                   <div className="relative aspect-square rounded-2xl overflow-hidden">
                     <Image
-                      src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600"
+                      src="/images/Random images/33_resize.jpg"
                       alt="Thai Cuisine"
                       fill
                       className="object-cover"
@@ -218,7 +218,7 @@ export default function AboutPage() {
                 <div className="space-y-4 pt-8">
                   <div className="relative aspect-square rounded-2xl overflow-hidden">
                     <Image
-                      src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=600"
+                      src="/images/Random images/34_resize.jpg"
                       alt="Restaurant Interior"
                       fill
                       className="object-cover"
@@ -227,7 +227,7 @@ export default function AboutPage() {
                   </div>
                   <div className="relative aspect-[3/4] rounded-2xl overflow-hidden">
                     <Image
-                      src="https://images.unsplash.com/photo-1544124499-58912cbddaad?w=600"
+                      src="/images/Random images/35_resize.jpg"
                       alt="Nature Dining"
                       fill
                       className="object-cover"
@@ -411,7 +411,7 @@ export default function AboutPage() {
       <section className="relative py-32 overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1920"
+            src="/images/Random images/48_resize.jpg"
             alt="Restaurant Ambiance"
             fill
             className="object-cover"

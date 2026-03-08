@@ -100,7 +100,7 @@ export default function ContactPage() {
       <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=1920"
+            src="/images/Random images/46_resize.jpg"
             alt="Contact Us"
             fill
             className="object-cover"
@@ -352,7 +352,7 @@ export default function ContactPage() {
               <div className="bg-[#111] rounded-3xl overflow-hidden border border-white/10">
                 <div className="relative h-48">
                   <Image
-                    src="https://images.unsplash.com/photo-1448375240586-882707db888b?w=800"
+                    src="/images/Random images/47_resize.jpg"
                     alt="Rainforest Location"
                     fill
                     className="object-cover"
@@ -459,7 +459,7 @@ export default function ContactPage() {
       <section className="py-24 relative overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920"
+            src="/images/Random images/48_resize.jpg"
             alt=""
             fill
             className="object-cover"

@@ -37,7 +37,7 @@ export function SafetyCertifications() {
       {/* Leaves Background with Green Overlay */}
       <div className="absolute inset-0">
         <Image
-          src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=1920"
+          src="/images/Random images/44_resize.jpg"
           alt=""
           fill
           className="object-cover"
@@ -128,7 +128,7 @@ export function SafetyCertifications() {
             {/* Main Image */}
             <div className="relative h-[600px] rounded-3xl overflow-hidden shadow-2xl">
               <Image
-                src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800&q=80"
+                src="/images/Random images/45_resize.jpg"
                 alt="Restaurant Kitchen"
                 fill
                 className="object-cover"

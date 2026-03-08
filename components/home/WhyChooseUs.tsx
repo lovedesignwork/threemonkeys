@@ -34,7 +34,7 @@ export function WhyChooseUs() {
       {/* Leaves Background with Dark Overlay */}
       <div className="absolute inset-0">
         <Image
-          src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=1920"
+          src="/images/Random images/46_resize.jpg"
           alt=""
           fill
           className="object-cover"
@@ -151,7 +151,7 @@ export function WhyChooseUs() {
             className="lg:col-span-2 relative overflow-hidden rounded-3xl aspect-[16/9] lg:aspect-auto lg:h-full min-h-[300px]"
           >
             <Image
-              src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200"
+              src="/images/Random images/47_resize.jpg"
               alt="Three Monkeys Restaurant Interior"
               fill
               className="object-cover"

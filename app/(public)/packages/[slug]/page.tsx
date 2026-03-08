@@ -38,9 +38,9 @@ export default function PackagePage() {
   // Gallery images (using main image + placeholders)
   const galleryImages = [
     pkg.image,
-    'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800',
-    'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800',
-    'https://images.unsplash.com/photo-1559339352-11d035aa65de?w=800',
+    '/images/Random images/44_resize.jpg',
+    '/images/Random images/45_resize.jpg',
+    '/images/Random images/46_resize.jpg',
   ];
 
   return (

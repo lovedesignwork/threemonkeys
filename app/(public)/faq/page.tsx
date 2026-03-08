@@ -219,7 +219,7 @@ export default function FAQPage() {
       <section className="relative min-h-[50vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=1920"
+            src="/images/Random images/32_resize.jpg"
             alt="FAQ"
             fill
             className="object-cover"
@@ -462,7 +462,7 @@ export default function FAQPage() {
       <section className="py-24 relative overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=1920"
+            src="/images/Random images/33_resize.jpg"
             alt=""
             fill
             className="object-cover"

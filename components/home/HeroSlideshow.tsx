@@ -7,10 +7,10 @@ import Link from 'next/link';
 import { ArrowRight, MapPin, Play } from 'lucide-react';
 
 const heroImages = [
-  'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=2400',
-  'https://images.unsplash.com/photo-1544124499-58912cbddaad?w=2400',
-  'https://images.unsplash.com/photo-1544148103-0773bf10d330?w=2400',
-  'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=2400',
+  '/images/Random images/32_resize.jpg',
+  '/images/Random images/33_resize.jpg',
+  '/images/Random images/34_resize.jpg',
+  '/images/Random images/35_resize.jpg',
 ];
 
 export function HeroSlideshow() {

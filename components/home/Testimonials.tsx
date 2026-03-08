@@ -12,7 +12,7 @@ const testimonials = [
     location: 'Sydney, Australia',
     rating: 5,
     text: 'Absolutely incredible dining experience! The flavors were amazing and the staff made us feel so welcome. The garden setting is breathtaking.',
-    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop',
+    image: '/images/Random images/44_resize.jpg',
   },
   {
     id: 2,
@@ -20,7 +20,7 @@ const testimonials = [
     location: 'Singapore',
     rating: 5,
     text: 'Brought my whole family for dinner. Everyone had an amazing time! The servers were patient and professional. Best Thai food we had in Thailand.',
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop',
+    image: '/images/Random images/45_resize.jpg',
   },
   {
     id: 3,
@@ -28,7 +28,7 @@ const testimonials = [
     location: 'London, UK',
     rating: 5,
     text: 'The combination of authentic Thai flavors and the beautiful setting is perfect. Worth every penny! The staff speaks great English.',
-    image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop',
+    image: '/images/Random images/46_resize.jpg',
   },
   {
     id: 4,
@@ -36,7 +36,7 @@ const testimonials = [
     location: 'Berlin, Germany',
     rating: 5,
     text: 'Professional service, exceptional cuisine, and incredibly friendly staff. This was the culinary highlight of our Thailand trip!',
-    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop',
+    image: '/images/Random images/47_resize.jpg',
   },
 ];
 
@@ -56,7 +56,7 @@ export function Testimonials() {
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
-          src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1920"
+          src="/images/Random images/48_resize.jpg"
           alt="Restaurant ambiance"
           fill
           className="object-cover opacity-20"
