@@ -110,7 +110,7 @@ export default function PackagePage() {
                 {/* Category Badge */}
                 <div className="flex items-center gap-3 mb-4">
                   <span className="px-3 py-1 bg-[#b1b94c]/20 text-[#b1b94c] rounded-full text-xs font-medium uppercase tracking-wider">
-                    {pkg.category === 'dining' ? 'Dining Experience' : pkg.category}
+                    {pkg.category === 'zone' ? 'Dining Zone' : pkg.category === 'romantic' ? 'Romantic Dining' : pkg.category}
                   </span>
                   <div className="flex items-center gap-1 text-[#b1b94c]">
                     <Star className="w-4 h-4 fill-current" />
