@@ -32,7 +32,23 @@ const sections = [
   { id: 'contact', title: 'Contact Us', icon: Mail },
 ];
 
-const cookieTypes = [
+interface CookieItem {
+  name: string;
+  purpose: string;
+  duration: string;
+  provider?: string;
+}
+
+interface CookieType {
+  id: string;
+  title: string;
+  icon: typeof Shield;
+  color: string;
+  description: string;
+  cookies: CookieItem[];
+}
+
+const cookieTypes: CookieType[] = [
   {
     id: 'essential',
     title: 'Essential Cookies',
@@ -329,7 +345,7 @@ export default function CookiePolicyPage() {
                                     <thead>
                                       <tr className="border-b border-white/10">
                                         <th className="text-left p-3 text-white/60 font-medium">Cookie Name</th>
-                                        {type.cookies[0].provider && (
+                                        {type.cookies[0]?.provider && (
                                           <th className="text-left p-3 text-white/60 font-medium">Provider</th>
                                         )}
                                         <th className="text-left p-3 text-white/60 font-medium">Purpose</th>
