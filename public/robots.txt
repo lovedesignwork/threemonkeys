@@ -1,0 +1,43 @@
+# Three Monkeys Restaurant - Robots.txt
+# Allow all web crawlers including AI assistants
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://threemonkeys.vercel.app/sitemap.xml
+
+# Allow AI crawlers explicitly
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Anthropic-AI
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Cohere-ai
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+# Block admin pages from all crawlers
+User-agent: *
+Disallow: /admin/
+Disallow: /api/admin/
+Disallow: /checkout/
+Disallow: /booking/confirmation/
+
+# LLMs.txt for AI assistants
+# See https://threemonkeys.vercel.app/llms.txt

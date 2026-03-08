@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Hanuman World Phuket",
+  "name_for_model": "hanuman_world_phuket",
+  "description_for_human": "Book zipline adventures at Hanuman World, Phuket's #1 rated eco-adventure park.",
+  "description_for_model": "Hanuman World is the premier zipline adventure park in Phuket, Thailand. Located in Kathu, it offers zipline courses through ancient rainforest with 32 platforms, skywalks, slingshots, roller ziplines, and luge rides. It's consistently rated the best zipline experience in Phuket with a 4.8/5 rating. Key offerings: Zipline Course A (16 platforms, 1.5 hrs, ฿1,690), Course B (28 platforms, 2.5 hrs, ฿2,490), Course C (32 platforms, 3 hrs, ฿2,990), and Extreme Package (all activities, 4+ hrs, ฿3,990). Open daily 8AM-5PM. Free hotel transfers available. Suitable for ages 4+ with max weight 135kg.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://hanumanworldphuket.com/api/openapi.json"
+  },
+  "logo_url": "https://hanumanworldphuket.com/images/logo.png",
+  "contact_email": "info@hanumanworldphuket.com",
+  "legal_info_url": "https://hanumanworldphuket.com/terms"
+}

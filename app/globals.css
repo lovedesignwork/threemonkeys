@@ -1,0 +1,743 @@
+@import "tailwindcss";
+
+/* ================================
+   CSS CUSTOM PROPERTIES
+   ================================ */
+
+:root {
+  --primary: #b1b94c;
+  --primary-dark: #8a9239;
+  --primary-light: #c5cd6f;
+  --accent: #b1b94c;
+  --accent-dark: #8a9239;
+  --accent-light: #c5cd6f;
+  --background-dark: #ffffff;
+  --foreground: #000000;
+  --foreground-muted: #4a4a4a;
+  
+  --font-heading: var(--font-krona);
+  --font-body: var(--font-inter);
+  
+  --angle: 0deg;
+}
+
+/* ================================
+   BASE STYLES
+   ================================ */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--background-dark);
+  color: var(--foreground);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-dark);
+}
+
+/* ================================
+   UTILITY CLASSES
+   ================================ */
+
+.section-padding {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+@media (max-width: 768px) {
+  .section-padding {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+}
+
+/* ================================
+   HERO OVERLAY
+   ================================ */
+
+.hero-overlay {
+  background: linear-gradient(
+    135deg,
+    rgba(6, 13, 26, 0.25) 0%,
+    rgba(6, 13, 26, 0.12) 40%,
+    rgba(6, 13, 26, 0.05) 70%,
+    rgba(6, 13, 26, 0.08) 100%
+  );
+}
+
+/* ================================
+   ANIMATED BORDER CLASSES
+   ================================ */
+
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+/* Golden Border - for World A+, B+, C+, D+ */
+.animated-golden-border {
+  position: relative;
+}
+
+.animated-golden-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 3px;
+  background: conic-gradient(
+    from var(--angle, 0deg),
+    #1a0f00,
+    #2d1a00,
+    #3d2200,
+    #5c3300,
+    #8b6914,
+    #b8860b,
+    #d4a830,
+    #e6c458,
+    #f0d878,
+    #f5e090,
+    #f0d878,
+    #e6c458,
+    #d4a830,
+    #b8860b,
+    #8b6914,
+    #5c3300,
+    #3d2200,
+    #2d1a00,
+    #1a0f00
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: rotate-golden 30s linear infinite;
+  z-index: 0;
+}
+
+/* Silver Border - for Platform Ziplines, Roller, Skywalk, Slingshot */
+.animated-silver-border {
+  position: relative;
+}
+
+.animated-silver-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 3px;
+  background: conic-gradient(
+    from var(--angle, 0deg),
+    #2a2a2a,
+    #4a4a4a,
+    #6a6a6a,
+    #8a8a8a,
+    #a8a8a8,
+    #c0c0c0,
+    #d0d0d0,
+    #e0e0e0,
+    #f0f0f0,
+    #ffffff,
+    #f0f0f0,
+    #e0e0e0,
+    #d0d0d0,
+    #c0c0c0,
+    #a8a8a8,
+    #8a8a8a,
+    #6a6a6a,
+    #4a4a4a,
+    #2a2a2a,
+    #4a4a4a,
+    #6a6a6a,
+    #8a8a8a,
+    #a8a8a8,
+    #c0c0c0,
+    #d8d8d8,
+    #e8e8e8,
+    #f5f5f5,
+    #ffffff,
+    #f5f5f5,
+    #e8e8e8,
+    #d8d8d8,
+    #c0c0c0,
+    #a8a8a8,
+    #8a8a8a,
+    #6a6a6a,
+    #4a4a4a,
+    #2a2a2a
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: rotate-golden 15s linear infinite;
+  z-index: 0;
+}
+
+/* Golden Border for Buttons - rotating animation */
+.animated-silver-border-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.animated-silver-border-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    from 0deg,
+    #6b4a1a,
+    #7a5520,
+    #8b6025,
+    #9a6b2a,
+    #a87830,
+    #b58535,
+    #c4943a,
+    #d4a340,
+    #e0b048,
+    #d4a340,
+    #c4943a,
+    #b58535,
+    #a87830,
+    #9a6b2a,
+    #8b6025,
+    #7a5520,
+    #6b4a1a
+  );
+  transform-origin: center;
+  animation: spin-btn-border 15s linear infinite;
+  z-index: -1;
+}
+
+.animated-silver-border-btn > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes spin-btn-border {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+
+/* ================================
+   ANIMATED BUTTON GRADIENTS
+   ================================ */
+
+.animated-button-gradient {
+  background: linear-gradient(135deg, #0d1259, #1a237e, #0d1259, #1e3a8a, #0d1259);
+  background-size: 400% 400%;
+  animation: gradient-rotate-reverse 15s ease infinite;
+}
+
+.animated-btn-purple {
+  background: linear-gradient(135deg, #0d1259, #4c1d95, #0d1259, #1a237e, #0d1259);
+  background-size: 400% 400%;
+  animation: gradient-rotate-reverse 15s ease infinite;
+}
+
+.animated-btn-mint {
+  background: linear-gradient(135deg, #0d1259, #064e3b, #0d1259, #1a237e, #0d1259);
+  background-size: 400% 400%;
+  animation: gradient-rotate-reverse 15s ease infinite;
+}
+
+.animated-btn-blue-green {
+  background: linear-gradient(135deg, #0d1259, #1b5e20, #0d1259, #1a237e, #0d1259);
+  background-size: 400% 400%;
+  animation: gradient-rotate-reverse 15s ease infinite;
+}
+
+.animated-btn-deep-blue {
+  background: linear-gradient(135deg, #0d1259, #1a237e, #1a3a5c, #0d4a4a, #1a5a5a, #0d5a4a, #1a4a3a, #0d5a4a, #1a5a5a, #0d4a4a, #1a3a5c, #1a237e, #0d1259, #2a1a5c, #3d1a6a, #2a1a5c, #0d1259);
+  background-size: 400% 400%;
+  animation: btn-diagonal 20s ease infinite;
+}
+
+@keyframes btn-diagonal {
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animated-btn-turquoise-mint {
+  background: linear-gradient(135deg, #0d1259, #0d4f4f, #0d1259, #1a237e, #0d1259);
+  background-size: 400% 400%;
+  animation: gradient-rotate-reverse 15s ease infinite;
+}
+
+.animated-btn-green {
+  background: linear-gradient(135deg, #0d1259, #0a3622, #14532d, #166534, #14532d, #0a3622, #0d1259);
+  background-size: 400% 400%;
+  animation: gradient-rotate-reverse 15s ease infinite;
+}
+
+/* ================================
+   ANIMATED CARD BACKGROUNDS
+   ================================ */
+
+.animated-card-bg-purple {
+  background: linear-gradient(
+    135deg,
+    #3d1a3a,
+    #5a2a4a,
+    #6b3a5a,
+    #5a2a4a,
+    #3d1a3a,
+    #1a3a3a,
+    #0d4a4a,
+    #0a5a5a,
+    #0d4a4a,
+    #1a3a3a,
+    #1a4a3a,
+    #0d5a4a,
+    #1a4a3a,
+    #1a3a3a,
+    #3d1a3a
+  );
+  background-size: 400% 400%;
+  animation: card-bg-shift 100s ease infinite;
+}
+
+.animated-card-bg-mint {
+  background: linear-gradient(135deg, #1a237e, #064e3b, #0d1259, #064e3b, #1a237e);
+  background-size: 400% 400%;
+  animation: card-bg-shift 100s ease infinite;
+}
+
+.animated-card-bg-green {
+  background: linear-gradient(
+    135deg,
+    #0d1259,
+    #0a3622,
+    #14532d,
+    #166534,
+    #15803d,
+    #166534,
+    #14532d,
+    #0a3622,
+    #0d1259,
+    #1a237e,
+    #0d1259
+  );
+  background-size: 400% 400%;
+  animation: card-bg-shift 100s ease infinite;
+}
+
+.animated-card-bg-blue-green {
+  background: linear-gradient(135deg, #1a237e, #0d1259, #1b5e20, #0d1259, #1a237e);
+  background-size: 400% 400%;
+  animation: card-bg-shift 100s ease infinite;
+}
+
+.animated-card-bg-deep-blue {
+  background: linear-gradient(
+    135deg,
+    #3d1a3a,
+    #5a2a4a,
+    #6b3a5a,
+    #5a2a4a,
+    #3d1a3a,
+    #1a3a3a,
+    #0d4a4a,
+    #0a5a5a,
+    #0d4a4a,
+    #1a3a3a,
+    #1a4a3a,
+    #0d5a4a,
+    #1a4a3a,
+    #1a3a3a,
+    #3d1a3a
+  );
+  background-size: 400% 400%;
+  animation: card-bg-shift 100s ease infinite;
+}
+
+.animated-card-bg-turquoise-mint {
+  background: linear-gradient(135deg, #0d4f4f, #0d1259, #0d4f4f, #1a237e, #0d4f4f);
+  background-size: 400% 400%;
+  animation: card-bg-shift 100s ease infinite;
+}
+
+/* ================================
+   CIRCLE ORBIT ANIMATIONS
+   ================================ */
+
+.animate-circle-orbit-1 {
+  animation: circle-orbit-1 20s ease-in-out infinite;
+}
+
+.animate-circle-orbit-2 {
+  animation: circle-orbit-2 20s ease-in-out infinite;
+}
+
+.animate-circle-orbit-3 {
+  animation: circle-orbit-3 20s ease-in-out infinite;
+}
+
+/* ================================
+   KEYFRAME DEFINITIONS
+   ================================ */
+
+@keyframes rotate-golden {
+  from {
+    --angle: 0deg;
+  }
+  to {
+    --angle: 360deg;
+  }
+}
+
+@keyframes gradient-rotate {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes gradient-rotate-reverse {
+  0% {
+    background-position: 100% 50%;
+  }
+  50% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes card-bg-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes circle-orbit-1 {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(20px, -20px) rotate(90deg);
+  }
+  50% {
+    transform: translate(0, -40px) rotate(180deg);
+  }
+  75% {
+    transform: translate(-20px, -20px) rotate(270deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(360deg);
+  }
+}
+
+@keyframes circle-orbit-2 {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(-15px, 25px) rotate(90deg);
+  }
+  50% {
+    transform: translate(0, 50px) rotate(180deg);
+  }
+  75% {
+    transform: translate(15px, 25px) rotate(270deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(360deg);
+  }
+}
+
+@keyframes circle-orbit-3 {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(30px, 10px) rotate(90deg);
+  }
+  50% {
+    transform: translate(0, 20px) rotate(180deg);
+  }
+  75% {
+    transform: translate(-30px, 10px) rotate(270deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  -webkit-animation: spin-slow 80s linear infinite !important;
+  -moz-animation: spin-slow 80s linear infinite !important;
+  animation: spin-slow 80s linear infinite !important;
+}
+
+.animate-spin-slow-reverse {
+  -webkit-animation: spin-slow-reverse 70s linear infinite !important;
+  -moz-animation: spin-slow-reverse 70s linear infinite !important;
+  animation: spin-slow-reverse 70s linear infinite !important;
+}
+
+@-webkit-keyframes spin-slow {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-slow {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes spin-slow-reverse {
+  0% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+  100% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes spin-slow-reverse {
+  0% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+  100% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+}
+
+/* ================================
+   TIPTAP EDITOR STYLES
+   ================================ */
+
+.ProseMirror {
+  outline: none;
+  min-height: 400px;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #9ca3af;
+  pointer-events: none;
+  height: 0;
+}
+
+.ProseMirror h1 {
+  font-size: 2em;
+  font-weight: bold;
+  margin: 1em 0 0.5em;
+}
+
+.ProseMirror h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 1em 0 0.5em;
+}
+
+.ProseMirror h3 {
+  font-size: 1.25em;
+  font-weight: bold;
+  margin: 1em 0 0.5em;
+}
+
+.ProseMirror ul {
+  list-style-type: disc;
+  padding-left: 1.5em;
+  margin: 1em 0;
+}
+
+.ProseMirror ol {
+  list-style-type: decimal;
+  padding-left: 1.5em;
+  margin: 1em 0;
+}
+
+.ProseMirror li {
+  margin: 0.25em 0;
+}
+
+.ProseMirror blockquote {
+  border-left: 4px solid #e5e7eb;
+  padding-left: 1em;
+  margin: 1em 0;
+  color: #6b7280;
+  font-style: italic;
+}
+
+.ProseMirror hr {
+  border: none;
+  border-top: 2px solid #e5e7eb;
+  margin: 2em 0;
+}
+
+.ProseMirror img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin: 1em 0;
+}
+
+.ProseMirror mark {
+  background-color: #fef08a;
+  padding: 0.1em 0.2em;
+  border-radius: 0.2em;
+}
+
+.ProseMirror a {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+.ProseMirror a:hover {
+  color: #1d4ed8;
+}
+
+.ProseMirror p {
+  margin: 0.5em 0;
+}
+
+/* Romantic Heart Icon with Gradient */
+.romantic-heart-icon {
+  fill: url(#romantic-gradient);
+  stroke: none;
+  filter: drop-shadow(0 0 4px rgba(236, 72, 153, 0.6));
+  animation: heart-pulse 2s ease-in-out infinite;
+}
+
+@keyframes heart-pulse {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 4px rgba(236, 72, 153, 0.6));
+  }
+  50% {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 8px rgba(236, 72, 153, 0.8));
+  }
+}
+
+/* Glitter Effect */
+.romantic-glitter {
+  position: absolute;
+  inset: -8px;
+  pointer-events: none;
+}
+
+.romantic-glitter::before,
+.romantic-glitter::after {
+  content: '';
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #fff, #fbbf24, #ec4899);
+  animation: glitter-move 2s ease-in-out infinite;
+}
+
+.romantic-glitter::before {
+  top: 0;
+  left: 50%;
+  animation-delay: 0s;
+}
+
+.romantic-glitter::after {
+  bottom: 0;
+  right: 0;
+  animation-delay: 1s;
+}
+
+@keyframes glitter-move {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0) rotate(0deg);
+  }
+  25% {
+    opacity: 1;
+    transform: scale(1) rotate(90deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2) rotate(180deg);
+  }
+  75% {
+    opacity: 0.5;
+    transform: scale(0.8) rotate(270deg);
+  }
+}

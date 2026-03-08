@@ -1,0 +1,35 @@
+{
+  "name": "Three Monkeys Restaurant",
+  "short_name": "Three Monkeys",
+  "description": "Authentic Southern Thai Cuisine in Phuket's rainforest",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#b1b94c",
+  "orientation": "portrait-primary",
+  "categories": ["food", "restaurant", "dining"],
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/images/og-image.jpg",
+      "sizes": "1200x630",
+      "type": "image/jpeg",
+      "label": "Three Monkeys Restaurant Homepage"
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
+}
