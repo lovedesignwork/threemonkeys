@@ -1,7 +1,25 @@
 import { Resend } from 'resend';
 import { supabaseAdmin } from '@/lib/supabase/server';
 
-export const resend = new Resend(process.env.RESEND_API_KEY);
+let resendInstance: Resend | null = null;
+
+export function getResend(): Resend {
+  if (!resendInstance) {
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) {
+      throw new Error('RESEND_API_KEY environment variable is not set');
+    }
+    resendInstance = new Resend(apiKey);
+  }
+  return resendInstance;
+}
+
+// For backward compatibility - lazy getter
+export const resend = {
+  get emails() {
+    return getResend().emails;
+  }
+};
 
 export const EMAIL_FROM = 'Three Monkeys <support@threemonkeys.com>';
 
