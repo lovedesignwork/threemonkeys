@@ -303,7 +303,7 @@ export default function BlogPage() {
                 </button>
               </a>
               <a 
-                href="https://www.instagram.com/threemonkeysphuket" 
+                href="https://www.instagram.com/threemonkeysrestaurant/" 
                 target="_blank" 
                 rel="noopener noreferrer"
               >

@@ -155,7 +155,7 @@ export function PhotoGallery() {
           className="text-center mt-12"
         >
           <a 
-            href="https://instagram.com/threemonkeys" 
+            href="https://www.instagram.com/threemonkeysrestaurant/" 
             target="_blank" 
             rel="noopener noreferrer"
             className="inline-flex items-center gap-3 px-8 py-4 bg-black text-[#b1b94c] font-medium rounded-full hover:bg-[#1a1a1a] transition-colors shadow-xl"

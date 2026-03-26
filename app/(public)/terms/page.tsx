@@ -643,15 +643,15 @@ export default function TermsPage() {
                         <div className="space-y-3">
                           <div className="flex items-center gap-3 text-white/70">
                             <Mail className="w-4 h-4 text-[#b1b94c]" />
-                            <span>info@threemonkeys.com</span>
+                            <span>enjoy@threemonkeysphuket.com</span>
                           </div>
                           <div className="flex items-center gap-3 text-white/70">
                             <Phone className="w-4 h-4 text-[#b1b94c]" />
-                            <span>+66 76 323 264</span>
+                            <span>+66 98-010-8838</span>
                           </div>
                           <div className="flex items-start gap-3 text-white/70">
                             <MapPin className="w-4 h-4 text-[#b1b94c] flex-shrink-0 mt-1" />
-                            <span>89/16 Moo 6, Soi Namtok Kathu, Kathu, Phuket 83120, Thailand</span>
+                            <span>Inside Hanuman World, 105 Moo 4, Muang Chao Fa Rd., Wichit, Mueang Phuket, Phuket 83000, Thailand</span>
                           </div>
                         </div>
                       </div>

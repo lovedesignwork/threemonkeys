@@ -66,17 +66,17 @@ export function HeroSlideshow() {
               <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/20 px-4 py-1.5 backdrop-blur-md">
                 <MapPin className="h-4 w-4 text-[#b1b94c]" />
                 <span className="font-[family-name:var(--font-krona)] text-[12px] font-semibold uppercase tracking-widest text-white">
-                  Hanuman World, Phuket
+                  Three Monkeys, Phuket
                 </span>
               </div>
               
-              <h1 className="normal-case font-[family-name:var(--font-krona)] text-5xl font-bold leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-[80px]">
-                A Rainforest <br />
-                <span className="text-[#b1b94c]">Culinary Journey</span>
+              <h1 className="normal-case font-[family-name:var(--font-krona)] text-3xl font-bold leading-[1.1] tracking-tight text-white sm:text-4xl lg:text-5xl">
+                Three Monkeys is Among Phuket&apos;s <br />
+                <span className="text-[#b1b94c]">Most Exotic Restaurants and Bars</span>
               </h1>
               
               <p className="mt-6 max-w-lg font-[family-name:var(--font-inter)] text-base font-light leading-relaxed text-white/80 sm:text-lg">
-                Immerse yourself in authentic Southern Thai cuisine. No distractions, just bold flavors and breathtaking canopy views.
+                Seamlessly blending with its natural surroundings within the island&apos;s top outdoor attraction, Hanuman World. Set amongst the backdrop of lush jungle greenery and stunning views.
               </p>
             </motion.div>
 
@@ -93,7 +93,7 @@ export function HeroSlideshow() {
                   href="/booking"
                   className="group flex items-center gap-3 rounded-full bg-white px-8 py-4 font-[family-name:var(--font-krona)] text-sm font-bold uppercase tracking-wider text-black transition-all hover:bg-[#b1b94c]"
                 >
-                  Reserve Table
+                  RESERVE A TABLE
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </Link>
                 <button className="flex h-14 w-14 items-center justify-center rounded-full border border-white/30 bg-black/20 text-white backdrop-blur-md transition-all hover:border-white hover:bg-white/10">

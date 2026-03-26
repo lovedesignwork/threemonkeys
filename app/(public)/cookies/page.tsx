@@ -639,15 +639,15 @@ export default function CookiePolicyPage() {
                       <div className="space-y-4">
                         <div className="flex items-center gap-3 text-white/70">
                           <Mail className="w-5 h-5 text-[#b1b94c]" />
-                          <span>privacy@threemonkeys.com</span>
+                          <span>enjoy@threemonkeysphuket.com</span>
                         </div>
                         <div className="flex items-center gap-3 text-white/70">
                           <Phone className="w-5 h-5 text-[#b1b94c]" />
-                          <span>+66 76 323 264</span>
+                          <span>+66 98-010-8838</span>
                         </div>
                         <div className="flex items-start gap-3 text-white/70">
                           <Globe className="w-5 h-5 text-[#b1b94c] flex-shrink-0 mt-0.5" />
-                          <span>89/16 Moo 6, Soi Namtok Kathu, Kathu, Phuket 83120, Thailand</span>
+                          <span>Inside Hanuman World, 105 Moo 4, Muang Chao Fa Rd., Wichit, Mueang Phuket, Phuket 83000, Thailand</span>
                         </div>
                       </div>
                     </div>

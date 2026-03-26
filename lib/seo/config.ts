@@ -26,13 +26,13 @@ export const siteConfig = {
   ],
   social: {
     facebook: 'https://www.facebook.com/threemonkeysrestaurant',
-    instagram: 'https://www.instagram.com/threemonkeysphuket',
+    instagram: 'https://www.instagram.com/threemonkeysrestaurant/',
     tripadvisor: 'https://www.tripadvisor.com/Restaurant_Review-Three_Monkeys_Phuket',
   },
   contact: {
-    email: 'info@threemonkeysphuket.com',
-    phone: '+66 76 323 264',
-    address: 'Inside Hanuman World, Kathu, Phuket 83120, Thailand',
+    email: 'enjoy@threemonkeysphuket.com',
+    phone: '+66 98-010-8838',
+    address: 'Inside Hanuman World, 105 Moo 4, Muang Chao Fa Rd., Wichit, Mueang Phuket, Phuket 83000, Thailand',
   },
   geo: {
     latitude: 7.9285,

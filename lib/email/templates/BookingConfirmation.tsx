@@ -264,10 +264,10 @@ export const BookingConfirmationEmail = ({
               Need Help?
             </Heading>
             <Text style={contactText}>
-              📧 Email: <Link href="mailto:info@threemonkeys.com" style={contactLink}>info@threemonkeys.com</Link>
+              📧 Email: <Link href="mailto:enjoy@threemonkeysphuket.com" style={contactLink}>enjoy@threemonkeysphuket.com</Link>
             </Text>
             <Text style={contactText}>
-              📞 Phone: <Link href="tel:+6676323264" style={contactLink}>+66 76 323 264</Link>
+              📞 Phone: <Link href="tel:+66980108838" style={contactLink}>+66 98-010-8838</Link>
             </Text>
             <Text style={contactText}>
               💬 LINE: @threemonkeys
@@ -295,7 +295,7 @@ export const BookingConfirmationEmail = ({
                 </Link>
               </Column>
               <Column style={socialCol}>
-                <Link href="https://www.instagram.com/threemonkeys" style={socialLink}>
+                <Link href="https://www.instagram.com/threemonkeysrestaurant/" style={socialLink}>
                   Instagram
                 </Link>
               </Column>
@@ -306,7 +306,7 @@ export const BookingConfirmationEmail = ({
               </Column>
             </Row>
             <Text style={footerAddress}>
-              89/16 Moo 6, Soi Namtok Kathu, Kathu, Phuket 83120, Thailand
+              Inside Hanuman World, 105 Moo 4, Muang Chao Fa Rd., Wichit, Mueang Phuket, Phuket 83000, Thailand
             </Text>
             <Text style={footerCopyright}>
               © 2026 Three Monkeys. All rights reserved.

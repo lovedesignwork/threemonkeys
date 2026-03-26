@@ -494,21 +494,8 @@ export default function AboutPage() {
                     <p className="text-white font-medium mb-1">Location</p>
                     <p className="text-white/50 font-[family-name:var(--font-inter)]">
                       Inside Hanuman World<br />
-                      105 Moo 4, Soi Namtok Kathu<br />
-                      Wichit, Muang, Phuket 83120
-                    </p>
-                  </div>
-                </div>
-                
-                <div className="flex items-start gap-4 p-5 bg-[#0a0a0a] rounded-2xl">
-                  <div className="w-12 h-12 bg-[#b1b94c]/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Clock className="w-6 h-6 text-[#b1b94c]" />
-                  </div>
-                  <div>
-                    <p className="text-white font-medium mb-1">Opening Hours</p>
-                    <p className="text-white/50 font-[family-name:var(--font-inter)]">
-                      Daily: 11:00 AM - 10:00 PM<br />
-                      Last seating: 8:30 PM
+                      105 Moo 4, Muang Chao Fa Rd.<br />
+                      Wichit, Mueang Phuket, Phuket 83000
                     </p>
                   </div>
                 </div>
@@ -520,8 +507,21 @@ export default function AboutPage() {
                   <div>
                     <p className="text-white font-medium mb-1">Contact</p>
                     <p className="text-white/50 font-[family-name:var(--font-inter)]">
-                      +66 76 323 264<br />
-                      info@threemonkeysphuket.com
+                      +66 98-010-8838<br />
+                      enjoy@threemonkeysphuket.com
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-4 p-5 bg-[#0a0a0a] rounded-2xl">
+                  <div className="w-12 h-12 bg-[#b1b94c]/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <Clock className="w-6 h-6 text-[#b1b94c]" />
+                  </div>
+                  <div>
+                    <p className="text-white font-medium mb-1">Opening Hours</p>
+                    <p className="text-white/50 font-[family-name:var(--font-inter)]">
+                      Daily: 10AM – 01AM<br />
+                      Last Order: 12AM
                     </p>
                   </div>
                 </div>

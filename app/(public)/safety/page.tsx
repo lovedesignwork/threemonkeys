@@ -225,9 +225,9 @@ export default function SafetyPage() {
                 please contact us before your visit:
               </p>
               <ul>
-                <li>Email: info@threemonkeys.com</li>
-                <li>Phone: +66 76 323 264</li>
-                <li>WhatsApp: +66 76 323 264</li>
+                <li>Email: enjoy@threemonkeysphuket.com</li>
+                <li>Phone: +66 98-010-8838</li>
+                <li>WhatsApp: +66 98-010-8838</li>
               </ul>
             </div>
           </motion.div>

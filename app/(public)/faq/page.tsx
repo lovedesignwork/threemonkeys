@@ -126,7 +126,7 @@ const faqCategories = [
     questions: [
       {
         question: 'Where is Three Monkeys located?',
-        answer: 'We\'re located inside Hanuman World in the Kathu district of Phuket. The address is 105 Moo 4, Soi Namtok Kathu, Wichit, Muang, Phuket 83120, Thailand.',
+        answer: 'We\'re located inside Hanuman World. The address is 105 Moo 4, Muang Chao Fa Rd., Wichit, Mueang Phuket, Phuket 83000, Thailand.',
       },
       {
         question: 'Is parking available?',
@@ -138,7 +138,7 @@ const faqCategories = [
       },
       {
         question: 'What are your opening hours?',
-        answer: 'We\'re open daily from 11:00 AM to 10:00 PM. Last seating is at 8:30 PM. We recommend making reservations, especially for dinner service.',
+        answer: 'We\'re open daily from 10AM to 01AM. Last order is at 12AM. We recommend making reservations, especially for dinner service.',
       },
     ],
   },
@@ -401,7 +401,7 @@ export default function FAQPage() {
           <div className="grid md:grid-cols-3 gap-6">
             {/* Phone */}
             <motion.a
-              href="tel:+6676323264"
+              href="tel:+66980108838"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -414,13 +414,13 @@ export default function FAQPage() {
               <h3 className="text-lg font-[family-name:var(--font-krona)] text-white mb-2 normal-case">
                 Call Us
               </h3>
-              <p className="text-[#b1b94c] font-medium">+66 76 323 264</p>
-              <p className="text-white/40 text-sm mt-2">Daily 11AM - 10PM</p>
+              <p className="text-[#b1b94c] font-medium">+66 98-010-8838</p>
+              <p className="text-white/40 text-sm mt-2">Daily 10AM - 01AM</p>
             </motion.a>
 
             {/* Email */}
             <motion.a
-              href="mailto:info@threemonkeys.com"
+              href="mailto:enjoy@threemonkeysphuket.com"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -433,7 +433,7 @@ export default function FAQPage() {
               <h3 className="text-lg font-[family-name:var(--font-krona)] text-white mb-2 normal-case">
                 Email Us
               </h3>
-              <p className="text-[#b1b94c] font-medium">info@threemonkeys.com</p>
+              <p className="text-[#b1b94c] font-medium">enjoy@threemonkeysphuket.com</p>
               <p className="text-white/40 text-sm mt-2">We reply within 24 hours</p>
             </motion.a>
 
@@ -452,7 +452,7 @@ export default function FAQPage() {
                 Visit Us
               </h3>
               <p className="text-white/60 text-sm">Inside Hanuman World</p>
-              <p className="text-white/40 text-sm mt-2">Kathu, Phuket</p>
+              <p className="text-white/40 text-sm mt-2">Wichit, Phuket 83000</p>
             </motion.div>
           </div>
         </div>

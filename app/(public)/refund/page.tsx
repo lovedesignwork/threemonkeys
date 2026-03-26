@@ -628,7 +628,7 @@ export default function RefundPage() {
                           <h3 className="text-lg font-medium text-white">Urgent Inquiries</h3>
                         </div>
                         <div className="space-y-2 text-white/70">
-                          <p>+66 76 323 264</p>
+                          <p>+66 98-010-8838</p>
                           <div className="flex items-center gap-2 text-sm text-white/50">
                             <MessageCircle className="w-4 h-4" />
                             <span>WhatsApp available</span>

@@ -24,24 +24,24 @@ const contactMethods = [
     icon: Phone,
     title: 'Call Us',
     description: 'Speak directly with our team',
-    value: '+66 76 323 264',
-    href: 'tel:+6676323264',
+    value: '+66 98-010-8838',
+    href: 'tel:+66980108838',
     color: 'from-blue-500/20 to-cyan-500/20',
   },
   {
     icon: Mail,
     title: 'Email Us',
     description: 'We reply within 24 hours',
-    value: 'info@threemonkeysphuket.com',
-    href: 'mailto:info@threemonkeysphuket.com',
+    value: 'enjoy@threemonkeysphuket.com',
+    href: 'mailto:enjoy@threemonkeysphuket.com',
     color: 'from-purple-500/20 to-pink-500/20',
   },
   {
     icon: MessageCircle,
     title: 'WhatsApp',
     description: 'Chat with us instantly',
-    value: '+66 76 323 264',
-    href: 'https://wa.me/6676323264',
+    value: '+66 98-010-8838',
+    href: 'https://wa.me/66980108838',
     color: 'from-green-500/20 to-emerald-500/20',
   },
 ];
@@ -372,8 +372,8 @@ export default function ContactPage() {
                   </h3>
                   <p className="text-white/50 text-sm leading-relaxed mb-4 font-[family-name:var(--font-inter)]">
                     Inside Hanuman World<br />
-                    105 Moo 4, Soi Namtok Kathu<br />
-                    Wichit, Muang, Phuket 83120<br />
+                    105 Moo 4, Muang Chao Fa Rd.<br />
+                    Wichit, Mueang Phuket, Phuket 83000<br />
                     Thailand
                   </p>
                   <a
@@ -401,11 +401,11 @@ export default function ContactPage() {
                 <div className="space-y-3">
                   <div className="flex justify-between items-center py-2 border-b border-white/5">
                     <span className="text-white/60 font-[family-name:var(--font-inter)]">Monday - Sunday</span>
-                    <span className="text-white font-medium">11:00 AM - 10:00 PM</span>
+                    <span className="text-white font-medium">10AM – 01AM</span>
                   </div>
                   <div className="flex justify-between items-center py-2">
-                    <span className="text-white/60 font-[family-name:var(--font-inter)]">Last Seating</span>
-                    <span className="text-white font-medium">8:30 PM</span>
+                    <span className="text-white/60 font-[family-name:var(--font-inter)]">Last Order</span>
+                    <span className="text-white font-medium">12AM</span>
                   </div>
                 </div>
                 <div className="mt-4 p-3 bg-[#b1b94c]/10 rounded-xl">

@@ -300,14 +300,14 @@ export default function PackagePage() {
                   </h3>
                   <div className="space-y-4">
                     <a 
-                      href="tel:+6676323264" 
+                      href="tel:+66980108838" 
                       className="flex items-center gap-3 text-white/60 hover:text-[#b1b94c] transition-colors"
                     >
                       <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center">
                         <Phone className="w-4 h-4" />
                       </div>
                       <div>
-                        <div className="text-white text-sm font-medium">+66 76 323 264</div>
+                        <div className="text-white text-sm font-medium">+66 98-010-8838</div>
                         <div className="text-white/40 text-xs">Call for reservations</div>
                       </div>
                     </a>
@@ -322,7 +322,7 @@ export default function PackagePage() {
                       </div>
                       <div>
                         <div className="text-white text-sm font-medium">Inside Hanuman World</div>
-                        <div className="text-white/40 text-xs">Kathu, Phuket</div>
+                        <div className="text-white/40 text-xs">Wichit, Phuket 83000</div>
                       </div>
                     </a>
                   </div>

@@ -80,12 +80,12 @@ export function CTABanner() {
               whileTap={{ scale: 0.95 }}
               className="group px-10 py-5 bg-[#b1b94c] text-black font-[family-name:var(--font-krona)] text-xl rounded-full transition-all flex items-center justify-center gap-3"
             >
-              Reserve Your Table
+              RESERVE A TABLE
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </motion.button>
           </Link>
           
-          <a href="tel:+6676323264">
+          <a href="tel:+66980108838">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -105,9 +105,9 @@ export function CTABanner() {
           transition={{ delay: 0.5 }}
           className="mt-12 flex flex-wrap justify-center gap-6 text-white/60"
         >
-          <a href="tel:+6676323264" className="flex items-center gap-2 hover:text-[#b1b94c] transition-colors">
+          <a href="tel:+66980108838" className="flex items-center gap-2 hover:text-[#b1b94c] transition-colors">
             <Phone className="w-4 h-4" />
-            +66 76 323 264
+            +66 98-010-8838
           </a>
           <a href="https://line.me/threemonkeys" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-[#b1b94c] transition-colors">
             <MessageCircle className="w-4 h-4" />

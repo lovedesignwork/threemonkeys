@@ -81,7 +81,7 @@ export function generateOrganizationSchema() {
     logo: `${baseUrl}/images/logo.png`,
     sameAs: [
       'https://facebook.com/threemonkeysphuket',
-      'https://instagram.com/threemonkeysphuket',
+      'https://www.instagram.com/threemonkeysrestaurant/',
     ],
     contactPoint: {
       '@type': 'ContactPoint',
@@ -101,16 +101,16 @@ export function generateLocalBusinessSchema() {
     description:
       "Phuket's premier Thai fine dining restaurant featuring authentic Southern Thai cuisine, tasting menus, cooking classes, and unforgettable culinary experiences.",
     url: baseUrl,
-    telephone: '+66-76-323-264',
-    email: 'info@threemonkeys.com',
+    telephone: '+66-98-010-8838',
+    email: 'enjoy@threemonkeysphuket.com',
     servesCuisine: 'Thai',
     priceRange: '฿฿฿',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: '89/16 Moo 6, Soi Namtok Kathu',
-      addressLocality: 'Kathu',
+      streetAddress: '105 Moo 4, Muang Chao Fa Rd.',
+      addressLocality: 'Wichit, Mueang Phuket',
       addressRegion: 'Phuket',
-      postalCode: '83120',
+      postalCode: '83000',
       addressCountry: 'TH',
     },
     geo: {

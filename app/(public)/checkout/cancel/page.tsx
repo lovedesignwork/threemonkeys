@@ -91,7 +91,7 @@ function CancelContent() {
                   <span className="text-slate-700">Call Us</span>
                 </a>
                 <a
-                  href="mailto:info@threemonkeys.com"
+                  href="mailto:enjoy@threemonkeysphuket.com"
                   className="flex items-center justify-center gap-2 p-3 bg-slate-50 hover:bg-slate-100 rounded-xl transition-colors"
                 >
                   <Mail className="w-4 h-4 text-[#b1b94c]" />

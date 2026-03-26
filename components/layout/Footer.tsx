@@ -22,7 +22,7 @@ const legalLinks = [
 
 const socialLinks = [
   { name: 'Facebook', icon: Facebook, href: 'https://facebook.com/threemonkeys' },
-  { name: 'Instagram', icon: Instagram, href: 'https://instagram.com/threemonkeys' },
+  { name: 'Instagram', icon: Instagram, href: 'https://www.instagram.com/threemonkeysrestaurant/' },
   { name: 'YouTube', icon: Youtube, href: 'https://youtube.com/threemonkeys' },
 ];
 
@@ -50,7 +50,7 @@ export function Footer() {
                 whileTap={{ scale: 0.98 }}
                 className="flex items-center gap-3 px-8 py-4 bg-[#b1b94c] text-black font-[family-name:var(--font-krona)] rounded-full hover:bg-[#c4cc5a] transition-all"
               >
-                Book a Table
+                RESERVE A TABLE
                 <ArrowUpRight className="w-5 h-5" />
               </motion.button>
             </Link>
@@ -144,25 +144,25 @@ export function Footer() {
                   <MapPin className="w-4 h-4 text-[#b1b94c] mt-1 flex-shrink-0" />
                   <div>
                     <p className="text-white/70 text-sm font-[family-name:var(--font-inter)]">Inside Hanuman World</p>
-                    <p className="text-white/40 text-sm font-[family-name:var(--font-inter)]">Kathu, Phuket 83120, Thailand</p>
+                    <p className="text-white/40 text-sm font-[family-name:var(--font-inter)]">Wichit, Phuket 83000, Thailand</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <Phone className="w-4 h-4 text-[#b1b94c] flex-shrink-0" />
-                  <a href="tel:+6676323264" className="text-white/70 hover:text-[#b1b94c] text-sm transition-colors font-[family-name:var(--font-inter)]">
-                    +66 76 323 264
+                  <a href="tel:+66980108838" className="text-white/70 hover:text-[#b1b94c] text-sm transition-colors font-[family-name:var(--font-inter)]">
+                    +66 98-010-8838
                   </a>
                 </div>
                 <div className="flex items-center gap-3">
                   <Mail className="w-4 h-4 text-[#b1b94c] flex-shrink-0" />
-                  <a href="mailto:hello@threemonkeys.com" className="text-white/70 hover:text-[#b1b94c] text-sm transition-colors font-[family-name:var(--font-inter)]">
-                    hello@threemonkeys.com
+                  <a href="mailto:enjoy@threemonkeysphuket.com" className="text-white/70 hover:text-[#b1b94c] text-sm transition-colors font-[family-name:var(--font-inter)]">
+                    enjoy@threemonkeysphuket.com
                   </a>
                 </div>
                 <div className="flex items-center gap-3">
                   <Clock className="w-4 h-4 text-[#b1b94c] flex-shrink-0" />
                   <p className="text-white/70 text-sm font-[family-name:var(--font-inter)]">
-                    Daily 11:00 AM - 10:00 PM
+                    Open Daily 10AM – 01AM
                   </p>
                 </div>
               </div>

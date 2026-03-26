@@ -137,13 +137,13 @@ export function Header() {
                 </Link>
 
                 <div className="flex flex-col gap-4">
-                  <a href="tel:+6676323264" className="flex items-center gap-3 text-sm font-medium text-white/60 hover:text-[#b1b94c]">
+                  <a href="tel:+66980108838" className="flex items-center gap-3 text-sm font-medium text-white/60 hover:text-[#b1b94c]">
                     <Phone className="h-5 w-5" />
-                    +66 76 323 264
+                    +66 98-010-8838
                   </a>
-                  <a href="mailto:info@threemonkeys.com" className="flex items-center gap-3 text-sm font-medium text-white/60 hover:text-[#b1b94c]">
+                  <a href="mailto:enjoy@threemonkeysphuket.com" className="flex items-center gap-3 text-sm font-medium text-white/60 hover:text-[#b1b94c]">
                     <Mail className="h-5 w-5" />
-                    info@threemonkeys.com
+                    enjoy@threemonkeysphuket.com
                   </a>
                 </div>
               </div>
