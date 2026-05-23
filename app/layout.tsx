@@ -42,9 +42,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${oswald.variable} ${krona.variable}`}>
       <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        {/* Favicons (app/icon.png + app/apple-icon.png) are auto-injected
+            by Next.js 16 App Router file-based icons. Only the PWA
+            manifest needs an explicit <link>. */}
         <link rel="manifest" href="/manifest.json" />
         <OrganizationSchema />
         <WebsiteSchema />
