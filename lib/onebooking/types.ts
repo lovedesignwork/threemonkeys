@@ -53,6 +53,10 @@ export interface BookingSyncPayload {
   created_at: string;
   promo_code?: string | null;
   notes?: string | null;
+  // Three Monkeys allotment fields (additive — other websites send null).
+  zone_id?: string | null;
+  zone_name?: string | null;
+  table_code?: string | null;
 }
 
 export interface SyncSuccessResponse {

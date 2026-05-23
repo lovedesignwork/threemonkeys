@@ -165,10 +165,6 @@ export function WhyChooseUs() {
                 <div className="text-white/60 text-sm mb-1">Featured in</div>
                 <div className="text-white font-semibold">Phuket&apos;s Top 10 Restaurants</div>
               </div>
-              <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-white text-sm">
-                <span className="w-2 h-2 rounded-full bg-[#b1b94c] animate-pulse" />
-                Open Now
-              </div>
             </div>
           </motion.div>
         </div>

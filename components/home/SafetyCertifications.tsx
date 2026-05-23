@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { Leaf, CheckCircle, Award, ChefHat, Utensils, Users, Shield } from 'lucide-react';
+import { Leaf, ChefHat, Utensils, Users } from 'lucide-react';
 
 const qualitySteps = [
   {
@@ -146,11 +146,11 @@ export function SafetyCertifications() {
             >
               <div className="flex items-center gap-4">
                 <div className="w-16 h-16 bg-[#b1b94c] rounded-xl flex items-center justify-center">
-                  <CheckCircle className="w-8 h-8 text-black" />
+                  <Leaf className="w-8 h-8 text-black" />
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-[#b1b94c]">100%</div>
-                  <div className="text-white/60 text-sm">Guest Satisfaction</div>
+                  <div className="text-2xl font-bold text-[#b1b94c]">Fresh</div>
+                  <div className="text-white/60 text-sm">Daily Ingredients</div>
                 </div>
               </div>
             </motion.div>
@@ -163,59 +163,17 @@ export function SafetyCertifications() {
               className="absolute -top-6 -right-6 p-4 bg-black rounded-2xl shadow-2xl"
             >
               <div className="flex items-center gap-3">
-                <Award className="w-8 h-8 text-[#b1b94c]" />
+                <ChefHat className="w-8 h-8 text-[#b1b94c]" />
                 <div className="text-white">
-                  <div className="font-bold text-sm">5-Star</div>
-                  <div className="text-xs text-white/60">Hygiene Rating</div>
+                  <div className="font-bold text-sm">Expert</div>
+                  <div className="text-xs text-white/60">Thai Chefs</div>
                 </div>
               </div>
             </motion.div>
 
-            {/* Petzl Badge */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.7 }}
-              className="absolute top-1/2 -right-4 transform -translate-y-1/2"
-            >
-              <div className="w-24 h-24 bg-black rounded-full flex items-center justify-center shadow-xl">
-                <Award className="w-10 h-10 text-[#b1b94c]" />
-              </div>
-            </motion.div>
           </motion.div>
         </div>
 
-        {/* Insurance Banner */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mt-20 p-8 bg-black rounded-3xl shadow-2xl"
-        >
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="flex items-center gap-4">
-              <div className="w-16 h-16 bg-[#b1b94c] rounded-2xl flex items-center justify-center">
-                <Shield className="w-8 h-8 text-black" />
-              </div>
-              <div>
-                <h3 className="text-[#b1b94c] font-semibold text-xl">Satisfaction Guaranteed</h3>
-                <p className="text-white/60">We ensure every dining experience exceeds expectations</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-6 text-white/60">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-[#b1b94c]">4.9</div>
-                <div className="text-xs">Rating</div>
-              </div>
-              <div className="w-px h-12 bg-white/20" />
-              <div className="text-center">
-                <div className="text-2xl font-bold text-[#b1b94c]">24/7</div>
-                <div className="text-xs">Support</div>
-              </div>
-            </div>
-          </div>
-        </motion.div>
       </div>
     </section>
   );

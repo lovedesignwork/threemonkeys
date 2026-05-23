@@ -99,12 +99,12 @@ export default function EmbeddedCardForm({
     style: {
       base: {
         fontSize: '16px',
-        color: '#1e293b',
+        color: '#ffffff',
         fontFamily: 'system-ui, sans-serif',
         '::placeholder': {
-          color: '#94a3b8',
+          color: 'rgba(255, 255, 255, 0.4)',
         },
-        iconColor: '#1a237e',
+        iconColor: '#b1b94c',
       },
       invalid: {
         color: '#ef4444',
@@ -125,12 +125,12 @@ export default function EmbeddedCardForm({
               type="checkbox"
               checked={agreeTerms}
               onChange={(e) => setAgreeTerms(e.target.checked)}
-              className="w-7 h-7 rounded-full border-2 border-slate-300 checked:bg-green-500 checked:border-green-500 focus:ring-green-500 focus:ring-2 appearance-none cursor-pointer relative after:content-['✓'] after:absolute after:inset-0 after:flex after:items-center after:justify-center after:text-white after:font-bold after:opacity-0 checked:after:opacity-100"
+              className="w-7 h-7 rounded-full border-2 border-white/20 checked:bg-[#b1b94c] checked:border-[#b1b94c] focus:ring-[#b1b94c] focus:ring-2 appearance-none cursor-pointer relative after:content-['✓'] after:absolute after:inset-0 after:flex after:items-center after:justify-center after:text-black after:font-bold after:opacity-0 checked:after:opacity-100 bg-white/5"
               style={{ minWidth: '28px', minHeight: '28px' }}
             />
           </div>
-          <span className="text-xs text-slate-600 pt-1">
-            I agree to the <button type="button" onClick={() => setTermsModalOpen(true)} className="text-[#1a237e] underline hover:text-[#1a237e]/80 transition-colors">Terms & Conditions</button> and <button type="button" onClick={() => setPrivacyModalOpen(true)} className="text-[#1a237e] underline hover:text-[#1a237e]/80 transition-colors">Privacy Policy</button>. I understand the cancellation policy and that bookings are non-refundable within 24 hours of the activity. *
+          <span className="text-xs text-white/70 pt-1">
+            I agree to the <button type="button" onClick={() => setTermsModalOpen(true)} className="text-[#b1b94c] underline hover:text-[#c4cc5a] transition-colors">Terms & Conditions</button> and <button type="button" onClick={() => setPrivacyModalOpen(true)} className="text-[#b1b94c] underline hover:text-[#c4cc5a] transition-colors">Privacy Policy</button>. I understand the cancellation policy and that bookings are non-refundable within 24 hours of the activity. *
           </span>
         </label>
       </div>
@@ -147,15 +147,15 @@ export default function EmbeddedCardForm({
       />
 
       {/* Debit/Credit Card Header */}
-      <div className="flex items-center gap-2 mb-3 pb-2 border-b border-slate-200">
-        <CreditCard className="w-5 h-5 text-[#1a237e]" />
-        <span className="text-sm font-medium text-slate-800">Debit / Credit Card</span>
+      <div className="flex items-center gap-2 mb-3 pb-2 border-b border-white/10">
+        <CreditCard className="w-5 h-5 text-[#b1b94c]" />
+        <span className="text-sm font-medium text-white">Debit / Credit Card</span>
       </div>
 
       {/* Card Number */}
       <div>
-        <label className="block text-sm font-medium text-slate-700 mb-2">Card Number</label>
-        <div className="bg-slate-50 border border-slate-200 rounded-xl p-4">
+        <label className="block text-sm font-medium text-white/60 mb-2">Card Number</label>
+        <div className="bg-white/5 border border-[#b1b94c]/30 rounded-xl p-4 focus-within:border-[#b1b94c] transition-colors">
           <CardNumberElement
             options={elementStyle}
             onChange={(e) => {
@@ -173,8 +173,8 @@ export default function EmbeddedCardForm({
       {/* Expiry Date and CVC */}
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-2">Expiry Date</label>
-          <div className="bg-slate-50 border border-slate-200 rounded-xl p-4">
+          <label className="block text-sm font-medium text-white/60 mb-2">Expiry Date</label>
+          <div className="bg-white/5 border border-[#b1b94c]/30 rounded-xl p-4 focus-within:border-[#b1b94c] transition-colors">
             <CardExpiryElement
               options={elementStyle}
               onChange={(e) => {
@@ -189,8 +189,8 @@ export default function EmbeddedCardForm({
           </div>
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-2">CVV / CVC</label>
-          <div className="bg-slate-50 border border-slate-200 rounded-xl p-4">
+          <label className="block text-sm font-medium text-white/60 mb-2">CVV / CVC</label>
+          <div className="bg-white/5 border border-[#b1b94c]/30 rounded-xl p-4 focus-within:border-[#b1b94c] transition-colors">
             <CardCvcElement
               options={elementStyle}
               onChange={(e) => {
@@ -207,7 +207,7 @@ export default function EmbeddedCardForm({
       </div>
 
       {errorMessage && (
-        <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm">
+        <div className="flex items-center gap-2 p-3 bg-red-500/10 border border-red-500/30 rounded-xl text-red-400 text-sm">
           <AlertCircle className="w-4 h-4 flex-shrink-0" />
           {errorMessage}
         </div>
@@ -216,10 +216,9 @@ export default function EmbeddedCardForm({
       <button
         type="submit"
         disabled={!canSubmit}
-        className="w-full h-14 rounded-xl font-bold text-white flex items-center justify-center gap-2 transition-all hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full h-14 rounded-xl font-bold text-black flex items-center justify-center gap-2 transition-all hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-[#b1b94c] to-[#8a9139]"
         style={{
-          backgroundColor: '#1a237e',
-          boxShadow: canSubmit ? '0 10px 40px rgba(26, 35, 126, 0.3)' : 'none',
+          boxShadow: canSubmit ? '0 10px 40px rgba(177, 185, 76, 0.3)' : 'none',
         }}
       >
         {isProcessing || isCreatingBooking ? (

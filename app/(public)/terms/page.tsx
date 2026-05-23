@@ -196,15 +196,41 @@ export default function TermsPage() {
                       
                       <div className="bg-white/5 rounded-2xl p-6">
                         <h3 className="text-lg font-medium text-white mb-3">2.2 Payment</h3>
+                        <p className="text-white/70 leading-relaxed mb-3">
+                          A deposit is required at the time of booking. We accept major credit cards through 
+                          our secure payment partner, Stripe. All prices are displayed in Thai Baht (THB).
+                        </p>
+                        <div className="bg-amber-500/10 border border-amber-500/20 rounded-xl p-4">
+                          <p className="text-amber-400 text-sm">
+                            <span className="font-medium">Important:</span> Please note that all prices are exclusive of 7% VAT and 10% service charge.
+                          </p>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-white/5 rounded-2xl p-6">
+                        <h3 className="text-lg font-medium text-white mb-3">2.3 Deposit Usage</h3>
                         <p className="text-white/70 leading-relaxed">
-                          Full payment is required at the time of booking. We accept major credit cards through 
-                          our secure payment partner, Stripe. All prices are displayed in Thai Baht (THB) and 
-                          include applicable taxes.
+                          The deposit can be used toward food and beverages. If actual expenses are less than 
+                          the deposit, <span className="text-white font-medium">the balance is non-refundable</span>. 
+                          If expenses exceed the deposit, the difference must be paid at the restaurant.
                         </p>
                       </div>
                       
                       <div className="bg-white/5 rounded-2xl p-6">
-                        <h3 className="text-lg font-medium text-white mb-3">2.3 Confirmation</h3>
+                        <h3 className="text-lg font-medium text-white mb-3">2.4 Credit Card Verification</h3>
+                        <p className="text-white/70 leading-relaxed mb-3">
+                          Guests paying by credit card must present the <span className="text-white font-medium">same card used for payment</span>, 
+                          with the cardholder name matching the booking. The restaurant will verify the card upon arrival.
+                        </p>
+                        <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-4">
+                          <p className="text-red-400 text-sm">
+                            If these conditions are not met, any refund will incur a 5% fee, and the full bill must be settled at the restaurant.
+                          </p>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-white/5 rounded-2xl p-6">
+                        <h3 className="text-lg font-medium text-white mb-3">2.5 Confirmation</h3>
                         <p className="text-white/70 leading-relaxed">
                           Your booking is confirmed once payment is successfully processed and you receive a 
                           confirmation email. The credit card statement will display the payment as "ONEBOOKING" 
@@ -253,17 +279,25 @@ export default function TermsPage() {
                     </div>
                     
                     <div className="space-y-4 text-white/70 leading-relaxed">
-                      <div className="bg-white/5 rounded-2xl p-6">
-                        <h3 className="text-lg font-medium text-white mb-3">3.1 Standard Cancellations</h3>
+                      <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-6">
+                        <h3 className="text-lg font-medium text-red-400 mb-3">3.1 Deposit Non-Refundable</h3>
                         <p>
-                          Cancellations are accepted if made at least <span className="text-white font-medium">24 hours</span> before 
-                          the scheduled reservation. A <span className="text-white font-medium">5% processing fee</span> will be deducted 
-                          from the total amount paid for all cancellations and partial refunds.
+                          In the case of booking cancellation, <span className="text-red-400 font-medium">the deposit will not be refunded</span>. 
+                          However, the service time and date of the booking can be changed (see section 3.6 below).
                         </p>
                       </div>
                       
                       <div className="bg-white/5 rounded-2xl p-6">
-                        <h3 className="text-lg font-medium text-white mb-3">3.2 Less Than 24 Hours</h3>
+                        <h3 className="text-lg font-medium text-white mb-3">3.2 Processing Fee</h3>
+                        <p>
+                          In the event of a cancellation or partial refund, and once approved by the company, 
+                          a <span className="text-white font-medium">5% processing fee</span> will be deducted from the total amount paid, 
+                          in accordance with our refund policy.
+                        </p>
+                      </div>
+                      
+                      <div className="bg-white/5 rounded-2xl p-6">
+                        <h3 className="text-lg font-medium text-white mb-3">3.3 Less Than 24 Hours</h3>
                         <p>
                           Cancellations made less than 24 hours before the scheduled reservation will 
                           <span className="text-red-400 font-medium"> not be eligible for a refund</span>.
@@ -271,7 +305,7 @@ export default function TermsPage() {
                       </div>
                       
                       <div className="bg-white/5 rounded-2xl p-6">
-                        <h3 className="text-lg font-medium text-white mb-3">3.3 Medical Cancellations</h3>
+                        <h3 className="text-lg font-medium text-white mb-3">3.4 Medical Cancellations</h3>
                         <p>
                           For cancellations due to medical emergencies, a <span className="text-white font-medium">valid medical 
                           certificate is required</span>. With proper documentation, you will receive a full refund minus 
@@ -280,19 +314,27 @@ export default function TermsPage() {
                       </div>
                       
                       <div className="bg-white/5 rounded-2xl p-6">
-                        <h3 className="text-lg font-medium text-white mb-3">3.4 No-Show Policy</h3>
+                        <h3 className="text-lg font-medium text-white mb-3">3.5 No-Show Policy</h3>
                         <p>
                           If you miss the scheduled reservation time without prior notification, or if you are a no-show, 
                           <span className="text-red-400 font-medium"> no refund will be issued under any circumstances</span>.
                         </p>
                       </div>
                       
-                      <div className="bg-white/5 rounded-2xl p-6">
-                        <h3 className="text-lg font-medium text-white mb-3">3.5 Cancellation by Three Monkeys</h3>
+                      <div className="bg-[#b1b94c]/10 border border-[#b1b94c]/20 rounded-2xl p-6">
+                        <h3 className="text-lg font-medium text-[#b1b94c] mb-3">3.6 Date & Time Changes</h3>
                         <p>
-                          We reserve the right to cancel reservations due to severe weather conditions, safety concerns, 
-                          or unforeseen circumstances. In such cases, you will receive a full refund or the option to 
-                          reschedule to another date at no additional cost.
+                          Any changes in service date must be made <span className="text-white font-medium">at least 1 day in advance</span>. 
+                          Changes requested less than 1 day before the scheduled reservation may not be accommodated.
+                        </p>
+                      </div>
+                      
+                      <div className="bg-white/5 rounded-2xl p-6">
+                        <h3 className="text-lg font-medium text-white mb-3">3.7 Cancellation by Three Monkeys</h3>
+                        <p>
+                          We reserve the right to cancel or adjust services without prior notice due to unfavorable weather 
+                          conditions, safety concerns, or unforeseen circumstances. In such cases, you will receive a full 
+                          refund or the option to reschedule to another date at no additional cost.
                         </p>
                       </div>
                     </div>
@@ -477,21 +519,34 @@ export default function TermsPage() {
                       </h2>
                     </div>
                     
-                    <div className="bg-white/5 rounded-2xl p-6">
-                      <ul className="space-y-3 text-white/70">
-                        <li className="flex items-start gap-2">
-                          <ChevronRight className="w-5 h-5 text-[#b1b94c] flex-shrink-0 mt-0.5" />
-                          <span>Please arrive at least <span className="text-white font-medium">15 minutes before</span> your reservation time</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <ChevronRight className="w-5 h-5 text-[#b1b94c] flex-shrink-0 mt-0.5" />
-                          <span>Reservations will be held for 15 minutes after the scheduled time</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <ChevronRight className="w-5 h-5 text-[#b1b94c] flex-shrink-0 mt-0.5" />
-                          <span>Late arrivals may result in reduced dining time or table reassignment</span>
-                        </li>
-                      </ul>
+                    <div className="space-y-4">
+                      <div className="bg-[#b1b94c]/10 border border-[#b1b94c]/20 rounded-2xl p-6">
+                        <h3 className="text-lg font-medium text-[#b1b94c] mb-3">Arrival Requirement</h3>
+                        <p className="text-white/70">
+                          Please arrive at the Restaurant <span className="text-white font-medium">at least 15 minutes in advance</span> of your reservation time.
+                        </p>
+                      </div>
+                      
+                      <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-6">
+                        <h3 className="text-lg font-medium text-red-400 mb-3">Late Arrival Policy</h3>
+                        <p className="text-white/70">
+                          If the customer arrives <span className="text-red-400 font-medium">more than 15 minutes late</span>, 
+                          the Restaurant has the right to release the table to other customers. No refund will be provided in such cases.
+                        </p>
+                      </div>
+                      
+                      <div className="bg-white/5 rounded-2xl p-6">
+                        <ul className="space-y-3 text-white/70">
+                          <li className="flex items-start gap-2">
+                            <ChevronRight className="w-5 h-5 text-[#b1b94c] flex-shrink-0 mt-0.5" />
+                            <span>Please have your booking confirmation ready upon arrival</span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <ChevronRight className="w-5 h-5 text-[#b1b94c] flex-shrink-0 mt-0.5" />
+                            <span>If paying by credit card, bring the same card used for booking</span>
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -508,27 +563,46 @@ export default function TermsPage() {
                       </h2>
                     </div>
                     
-                    <div className="bg-white/5 rounded-2xl p-6">
-                      <p className="text-white/70 mb-4">Guests must:</p>
-                      <ul className="space-y-3 text-white/70">
-                        <li className="flex items-start gap-2">
-                          <ChevronRight className="w-5 h-5 text-[#b1b94c] flex-shrink-0 mt-0.5" />
-                          <span>Respect other guests and staff</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <ChevronRight className="w-5 h-5 text-[#b1b94c] flex-shrink-0 mt-0.5" />
-                          <span>Not engage in disruptive or inappropriate behavior</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <ChevronRight className="w-5 h-5 text-[#b1b94c] flex-shrink-0 mt-0.5" />
-                          <span>Follow the dress code for the dining area</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <ChevronRight className="w-5 h-5 text-[#b1b94c] flex-shrink-0 mt-0.5" />
-                          <span>Supervise children at all times</span>
-                        </li>
-                      </ul>
-                      <div className="mt-4 p-4 bg-red-500/10 border border-red-500/20 rounded-xl">
+                    <div className="space-y-4">
+                      <div className="bg-white/5 rounded-2xl p-6">
+                        <p className="text-white/70 mb-4">Guests must:</p>
+                        <ul className="space-y-3 text-white/70">
+                          <li className="flex items-start gap-2">
+                            <ChevronRight className="w-5 h-5 text-[#b1b94c] flex-shrink-0 mt-0.5" />
+                            <span>Respect other guests and staff</span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <ChevronRight className="w-5 h-5 text-[#b1b94c] flex-shrink-0 mt-0.5" />
+                            <span>Not engage in disruptive or inappropriate behavior</span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <ChevronRight className="w-5 h-5 text-[#b1b94c] flex-shrink-0 mt-0.5" />
+                            <span>Follow the dress code for the dining area</span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <ChevronRight className="w-5 h-5 text-[#b1b94c] flex-shrink-0 mt-0.5" />
+                            <span>Supervise children at all times</span>
+                          </li>
+                        </ul>
+                      </div>
+                      
+                      <div className="grid md:grid-cols-2 gap-4">
+                        <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-6">
+                          <h3 className="text-lg font-medium text-red-400 mb-3">No Pets Allowed</h3>
+                          <p className="text-white/70">
+                            The restaurant does not allow pets. Service animals with proper documentation may be permitted upon prior arrangement.
+                          </p>
+                        </div>
+                        
+                        <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-6">
+                          <h3 className="text-lg font-medium text-red-400 mb-3">No Outside Food & Drinks</h3>
+                          <p className="text-white/70">
+                            Outside food and drinks are not allowed inside the restaurant premises.
+                          </p>
+                        </div>
+                      </div>
+                      
+                      <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl">
                         <p className="text-red-400 text-sm">
                           Violation of the code of conduct may result in being asked to leave without refund.
                         </p>

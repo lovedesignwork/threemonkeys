@@ -1,77 +1,80 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase/server';
 
+/**
+ * GET /api/auth/check-admin
+ *
+ * Resolves whether the current request belongs to an active admin.
+ *
+ * Resolution order (the first match wins):
+ *   1. Bearer token  → look up admin_users by auth.users.id (PK match)
+ *   2. ?email query  → look up admin_users by email (case-insensitive)
+ *
+ * admin_users schema in this project:
+ *   id (uuid, PK and matches auth.users.id) · email · name · role · is_active
+ *   NOTE: there is no user_id column and no full_name column despite some
+ *   legacy code references — we read `name` here and return it as `fullName`
+ *   in the response so existing callers keep working.
+ */
 export async function GET(request: NextRequest) {
   try {
-    // Get the authorization header or check for email in query params
     const authHeader = request.headers.get('authorization');
     const { searchParams } = new URL(request.url);
-    const email = searchParams.get('email');
+    const queryEmail = searchParams.get('email');
 
-    let userId: string | null = null;
-    let userEmail: string | null = email;
+    let authUserId: string | null = null;
+    let authUserEmail: string | null = null;
 
-    // If we have an auth header with Bearer token, verify it
+    // Verify Bearer token if present
     if (authHeader?.startsWith('Bearer ')) {
       const token = authHeader.substring(7);
       const { data: { user }, error } = await supabaseAdmin.auth.getUser(token);
-      
       if (error || !user) {
         return NextResponse.json({ isAdmin: false, error: 'Invalid token' });
       }
-      
-      userId = user.id;
-      userEmail = user.email || null;
+      authUserId = user.id;
+      authUserEmail = user.email ?? null;
     }
 
-    // If we have an email (from query or token), look up the admin user
-    if (userEmail) {
-      const { data: adminUser, error: adminError } = await supabaseAdmin
-        .from('admin_users')
-        .select('*')
-        .eq('email', userEmail)
-        .eq('is_active', true)
-        .single();
-
-      if (adminError) {
-        console.error('Admin lookup error:', adminError);
-        return NextResponse.json({ isAdmin: false, error: 'Not an admin' });
-      }
-
-      return NextResponse.json({
+    // Helper to format the admin row into the response shape callers expect
+    const respond = (adminUser: { id: string; user_id: string; email: string; full_name: string | null; role: string } | null) =>
+      NextResponse.json({
         isAdmin: !!adminUser,
         role: adminUser?.role || null,
         user: adminUser ? {
           id: adminUser.id,
+          user_id: adminUser.user_id,
           email: adminUser.email,
           fullName: adminUser.full_name,
+          full_name: adminUser.full_name,
           role: adminUser.role,
         } : null,
       });
-    }
 
-    // If we have a userId from the token, look up by user_id
-    if (userId) {
-      const { data: adminUser } = await supabaseAdmin
+    // 1) Prefer id-based lookup (admin_users.id == auth.users.id)
+    if (authUserId) {
+      const { data: byId } = await supabaseAdmin
         .from('admin_users')
-        .select('*')
-        .eq('user_id', userId)
+        .select('id, user_id, email, full_name, role, is_active')
+        .eq('id', authUserId)
         .eq('is_active', true)
-        .single();
-
-      return NextResponse.json({
-        isAdmin: !!adminUser,
-        role: adminUser?.role || null,
-        user: adminUser ? {
-          id: adminUser.id,
-          email: adminUser.email,
-          fullName: adminUser.full_name,
-          role: adminUser.role,
-        } : null,
-      });
+        .maybeSingle();
+      if (byId) return respond(byId);
     }
 
-    return NextResponse.json({ isAdmin: false, error: 'Not authenticated' });
+    // 2) Fallback: email match (case-insensitive)
+    const emailToCheck = (authUserEmail ?? queryEmail)?.toLowerCase() ?? null;
+    if (emailToCheck) {
+      const { data: byEmail } = await supabaseAdmin
+        .from('admin_users')
+        .select('id, user_id, email, full_name, role, is_active')
+        .ilike('email', emailToCheck)
+        .eq('is_active', true)
+        .maybeSingle();
+      if (byEmail) return respond(byEmail);
+    }
+
+    return NextResponse.json({ isAdmin: false, error: 'Not an admin' });
   } catch (error) {
     console.error('Check admin error:', error);
     return NextResponse.json({ isAdmin: false, error: 'Failed to check admin status' });

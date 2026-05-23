@@ -14,26 +14,39 @@ export interface AuthResult {
 export async function verifyAdminAuth(request: NextRequest): Promise<AuthResult> {
   try {
     const authHeader = request.headers.get('authorization');
-    
+
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return { authenticated: false, error: 'Missing or invalid authorization header' };
     }
 
     const token = authHeader.substring(7);
-    
+
     const { data: { user }, error: authError } = await supabaseAdmin.auth.getUser(token);
-    
+
     if (authError || !user) {
       return { authenticated: false, error: 'Invalid or expired token' };
     }
 
-    const { data: adminUser, error: adminError } = await supabaseAdmin
+    // admin_users.id is the FK to auth.users.id (same UUID). Some legacy code
+    // references a `user_id` column that does not exist in this schema.
+    // Prefer id-based lookup, then fall back to email if the row was created
+    // before the id link was established.
+    let { data: adminUser } = await supabaseAdmin
       .from('admin_users')
       .select('id, email, role, is_active')
-      .eq('user_id', user.id)
-      .single();
+      .eq('id', user.id)
+      .maybeSingle();
 
-    if (adminError || !adminUser) {
+    if (!adminUser && user.email) {
+      const fallback = await supabaseAdmin
+        .from('admin_users')
+        .select('id, email, role, is_active')
+        .ilike('email', user.email)
+        .maybeSingle();
+      adminUser = fallback.data ?? null;
+    }
+
+    if (!adminUser) {
       return { authenticated: false, error: 'User is not an admin' };
     }
 

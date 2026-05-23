@@ -7,50 +7,103 @@ import Image from 'next/image';
 import { 
   Check, Calendar, Clock, Users, Minus, Plus, Car, Navigation, 
   MapPin, ShieldCheck, CalendarDays, ArrowRight, ArrowLeft, Hotel,
-  Star, Sparkles, ChevronDown, Info, Gift, Wine, Cake, UtensilsCrossed
+  Star, Sparkles, ChevronDown, Info, Gift, Music, Heart, Flame
 } from 'lucide-react';
 import { CalendarPicker, CustomSelect } from '@/components/ui';
 import { packages } from '@/lib/data/packages';
 import { formatPrice } from '@/lib/utils';
+import { buildBangkokTimestamp, getZoneForPackage } from '@/lib/allotment/zones';
 
-// Promotional Add-ons
+// Promotional Add-ons (only available for advance bookings - at least 1 day in advance)
 const promotionalAddons = [
   {
-    id: 'wine-pairing',
-    name: 'Wine Pairing',
-    description: 'Premium wine selection curated by our sommelier',
-    price: 800,
-    originalPrice: 1000,
-    discount: '20% OFF',
-    icon: Wine,
-    image: '/images/Random images/39_resize.jpg',
+    id: 'violin-dinner',
+    name: 'Private Dinner With Violin 1 Hour',
+    description: 'Enjoy an exclusive experience with live 1 hour Violin performance — all at your own private table.',
+    price: 6000,
+    originalPrice: null,
+    discount: null,
+    icon: Music,
+    image: '/images/Random images/32_resize.jpg',
   },
   {
-    id: 'dessert-platter',
-    name: 'Dessert Platter',
-    description: 'Chef\'s selection of signature Thai desserts',
-    price: 550,
-    originalPrice: 650,
-    discount: '15% OFF',
-    icon: Cake,
-    image: '/images/Random images/40_resize.jpg',
+    id: 'saxophone-dinner',
+    name: 'Private Dinner With Saxophone',
+    description: 'Enjoy an exclusive experience with live 1 hour saxophone performance — all at your own private table.',
+    price: 6000,
+    originalPrice: null,
+    discount: null,
+    icon: Music,
+    image: '/images/Random images/33_resize.jpg',
   },
   {
-    id: 'appetizer-set',
-    name: 'Premium Appetizer Set',
-    description: 'Curated selection of Thai starters for the table',
-    price: 750,
-    originalPrice: 900,
-    discount: '17% OFF',
-    icon: UtensilsCrossed,
-    image: '/images/Random images/41_resize.jpg',
+    id: 'spark-fountain',
+    name: 'Spark Fountain & Smoke Machine',
+    description: 'Take your celebration to the next level with our dramatic spark fountain effect. Perfect for grand entrances, birthday surprises, or romantic proposals!',
+    price: 2500,
+    originalPrice: null,
+    discount: null,
+    icon: Flame,
+    image: '/images/Random images/34_resize.jpg',
+  },
+  {
+    id: 'honeymoon-anniversary',
+    name: 'Honeymoon Anniversary',
+    description: 'Romantic table setting for Honeymoon Anniversary, Sparkling wine 1BTL (Prosecco), Bouquet of Roses, Table Decorations.',
+    price: 1999,
+    originalPrice: null,
+    discount: null,
+    icon: Heart,
+    image: '/images/Random images/35_resize.jpg',
+  },
+  {
+    id: 'birthday-mini',
+    name: 'Birthday Mini',
+    description: 'Brownies Cake 1 Piece | 1 Set of Balloons Pole. Make your birthday extra special at Three Monkeys! Celebrate your special day with our new Birthday Promotional Set. *Note: You can specify the message for the cake plate in the notes.',
+    price: 1200,
+    originalPrice: null,
+    discount: null,
+    icon: Gift,
+    image: '/images/Random images/42_resize.jpg',
+  },
+  {
+    id: 'private-transfer',
+    name: 'Private Round-Trip Transfer',
+    description: 'Maximum 10 Passengers / Van. *Note: Service applied in Phuket Area except for pick up from Phuket International Airport.',
+    price: 2000,
+    originalPrice: null,
+    discount: null,
+    icon: Car,
+    image: '/images/Random images/44_resize.jpg',
   },
 ];
 
 // Time slot configurations based on seat type
 const PREMIUM_TIME_SLOTS = ['16:00', '19:00', '22:00']; // Monkey Dome, Monkey Nest
 const SEMI_PREMIUM_TIME_SLOTS = ['19:00', '22:00']; // Monkey Hilltop, Bamboo Pavilion
+const SPECIAL_PACKAGE_TIME_SLOTS = ['17:00', '18:00', '19:00', '20:00', '21:00', '22:00']; // Special packages
 const NORMAL_TIME_SLOTS = ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00']; // All other seats
+
+// Special package IDs (require 1 day advance booking)
+const SPECIAL_PACKAGE_IDS = ['ultimate-dinner', 'ultimate-birthday', 'ultimate-romantic-dinner', 'will-you-marry-me'];
+
+// Helper to check if a package is a special package
+const isSpecialPackage = (packageId: string | null): boolean => {
+  if (!packageId) return false;
+  return SPECIAL_PACKAGE_IDS.includes(packageId);
+};
+
+// Helper to check if booking date is at least 1 day in advance (for add-ons availability)
+const isAdvanceBooking = (selectedDate: Date | null): boolean => {
+  if (!selectedDate) return false;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const bookingDate = new Date(selectedDate);
+  bookingDate.setHours(0, 0, 0, 0);
+  const diffTime = bookingDate.getTime() - today.getTime();
+  const diffDays = diffTime / (1000 * 60 * 60 * 24);
+  return diffDays >= 1;
+};
 
 // Helper to get available time slots based on package
 const getAvailableTimeSlots = (packageId: string | null): string[] => {
@@ -66,7 +119,12 @@ const getAvailableTimeSlots = (packageId: string | null): string[] => {
     return SEMI_PREMIUM_TIME_SLOTS;
   }
   
-  // All other seats and special packages: normal hourly slots
+  // Special packages: 17:00 - 22:00 hourly
+  if (isSpecialPackage(packageId)) {
+    return SPECIAL_PACKAGE_TIME_SLOTS;
+  }
+  
+  // All other seats: normal hourly slots
   return NORMAL_TIME_SLOTS;
 };
 
@@ -251,6 +309,29 @@ function BookingContent() {
     return getAvailableTimeSlots(selectedPackageId);
   }, [selectedPackageId]);
   
+  // Get minimum booking date based on package type (special packages require 1 day advance)
+  const minBookingDate = useMemo(() => {
+    const today = new Date();
+    if (isSpecialPackage(selectedPackageId)) {
+      // Special packages require at least 1 day in advance
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      return tomorrow.toISOString().split('T')[0];
+    }
+    return today.toISOString().split('T')[0];
+  }, [selectedPackageId]);
+  
+  // Reset selected date if it's no longer valid for special packages
+  useEffect(() => {
+    if (selectedDate && isSpecialPackage(selectedPackageId)) {
+      const selectedDateObj = new Date(selectedDate);
+      const minDateObj = new Date(minBookingDate);
+      if (selectedDateObj < minDateObj) {
+        setSelectedDate('');
+      }
+    }
+  }, [selectedPackageId, selectedDate, minBookingDate]);
+  
   // Reset selected time when package changes and current time is not available
   useEffect(() => {
     if (selectedTime && !availableTimeSlots.includes(selectedTime)) {
@@ -277,39 +358,53 @@ function BookingContent() {
     setGuestCount(newCount);
   };
 
-  // Per-table packages (fixed price regardless of guest count)
+  // Per-table packages (fixed price regardless of guest count, max 4 guests)
   const isPerTablePackage = (pkgId: string | null) => {
     return pkgId === 'monkey-dome' || pkgId === 'monkey-nest';
   };
 
-  const maxGuestsForPackage = isPerTablePackage(selectedPackageId) ? 4 : 20;
+  // Fixed price packages (special packages + per-table packages)
+  // These have fixed prices that don't change with guest count
+  const isFixedPricePackage = (pkgId: string | null) => {
+    return isPerTablePackage(pkgId) || isSpecialPackage(pkgId);
+  };
+
+  // Max guests: Per-table = 4, Special packages = 10, Others = 20
+  const getMaxGuestsForPackage = (pkgId: string | null) => {
+    if (isPerTablePackage(pkgId)) return 4;
+    if (isSpecialPackage(pkgId)) return 10;
+    return 20;
+  };
+
+  const maxGuestsForPackage = getMaxGuestsForPackage(selectedPackageId);
   const DEPOSIT_PER_PERSON = 500;
 
   const handleSelectPackage = (pkgId: string) => {
     setSelectedPackageId(pkgId);
     setIsDropdownOpen(false);
-    // Reset guest count if switching to a per-table package and current count exceeds limit
-    if (isPerTablePackage(pkgId) && guestCount > 4) {
-      setGuestCount(4);
+    // Reset guest count if switching to a package with lower max and current count exceeds limit
+    const maxGuests = getMaxGuestsForPackage(pkgId);
+    if (guestCount > maxGuests) {
+      setGuestCount(maxGuests);
     }
   };
 
   const prices = useMemo(() => {
     if (!selectedPackage) return { base: 0, addons: 0, transfer: 0, total: 0, deposit: 0 };
     
-    // For Monkey Dome/Nest: price is per table (fixed), not per person
+    // For fixed price packages (Monkey Dome/Nest + Special packages): price is fixed
     // For other packages: price is per person
-    const base = isPerTablePackage(selectedPackageId) 
-      ? selectedPackage.price // Fixed price for the table
+    const base = isFixedPricePackage(selectedPackageId) 
+      ? selectedPackage.price // Fixed price for the package
       : selectedPackage.price * guestCount;
     
     const transfer = needTransfer ? VVIP_TRANSFER_PRICE : 0;
     
     // Deposit calculation:
-    // Monkey Dome/Nest: Fixed THB 4,000 (table price)
+    // Fixed price packages: Full package price as deposit
     // Others: THB 500 per person
-    const deposit = isPerTablePackage(selectedPackageId)
-      ? selectedPackage.price // THB 4,000 per table
+    const deposit = isFixedPricePackage(selectedPackageId)
+      ? selectedPackage.price // Full package price
       : DEPOSIT_PER_PERSON * guestCount;
     
     let addons = 0;
@@ -331,7 +426,77 @@ function BookingContent() {
     };
   }, [selectedPackage, selectedPackageId, guestCount, needTransfer, selectedAddons]);
 
-  const isFormValid = selectedPackageId && selectedDate && selectedTime;
+  // ── Allotment availability check ──
+  // Whenever the customer chooses a package + date + time, hit the public
+  // availability API. If the zone is full, block "Proceed to Checkout".
+  // Special packages (which don't map to a zone) skip this check.
+  const [availabilityState, setAvailabilityState] = useState<'idle' | 'checking' | 'available' | 'full' | 'error' | 'not_applicable'>('idle');
+
+  useEffect(() => {
+    const zone = getZoneForPackage(selectedPackageId);
+    if (!zone || !selectedDate || !selectedTime) {
+      setAvailabilityState(zone ? 'idle' : 'not_applicable');
+      return;
+    }
+    let cancelled = false;
+    setAvailabilityState('checking');
+    (async () => {
+      try {
+        const startIso = buildBangkokTimestamp(selectedDate, selectedTime);
+        const url = `/api/allotment/availability?zone=${encodeURIComponent(zone.zoneId)}&start=${encodeURIComponent(startIso)}`;
+        const res = await fetch(url, { cache: 'no-store' });
+        const json = await res.json();
+        if (cancelled) return;
+        if (!res.ok) {
+          setAvailabilityState('error');
+          return;
+        }
+        setAvailabilityState(json.is_available ? 'available' : 'full');
+      } catch {
+        if (!cancelled) setAvailabilityState('error');
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [selectedPackageId, selectedDate, selectedTime]);
+
+  // Subscribe to allotment changes via Supabase Realtime so the badge updates
+  // when other customers book or staff add manual blocks.
+  useEffect(() => {
+    const zone = getZoneForPackage(selectedPackageId);
+    if (!zone || !selectedDate || !selectedTime) return;
+    let active = true;
+    let channel: { unsubscribe?: () => void } | null = null;
+    (async () => {
+      try {
+        const { supabase } = await import('@/lib/supabase/client');
+        const chan = supabase
+          .channel(`allotment-${zone.zoneId}-${selectedDate}`)
+          .on(
+            'postgres_changes',
+            { event: '*', schema: 'public', table: 'tm_allotments', filter: `zone_id=eq.${zone.zoneId}` },
+            () => {
+              if (!active) return;
+              // Trigger a re-check by toggling a no-op state — easier: just refetch directly.
+              const startIso = buildBangkokTimestamp(selectedDate, selectedTime);
+              fetch(`/api/allotment/availability?zone=${encodeURIComponent(zone.zoneId)}&start=${encodeURIComponent(startIso)}`, { cache: 'no-store' })
+                .then(r => r.json())
+                .then(j => { if (active) setAvailabilityState(j.is_available ? 'available' : 'full'); })
+                .catch(() => { if (active) setAvailabilityState('error'); });
+            }
+          )
+          .subscribe();
+        channel = chan as { unsubscribe?: () => void };
+      } catch (err) {
+        console.warn('Realtime subscription failed', err);
+      }
+    })();
+    return () => {
+      active = false;
+      try { channel?.unsubscribe?.(); } catch { /* noop */ }
+    };
+  }, [selectedPackageId, selectedDate, selectedTime]);
+
+  const isFormValid = selectedPackageId && selectedDate && selectedTime && availabilityState !== 'full';
 
   const handleProceedToCheckout = () => {
     if (!isFormValid) return;
@@ -696,8 +861,14 @@ function BookingContent() {
                           <CalendarPicker
                             value={selectedDate}
                             onChange={setSelectedDate}
-                            minDate={new Date().toISOString().split('T')[0]}
+                            minDate={minBookingDate}
                           />
+                          {isSpecialPackage(selectedPackageId) && (
+                            <p className="text-amber-400/70 text-xs mt-2 flex items-center gap-1.5">
+                              <Info className="w-3.5 h-3.5" />
+                              Special packages require at least 1 day advance booking
+                            </p>
+                          )}
                         </div>
 
                         {/* Time Picker - Single dropdown based on seat type */}
@@ -706,7 +877,8 @@ function BookingContent() {
                             <Clock className="w-4 h-4 text-[#b1b94c]" />
                             Select Time
                             {(selectedPackageId === 'monkey-dome' || selectedPackageId === 'monkey-nest' || 
-                              selectedPackageId === 'monkey-hilltop' || selectedPackageId === 'bamboo-pavilion') && (
+                              selectedPackageId === 'monkey-hilltop' || selectedPackageId === 'bamboo-pavilion' ||
+                              isSpecialPackage(selectedPackageId)) && (
                               <span className="text-white/40 text-xs ml-1">
                                 ({availableTimeSlots.length} time slots available)
                               </span>
@@ -731,7 +903,13 @@ function BookingContent() {
                               };
                             })}
                           />
-                          {selectedDate && (
+                          {isSpecialPackage(selectedPackageId) && (
+                            <p className="text-amber-400/70 text-xs mt-2 flex items-center gap-1.5">
+                              <Info className="w-3.5 h-3.5" />
+                              Special packages available from 5:00 PM - 10:00 PM
+                            </p>
+                          )}
+                          {selectedDate && !isSpecialPackage(selectedPackageId) && (
                             <p className="text-white/40 text-xs mt-2 flex items-center gap-1">
                               <Info className="w-3 h-3" />
                               Bookings must be made at least 2 hours in advance
@@ -743,7 +921,7 @@ function BookingContent() {
                         <div>
                           <label className="block text-sm font-medium text-white/70 mb-3 flex items-center gap-2">
                             <Users className="w-4 h-4 text-[#b1b94c]" />
-                            Number of Persons {isPerTablePackage(selectedPackageId) && <span className="text-white/40 text-xs">(Max 4 per table)</span>}
+                            Number of Persons {isPerTablePackage(selectedPackageId) && <span className="text-white/40 text-xs">(Max 4 per table)</span>}{isSpecialPackage(selectedPackageId) && <span className="text-white/40 text-xs">(Max 10 persons)</span>}
                           </label>
                           <div className="flex items-center gap-3">
                             <button
@@ -783,8 +961,8 @@ function BookingContent() {
                                     <span className="text-[#b1b94c] font-bold text-lg">{formatPrice(prices.deposit)}</span>
                                   </div>
                                   <p className="text-white/40 text-xs truncate">
-                                    {isPerTablePackage(selectedPackageId) 
-                                      ? 'Fixed rate per table booking' 
+                                    {isFixedPricePackage(selectedPackageId) 
+                                      ? 'Fixed rate package' 
                                       : `฿${DEPOSIT_PER_PERSON} × ${guestCount} ${guestCount === 1 ? 'person' : 'persons'}`}
                                   </p>
                                 </div>
@@ -812,9 +990,9 @@ function BookingContent() {
                 )}
               </AnimatePresence>
 
-              {/* Add-ons & Promotions */}
+              {/* Add-ons & Promotions - Only available for advance bookings (at least 1 day) */}
               <AnimatePresence>
-                {selectedPackage && (
+                {selectedPackage && selectedDate && isAdvanceBooking(selectedDate) && (
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -829,37 +1007,103 @@ function BookingContent() {
                           </div>
                           <div>
                             <h2 className="text-xl font-[family-name:var(--font-krona)] text-white normal-case">
-                              Enhance Your Experience
+                              Add On & Promotion
                             </h2>
-                            <p className="text-white/50 text-sm">Special offers just for you</p>
+                            <p className="text-white/50 text-sm">Enhance your experience with special add-ons</p>
                           </div>
                         </div>
                         <div className="px-3 py-1 bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/30 rounded-full">
-                          <span className="text-amber-400 text-xs font-medium">Limited Time</span>
+                          <span className="text-amber-400 text-xs font-medium">Advance Booking Only</span>
                         </div>
                       </div>
                     </div>
 
                     <div className="p-6">
-                      <div className="grid gap-4">
-                        {promotionalAddons.map((addon, index) => {
+                      {/* First two items - 2 column grid (Violin & Saxophone) */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        {promotionalAddons.slice(0, 2).map((addon, index) => {
                           const qty = selectedAddons[addon.id] || 0;
                           const isSelected = qty > 0;
                           return (
                             <motion.div
                               key={addon.id}
-                              initial={{ opacity: 0, x: -20 }}
-                              animate={{ opacity: 1, x: 0 }}
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
                               transition={{ delay: index * 0.1 }}
-                              className={`relative group rounded-2xl overflow-hidden transition-all duration-300 ${
+                              onClick={() => updateAddonQuantity(addon.id, isSelected ? -1 : 1)}
+                              className={`relative group rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 ${
                                 isSelected 
                                   ? 'ring-2 ring-[#b1b94c] bg-[#b1b94c]/5' 
-                                  : 'bg-white/5 hover:bg-white/10'
+                                  : 'bg-white/5 hover:bg-white/10 border border-white/10'
+                              }`}
+                            >
+                              {/* Image */}
+                              <div className="relative h-40 overflow-hidden">
+                                <Image
+                                  src={addon.image}
+                                  alt={addon.name}
+                                  fill
+                                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                                  unoptimized
+                                />
+                              </div>
+                              
+                              {/* Content */}
+                              <div className="p-4">
+                                <h4 className="text-base font-bold text-white mb-1">
+                                  {addon.name}
+                                </h4>
+                                <p className="text-white/50 text-sm leading-relaxed mb-3 line-clamp-2">
+                                  {addon.description}
+                                </p>
+                                
+                                <div className="flex items-center justify-between">
+                                  <div className="flex items-baseline gap-1">
+                                    <span className="text-xl font-bold text-[#b1b94c]">
+                                      {addon.price.toLocaleString()}
+                                    </span>
+                                    <span className="text-white/50 text-sm">THB</span>
+                                  </div>
+                                </div>
+                                
+                                {/* Checkbox */}
+                                <label className="flex items-center gap-2 mt-3 cursor-pointer">
+                                  <div className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-all ${
+                                    isSelected 
+                                      ? 'bg-[#b1b94c] border-[#b1b94c]' 
+                                      : 'border-white/30 bg-transparent'
+                                  }`}>
+                                    {isSelected && <Check className="w-3 h-3 text-black" />}
+                                  </div>
+                                  <span className="text-white/70 text-sm">add this to my booking</span>
+                                </label>
+                              </div>
+                            </motion.div>
+                          );
+                        })}
+                      </div>
+                      
+                      {/* Remaining items - full width */}
+                      <div className="space-y-4">
+                        {promotionalAddons.slice(2).map((addon, index) => {
+                          const qty = selectedAddons[addon.id] || 0;
+                          const isSelected = qty > 0;
+                          return (
+                            <motion.div
+                              key={addon.id}
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: (index + 2) * 0.1 }}
+                              onClick={() => updateAddonQuantity(addon.id, isSelected ? -1 : 1)}
+                              className={`relative group rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 ${
+                                isSelected 
+                                  ? 'ring-2 ring-[#b1b94c] bg-[#b1b94c]/5' 
+                                  : 'bg-white/5 hover:bg-white/10 border border-white/10'
                               }`}
                             >
                               <div className="flex">
-                                {/* Image Section - 30% width */}
-                                <div className="relative w-[30%] min-h-[140px] flex-shrink-0 overflow-hidden">
+                                {/* Image Section - 40% width */}
+                                <div className="relative w-[40%] min-h-[160px] flex-shrink-0 overflow-hidden">
                                   <Image
                                     src={addon.image}
                                     alt={addon.name}
@@ -867,80 +1111,35 @@ function BookingContent() {
                                     className="object-cover transition-transform duration-500 group-hover:scale-110"
                                     unoptimized
                                   />
-                                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#111]/90 pointer-events-none" />
-                                  
-                                  {/* Discount Badge */}
-                                  {addon.discount && (
-                                    <div className="absolute top-3 left-3 z-10">
-                                      <div className="relative">
-                                        <div className="px-2.5 py-1 bg-black/80 backdrop-blur-sm rounded-full border border-[#b1b94c]/50 shadow-lg">
-                                          <span className="text-[#b1b94c] text-[10px] font-bold tracking-wider">{addon.discount}</span>
-                                        </div>
-                                        <div className="absolute inset-0 bg-[#b1b94c]/20 rounded-full blur-md -z-10" />
-                                      </div>
-                                    </div>
-                                  )}
                                 </div>
 
-                                {/* Content Section */}
-                                <div className="flex-grow p-4 md:p-5">
-                                  <div className="flex flex-col h-full justify-between">
-                                    <div>
-                                      <div className="flex items-start justify-between gap-2 mb-2">
-                                        <h4 className="text-lg font-[family-name:var(--font-krona)] text-white normal-case leading-tight">
-                                          {addon.name}
-                                        </h4>
-                                        {isSelected && (
-                                          <div className="flex-shrink-0 w-6 h-6 bg-[#b1b94c] rounded-full flex items-center justify-center">
-                                            <Check className="w-4 h-4 text-black" />
-                                          </div>
-                                        )}
-                                      </div>
-                                      <p className="text-white/50 text-sm leading-relaxed line-clamp-2">
-                                        {addon.description}
-                                      </p>
-                                    </div>
-                                    
-                                    <div className="flex items-center justify-between mt-4">
-                                      {/* Price */}
-                                      <div className="flex items-baseline gap-2">
-                                        <span className="text-2xl font-bold text-[#b1b94c]">
-                                          {formatPrice(addon.price)}
-                                        </span>
-                                        {addon.originalPrice && (
-                                          <span className="text-white/30 line-through text-sm">
-                                            {formatPrice(addon.originalPrice)}
-                                          </span>
-                                        )}
-                                      </div>
-
-                                      {/* Quantity Selector */}
-                                      <div className="flex items-center gap-1">
-                                        <button
-                                          onClick={() => updateAddonQuantity(addon.id, -1)}
-                                          disabled={qty <= 0}
-                                          className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all ${
-                                            qty > 0 
-                                              ? 'bg-white/10 hover:bg-white/20 text-white' 
-                                              : 'bg-white/5 text-white/20 cursor-not-allowed'
-                                          }`}
-                                        >
-                                          <Minus className="w-4 h-4" />
-                                        </button>
-                                        <div className={`w-10 h-9 rounded-xl flex items-center justify-center font-bold text-lg ${
-                                          isSelected ? 'bg-[#b1b94c] text-black' : 'bg-white/5 text-white'
-                                        }`}>
-                                          {qty}
-                                        </div>
-                                        <button
-                                          onClick={() => updateAddonQuantity(addon.id, 1)}
-                                          className="w-9 h-9 rounded-xl bg-[#b1b94c] hover:bg-[#c4cc5a] flex items-center justify-center transition-all"
-                                        >
-                                          <Plus className="w-4 h-4 text-black" />
-                                        </button>
-                                      </div>
-                                    </div>
+                                {/* Content Section - 60% width */}
+                                <div className="flex-grow p-4 w-[60%]">
+                                  <h4 className="text-base font-bold text-white mb-1">
+                                    {addon.name}
+                                  </h4>
+                                  <p className="text-white/50 text-sm leading-relaxed mb-3 line-clamp-2">
+                                    {addon.description}
+                                  </p>
+                                  
+                                  <div className="flex items-baseline gap-1 mb-3">
+                                    <span className="text-xl font-bold text-[#b1b94c]">
+                                      {addon.price.toLocaleString()}
+                                    </span>
+                                    <span className="text-white/50 text-sm">THB</span>
                                   </div>
+                                  
+                                  {/* Checkbox */}
+                                  <label className="flex items-center gap-2 cursor-pointer">
+                                    <div className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-all ${
+                                      isSelected 
+                                        ? 'bg-[#b1b94c] border-[#b1b94c]' 
+                                        : 'border-white/30 bg-transparent'
+                                    }`}>
+                                      {isSelected && <Check className="w-3 h-3 text-black" />}
+                                    </div>
+                                    <span className="text-white/70 text-sm">add this to my booking</span>
+                                  </label>
                                 </div>
                               </div>
                             </motion.div>
@@ -991,6 +1190,8 @@ function BookingContent() {
                                 <p className="text-[#b1b94c] text-sm font-medium">
                                   {isPerTablePackage(selectedPackageId) 
                                     ? <>{formatPrice(selectedPackage.price)} <span className="text-white/40">/ table (max 4)</span></>
+                                    : isSpecialPackage(selectedPackageId)
+                                    ? <>{formatPrice(selectedPackage.price)} <span className="text-white/40">/ package (max 10)</span></>
                                     : <>{formatPrice(selectedPackage.price)} <span className="text-white/40">/ person</span></>
                                   }
                                 </p>
@@ -1189,6 +1390,21 @@ function BookingContent() {
                                 <span className="text-white/40">included</span>
                               </div>
                             </>
+                          ) : isSpecialPackage(selectedPackageId) ? (
+                            <>
+                              <div className="flex justify-between text-sm">
+                                <span className="text-white/60">
+                                  {selectedPackage.name} - Package
+                                </span>
+                                <span className="text-white">{formatPrice(prices.base)}</span>
+                              </div>
+                              <div className="flex justify-between text-sm">
+                                <span className="text-white/60">
+                                  {guestCount} {guestCount === 1 ? 'Person' : 'Persons'}
+                                </span>
+                                <span className="text-white/40">included (max 10)</span>
+                              </div>
+                            </>
                           ) : (
                             <div className="flex justify-between text-sm">
                               <span className="text-white/60">
@@ -1226,13 +1442,40 @@ function BookingContent() {
                           </div>
                         </div>
 
+                        {/* Availability badge — only shown for packages that consume allotment */}
+                        {selectedDate && selectedTime && availabilityState !== 'idle' && availabilityState !== 'not_applicable' && (
+                          <div className={`flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium border ${
+                            availabilityState === 'available' ? 'bg-emerald-500/10 border-emerald-500/40 text-emerald-300' :
+                            availabilityState === 'full'      ? 'bg-red-500/10 border-red-500/40 text-red-300' :
+                            availabilityState === 'error'     ? 'bg-amber-500/10 border-amber-500/40 text-amber-300' :
+                            'bg-white/5 border-white/10 text-white/60'
+                          }`}>
+                            {availabilityState === 'checking' && (<>
+                              <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                              Checking availability…
+                            </>)}
+                            {availabilityState === 'available' && (<>
+                              <Check className="w-4 h-4" />
+                              Available — book now
+                            </>)}
+                            {availabilityState === 'full' && (<>
+                              <Info className="w-4 h-4" />
+                              Fully booked — pick another time
+                            </>)}
+                            {availabilityState === 'error' && (<>
+                              <Info className="w-4 h-4" />
+                              Couldn&apos;t check availability — please retry
+                            </>)}
+                          </div>
+                        )}
+
                         {/* CTA Button */}
                         <button
                           onClick={handleProceedToCheckout}
                           disabled={!isFormValid}
                           className="w-full py-4 bg-[#b1b94c] hover:bg-[#c4cc5a] text-black font-[family-name:var(--font-krona)] rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                         >
-                          Proceed to Checkout
+                          {availabilityState === 'full' ? 'Fully Booked' : 'Proceed to Checkout'}
                           <ArrowRight className="w-5 h-5" />
                         </button>
 

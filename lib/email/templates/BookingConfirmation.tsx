@@ -29,6 +29,7 @@ interface BookingConfirmationEmailProps {
   hasTransfer: boolean;
   isPrivateTransfer?: boolean;
   addons?: Array<{ name: string; quantity: number; price: number }>;
+  zoneName?: string | null;
 }
 
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://threemonkeys.com';
@@ -46,6 +47,7 @@ export const BookingConfirmationEmail = ({
   hasTransfer = true,
   isPrivateTransfer = false,
   addons = [],
+  zoneName = null,
 }: BookingConfirmationEmailProps) => {
   const previewText = `Your Three Monkeys reservation is confirmed! Booking #${bookingRef}`;
 
@@ -138,6 +140,18 @@ export const BookingConfirmationEmail = ({
                 <Text style={detailValue}>{guestCount} {guestCount === 1 ? 'person' : 'people'}</Text>
               </Column>
             </Row>
+
+            {zoneName && (
+              <Row style={detailRow}>
+                <Column style={detailIcon}>
+                  <Text style={iconText}>📍</Text>
+                </Column>
+                <Column style={detailContent}>
+                  <Text style={detailLabel}>Dining Zone</Text>
+                  <Text style={detailValue}>{zoneName}</Text>
+                </Column>
+              </Row>
+            )}
 
             {hasTransfer && hotelName && (
               <Row style={detailRow}>

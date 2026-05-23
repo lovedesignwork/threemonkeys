@@ -6,6 +6,8 @@ import { sendBookingConfirmationEmail } from '@/lib/email/send-booking-confirmat
 import { sendBookingNotificationEmail } from '@/lib/email/send-booking-notification';
 import { pushBookingToOneBooking } from '@/lib/onebooking/sync';
 import { waitUntil } from '@vercel/functions';
+import { claimTable, releaseTable } from '@/lib/allotment/server';
+import { buildBangkokTimestamp, getZoneForPackage } from '@/lib/allotment/zones';
 
 export async function POST(request: NextRequest) {
   const body = await request.text();
@@ -91,7 +93,65 @@ export async function POST(request: NextRequest) {
           .eq('id', bookingId)
           .single();
 
-        if (booking && booking.booking_customers) {
+        // ── Allotment: atomically claim a table if this package consumes one ──
+        // If full, auto-cancel + refund and bail before sending confirmation emails.
+        let claimedTableCode: string | null = null;
+        let allotmentFailed = false;
+        if (booking) {
+          const zone = getZoneForPackage(booking.package_id) ?? (booking.zone_id ? { zoneId: booking.zone_id, zoneName: '', blockMinutes: 180 } : null);
+          if (zone) {
+            try {
+              const rawCust = booking.booking_customers;
+              const cust = Array.isArray(rawCust) ? rawCust[0] : rawCust;
+              const fullName = cust ? `${cust.first_name ?? ''} ${cust.last_name ?? ''}`.trim() : null;
+              const result = await claimTable({
+                zoneId: zone.zoneId,
+                bookingId: booking.id,
+                startAtIso: buildBangkokTimestamp(booking.activity_date, booking.time_slot),
+                source: 'website',
+                customerName: fullName,
+                guestCount: booking.guest_count,
+                notes: `Auto-claimed from website payment (ref ${booking.booking_ref})`,
+                // The RPC will also auto-pull these from bookings if we don't
+                // pass them, but passing them explicitly avoids an extra query.
+                depositAmount: Number(booking.total_amount) || null,
+                bookingRef: booking.booking_ref ?? null,
+              });
+              claimedTableCode = result.table_code;
+              console.log(`[Allotment] Claimed ${result.table_code} for booking ${booking.booking_ref}`);
+            } catch (err) {
+              const msg = err instanceof Error ? err.message : String(err);
+              if (msg.includes('TM_ALLOTMENT_FULL')) {
+                allotmentFailed = true;
+                console.error(`[Allotment] FULL for ${booking.booking_ref} — auto-cancelling + refunding`);
+                // Mark cancelled and append a note for admin
+                await supabaseAdmin
+                  .from('bookings')
+                  .update({
+                    status: 'cancelled',
+                    admin_notes: `[AUTO] No tables available at booking time. Refunded automatically. Original payment intent: ${paymentIntent.id}`,
+                  })
+                  .eq('id', booking.id);
+                // Issue refund
+                try {
+                  await stripe.refunds.create({
+                    payment_intent: paymentIntent.id,
+                    reason: 'requested_by_customer',
+                    metadata: { reason_code: 'allotment_full', booking_ref: booking.booking_ref },
+                  });
+                  console.log(`[Allotment] Refund issued for ${booking.booking_ref}`);
+                } catch (refundErr) {
+                  console.error(`[Allotment] Refund FAILED for ${booking.booking_ref}:`, refundErr);
+                }
+              } else {
+                // Non-fatal: log but proceed with confirmation. Admin can assign manually.
+                console.error(`[Allotment] Unexpected claim error for ${booking.booking_ref}:`, err);
+              }
+            }
+          }
+        }
+
+        if (booking && booking.booking_customers && !allotmentFailed) {
           // Handle potential array returns from Supabase relations
           const rawCustomer = booking.booking_customers;
           const customer = Array.isArray(rawCustomer) ? rawCustomer[0] : rawCustomer;
@@ -122,6 +182,10 @@ export async function POST(request: NextRequest) {
             price: addon.unit_price,
           })) || [];
 
+          // Look up the zone display name for emails + sync payload
+          const zoneMapping = getZoneForPackage(booking.package_id);
+          const zoneName = zoneMapping?.zoneName ?? null;
+
           // Use Vercel's waitUntil to run background tasks after response is sent
           // This prevents timeout while still completing all tasks
           const backgroundTasks = async () => {
@@ -141,6 +205,7 @@ export async function POST(request: NextRequest) {
                 hasTransfer: !!transport,
                 isPrivateTransfer: transport?.transport_type === 'private',
                 addons,
+                zoneName: zoneName,
               });
               console.log(`Booking confirmation email sent for ${booking.booking_ref}`);
             } catch (err) {
@@ -206,6 +271,9 @@ export async function POST(request: NextRequest) {
                 booking_addons: booking.booking_addons || [],
                 promo_code: booking.promo_code || null,
                 admin_notes: booking.admin_notes || null,
+                zone_id: booking.zone_id || null,
+                zone_name: zoneName,
+                table_code: claimedTableCode,
               });
               if (syncResult.success) {
                 console.log(`[OneBooking] Synced ${booking.booking_ref} to central dashboard`);
@@ -243,10 +311,24 @@ export async function POST(request: NextRequest) {
       const paymentIntentId = charge.payment_intent as string;
 
       if (paymentIntentId) {
-        await supabaseAdmin
+        // Find the booking, update status, then release any allotment block.
+        const { data: refundedBooking } = await supabaseAdmin
           .from('bookings')
           .update({ status: 'refunded' })
-          .eq('stripe_payment_intent_id', paymentIntentId);
+          .eq('stripe_payment_intent_id', paymentIntentId)
+          .select('id, booking_ref')
+          .single();
+
+        if (refundedBooking?.id) {
+          try {
+            const freed = await releaseTable(refundedBooking.id);
+            if (freed > 0) {
+              console.log(`[Allotment] Released ${freed} allotment(s) for refunded booking ${refundedBooking.booking_ref}`);
+            }
+          } catch (err) {
+            console.error(`[Allotment] Failed to release allotment for refunded booking ${refundedBooking.booking_ref}:`, err);
+          }
+        }
       }
       break;
     }

@@ -15,6 +15,8 @@ interface BookingData {
   hasTransfer: boolean;
   isPrivateTransfer?: boolean;
   addons?: Array<{ name: string; quantity: number; price: number }>;
+  /** Optional dining zone (e.g. "Monkey Dome"). Shown to customer; table code is not. */
+  zoneName?: string | null;
 }
 
 export async function sendBookingConfirmationEmail(data: BookingData) {
@@ -43,6 +45,7 @@ export async function sendBookingConfirmationEmail(data: BookingData) {
         hasTransfer: data.hasTransfer,
         isPrivateTransfer: data.isPrivateTransfer,
         addons: data.addons,
+        zoneName: data.zoneName ?? null,
       }),
     });
 

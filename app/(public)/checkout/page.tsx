@@ -1,14 +1,14 @@
 'use client';
 
 import { useState, useEffect, useMemo, Suspense } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { 
   ArrowLeft, Calendar, Clock, Users, MapPin, Car, 
   CreditCard, Lock, ShieldCheck, CheckCircle, AlertCircle,
-  User, Mail, Phone, Pencil, Loader2, Tag, X, Wine, Cake, 
-  UtensilsCrossed, Sparkles, Gift
+  User, Mail, Phone, Pencil, Loader2, Tag, X, Music, Heart, 
+  Flame, Sparkles, Gift, MessageSquare
 } from 'lucide-react';
 import Link from 'next/link';
 import CountryPhoneSelector from '@/components/ui/CountryPhoneSelector';
@@ -17,32 +17,35 @@ import { formatPrice } from '@/lib/utils';
 import StripeCardProvider from '@/components/checkout/StripeCardProvider';
 import EmbeddedCardForm from '@/components/checkout/EmbeddedCardForm';
 
+// Special package IDs (fixed price regardless of guest count)
+const SPECIAL_PACKAGE_IDS = ['ultimate-dinner', 'ultimate-birthday', 'ultimate-romantic-dinner', 'will-you-marry-me'];
+
+const isSpecialPackage = (packageId: string | null): boolean => {
+  if (!packageId) return false;
+  return SPECIAL_PACKAGE_IDS.includes(packageId);
+};
+
+const isPerTablePackage = (pkgId: string | null) => {
+  return pkgId === 'monkey-dome' || pkgId === 'monkey-nest';
+};
+
+const isFixedPricePackage = (pkgId: string | null) => {
+  return isPerTablePackage(pkgId) || isSpecialPackage(pkgId);
+};
+
 const promotionalAddons = [
-  {
-    id: 'wine-pairing',
-    name: 'Wine Pairing',
-    price: 800,
-    icon: Wine,
-  },
-  {
-    id: 'dessert-platter',
-    name: 'Dessert Platter',
-    price: 550,
-    icon: Cake,
-  },
-  {
-    id: 'appetizer-set',
-    name: 'Premium Appetizer Set',
-    price: 750,
-    icon: UtensilsCrossed,
-  },
+  { id: 'violin-dinner', name: 'Private Dinner With Violin 1 Hour', price: 6000, icon: Music },
+  { id: 'saxophone-dinner', name: 'Private Dinner With Saxophone', price: 6000, icon: Music },
+  { id: 'spark-fountain', name: 'Spark Fountain & Smoke Machine', price: 2500, icon: Flame },
+  { id: 'honeymoon-anniversary', name: 'Honeymoon Anniversary', price: 1999, icon: Heart },
+  { id: 'birthday-mini', name: 'Birthday Mini', price: 1200, icon: Gift },
+  { id: 'private-transfer', name: 'Private Round-Trip Transfer', price: 2000, icon: Car },
 ];
 
 const VVIP_TRANSFER_PRICE = 2500;
 
 function CheckoutContent() {
   const searchParams = useSearchParams();
-  const router = useRouter();
   
   // Parse booking data from URL params
   const packageId = searchParams.get('package');
@@ -102,11 +105,14 @@ function CheckoutContent() {
   } | null>(null);
   const [discountAmount, setDiscountAmount] = useState(0);
 
-  // Price calculations
+  // Price calculations - Fixed price for special packages
   const prices = useMemo(() => {
     if (!selectedPackage) return { base: 0, addons: 0, transfer: 0, discount: 0, subtotal: 0, total: 0 };
     
-    const base = selectedPackage.price * guests;
+    // Fixed price for special and per-table packages
+    const base = isFixedPricePackage(selectedPackage.id) 
+      ? selectedPackage.price 
+      : selectedPackage.price * guests;
 
     let addonsTotal = 0;
     Object.entries(addonQuantities).forEach(([addonId, qty]) => {
@@ -328,16 +334,16 @@ function CheckoutContent() {
                 transition={{ delay: 0.1 }}
                 className="bg-[#111] rounded-3xl border border-white/10 overflow-hidden"
               >
-                <div className="p-4 border-b border-white/10 flex items-center justify-between bg-white/5">
+                <div className="p-4 border-b border-white/10 flex items-center justify-between bg-gradient-to-r from-[#b1b94c] to-[#8a9139]">
                   <div className="flex items-center gap-2">
-                    <Calendar className="w-4 h-4 text-[#b1b94c]" />
-                    <h2 className="text-sm font-medium text-white/80 uppercase tracking-wider">
+                    <Calendar className="w-4 h-4 text-black" />
+                    <h2 className="text-sm font-medium text-black uppercase tracking-wider">
                       Your Reservation
                     </h2>
                   </div>
                   <Link 
                     href={editBookingUrl}
-                    className="flex items-center gap-1.5 px-2.5 py-1 text-xs text-white/60 hover:text-[#b1b94c] hover:bg-white/5 rounded-lg transition-colors"
+                    className="flex items-center gap-1.5 px-2.5 py-1 text-xs text-black/70 hover:text-black hover:bg-black/10 rounded-lg transition-colors"
                   >
                     <Pencil className="w-3 h-3" />
                     Edit
@@ -375,28 +381,28 @@ function CheckoutContent() {
                       
                       {/* Booking Details Grid */}
                       <div className="grid grid-cols-2 gap-2">
-                        <div className="flex items-center gap-2 px-3 py-2 bg-white/5 rounded-lg">
+                        <div className="flex items-center gap-2 px-3 py-2 bg-white/5 rounded-lg border border-[#b1b94c]/30">
                           <Calendar className="w-4 h-4 text-[#b1b94c]" />
                           <div className="min-w-0">
                             <p className="text-[10px] text-white/40 uppercase tracking-wider">Date</p>
                             <p className="text-sm text-white font-medium truncate">{formatDisplayDate(date || '').split(',')[0]}</p>
                           </div>
                         </div>
-                        <div className="flex items-center gap-2 px-3 py-2 bg-white/5 rounded-lg">
+                        <div className="flex items-center gap-2 px-3 py-2 bg-white/5 rounded-lg border border-[#b1b94c]/30">
                           <Clock className="w-4 h-4 text-[#b1b94c]" />
                           <div className="min-w-0">
                             <p className="text-[10px] text-white/40 uppercase tracking-wider">Time</p>
                             <p className="text-sm text-white font-medium">{formatTime(time || '')}</p>
                           </div>
                         </div>
-                        <div className="flex items-center gap-2 px-3 py-2 bg-white/5 rounded-lg">
+                        <div className="flex items-center gap-2 px-3 py-2 bg-white/5 rounded-lg border border-[#b1b94c]/30">
                           <Users className="w-4 h-4 text-[#b1b94c]" />
                           <div className="min-w-0">
                             <p className="text-[10px] text-white/40 uppercase tracking-wider">Guests</p>
                             <p className="text-sm text-white font-medium">{guests} {guests === 1 ? 'Person' : 'People'}</p>
                           </div>
                         </div>
-                        <div className="flex items-center gap-2 px-3 py-2 bg-white/5 rounded-lg">
+                        <div className="flex items-center gap-2 px-3 py-2 bg-white/5 rounded-lg border border-[#b1b94c]/30">
                           <Car className="w-4 h-4 text-[#b1b94c]" />
                           <div className="min-w-0">
                             <p className="text-[10px] text-white/40 uppercase tracking-wider">Transfer</p>
@@ -457,17 +463,17 @@ function CheckoutContent() {
                 </div>
               </motion.div>
 
-              {/* Guest Details Form */}
+              {/* Guest Details Form - Dark Theme */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="bg-white rounded-3xl overflow-hidden shadow-lg"
+                className="bg-[#111] rounded-3xl border border-white/10 overflow-hidden"
               >
-                <div className="p-5 border-b border-slate-200 bg-slate-50">
-                  <div className="flex items-center gap-3">
-                    <User className="w-5 h-5 text-[#8a9139]" />
-                    <h2 className="text-lg font-[family-name:var(--font-krona)] text-slate-800 normal-case">
+                <div className="p-4 border-b border-white/10 flex items-center justify-between bg-gradient-to-r from-[#b1b94c] to-[#8a9139]">
+                  <div className="flex items-center gap-2">
+                    <User className="w-4 h-4 text-black" />
+                    <h2 className="text-sm font-medium text-black uppercase tracking-wider">
                       Guest Information
                     </h2>
                   </div>
@@ -476,91 +482,96 @@ function CheckoutContent() {
                 <div className="p-6 space-y-5">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm text-slate-600 mb-2">First Name *</label>
+                      <label className="block text-sm text-white/60 mb-2">First Name *</label>
                       <input
                         type="text"
                         value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
                         placeholder="John"
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-[#b1b94c] focus:ring-2 focus:ring-[#b1b94c]/20"
+                        className="w-full px-4 py-3 bg-white/5 border border-[#b1b94c]/30 rounded-xl text-white placeholder:text-white/30 focus:outline-none focus:border-[#b1b94c] focus:ring-2 focus:ring-[#b1b94c]/20"
                         required
                       />
                     </div>
                     <div>
-                      <label className="block text-sm text-slate-600 mb-2">Last Name *</label>
+                      <label className="block text-sm text-white/60 mb-2">Last Name *</label>
                       <input
                         type="text"
                         value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
                         placeholder="Doe"
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-[#b1b94c] focus:ring-2 focus:ring-[#b1b94c]/20"
+                        className="w-full px-4 py-3 bg-white/5 border border-[#b1b94c]/30 rounded-xl text-white placeholder:text-white/30 focus:outline-none focus:border-[#b1b94c] focus:ring-2 focus:ring-[#b1b94c]/20"
                         required
                       />
                     </div>
                   </div>
                   
                   <div>
-                    <label className="block text-sm text-slate-600 mb-2">Email Address *</label>
+                    <label className="block text-sm text-white/60 mb-2">Email Address *</label>
                     <div className="relative">
-                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
                       <input
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="john@example.com"
-                        className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-[#b1b94c] focus:ring-2 focus:ring-[#b1b94c]/20"
+                        className="w-full pl-12 pr-4 py-3 bg-white/5 border border-[#b1b94c]/30 rounded-xl text-white placeholder:text-white/30 focus:outline-none focus:border-[#b1b94c] focus:ring-2 focus:ring-[#b1b94c]/20"
                         required
                       />
                     </div>
                   </div>
                   
                   <div>
-                    <label className="block text-sm text-slate-600 mb-2">Phone Number *</label>
+                    <label className="block text-sm text-white/60 mb-2">Phone Number *</label>
                     <div className="flex gap-3">
                       <CountryPhoneSelector
                         value={countryCode}
                         onChange={setCountryCode}
                         className="w-28"
+                        variant="dark"
                       />
                       <div className="relative flex-grow">
-                        <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                        <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
                         <input
                           type="tel"
                           value={phone}
                           onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
                           placeholder="812345678"
-                          className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-[#b1b94c] focus:ring-2 focus:ring-[#b1b94c]/20"
+                          className="w-full pl-12 pr-4 py-3 bg-white/5 border border-[#b1b94c]/30 rounded-xl text-white placeholder:text-white/30 focus:outline-none focus:border-[#b1b94c] focus:ring-2 focus:ring-[#b1b94c]/20"
                           required
                         />
                       </div>
                     </div>
                   </div>
                   
-                  <div>
-                    <label className="block text-sm text-slate-600 mb-2">Special Requests (Optional)</label>
-                    <textarea
-                      value={specialRequests}
-                      onChange={(e) => setSpecialRequests(e.target.value)}
-                      placeholder="Dietary requirements, celebrations, accessibility needs..."
-                      rows={3}
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-[#b1b94c] focus:ring-2 focus:ring-[#b1b94c]/20 resize-none"
-                    />
-                  </div>
+                  {/* Display Special Requests if provided from booking page */}
+                  {specialRequests && (
+                    <div>
+                      <label className="block text-sm text-white/60 mb-2">
+                        <span className="flex items-center gap-2">
+                          <MessageSquare className="w-4 h-4 text-[#b1b94c]" />
+                          Special Requests
+                        </span>
+                      </label>
+                      <div className="px-4 py-3 bg-[#b1b94c]/10 border border-[#b1b94c]/20 rounded-xl">
+                        <p className="text-white/80 text-sm whitespace-pre-wrap">{specialRequests}</p>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </motion.div>
             </div>
 
-            {/* Right Column - Order Summary & Payment */}
+            {/* Right Column - Order Summary & Payment - Dark Theme */}
             <div className="lg:col-span-2">
               <div className="sticky top-28">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="bg-white rounded-3xl overflow-hidden shadow-lg"
+                  className="bg-[#111] rounded-3xl border border-white/10 overflow-hidden"
                 >
                   {/* Order Summary Header */}
-                  <div className="p-5 bg-[#b1b94c]">
+                  <div className="p-4 border-b border-white/10 bg-gradient-to-r from-[#b1b94c] to-[#8a9139]">
                     <h2 className="text-lg font-[family-name:var(--font-krona)] text-black normal-case">
                       Order Summary
                     </h2>
@@ -568,14 +579,19 @@ function CheckoutContent() {
                   
                   <div className="p-6">
                     {/* Order Items */}
-                    <div className="space-y-3">
+                    <div className="space-y-4">
                       {/* Base Package */}
-                      <div className="flex justify-between items-start">
+                      <div className="flex justify-between items-start p-3 bg-white/5 rounded-xl">
                         <div>
-                          <p className="text-slate-800 text-sm font-medium">{selectedPackage.name}</p>
-                          <p className="text-slate-400 text-xs">{guests} {guests === 1 ? 'guest' : 'guests'} × {formatPrice(selectedPackage.price)}</p>
+                          <p className="text-white text-sm font-medium">{selectedPackage.name}</p>
+                          <p className="text-white/40 text-xs">
+                            {isFixedPricePackage(selectedPackage.id) 
+                              ? `Package Price (${guests} ${guests === 1 ? 'guest' : 'guests'})`
+                              : `${guests} ${guests === 1 ? 'guest' : 'guests'} × ${formatPrice(selectedPackage.price)}`
+                            }
+                          </p>
                         </div>
-                        <span className="text-slate-800 font-medium">{formatPrice(prices.base)}</span>
+                        <span className="text-white font-medium">{formatPrice(prices.base)}</span>
                       </div>
                       
                       {/* Add-ons */}
@@ -583,38 +599,49 @@ function CheckoutContent() {
                         if (qty <= 0) return null;
                         const addon = promotionalAddons.find(p => p.id === addonId);
                         if (!addon) return null;
+                        const IconComponent = addon.icon;
                         return (
-                          <div key={addonId} className="flex justify-between items-start">
-                            <div>
-                              <p className="text-slate-800 text-sm">{addon.name}</p>
-                              <p className="text-slate-400 text-xs">{qty} × {formatPrice(addon.price)}</p>
+                          <div key={addonId} className="flex justify-between items-center p-3 bg-[#b1b94c]/10 rounded-xl border border-[#b1b94c]/20">
+                            <div className="flex items-center gap-3">
+                              <div className="w-8 h-8 bg-[#b1b94c]/20 rounded-lg flex items-center justify-center">
+                                <IconComponent className="w-4 h-4 text-[#b1b94c]" />
+                              </div>
+                              <div>
+                                <p className="text-white text-sm">{addon.name}</p>
+                                <p className="text-white/40 text-xs">{qty > 1 ? `${qty} × ${formatPrice(addon.price)}` : 'Add-on'}</p>
+                              </div>
                             </div>
-                            <span className="text-green-600 font-medium">+{formatPrice(addon.price * qty)}</span>
+                            <span className="text-[#b1b94c] font-medium">+{formatPrice(addon.price * qty)}</span>
                           </div>
                         );
                       })}
                       
                       {/* Transfer */}
                       {transfer && (
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <p className="text-slate-800 text-sm">VVIP Transfer</p>
-                            <p className="text-slate-400 text-xs">Luxury pickup service</p>
+                        <div className="flex justify-between items-center p-3 bg-white/5 rounded-xl">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center">
+                              <Car className="w-4 h-4 text-white/60" />
+                            </div>
+                            <div>
+                              <p className="text-white text-sm">VVIP Transfer</p>
+                              <p className="text-white/40 text-xs">Luxury pickup service</p>
+                            </div>
                           </div>
-                          <span className="text-slate-800 font-medium">+{formatPrice(prices.transfer)}</span>
+                          <span className="text-white font-medium">+{formatPrice(prices.transfer)}</span>
                         </div>
                       )}
                     </div>
                     
                     {/* Promo Code Section */}
-                    <div className="mt-6 pt-6 border-t border-slate-200">
+                    <div className="mt-6 pt-6 border-t border-white/10">
                       {appliedPromo ? (
-                        <div className="flex items-center justify-between p-3 bg-green-50 rounded-xl border border-green-200">
+                        <div className="flex items-center justify-between p-3 bg-green-500/10 rounded-xl border border-green-500/20">
                           <div className="flex items-center gap-2">
-                            <Tag className="w-4 h-4 text-green-600" />
+                            <Tag className="w-4 h-4 text-green-400" />
                             <div>
-                              <span className="text-green-700 font-medium text-sm">{appliedPromo.code}</span>
-                              <p className="text-green-600 text-xs">
+                              <span className="text-green-400 font-medium text-sm">{appliedPromo.code}</span>
+                              <p className="text-green-400/70 text-xs">
                                 {appliedPromo.discount_type === 'percentage' 
                                   ? `${appliedPromo.discount_value}% off` 
                                   : `${formatPrice(appliedPromo.discount_value)} off`}
@@ -623,7 +650,7 @@ function CheckoutContent() {
                           </div>
                           <button
                             onClick={removePromoCode}
-                            className="p-1.5 text-green-600 hover:bg-green-100 rounded-lg transition-colors"
+                            className="p-1.5 text-green-400 hover:bg-green-500/20 rounded-lg transition-colors"
                           >
                             <X className="w-4 h-4" />
                           </button>
@@ -636,19 +663,19 @@ function CheckoutContent() {
                               value={promoCodeInput}
                               onChange={(e) => setPromoCodeInput(e.target.value.toUpperCase())}
                               placeholder="Promo code"
-                              className="flex-1 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-sm uppercase placeholder:normal-case placeholder:text-slate-400 focus:outline-none focus:border-[#b1b94c] focus:ring-2 focus:ring-[#b1b94c]/20"
+                              className="flex-1 px-4 py-2.5 bg-white/5 border border-[#b1b94c]/30 rounded-xl text-white text-sm uppercase placeholder:normal-case placeholder:text-white/30 focus:outline-none focus:border-[#b1b94c] focus:ring-2 focus:ring-[#b1b94c]/20"
                               onKeyDown={(e) => e.key === 'Enter' && validatePromoCode()}
                             />
                             <button
                               onClick={validatePromoCode}
                               disabled={promoValidating || !promoCodeInput.trim()}
-                              className="px-4 py-2.5 bg-slate-100 text-slate-700 rounded-xl text-sm font-medium hover:bg-slate-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                              className="px-4 py-2.5 bg-white/10 text-white rounded-xl text-sm font-medium hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                             >
                               {promoValidating ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Apply'}
                             </button>
                           </div>
                           {promoError && (
-                            <p className="text-red-500 text-xs mt-2">{promoError}</p>
+                            <p className="text-red-400 text-xs mt-2">{promoError}</p>
                           )}
                         </div>
                       )}
@@ -656,28 +683,28 @@ function CheckoutContent() {
 
                     {/* Discount */}
                     {discountAmount > 0 && (
-                      <div className="flex justify-between mt-4 text-green-600">
+                      <div className="flex justify-between mt-4 text-green-400">
                         <span className="text-sm">Discount</span>
                         <span className="font-medium">-{formatPrice(discountAmount)}</span>
                       </div>
                     )}
                     
                     {/* Total */}
-                    <div className="mt-6 pt-6 border-t border-slate-200">
+                    <div className="mt-6 pt-6 border-t border-white/10">
                       <div className="flex justify-between items-center">
-                        <span className="text-slate-800 font-medium">Total</span>
-                        <span className="text-3xl font-bold text-[#8a9139]">
+                        <span className="text-white/80 font-medium">Total</span>
+                        <span className="text-3xl font-bold text-[#b1b94c]">
                           {formatPrice(prices.total)}
                         </span>
                       </div>
-                      <p className="text-slate-400 text-xs mt-1 text-right">Includes all taxes and fees</p>
+                      <p className="text-white/30 text-xs mt-1 text-right">Includes all taxes and fees</p>
                     </div>
                     
                     {/* Payment Section */}
-                    <div className="mt-6 pt-6 border-t border-slate-200">
+                    <div className="mt-6 pt-6 border-t border-white/10">
                       <div className="flex items-center gap-2 mb-4">
-                        <CreditCard className="w-5 h-5 text-[#8a9139]" />
-                        <h3 className="text-slate-800 font-medium">Payment Details</h3>
+                        <CreditCard className="w-5 h-5 text-[#b1b94c]" />
+                        <h3 className="text-white font-medium">Payment Details</h3>
                       </div>
                       
                       <StripeCardProvider>
@@ -689,18 +716,18 @@ function CheckoutContent() {
                         />
                       </StripeCardProvider>
                       
-                      <div className="flex items-center gap-2 p-3 bg-green-50 rounded-xl border border-green-200 mt-4">
-                        <Lock className="w-4 h-4 text-green-600 flex-shrink-0" />
-                        <span className="text-xs text-green-700">256-bit SSL encryption</span>
+                      <div className="flex items-center gap-2 p-3 bg-green-500/10 rounded-xl border border-green-500/20 mt-4">
+                        <Lock className="w-4 h-4 text-green-400 flex-shrink-0" />
+                        <span className="text-xs text-green-400">256-bit SSL encryption</span>
                       </div>
                     </div>
                     
                     {/* Trust badges */}
-                    <div className="mt-6 pt-6 border-t border-slate-200">
-                      <p className="text-slate-400 text-xs text-center mb-3">
-                        Payment processed by <span className="text-[#8a9139] font-medium">ONEBOOKING</span>
+                    <div className="mt-6 pt-6 border-t border-white/10">
+                      <p className="text-white/30 text-xs text-center mb-3">
+                        Payment processed by <span className="text-[#b1b94c] font-medium">ONEBOOKING</span>
                       </p>
-                      <div className="flex items-center justify-center gap-4 text-slate-400 text-xs">
+                      <div className="flex items-center justify-center gap-4 text-white/40 text-xs">
                         <span className="flex items-center gap-1">
                           <ShieldCheck className="w-4 h-4" />
                           Secure

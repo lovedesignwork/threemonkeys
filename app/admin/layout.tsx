@@ -23,6 +23,7 @@ import {
   Scale,
   PanelLeftClose,
   PanelLeft,
+  Grid3x3,
 } from 'lucide-react';
 import { AuthProvider, useAuth } from '@/contexts/AuthContext';
 
@@ -42,6 +43,7 @@ interface NavItem {
 const navItems: NavItem[] = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/admin/bookings', label: 'Bookings', icon: CalendarCheck },
+  { href: '/admin/allotment', label: 'Allotment', icon: Grid3x3 },
   { href: '/admin/products', label: 'Products', icon: Package },
   { href: '/admin/addons', label: 'Add-ons', icon: Gift },
   { href: '/admin/promo-codes', label: 'Promo Codes', icon: Tag },

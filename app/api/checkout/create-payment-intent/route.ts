@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { stripe, PRIVATE_TRANSFER_PRICE, NON_PLAYER_PRICE } from '@/lib/stripe/client';
 import { supabaseAdmin } from '@/lib/supabase/server';
+import { getZoneForPackage } from '@/lib/allotment/zones';
 
 interface BookingData {
   packageId: string;
@@ -114,6 +115,10 @@ export async function POST(request: NextRequest) {
       await supabaseAdmin.rpc('increment_promo_usage', { promo_id: promoCodeId });
     }
 
+    // Determine the zone for this package (null for special packages that
+    // don't consume allotment automatically - admin assigns those manually later).
+    const zone = getZoneForPackage(packageId);
+
     // Create booking in pending state
     const { data: booking, error: bookingError } = await supabaseAdmin
       .from('bookings')
@@ -127,6 +132,7 @@ export async function POST(request: NextRequest) {
         discount_amount: discountAmount,
         promo_code_id: promoCodeId || null,
         currency: 'THB',
+        zone_id: zone?.zoneId ?? null,
       })
       .select()
       .single();
@@ -191,6 +197,7 @@ export async function POST(request: NextRequest) {
         customer_email: customer.email,
         discount_amount: discountAmount.toString(),
         promo_code_id: promoCodeId || '',
+        zone_id: zone?.zoneId ?? '',
       },
       receipt_email: customer.email,
       statement_descriptor_suffix: 'ONEBOOKING',

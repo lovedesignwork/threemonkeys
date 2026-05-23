@@ -88,13 +88,16 @@ interface CountryPhoneSelectorProps {
   value: string;
   onChange: (value: string) => void;
   className?: string;
+  variant?: 'light' | 'dark';
 }
 
 export default function CountryPhoneSelector({ 
   value, 
   onChange,
-  className = ''
+  className = '',
+  variant = 'light'
 }: CountryPhoneSelectorProps) {
+  const isDark = variant === 'dark';
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
@@ -170,29 +173,37 @@ export default function CountryPhoneSelector({
   const dropdown = isOpen && mounted ? createPortal(
     <div 
       ref={dropdownRef}
-      className="fixed z-[9999] w-72 bg-white border border-slate-200 rounded-xl shadow-2xl overflow-hidden"
+      className={`fixed z-[9999] w-72 rounded-xl shadow-2xl overflow-hidden ${
+        isDark 
+          ? 'bg-[#1a1a1a] border border-white/10' 
+          : 'bg-white border border-slate-200'
+      }`}
       style={{ 
         top: dropdownPosition.top,
         left: dropdownPosition.left,
       }}
     >
-      <div className="p-2 border-b border-slate-100">
+      <div className={`p-2 border-b ${isDark ? 'border-white/10' : 'border-slate-100'}`}>
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+          <Search className={`absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 ${isDark ? 'text-white/40' : 'text-slate-400'}`} />
           <input
             ref={searchInputRef}
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search country..."
-            className="w-full h-9 pl-9 pr-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-800 focus:outline-none focus:border-[#b1b94c]"
+            className={`w-full h-9 pl-9 pr-3 rounded-lg text-sm focus:outline-none focus:border-[#b1b94c] ${
+              isDark 
+                ? 'bg-white/5 border border-white/10 text-white placeholder:text-white/30' 
+                : 'bg-slate-50 border border-slate-200 text-slate-800'
+            }`}
           />
         </div>
       </div>
       
       <div className="max-h-72 overflow-y-auto">
         {filteredCountries.length === 0 ? (
-          <div className="px-4 py-3 text-sm text-slate-500 text-center">
+          <div className={`px-4 py-3 text-sm text-center ${isDark ? 'text-white/50' : 'text-slate-500'}`}>
             No countries found
           </div>
         ) : (
@@ -201,8 +212,10 @@ export default function CountryPhoneSelector({
               key={country.code}
               type="button"
               onClick={() => handleSelect(country)}
-              className={`w-full px-4 py-2.5 flex items-center gap-3 hover:bg-slate-50 transition-colors text-left ${
-                country.dial === value ? 'bg-[#b1b94c]/10' : ''
+              className={`w-full px-4 py-2.5 flex items-center gap-3 transition-colors text-left ${
+                country.dial === value 
+                  ? 'bg-[#b1b94c]/10' 
+                  : isDark ? 'hover:bg-white/5' : 'hover:bg-slate-50'
               }`}
             >
               <img 
@@ -211,9 +224,9 @@ export default function CountryPhoneSelector({
                 className="w-6 h-4 object-cover rounded-sm"
               />
               <div className="flex-grow min-w-0">
-                <span className="text-sm text-slate-800 truncate block">{country.name}</span>
+                <span className={`text-sm truncate block ${isDark ? 'text-white' : 'text-slate-800'}`}>{country.name}</span>
               </div>
-              <span className="text-sm text-slate-500 font-medium">{country.dial}</span>
+              <span className={`text-sm font-medium ${isDark ? 'text-white/60' : 'text-slate-500'}`}>{country.dial}</span>
             </button>
           ))
         )}
@@ -228,7 +241,11 @@ export default function CountryPhoneSelector({
         ref={buttonRef}
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full h-11 px-3 bg-slate-50 border border-slate-400 rounded-xl text-slate-800 text-sm focus:outline-none focus:border-[#b1b94c] flex items-center justify-between gap-1"
+        className={`w-full h-[46px] px-3 rounded-xl text-sm focus:outline-none focus:border-[#b1b94c] flex items-center justify-between gap-1 ${
+          isDark 
+            ? 'bg-white/5 border border-[#b1b94c]/30 text-white hover:border-[#b1b94c]/50' 
+            : 'bg-slate-50 border border-slate-400 text-slate-800'
+        }`}
       >
         <span className="flex items-center gap-2">
           <img 
@@ -238,7 +255,7 @@ export default function CountryPhoneSelector({
           />
           <span className="text-sm font-medium">{selectedCountry.dial}</span>
         </span>
-        <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''} ${isDark ? 'text-white/40' : 'text-slate-400'}`} />
       </button>
       {dropdown}
     </div>

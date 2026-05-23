@@ -2,7 +2,8 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Facebook, Instagram, Youtube, ArrowUpRight, MapPin, Phone, Mail, Clock } from 'lucide-react';
+import { usePathname } from 'next/navigation';
+import { Facebook, Instagram, Youtube, ArrowUpRight, MapPin, Phone, Mail, Clock, MessageCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const navLinks = [
@@ -28,6 +29,9 @@ const socialLinks = [
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const pathname = usePathname();
+  
+  const isBookingOrCheckout = pathname === '/booking' || pathname === '/checkout';
 
   return (
     <footer className="relative bg-[#0a0a0a]">
@@ -35,26 +39,67 @@ export function Footer() {
       <div className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-[#b1b94c]/20 via-[#b1b94c]/10 to-[#b1b94c]/20" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-            <div>
-              <h3 className="text-2xl md:text-3xl font-[family-name:var(--font-krona)] text-white mb-2 normal-case">
-                Ready for an unforgettable meal?
-              </h3>
-              <p className="text-white/50 font-[family-name:var(--font-inter)]">
-                Reserve your table in the rainforest today
-              </p>
+          {isBookingOrCheckout ? (
+            /* Booking/Checkout Support CTA */
+            <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+              <div>
+                <h3 className="text-2xl md:text-3xl font-[family-name:var(--font-krona)] text-white mb-2 normal-case">
+                  Need help with your booking?
+                </h3>
+                <p className="text-white/50 font-[family-name:var(--font-inter)]">
+                  Contact us directly for any questions or assistance
+                </p>
+              </div>
+              <div className="flex flex-col sm:flex-row items-center gap-4">
+                <a 
+                  href="https://wa.me/66980108838?text=Hi,%20I%20need%20help%20with%20my%20booking%20at%20Three%20Monkeys%20Restaurant"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="flex items-center gap-3 px-8 py-4 bg-[#25D366] text-white font-[family-name:var(--font-krona)] rounded-full hover:bg-[#20BD5A] transition-all"
+                  >
+                    <MessageCircle className="w-5 h-5" />
+                    WHATSAPP US
+                  </motion.button>
+                </a>
+                <a href="mailto:enjoy@threemonkeysphuket.com">
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="flex items-center gap-3 px-8 py-4 bg-white/10 border border-white/20 text-white font-[family-name:var(--font-krona)] rounded-full hover:bg-white/20 transition-all"
+                  >
+                    <Mail className="w-5 h-5" />
+                    EMAIL US
+                  </motion.button>
+                </a>
+              </div>
             </div>
-            <Link href="/booking">
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="flex items-center gap-3 px-8 py-4 bg-[#b1b94c] text-black font-[family-name:var(--font-krona)] rounded-full hover:bg-[#c4cc5a] transition-all"
-              >
-                RESERVE A TABLE
-                <ArrowUpRight className="w-5 h-5" />
-              </motion.button>
-            </Link>
-          </div>
+          ) : (
+            /* Default CTA for other pages */
+            <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+              <div>
+                <h3 className="text-2xl md:text-3xl font-[family-name:var(--font-krona)] text-white mb-2 normal-case">
+                  Ready for an unforgettable meal?
+                </h3>
+                <p className="text-white/50 font-[family-name:var(--font-inter)]">
+                  Reserve your table in the rainforest today
+                </p>
+              </div>
+              <Link href="/booking">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="flex items-center gap-3 px-8 py-4 bg-[#b1b94c] text-black font-[family-name:var(--font-krona)] rounded-full hover:bg-[#c4cc5a] transition-all"
+                >
+                  RESERVE A TABLE
+                  <ArrowUpRight className="w-5 h-5" />
+                </motion.button>
+              </Link>
+            </div>
+          )}
         </div>
       </div>
 

@@ -50,6 +50,9 @@ export function buildSyncPayload(
     } | null;
     promo_code?: string | null;
     admin_notes?: string | null;
+    zone_id?: string | null;
+    zone_name?: string | null;
+    table_code?: string | null;
   },
   customer: CustomerData,
   transport: TransportData,
@@ -81,6 +84,9 @@ export function buildSyncPayload(
     created_at: booking.created_at,
     promo_code: booking.promo_code || null,
     notes: booking.admin_notes || null,
+    zone_id: booking.zone_id ?? null,
+    zone_name: booking.zone_name ?? null,
+    table_code: booking.table_code ?? null,
   };
 }
 
@@ -227,6 +233,9 @@ export async function pushBookingToOneBooking(
     }>;
     promo_code?: string | null;
     admin_notes?: string | null;
+    zone_id?: string | null;
+    zone_name?: string | null;
+    table_code?: string | null;
   }
 ): Promise<SyncResponse> {
   // Validate customer email exists before attempting sync
