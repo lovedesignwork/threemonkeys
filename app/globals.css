@@ -770,3 +770,37 @@ h1, h2, h3, h4, h5, h6 {
     transform: scale(0.8) rotate(270deg);
   }
 }
+
+/* ================================
+   CHROME AUTOFILL OVERRIDE
+   Forces dark-theme styling on autofilled inputs so the field doesn't
+   flash to white and hide the icon/text. The 5000s transition delay is
+   a well-known trick to defer Chrome's own background paint forever.
+   Applied globally because all checkout/contact/booking forms share the
+   `bg-white/5 + white text` look.
+   ================================ */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: #ffffff !important;
+  -webkit-box-shadow: 0 0 0px 1000px rgba(255, 255, 255, 0.05) inset !important;
+  caret-color: #ffffff !important;
+  transition: background-color 5000s ease-in-out 0s, color 5000s ease-in-out 0s;
+}
+
+/* For light-theme inputs that should keep dark text on autofill — opt in
+   by adding `data-autofill-light` to the input element. */
+input[data-autofill-light]:-webkit-autofill,
+input[data-autofill-light]:-webkit-autofill:hover,
+input[data-autofill-light]:-webkit-autofill:focus {
+  -webkit-text-fill-color: #0f172a !important;
+  -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
+  caret-color: #0f172a !important;
+}

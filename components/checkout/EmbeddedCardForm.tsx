@@ -216,9 +216,13 @@ export default function EmbeddedCardForm({
       <button
         type="submit"
         disabled={!canSubmit}
-        className="w-full h-14 rounded-xl font-bold text-black flex items-center justify-center gap-2 transition-all hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-[#b1b94c] to-[#8a9139]"
+        className={`w-full h-14 rounded-xl font-bold flex items-center justify-center gap-2 transition-all text-white ${
+          canSubmit
+            ? 'bg-green-600 hover:bg-green-700 cursor-pointer'
+            : 'bg-slate-600/60 text-white/50 cursor-not-allowed'
+        }`}
         style={{
-          boxShadow: canSubmit ? '0 10px 40px rgba(177, 185, 76, 0.3)' : 'none',
+          boxShadow: canSubmit ? '0 10px 40px rgba(22, 163, 74, 0.35)' : 'none',
         }}
       >
         {isProcessing || isCreatingBooking ? (
