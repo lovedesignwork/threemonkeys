@@ -52,7 +52,7 @@ async function syncBooking(booking: Record<string, unknown>): Promise<SyncDetail
       discount_amount: Number(booking.discount_amount) || 0,
       currency: 'THB',
       status: booking.status as string,
-      special_requests: (booking.special_requests as string) || null,
+      special_requests: (customer?.special_requests as string) || null,
       stripe_payment_intent_id: booking.stripe_payment_intent_id as string,
       created_at: booking.created_at as string,
       packages: packages ? {
@@ -64,6 +64,7 @@ async function syncBooking(booking: Record<string, unknown>): Promise<SyncDetail
         email: customer.email as string,
         phone: (customer.phone as string) || null,
         country_code: (customer.country_code as string) || null,
+        special_requests: (customer.special_requests as string) || null,
       } : null,
       transport_type: (transport?.transport_type as string) || null,
       hotel_name: (transport?.hotel_name as string) || null,
@@ -72,6 +73,23 @@ async function syncBooking(booking: Record<string, unknown>): Promise<SyncDetail
       private_passengers: Number(transport?.private_passengers) || 0,
       transport_cost: Number(transport?.transport_cost) || 0,
       booking_addons: bookingAddons,
+      admin_notes: (booking.admin_notes as string) || null,
+      zone_id: (booking.zone_id as string) || null,
+      zone_name: (booking.zone_name as string) || null,
+      table_code: (booking.table_code as string) || null,
+      booking_origin: booking.booking_origin_ip
+        ? {
+            ip: booking.booking_origin_ip as string,
+            country_code: (booking.booking_origin_country_code as string) || '',
+            country_name: (booking.booking_origin_country_name as string) || '',
+          }
+        : null,
+      payment_origin: booking.payment_origin_country_code
+        ? {
+            country_code: booking.payment_origin_country_code as string,
+            country_name: (booking.payment_origin_country_name as string) || '',
+          }
+        : null,
     });
 
     if (syncResult.success) {

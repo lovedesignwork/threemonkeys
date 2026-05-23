@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
       discount_amount: Number(booking.discount_amount) || 0,
       currency: 'THB',
       status: booking.status,
-      special_requests: booking.special_requests || null,
+      special_requests: customer?.special_requests || null,
       stripe_payment_intent_id: booking.stripe_payment_intent_id,
       created_at: booking.created_at,
       packages: booking.packages ? {
@@ -60,6 +60,7 @@ export async function POST(request: NextRequest) {
         email: customer.email,
         phone: customer.phone || null,
         country_code: customer.country_code || null,
+        special_requests: customer.special_requests || null,
       } : null,
       transport_type: transport?.transport_type || null,
       hotel_name: transport?.hotel_name || null,
@@ -68,6 +69,23 @@ export async function POST(request: NextRequest) {
       private_passengers: Number(transport?.private_passengers) || 0,
       transport_cost: Number(transport?.transport_cost) || 0,
       booking_addons: booking.booking_addons || [],
+      admin_notes: booking.admin_notes || null,
+      zone_id: booking.zone_id || null,
+      zone_name: booking.zone_name || null,
+      table_code: booking.table_code || null,
+      booking_origin: booking.booking_origin_ip
+        ? {
+            ip: booking.booking_origin_ip,
+            country_code: booking.booking_origin_country_code || '',
+            country_name: booking.booking_origin_country_name || '',
+          }
+        : null,
+      payment_origin: booking.payment_origin_country_code
+        ? {
+            country_code: booking.payment_origin_country_code,
+            country_name: booking.payment_origin_country_name || '',
+          }
+        : null,
     });
 
     if (syncResult.success) {

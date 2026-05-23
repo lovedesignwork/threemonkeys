@@ -289,7 +289,7 @@ export async function POST(request: NextRequest) {
                 discount_amount: Number(booking.discount_amount) || 0,
                 currency: 'THB',
                 status: 'confirmed',
-                special_requests: booking.special_requests || null,
+                special_requests: customer?.special_requests || null,
                 stripe_payment_intent_id: paymentIntent.id,
                 created_at: booking.created_at,
                 packages: booking.packages ? {
@@ -301,6 +301,7 @@ export async function POST(request: NextRequest) {
                   email: customer.email,
                   phone: customer.phone || null,
                   country_code: customer.country_code || null,
+                  special_requests: customer.special_requests || null,
                 } : null,
                 transport_type: transport?.transport_type || null,
                 hotel_name: transport?.hotel_name || null,

@@ -78,7 +78,10 @@ export function buildSyncPayload(
       email: customer.email,
       phone: customer.phone,
       country_code: customer.country_code,
-      special_requests: booking.special_requests || customer.special_requests,
+      // Prefer the resolved customer-level value (set by
+      // pushBookingToOneBooking) — `booking.special_requests` is not a
+      // real column in our schema.
+      special_requests: customer.special_requests ?? booking.special_requests ?? null,
     },
     transport,
     addons,
@@ -214,6 +217,12 @@ export async function pushBookingToOneBooking(
     discount_amount?: number;
     currency?: string;
     status: string;
+    /**
+     * Customer's typed note from checkout. Lives on
+     * `booking_customers.special_requests` in our schema (NOT on bookings).
+     * Callers can pass it either here at the top level or via
+     * `customers.special_requests` — we read both for safety.
+     */
     special_requests?: string | null;
     stripe_payment_intent_id?: string | null;
     created_at: string;
@@ -223,6 +232,7 @@ export async function pushBookingToOneBooking(
       email: string;
       phone?: string | null;
       country_code?: string | null;
+      special_requests?: string | null;
     } | null;
     transport_type?: string | null;
     hotel_name?: string | null;
@@ -254,12 +264,18 @@ export async function pushBookingToOneBooking(
     };
   }
 
+  // Resolve customer special_requests with a priority order so we never
+  // drop it: prefer the dedicated field on customers, then the legacy
+  // top-level alias.
+  const customerSpecialRequests =
+    bookingData.customers.special_requests ?? bookingData.special_requests ?? null;
+
   const customer: CustomerData = {
     name: bookingData.customers.name || 'Unknown',
     email: bookingData.customers.email,
     phone: bookingData.customers.phone || null,
     country_code: bookingData.customers.country_code || null,
-    special_requests: bookingData.special_requests || null,
+    special_requests: customerSpecialRequests,
   };
 
   const transport: TransportData = {
