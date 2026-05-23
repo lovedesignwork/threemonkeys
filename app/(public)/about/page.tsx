@@ -55,17 +55,17 @@ const experiences = [
   {
     title: 'Monkey Dome',
     description: 'Our signature treehouse dining with panoramic jungle views',
-    image: '/images/Random images/44_resize.jpg',
+    image: '/images/small/small-sized_25.jpg',
   },
   {
-    title: 'Rooftop Zone',
+    title: 'Monkey Nest',
     description: 'Elevated dining under the stars with sunset views',
-    image: '/images/Random images/45_resize.jpg',
+    image: '/images/small/small-sized_52.jpg',
   },
   {
-    title: 'Bamboo Pavilion',
+    title: 'Outdoor Zone',
     description: 'Traditional Thai architecture meets modern comfort',
-    image: '/images/Random images/46_resize.jpg',
+    image: '/images/small/small-sized_01.jpg',
   },
 ];
 
@@ -87,7 +87,7 @@ export default function AboutPage() {
           style={{ y: y1 }}
         >
           <Image
-            src="/images/Random images/47_resize.jpg"
+            src="/images/new/threemonkeys035.jpg"
             alt="Rainforest"
             fill
             className="object-cover scale-110"
@@ -411,7 +411,7 @@ export default function AboutPage() {
       <section className="relative py-32 overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="/images/Random images/48_resize.jpg"
+            src="/images/new/threemonkeys033.jpg"
             alt="Restaurant Ambiance"
             fill
             className="object-cover"

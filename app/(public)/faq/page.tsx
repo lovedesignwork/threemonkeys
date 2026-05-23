@@ -30,19 +30,19 @@ const faqCategories = [
     questions: [
       {
         question: 'How do I make a reservation?',
-        answer: 'You can book directly through our website by selecting your preferred seat or package, date, and time. Simply click the "Book Now" button, fill in your details, and complete the payment. You will receive a confirmation email immediately after booking.',
+        answer: 'You can book directly through our website by selecting your preferred seat or package, date, and time. Simply click the "Book Now" button, fill in your details, and complete the payment. You will receive a confirmation email immediately after booking. Then just present that when you arrive.',
       },
       {
         question: 'Can I modify or cancel my booking?',
-        answer: 'Reservations can be modified or cancelled up to 24 hours before your scheduled time. Please contact our customer service team for assistance. Cancellations made within 24 hours may be subject to a cancellation fee.',
-      },
-      {
-        question: 'Do I need to print my booking confirmation?',
-        answer: 'No, you can show your booking confirmation on your mobile device. Just present your booking reference number or the QR code from your confirmation email when you arrive.',
+        answer: 'Reservations can be modified or cancelled up to 24 hours before your scheduled time. Please contact our customer service team for assistance. Cancellations made within 24 hours may be subject to a cancellation fee depending on your booking type and package.',
       },
       {
         question: 'How far in advance should I book?',
-        answer: 'We recommend booking at least 2-3 days in advance, especially for weekends and special occasions. For our popular zones like Monkey Dome and Monkey Nest, booking 1 week ahead is advisable.',
+        answer: 'We recommend booking at least 2–3 days in advance, especially for weekends and special occasions. For popular zones such as Monkey Dome and Monkey Nest, booking 1 week in advance is highly recommended.',
+      },
+      {
+        question: 'Can we walk in without a reservation?',
+        answer: 'Walk-in guests are welcome. However, as the restaurant is usually busy, we highly recommend making a reservation in advance with a deposit to guarantee your table. Walk-in guests may need to wait depending on table availability.',
       },
     ],
   },
@@ -54,19 +54,19 @@ const faqCategories = [
     questions: [
       {
         question: 'Do you accommodate dietary restrictions?',
-        answer: 'Yes, we can accommodate most dietary requirements including vegetarian, vegan, gluten-free, halal, and common allergies. Please inform us when booking so our chefs can prepare accordingly.',
+        answer: 'Yes. We offer Halal-friendly, Vegetarian, and some allergy-friendly menu options. Please inform us in advance so our chefs can prepare accordingly.',
       },
       {
         question: 'What type of cuisine do you serve?',
-        answer: 'We specialize in authentic Southern Thai cuisine with modern presentation. Our menu features fresh, locally-sourced ingredients including daily catches from the Andaman Sea, prepared by our award-winning chefs.',
+        answer: 'We specialize in authentic Southern Thai cuisine with modern presentation using fresh locally sourced ingredients and premium seafood.',
       },
       {
         question: 'Do you have a dress code?',
-        answer: 'We recommend smart casual attire. While we want you to be comfortable, we ask that guests avoid beachwear, flip-flops, and sleeveless shirts for men during evening service.',
+        answer: 'We recommend smart casual attire. While we want guests to feel comfortable, beachwear, flip-flops, and sleeveless shirts for men are not recommended during evening service.',
       },
       {
         question: 'Can children dine at the restaurant?',
-        answer: 'Absolutely! Families with children are welcome. We have a children\'s menu available and can accommodate special requests for younger guests. We also offer our Mini Monkeys Art Fun activity package for kids.',
+        answer: 'Absolutely. Families and children are welcome. We also provide menu options suitable for younger guests.',
       },
     ],
   },
@@ -78,19 +78,19 @@ const faqCategories = [
     questions: [
       {
         question: 'How long does the dining experience take?',
-        answer: 'Most dining experiences last 2-3 hours, allowing you to fully enjoy your meal and the atmosphere. For special packages like romantic dinners or celebrations, plan for 3+ hours. Please arrive 15 minutes before your scheduled time.',
+        answer: 'Most dining experiences take approximately 2–3 hours depending on your package and dining style. We recommend arriving 15 minutes before your reservation time.',
       },
       {
         question: 'Can I request a specific seat or zone?',
-        answer: 'Yes! You can select your preferred dining zone when booking. Each zone offers a unique experience - from the photogenic Monkey Dome to the romantic Rooftop Zone. We\'ll do our best to accommodate your preferences.',
-      },
-      {
-        question: 'What makes Three Monkeys unique?',
-        answer: 'We\'re the only restaurant in Phuket located inside a rainforest! Dine among ancient trees at Hanuman World, enjoy stunning jungle views, and experience authentic Thai cuisine in a truly magical setting.',
+        answer: 'Yes. Guests can select their preferred dining zone during booking, subject to availability. Each zone offers a unique atmosphere and dining experience.',
       },
       {
         question: 'Can I host a private event or celebration?',
-        answer: 'Yes! We offer special packages for birthdays, anniversaries, proposals, and private events. Our team can help customize decorations, menus, and even arrange photography. Contact us for details.',
+        answer: 'Yes. We offer special packages for birthdays, anniversaries, proposals, honeymoon dinners, and private events. We can also assist with decorations and special arrangements depending on your request.',
+      },
+      {
+        question: 'Do you have live entertainment?',
+        answer: 'Yes. We offer live entertainment throughout the day, including Live Band, DJ, Bongo, and Fire Show. The schedule may change depending on weather conditions, operation requirements, or special events.',
       },
     ],
   },
@@ -101,20 +101,20 @@ const faqCategories = [
     color: 'from-green-500/20 to-emerald-500/20',
     questions: [
       {
-        question: 'What is included in each seat reservation?',
-        answer: 'Seat reservations include your reserved dining zone for up to 3 hours, ambient lighting, and priority service. Food and beverages are ordered separately from our menu. Special packages include additional items like decorations and set menus.',
-      },
-      {
-        question: 'Are there discounts for groups?',
-        answer: 'Yes, we offer special rates for groups of 10 or more. Please contact us directly for group pricing and to discuss your specific requirements.',
+        question: 'Is the deposit refundable?',
+        answer: 'The deposit can be fully redeemed for food and beverages on the day of your visit and is considered the minimum spending for your table. If your spending is lower than the deposit amount, the remaining balance is non-refundable. If your spending exceeds the deposit amount, additional payment will be required based on the final bill.',
       },
       {
         question: 'What payment methods do you accept?',
-        answer: 'We accept all major credit cards (Visa, Mastercard, American Express) through our secure payment gateway. Payment is processed in Thai Baht. Cash payment is also accepted at the restaurant.',
+        answer: 'We accept major credit cards, Google Pay, and cash payments at the restaurant. Payments are processed in Thai Baht.',
       },
       {
         question: 'Do you offer gift vouchers?',
-        answer: 'Yes, we offer gift vouchers for all our dining packages. These make perfect gifts for special occasions and are valid for 6 months from purchase. Contact us to purchase.',
+        answer: 'Yes. Gift vouchers are available for selected dining packages and are valid for 6 months from the purchase date.',
+      },
+      {
+        question: 'Do you have semi-private or private areas?',
+        answer: 'Yes. We have some semi-private seating areas with limited capacity. For exclusive zones, private functions, group events, or special celebrations, please contact us directly via phone or WhatsApp at 098-010-8838 to check availability, conditions, and additional charges depending on the selected zone.',
       },
     ],
   },
@@ -126,19 +126,19 @@ const faqCategories = [
     questions: [
       {
         question: 'Where is Three Monkeys located?',
-        answer: 'We\'re located inside Hanuman World. The address is 105 Moo 4, Muang Chao Fa Rd., Wichit, Mueang Phuket, Phuket 83000, Thailand.',
+        answer: 'Three Monkeys is located inside Hanuman World Phuket at 105 Moo 4, Muang Chao Fa Rd., Wichit, Mueang Phuket, Phuket 83000.',
       },
       {
         question: 'Is parking available?',
-        answer: 'Yes, free parking is available at Hanuman World. Our staff will direct you to the restaurant entrance from the parking area.',
+        answer: 'Yes. Free parking is available at Hanuman World for all restaurant guests.',
       },
       {
         question: 'Do you offer hotel transfers?',
-        answer: 'Yes! We offer VVIP transfer service in our luxury DENZA vehicle. This can be added to your booking for convenient pickup and drop-off from your hotel.',
+        answer: 'Yes. We offer a private round-trip van transfer service within Phuket area, excluding airport pick-up, with a maximum capacity of 10 guests per van. Additional transfer charges may apply, and advance booking is recommended.',
       },
       {
         question: 'What are your opening hours?',
-        answer: 'We\'re open daily from 10AM to 1AM. Last order is at 12AM. We recommend making reservations, especially for dinner service.',
+        answer: 'We are open daily from 10:00 AM – 1:00 AM. Last order is at 12:00 AM (midnight). We recommend arriving before 11:00 PM to fully enjoy our dining experience.',
       },
     ],
   },
@@ -219,7 +219,7 @@ export default function FAQPage() {
       <section className="relative min-h-[50vh] flex items-end justify-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="/images/Random images/32_resize.jpg"
+            src="/images/new/threemonkeys022.jpg"
             alt="FAQ"
             fill
             className="object-cover"
@@ -415,7 +415,7 @@ export default function FAQPage() {
                 Call Us
               </h3>
               <p className="text-[#b1b94c] font-medium">+66 98-010-8838</p>
-              <p className="text-white/40 text-sm mt-2">Daily 10AM - 1AM</p>
+              <p className="text-white/40 text-sm mt-2">Daily 10:00 AM – 1:00 AM</p>
             </motion.a>
 
             {/* Email */}

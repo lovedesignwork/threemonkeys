@@ -62,8 +62,8 @@ export default function SettingsPage() {
 
   const [notifications, setNotifications] = useState<NotificationSettings>({
     emailNotifications: true,
-    bookingNotificationEmails: 'booking@hanumanworldphuket.com',
-    contactNotificationEmails: 'contact@hanumanworldphuket.com',
+    bookingNotificationEmails: 'enjoy@threemonkeysphuket.com',
+    contactNotificationEmails: 'enjoy@threemonkeysphuket.com',
     sendCustomerConfirmation: true,
   });
 

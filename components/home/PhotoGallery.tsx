@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const galleryImages = [
-  { src: '/images/Random images/32_resize.jpg', alt: 'Elegant Restaurant Interior' },
+  { src: '/images/new/threemonkeys049.jpg', alt: 'Elegant Restaurant Interior' },
   { src: '/images/Random images/33_resize.jpg', alt: 'Fine Dining Dish' },
   { src: '/images/Random images/34_resize.jpg', alt: 'Thai Cuisine Presentation' },
   { src: '/images/Random images/35_resize.jpg', alt: 'Cozy Dining Ambiance' },

@@ -24,7 +24,7 @@ const promotionalAddons = [
     originalPrice: null,
     discount: null,
     icon: Music,
-    image: '/images/Random images/32_resize.jpg',
+    image: '/images/by_slide/slide_07/threemonkeys_addon4.jpg',
   },
   {
     id: 'saxophone-dinner',
@@ -34,7 +34,7 @@ const promotionalAddons = [
     originalPrice: null,
     discount: null,
     icon: Music,
-    image: '/images/Random images/33_resize.jpg',
+    image: '/images/by_slide/slide_07/threemonkeys_addon3.jpg',
   },
   {
     id: 'spark-fountain',
@@ -44,7 +44,7 @@ const promotionalAddons = [
     originalPrice: null,
     discount: null,
     icon: Flame,
-    image: '/images/Random images/34_resize.jpg',
+    image: '/images/by_slide/slide_17/sparkfountain.jpg',
   },
   {
     id: 'honeymoon-anniversary',
@@ -54,7 +54,7 @@ const promotionalAddons = [
     originalPrice: null,
     discount: null,
     icon: Heart,
-    image: '/images/Random images/35_resize.jpg',
+    image: '/images/by_slide/slide_07/threemonkeys_addon1.jpg',
   },
   {
     id: 'birthday-mini',
@@ -64,7 +64,7 @@ const promotionalAddons = [
     originalPrice: null,
     discount: null,
     icon: Gift,
-    image: '/images/Random images/42_resize.jpg',
+    image: '/images/by_slide/slide_07/threemonkeys_addon2.jpg',
   },
   {
     id: 'private-transfer',
@@ -370,9 +370,15 @@ function BookingContent() {
     return isPerTablePackage(pkgId) || isSpecialPackage(pkgId);
   };
 
-  // Max guests: Per-table = 4, Special packages = 10, Others = 20
+  // Max guests: Per-table = 4, Bamboo Pavilion = 4, Exclusive Zone 7 = 4, Zone 7 = 50, Special packages = 10, Others = 20
   const getMaxGuestsForPackage = (pkgId: string | null) => {
     if (isPerTablePackage(pkgId)) return 4;
+    if (pkgId === 'bamboo-pavilion') return 4;
+    if (pkgId === 'exclusive-romantic-zone-7') return 4;
+    if (pkgId === 'zone-7') return 50;
+    if (pkgId === 'zone-6') return 50;
+    if (pkgId === 'rooftop-romantic') return 40;
+    if (pkgId === 'indoor-seat' || pkgId === 'outdoor-seat') return 100;
     if (isSpecialPackage(pkgId)) return 10;
     return 20;
   };
@@ -642,6 +648,41 @@ function BookingContent() {
                                     <div className="text-xl font-bold text-[#b1b94c]">฿4,000</div>
                                     <div className="text-xs text-white/40">/ table</div>
                                   </>
+                                ) : selectedPackage.id === 'bamboo-pavilion' ? (
+                                  <>
+                                    <div className="text-xl font-bold text-[#b1b94c]">฿500</div>
+                                    <div className="text-xs text-white/40">/ person (max 4)</div>
+                                  </>
+                                ) : selectedPackage.id === 'exclusive-romantic-zone-7' ? (
+                                  <>
+                                    <div className="text-xl font-bold text-[#b1b94c]">฿500</div>
+                                    <div className="text-xs text-white/40">/ person (max 4)</div>
+                                  </>
+                                ) : selectedPackage.id === 'zone-7' ? (
+                                  <>
+                                    <div className="text-xl font-bold text-[#b1b94c]">฿500</div>
+                                    <div className="text-xs text-white/40">/ person (up to 50)</div>
+                                  </>
+                                ) : selectedPackage.id === 'zone-6' ? (
+                                  <>
+                                    <div className="text-xl font-bold text-[#b1b94c]">฿500</div>
+                                    <div className="text-xs text-white/40">/ person (up to 50)</div>
+                                  </>
+                                ) : selectedPackage.id === 'rooftop-romantic' ? (
+                                  <>
+                                    <div className="text-xl font-bold text-[#b1b94c]">฿500</div>
+                                    <div className="text-xs text-white/40">/ person (up to 40)</div>
+                                  </>
+                                ) : selectedPackage.id === 'monkey-hilltop' ? (
+                                  <>
+                                    <div className="text-xl font-bold text-[#b1b94c]">฿500</div>
+                                    <div className="text-xs text-white/40">/ person (2-4)</div>
+                                  </>
+                                ) : selectedPackage.id === 'indoor-seat' || selectedPackage.id === 'outdoor-seat' ? (
+                                  <>
+                                    <div className="text-xl font-bold text-[#b1b94c]">฿500</div>
+                                    <div className="text-xs text-white/40">/ person (open)</div>
+                                  </>
                                 ) : (
                                   <>
                                     <div className="text-xl font-bold text-[#b1b94c]">฿500</div>
@@ -739,6 +780,41 @@ function BookingContent() {
                                       <>
                                         <span className="text-base font-bold text-[#b1b94c]">฿4,000</span>
                                         <span className="text-white/30 text-[9px] block">/ table</span>
+                                      </>
+                                    ) : pkg.id === 'bamboo-pavilion' ? (
+                                      <>
+                                        <span className="text-base font-bold text-[#b1b94c]">฿500</span>
+                                        <span className="text-white/30 text-[9px] block">/ person (max 4)</span>
+                                      </>
+                                    ) : pkg.id === 'exclusive-romantic-zone-7' ? (
+                                      <>
+                                        <span className="text-base font-bold text-[#b1b94c]">฿500</span>
+                                        <span className="text-white/30 text-[9px] block">/ person (max 4)</span>
+                                      </>
+                                    ) : pkg.id === 'zone-7' ? (
+                                      <>
+                                        <span className="text-base font-bold text-[#b1b94c]">฿500</span>
+                                        <span className="text-white/30 text-[9px] block">/ person (up to 50)</span>
+                                      </>
+                                    ) : pkg.id === 'zone-6' ? (
+                                      <>
+                                        <span className="text-base font-bold text-[#b1b94c]">฿500</span>
+                                        <span className="text-white/30 text-[9px] block">/ person (up to 50)</span>
+                                      </>
+                                    ) : pkg.id === 'rooftop-romantic' ? (
+                                      <>
+                                        <span className="text-base font-bold text-[#b1b94c]">฿500</span>
+                                        <span className="text-white/30 text-[9px] block">/ person (up to 40)</span>
+                                      </>
+                                    ) : pkg.id === 'monkey-hilltop' ? (
+                                      <>
+                                        <span className="text-base font-bold text-[#b1b94c]">฿500</span>
+                                        <span className="text-white/30 text-[9px] block">/ person (2-4)</span>
+                                      </>
+                                    ) : pkg.id === 'indoor-seat' || pkg.id === 'outdoor-seat' ? (
+                                      <>
+                                        <span className="text-base font-bold text-[#b1b94c]">฿500</span>
+                                        <span className="text-white/30 text-[9px] block">/ person (open)</span>
                                       </>
                                     ) : (
                                       <>
@@ -877,8 +953,11 @@ function BookingContent() {
                           <label className="block text-sm font-medium text-white/70 mb-3 flex items-center gap-2">
                             <Clock className="w-4 h-4 text-[#b1b94c]" />
                             Select Time
-                            {(selectedPackageId === 'monkey-dome' || selectedPackageId === 'monkey-nest' || 
+                            {(selectedPackageId === 'monkey-dome' || selectedPackageId === 'monkey-nest' ||
                               selectedPackageId === 'monkey-hilltop' || selectedPackageId === 'bamboo-pavilion' ||
+                              selectedPackageId === 'exclusive-romantic-zone-7' || selectedPackageId === 'zone-7' ||
+                              selectedPackageId === 'zone-6' || selectedPackageId === 'rooftop-romantic' ||
+                              selectedPackageId === 'indoor-seat' || selectedPackageId === 'outdoor-seat' ||
                               isSpecialPackage(selectedPackageId)) && (
                               <span className="text-white/40 text-xs ml-1">
                                 ({availableTimeSlots.length} time slots available)
@@ -922,7 +1001,7 @@ function BookingContent() {
                         <div>
                           <label className="block text-sm font-medium text-white/70 mb-3 flex items-center gap-2">
                             <Users className="w-4 h-4 text-[#b1b94c]" />
-                            Number of Persons {isPerTablePackage(selectedPackageId) && <span className="text-white/40 text-xs">(Max 4 per table)</span>}{isSpecialPackage(selectedPackageId) && <span className="text-white/40 text-xs">(Max 10 persons)</span>}
+                            Number of Persons {isPerTablePackage(selectedPackageId) && <span className="text-white/40 text-xs">(Max 4 per table)</span>}{selectedPackageId === 'bamboo-pavilion' && <span className="text-white/40 text-xs">(Max 4 persons)</span>}{selectedPackageId === 'exclusive-romantic-zone-7' && <span className="text-white/40 text-xs">(Max 4 persons)</span>}{selectedPackageId === 'zone-7' && <span className="text-white/40 text-xs">(Up to 50 persons)</span>}{selectedPackageId === 'zone-6' && <span className="text-white/40 text-xs">(Up to 50 persons)</span>}{selectedPackageId === 'rooftop-romantic' && <span className="text-white/40 text-xs">(Up to 40 persons)</span>}{selectedPackageId === 'monkey-hilltop' && <span className="text-white/40 text-xs">(2-4 persons)</span>}{(selectedPackageId === 'indoor-seat' || selectedPackageId === 'outdoor-seat') && <span className="text-white/40 text-xs">(open seating)</span>}{isSpecialPackage(selectedPackageId) && <span className="text-white/40 text-xs">(Max 10 persons)</span>}
                           </label>
                           <div className="flex items-center gap-3">
                             <button
@@ -1189,8 +1268,22 @@ function BookingContent() {
                               <div>
                                 <p className="text-lg font-[family-name:var(--font-krona)] text-white normal-case">Guests</p>
                                 <p className="text-[#b1b94c] text-sm font-medium">
-                                  {isPerTablePackage(selectedPackageId) 
+                                  {isPerTablePackage(selectedPackageId)
                                     ? <>{formatPrice(selectedPackage.price)} <span className="text-white/40">/ table (max 4)</span></>
+                                    : selectedPackageId === 'bamboo-pavilion'
+                                    ? <>{formatPrice(selectedPackage.price)} <span className="text-white/40">/ person (max 4)</span></>
+                                    : selectedPackageId === 'exclusive-romantic-zone-7'
+                                    ? <>{formatPrice(selectedPackage.price)} <span className="text-white/40">/ person (max 4)</span></>
+                                    : selectedPackageId === 'zone-7'
+                                    ? <>{formatPrice(selectedPackage.price)} <span className="text-white/40">/ person (up to 50)</span></>
+                                    : selectedPackageId === 'zone-6'
+                                    ? <>{formatPrice(selectedPackage.price)} <span className="text-white/40">/ person (up to 50)</span></>
+                                    : selectedPackageId === 'rooftop-romantic'
+                                    ? <>{formatPrice(selectedPackage.price)} <span className="text-white/40">/ person (up to 40)</span></>
+                                    : selectedPackageId === 'monkey-hilltop'
+                                    ? <>{formatPrice(selectedPackage.price)} <span className="text-white/40">/ person (2-4)</span></>
+                                    : selectedPackageId === 'indoor-seat' || selectedPackageId === 'outdoor-seat'
+                                    ? <>{formatPrice(selectedPackage.price)} <span className="text-white/40">/ person (open)</span></>
                                     : isSpecialPackage(selectedPackageId)
                                     ? <>{formatPrice(selectedPackage.price)} <span className="text-white/40">/ package (max 10)</span></>
                                     : <>{formatPrice(selectedPackage.price)} <span className="text-white/40">/ person</span></>

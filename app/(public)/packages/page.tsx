@@ -1,25 +1,51 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, Armchair, Sparkles } from 'lucide-react';
 
+const heroImages = [
+  '/images/new/threemonkeys057.jpg',
+  '/images/new/threemonkeys056.jpg',
+];
+
 export default function PackagesLandingPage() {
+  const [currentImage, setCurrentImage] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImage((prev) => (prev + 1) % heroImages.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <main className="min-h-screen bg-[#0a0a0a]">
       {/* Hero Section */}
-      <section className="relative min-h-[50vh] flex items-end justify-center overflow-hidden">
+      <section className="relative h-[60vh] lg:h-[70vh] flex items-end justify-center overflow-hidden">
         <div className="absolute inset-0">
-          <Image
-            src="/images/Random images/47_resize.jpg"
-            alt="Dining Experience"
-            fill
-            className="object-cover"
-            priority
-            unoptimized
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-[#0a0a0a]" />
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentImage}
+              initial={{ opacity: 0, scale: 1.1 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1 }}
+              className="absolute inset-0"
+            >
+              <Image
+                src={heroImages[currentImage]}
+                alt="Dining Experience"
+                fill
+                className="object-cover"
+                priority
+                unoptimized
+              />
+            </motion.div>
+          </AnimatePresence>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-black/40 to-black/20" />
         </div>
 
         <div className="relative z-10 text-center px-4 pt-32 pb-12">

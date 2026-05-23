@@ -1,12 +1,17 @@
 'use client';
 
-import { useMemo, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { useMemo, useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, Star, ArrowLeft, Heart, Sparkles } from 'lucide-react';
 import { getSeatPackages } from '@/lib/data/packages';
 import { Package } from '@/types';
+
+const heroImages = [
+  '/images/new/threemonkeys048.jpg',
+  '/images/new/threemonkeys042.jpg',
+];
 
 const isRomanticZone = (pkg: Package) => {
   return pkg.id.includes('romantic') || 
@@ -15,6 +20,8 @@ const isRomanticZone = (pkg: Package) => {
 };
 
 export default function SeatsPage() {
+  const [currentImage, setCurrentImage] = useState(0);
+  
   const seatPackages = useMemo(() => {
     const packages = getSeatPackages();
     return packages;
@@ -23,6 +30,14 @@ export default function SeatsPage() {
   // Scroll to top on page mount
   useEffect(() => {
     window.scrollTo(0, 0);
+  }, []);
+
+  // Hero slideshow
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImage((prev) => (prev + 1) % heroImages.length);
+    }, 5000);
+    return () => clearInterval(interval);
   }, []);
 
   // Loading fallback if no packages
@@ -50,17 +65,28 @@ export default function SeatsPage() {
         </defs>
       </svg>
       {/* Hero Section */}
-      <section className="relative min-h-[50vh] flex items-end justify-center overflow-hidden">
+      <section className="relative h-[60vh] lg:h-[70vh] flex items-end justify-center overflow-hidden">
         <div className="absolute inset-0">
-          <Image
-            src="/images/Random images/39_resize.jpg"
-            alt="Our Seats"
-            fill
-            className="object-cover"
-            priority
-            unoptimized
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-[#0a0a0a]" />
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentImage}
+              initial={{ opacity: 0, scale: 1.1 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1 }}
+              className="absolute inset-0"
+            >
+              <Image
+                src={heroImages[currentImage]}
+                alt="Our Seats"
+                fill
+                className="object-cover"
+                priority
+                unoptimized
+              />
+            </motion.div>
+          </AnimatePresence>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-black/40 to-black/20" />
         </div>
 
         <div className="relative z-10 text-center px-4 pt-32 pb-12">
@@ -209,7 +235,7 @@ export default function SeatsPage() {
               <span className="text-sm font-medium text-white/40 uppercase tracking-wider">More Seating Options</span>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {seatPackages.filter(pkg => pkg.id !== 'monkey-dome' && pkg.id !== 'monkey-nest').map((pkg, index) => (
+              {seatPackages.filter(pkg => pkg.id !== 'monkey-dome' && pkg.id !== 'monkey-nest' && pkg.id !== 'indoor-seat' && pkg.id !== 'outdoor-seat').map((pkg, index) => (
               <motion.div
                 key={pkg.id}
                 initial={{ opacity: 0, y: 30 }}
@@ -309,6 +335,84 @@ export default function SeatsPage() {
                 </Link>
               </motion.div>
             ))}
+            </div>
+          </div>
+
+          {/* Open Seating - Indoor & Outdoor */}
+          <div className="mt-16">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-2 h-2 bg-[#b1b94c] rounded-full" />
+              <span className="text-sm font-medium text-[#b1b94c] uppercase tracking-wider">Open Seating — No Reservation Limit</span>
+            </div>
+            <div className="grid md:grid-cols-2 gap-6">
+              {seatPackages.filter(pkg => pkg.id === 'indoor-seat' || pkg.id === 'outdoor-seat').map((pkg, index) => (
+                <motion.div
+                  key={pkg.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05, duration: 0.5 }}
+                >
+                  <Link href={`/packages/${pkg.slug}`} className="group block h-full">
+                    <div className="relative h-full md:min-h-[420px] bg-[#111] rounded-3xl overflow-hidden border-2 border-[#b1b94c]/40 hover:border-[#b1b94c] transition-all duration-500 flex flex-col md:flex-row">
+                      {/* Image - Left Side (60% width) */}
+                      <div className="relative w-full md:w-[60%] aspect-[4/3] md:aspect-auto flex-shrink-0 overflow-hidden">
+                        <Image
+                          src={pkg.image}
+                          alt={pkg.name}
+                          fill
+                          className="object-cover transition-transform duration-700 group-hover:scale-110"
+                          unoptimized
+                        />
+                      </div>
+
+                      {/* Content - Right Side (40% width) */}
+                      <div className="w-full md:w-[40%] p-6 flex flex-col justify-center">
+                        {/* Title */}
+                        <h3 className="text-xl font-[family-name:var(--font-krona)] text-white group-hover:text-[#b1b94c] transition-colors normal-case leading-tight mb-2">
+                          {pkg.name}
+                        </h3>
+                        <p className="text-white/50 text-sm mb-4 font-[family-name:var(--font-inter)]">
+                          {pkg.shortDescription}
+                        </p>
+
+                        {/* Feature Tags */}
+                        <div className="flex flex-wrap gap-2 mb-6">
+                          {pkg.features.slice(0, 3).map((feature, idx) => (
+                            <span
+                              key={idx}
+                              className="px-3 py-1 bg-[#b1b94c]/10 border border-[#b1b94c]/40 rounded-full text-[#b1b94c]/80 text-xs font-[family-name:var(--font-inter)]"
+                            >
+                              {feature}
+                            </span>
+                          ))}
+                        </div>
+
+                        {/* Price Section */}
+                        <div className="mb-4">
+                          <span className="text-white/40 text-xs uppercase tracking-wider block mb-1">Deposit</span>
+                          <div className="flex items-baseline gap-1">
+                            <span className="text-3xl font-bold text-[#b1b94c] font-[family-name:var(--font-krona)]">
+                              ฿500
+                            </span>
+                            <span className="text-white/40 text-sm">/ person</span>
+                          </div>
+                          <span className="text-white/30 text-xs">No reservation limit</span>
+                        </div>
+
+                        {/* Reserve Button */}
+                        <motion.div
+                          className="flex items-center justify-center gap-2 w-full py-3 bg-[#b1b94c] rounded-xl text-black font-semibold text-sm"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                        >
+                          Reserve Now
+                          <ArrowRight className="w-4 h-4" />
+                        </motion.div>
+                      </div>
+                    </div>
+                  </Link>
+                </motion.div>
+              ))}
             </div>
           </div>
         </div>

@@ -12,6 +12,7 @@ export interface Package {
   description: string;
   shortDescription: string;
   price: number;
+  priceType?: 'per-table' | 'per-person';
   duration: string;
   category: 'combined' | 'zone' | 'romantic' | 'celebration' | 'beach' | 'transfer';
   type?: 'seat' | 'special';

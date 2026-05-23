@@ -107,7 +107,7 @@ export default function ContactPage() {
       <section className="relative min-h-[60vh] flex items-end justify-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="/images/Random images/46_resize.jpg"
+            src="/images/new/threemonkeys001.jpg"
             alt="Contact Us"
             fill
             className="object-cover"
@@ -437,7 +437,7 @@ export default function ContactPage() {
       <section className="py-24 relative overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="/images/Random images/48_resize.jpg"
+            src="/images/new/threemonkeys028.jpg"
             alt=""
             fill
             className="object-cover"

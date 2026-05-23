@@ -11,7 +11,7 @@ export function CTABanner() {
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
-          src="/images/Random images/48_resize.jpg"
+          src="/images/new/threemonkeys047.jpg"
           alt="Romantic Dinner Setting"
           fill
           className="object-cover"

@@ -7,10 +7,10 @@ import Link from 'next/link';
 import { ArrowRight, MapPin } from 'lucide-react';
 
 const heroImages = [
-  '/images/by_slide/slide_05/monkey-dome01.jpg',
-  '/images/by_slide/slide_05/monkey-dome02.jpg',
-  '/images/by_slide/slide_05/monkey-dome03.jpg',
-  '/images/by_slide/slide_05/monkey-dome04.jpg',
+  '/images/new/threemonkeys057.jpg',
+  '/images/new/threemonkeys035.jpg',
+  '/images/new/threemonkeys019.jpg',
+  '/images/new/threemonkeys036.jpg',
 ];
 
 export function HeroSlideshow() {

@@ -27,6 +27,8 @@ import {
   Flame,
   Gift,
   Table2,
+  MessageCircle,
+  Mail,
   type LucideIcon
 } from 'lucide-react';
 import { getPackageBySlug, packages } from '@/lib/data/packages';
@@ -71,13 +73,15 @@ export default function PackagePage() {
 
   const otherPackages = packages.filter(p => p.id !== pkg.id && p.category !== 'transfer').slice(0, 3);
   
-  // Gallery images (using main image + slide_05 images)
-  const galleryImages = [
-    pkg.image,
-    '/images/by_slide/slide_05/monkey-dome02.jpg',
-    '/images/by_slide/slide_05/monkey-dome03.jpg',
-    '/images/by_slide/slide_05/monkey-dome04.jpg',
-  ];
+  // Gallery images (use package gallery if available, otherwise default images)
+  const galleryImages = pkg.gallery && pkg.gallery.length > 0 
+    ? pkg.gallery 
+    : [
+        pkg.image,
+        '/images/by_slide/slide_05/monkey-dome02.jpg',
+        '/images/by_slide/slide_05/monkey-dome03.jpg',
+        '/images/by_slide/slide_05/monkey-dome04.jpg',
+      ];
 
   return (
     <main className="min-h-screen bg-[#0a0a0a]">
@@ -167,7 +171,9 @@ export default function PackagePage() {
                   </div>
                   <div className="flex items-center gap-2 text-white/60">
                     <Users className="w-4 h-4 text-[#b1b94c]" />
-                    <span className="text-sm">2-4 guests</span>
+                    <span className="text-sm">
+                      {pkg.id === 'monkey-nest' ? '2-6 guests on Monkey Nest seat only' : pkg.id === 'zone-7' || pkg.id === 'zone-6' ? 'up to 50 guests' : pkg.id === 'rooftop-romantic' ? 'up to 40 guests' : pkg.id === 'indoor-seat' || pkg.id === 'outdoor-seat' ? 'open seating' : '2-4 guests'}
+                    </span>
                   </div>
                   {pkg.includesMeal && (
                     <div className="flex items-center gap-2 text-white/60">
@@ -267,24 +273,196 @@ export default function PackagePage() {
                 </div>
 
                 <div className="grid sm:grid-cols-3 gap-4">
-                  <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
-                    <div className="text-3xl font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
-                      {pkg.stats?.courses || '5'}
-                    </div>
-                    <div className="text-white/50 text-sm">Courses</div>
-                  </div>
-                  <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
-                    <div className="text-3xl font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
-                      100%
-                    </div>
-                    <div className="text-white/50 text-sm">Fresh Ingredients</div>
-                  </div>
-                  <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
-                    <div className="text-3xl font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
-                      4.9
-                    </div>
-                    <div className="text-white/50 text-sm">Guest Rating</div>
-                  </div>
+                  {pkg.id === 'monkey-nest' ? (
+                    <>
+                      <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
+                        <div className="text-3xl font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
+                          360°
+                        </div>
+                        <div className="text-white/50 text-sm">Panoramic View</div>
+                      </div>
+                      <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
+                        <div className="text-3xl font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
+                          100%
+                        </div>
+                        <div className="text-white/50 text-sm">Natural Immersion</div>
+                      </div>
+                      <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
+                        <div className="text-3xl font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
+                          5.0
+                        </div>
+                        <div className="text-white/50 text-sm">Guest Rating</div>
+                      </div>
+                    </>
+                  ) : pkg.id === 'bamboo-pavilion' ? (
+                    <>
+                      <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
+                        <div className="text-2xl font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
+                          Signature
+                        </div>
+                        <div className="text-white/50 text-sm">Decoration</div>
+                      </div>
+                      <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
+                        <div className="text-2xl font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
+                          Romantic
+                        </div>
+                        <div className="text-white/50 text-sm">Area</div>
+                      </div>
+                      <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
+                        <div className="text-3xl font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
+                          5.0
+                        </div>
+                        <div className="text-white/50 text-sm">Guest Rating</div>
+                      </div>
+                    </>
+                  ) : pkg.id === 'exclusive-romantic-zone-7' ? (
+                    <>
+                      <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
+                        <div className="text-2xl font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
+                          Live Shows
+                        </div>
+                        <div className="text-white/50 text-sm">Entertainment</div>
+                      </div>
+                      <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
+                        <div className="text-2xl font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
+                          Good
+                        </div>
+                        <div className="text-white/50 text-sm">Ambience</div>
+                      </div>
+                      <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
+                        <div className="text-3xl font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
+                          5.0
+                        </div>
+                        <div className="text-white/50 text-sm">Guest Rating</div>
+                      </div>
+                    </>
+                  ) : pkg.id === 'zone-6' ? (
+                    <>
+                      <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
+                        <div className="text-xl font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
+                          Iconic
+                        </div>
+                        <div className="text-white/50 text-sm">Giant Tree</div>
+                      </div>
+                      <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
+                        <div className="text-2xl font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
+                          Night
+                        </div>
+                        <div className="text-white/50 text-sm">Ambience</div>
+                      </div>
+                      <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
+                        <div className="text-3xl font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
+                          5.0
+                        </div>
+                        <div className="text-white/50 text-sm">Guest Rating</div>
+                      </div>
+                    </>
+                  ) : pkg.id === 'rooftop-romantic' ? (
+                    <>
+                      <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
+                        <div className="text-lg font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
+                          Panoramic
+                        </div>
+                        <div className="text-white/50 text-sm">Views</div>
+                      </div>
+                      <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
+                        <div className="text-xl font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
+                          Live
+                        </div>
+                        <div className="text-white/50 text-sm">Shows</div>
+                      </div>
+                      <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
+                        <div className="text-3xl font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
+                          5.0
+                        </div>
+                        <div className="text-white/50 text-sm">Guest Rating</div>
+                      </div>
+                    </>
+                  ) : pkg.id === 'monkey-hilltop' ? (
+                    <>
+                      <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
+                        <div className="text-lg font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
+                          Vibrant
+                        </div>
+                        <div className="text-white/50 text-sm">Atmosphere</div>
+                      </div>
+                      <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
+                        <div className="text-lg font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
+                          Ultimate
+                        </div>
+                        <div className="text-white/50 text-sm">Privacy</div>
+                      </div>
+                      <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
+                        <div className="text-3xl font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
+                          5.0
+                        </div>
+                        <div className="text-white/50 text-sm">Guest Rating</div>
+                      </div>
+                    </>
+                  ) : pkg.id === 'indoor-seat' ? (
+                    <>
+                      <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
+                        <div className="text-lg font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
+                          Indoor
+                        </div>
+                        <div className="text-white/50 text-sm">Setting</div>
+                      </div>
+                      <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
+                        <div className="text-lg font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
+                          Climate
+                        </div>
+                        <div className="text-white/50 text-sm">Controlled</div>
+                      </div>
+                      <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
+                        <div className="text-3xl font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
+                          5.0
+                        </div>
+                        <div className="text-white/50 text-sm">Guest Rating</div>
+                      </div>
+                    </>
+                  ) : pkg.id === 'outdoor-seat' ? (
+                    <>
+                      <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
+                        <div className="text-lg font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
+                          Outdoor
+                        </div>
+                        <div className="text-white/50 text-sm">Setting</div>
+                      </div>
+                      <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
+                        <div className="text-lg font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
+                          Fresh
+                        </div>
+                        <div className="text-white/50 text-sm">Air</div>
+                      </div>
+                      <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
+                        <div className="text-3xl font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
+                          5.0
+                        </div>
+                        <div className="text-white/50 text-sm">Guest Rating</div>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
+                        <div className="text-3xl font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
+                          {pkg.stats?.courses || '5'}
+                        </div>
+                        <div className="text-white/50 text-sm">Courses</div>
+                      </div>
+                      <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
+                        <div className="text-3xl font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
+                          100%
+                        </div>
+                        <div className="text-white/50 text-sm">Fresh Ingredients</div>
+                      </div>
+                      <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
+                        <div className="text-3xl font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
+                          4.9
+                        </div>
+                        <div className="text-white/50 text-sm">Guest Rating</div>
+                      </div>
+                    </>
+                  )}
                 </div>
               </motion.div>
 
@@ -327,7 +505,9 @@ export default function PackagePage() {
                       <span className="text-4xl font-[family-name:var(--font-krona)] text-black">
                         {formatPrice(pkg.price)}
                       </span>
-                      <span className="text-black/60">/table</span>
+                      <span className="text-black/60">
+                        {pkg.priceType === 'per-person' ? '/ person' : '/table'}
+                      </span>
                     </div>
                   </div>
 
@@ -338,7 +518,9 @@ export default function PackagePage() {
                     </div>
                     <div className="flex items-center justify-between text-sm">
                       <span className="text-black/60">Capacity</span>
-                      <span className="text-black font-medium">2-4 guests</span>
+                      <span className="text-black font-medium">
+                        {pkg.id === 'monkey-nest' ? '2-6 guests' : pkg.id === 'zone-7' || pkg.id === 'zone-6' ? 'up to 50 guests' : pkg.id === 'rooftop-romantic' ? 'up to 40 guests' : pkg.id === 'indoor-seat' || pkg.id === 'outdoor-seat' ? 'open seating' : '2-4 guests'}
+                      </span>
                     </div>
                     {pkg.includesMeal && (
                       <div className="flex items-center gap-2 text-black/80 text-sm">
@@ -378,6 +560,32 @@ export default function PackagePage() {
                       <div>
                         <div className="text-white text-sm font-medium">+66 98-010-8838</div>
                         <div className="text-white/40 text-xs">Call for reservations</div>
+                      </div>
+                    </a>
+                    <a
+                      href="https://wa.me/66980108838"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 text-white/60 hover:text-[#b1b94c] transition-colors"
+                    >
+                      <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center">
+                        <MessageCircle className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="text-white text-sm font-medium">WhatsApp</div>
+                        <div className="text-white/40 text-xs">Message us anytime</div>
+                      </div>
+                    </a>
+                    <a
+                      href="mailto:enjoy@threemonkeysphuket.com"
+                      className="flex items-center gap-3 text-white/60 hover:text-[#b1b94c] transition-colors"
+                    >
+                      <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center">
+                        <Mail className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="text-white text-sm font-medium">enjoy@threemonkeysphuket.com</div>
+                        <div className="text-white/40 text-xs">Email inquiries</div>
                       </div>
                     </a>
                     <a
