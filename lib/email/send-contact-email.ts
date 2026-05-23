@@ -59,10 +59,14 @@ export async function sendContactFormEmail(data: ContactFormData) {
     const customerResult = await resend.emails.send({
       from: EMAIL_FROM,
       to: data.email,
-      subject: `Thank you for contacting Hanuman World Phuket`,
+      subject: `Thank you for contacting Three Monkeys Restaurant Phuket`,
       react: ContactAutoReply({
         name: data.name,
+        email: data.email,
+        phone: data.phone,
         subject: data.subject,
+        message: data.message,
+        submittedAt,
       }),
     });
 
