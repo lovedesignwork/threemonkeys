@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 
 const navLinks = [
   { name: 'Home', href: '/' },
-  { name: 'Our Seats', href: '/packages' },
+  { name: 'Our Seats', href: '/seats' },
   { name: 'About', href: '/about' },
   { name: 'Blog', href: '/blog' },
   { name: 'FAQ', href: '/faq' },
@@ -68,9 +68,9 @@ export function Footer() {
                 <Image
                   src="/images/3M logo.png"
                   alt="Three Monkeys"
-                  width={100}
-                  height={100}
-                  className="h-16 w-auto"
+                  width={160}
+                  height={160}
+                  className="h-[102px] w-auto"
                   unoptimized
                 />
               </Link>
@@ -162,7 +162,7 @@ export function Footer() {
                 <div className="flex items-center gap-3">
                   <Clock className="w-4 h-4 text-[#b1b94c] flex-shrink-0" />
                   <p className="text-white/70 text-sm font-[family-name:var(--font-inter)]">
-                    Open Daily 10AM – 01AM
+                    Open Daily 10AM – 1AM
                   </p>
                 </div>
               </div>

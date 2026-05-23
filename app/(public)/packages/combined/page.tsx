@@ -23,11 +23,11 @@ export default function CombinedPackagesPage() {
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative py-24 bg-[#1a1a1a] overflow-hidden">
+      <section className="relative min-h-[50vh] flex items-end justify-center bg-[#1a1a1a] overflow-hidden">
         <div className="absolute inset-0 bg-[url('/images/Random images/43_resize.jpg')] bg-cover bg-center opacity-20" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#1a1a1a] via-transparent to-[#1a1a1a]" />
         
-        <Container className="relative z-10">
+        <Container className="relative z-10 pt-32 pb-12">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}

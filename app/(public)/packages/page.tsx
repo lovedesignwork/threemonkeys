@@ -9,7 +9,7 @@ export default function PackagesLandingPage() {
   return (
     <main className="min-h-screen bg-[#0a0a0a]">
       {/* Hero Section */}
-      <section className="relative min-h-[50vh] flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[50vh] flex items-end justify-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src="/images/Random images/47_resize.jpg"
@@ -22,7 +22,7 @@ export default function PackagesLandingPage() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-[#0a0a0a]" />
         </div>
 
-        <div className="relative z-10 text-center px-4 py-32">
+        <div className="relative z-10 text-center px-4 pt-32 pb-12">
           <motion.span
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

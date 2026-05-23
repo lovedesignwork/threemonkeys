@@ -138,7 +138,7 @@ const faqCategories = [
       },
       {
         question: 'What are your opening hours?',
-        answer: 'We\'re open daily from 10AM to 01AM. Last order is at 12AM. We recommend making reservations, especially for dinner service.',
+        answer: 'We\'re open daily from 10AM to 1AM. Last order is at 12AM. We recommend making reservations, especially for dinner service.',
       },
     ],
   },
@@ -216,7 +216,7 @@ export default function FAQPage() {
       <FAQSchema faqs={allFAQs} />
       
       {/* Hero Section */}
-      <section className="relative min-h-[50vh] flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[50vh] flex items-end justify-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src="/images/Random images/32_resize.jpg"
@@ -229,7 +229,7 @@ export default function FAQPage() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-[#0a0a0a]" />
         </div>
 
-        <div className="relative z-10 text-center px-4 py-32 max-w-4xl mx-auto">
+        <div className="relative z-10 text-center px-4 pt-32 pb-12 max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -415,7 +415,7 @@ export default function FAQPage() {
                 Call Us
               </h3>
               <p className="text-[#b1b94c] font-medium">+66 98-010-8838</p>
-              <p className="text-white/40 text-sm mt-2">Daily 10AM - 01AM</p>
+              <p className="text-white/40 text-sm mt-2">Daily 10AM - 1AM</p>
             </motion.a>
 
             {/* Email */}

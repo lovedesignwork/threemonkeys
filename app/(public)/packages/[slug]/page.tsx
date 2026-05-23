@@ -16,9 +16,45 @@ import {
   Calendar,
   ChevronLeft,
   Sparkles,
-  Heart
+  Heart,
+  Music,
+  Wine,
+  Flower2,
+  Camera,
+  Car,
+  Cake,
+  PartyPopper,
+  Flame,
+  Gift,
+  Table2,
+  type LucideIcon
 } from 'lucide-react';
 import { getPackageBySlug, packages } from '@/lib/data/packages';
+
+const getIconForInclusion = (text: string, index: number): LucideIcon => {
+  const lowerText = text.toLowerCase();
+  
+  if (lowerText.includes('saxophone')) return Music;
+  if (lowerText.includes('band') || lowerText.includes('bongo')) return PartyPopper;
+  if (lowerText.includes('prosecco') || lowerText.includes('wine') || lowerText.includes('champagne')) return Wine;
+  if (lowerText.includes('flower') || lowerText.includes('rose')) return Flower2;
+  if (lowerText.includes('bouquet')) return Gift;
+  if (lowerText.includes('photo')) return Camera;
+  if (lowerText.includes('video')) return Sparkles;
+  if (lowerText.includes('transfer') || lowerText.includes('pick-up') || lowerText.includes('round-trip')) return Car;
+  if (lowerText.includes('cake')) return Cake;
+  if (lowerText.includes('balloon')) return PartyPopper;
+  if (lowerText.includes('spark') || lowerText.includes('fountain')) return Flame;
+  if (lowerText.includes('fire show')) return Flame;
+  if (lowerText.includes('smoke')) return Sparkles;
+  if (lowerText.includes('honeymoon')) return Heart;
+  if (lowerText.includes('table setting') || lowerText.includes('themed table')) return Table2;
+  if (lowerText.includes('decoration')) return Sparkles;
+  if (lowerText.includes('elegant')) return Star;
+  
+  const fallbackIcons = [Sparkles, Star, Heart, Gift, Flower2, Music, Camera, Flame];
+  return fallbackIcons[index % fallbackIcons.length];
+};
 import { formatPrice } from '@/lib/utils';
 import { notFound } from 'next/navigation';
 import { useState } from 'react';
@@ -164,20 +200,53 @@ export default function PackagePage() {
                 </div>
 
                 <div className="grid sm:grid-cols-2 gap-3">
-                  {pkg.included.map((item, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.2 + index * 0.05 }}
-                      className="flex items-center gap-3 p-4 bg-white/5 rounded-xl"
-                    >
-                      <div className="w-6 h-6 bg-[#b1b94c] rounded-full flex items-center justify-center flex-shrink-0">
-                        <Check className="w-3.5 h-3.5 text-black" />
-                      </div>
-                      <span className="text-white/80 text-sm font-[family-name:var(--font-inter)]">{item}</span>
-                    </motion.div>
-                  ))}
+                  {pkg.included.map((item, index) => {
+                    const IconComponent = getIconForInclusion(item, index);
+                    return (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.2 + index * 0.05 }}
+                        className="group flex items-center gap-4 p-4 bg-white/5 rounded-xl"
+                      >
+                        <div className="relative flex items-center justify-center flex-shrink-0 w-10 h-10">
+                          <motion.div
+                            className="absolute w-10 h-10 rounded-full blur-md"
+                            animate={{ 
+                              scale: [1, 1.5, 1],
+                              opacity: [0.3, 0.6, 0.3],
+                              backgroundColor: ['#b1b94c', '#f0e68c', '#b1b94c']
+                            }}
+                            transition={{ 
+                              duration: 4,
+                              repeat: Infinity,
+                              ease: "easeInOut",
+                              delay: index * 0.25
+                            }}
+                          />
+                          <motion.div
+                            animate={{ 
+                              scale: [1, 1.15, 1],
+                              color: ['#b1b94c', '#f0e68c', '#b1b94c']
+                            }}
+                            transition={{ 
+                              duration: 4,
+                              repeat: Infinity,
+                              ease: "easeInOut",
+                              delay: index * 0.25
+                            }}
+                            style={{ color: '#b1b94c' }}
+                          >
+                            <IconComponent className="relative z-10 w-7 h-7 drop-shadow-[0_0_10px_currentColor]" style={{ color: 'inherit' }} />
+                          </motion.div>
+                        </div>
+                        <span className="text-white/80 text-sm font-[family-name:var(--font-inter)]">
+                          {item}
+                        </span>
+                      </motion.div>
+                    );
+                  })}
                 </div>
               </motion.div>
 
@@ -311,8 +380,8 @@ export default function PackagePage() {
                         <div className="text-white/40 text-xs">Call for reservations</div>
                       </div>
                     </a>
-                    <a 
-                      href="https://maps.app.goo.gl/threemonkeys"
+                    <a
+                      href="https://maps.app.goo.gl/hk5Z7PQUHnmz6tVB6"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-3 text-white/60 hover:text-[#b1b94c] transition-colors"

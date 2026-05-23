@@ -57,7 +57,7 @@ export default function RefundPage() {
   return (
     <main className="min-h-screen bg-[#0a0a0a]">
       {/* Hero Section */}
-      <section className="relative min-h-[50vh] flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[50vh] flex items-end justify-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src="/images/Random images/44_resize.jpg"
@@ -69,7 +69,7 @@ export default function RefundPage() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-[#0a0a0a]" />
         </div>
         
-        <div className="relative z-10 text-center px-4 py-32 max-w-4xl mx-auto">
+        <div className="relative z-10 text-center px-4 pt-32 pb-12 max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -254,7 +254,7 @@ export default function RefundPage() {
                           </div>
                           <div className="flex items-center gap-3 text-white/70">
                             <Mail className="w-5 h-5 text-green-400 flex-shrink-0" />
-                            <span><span className="text-white font-medium">How to Cancel:</span> Email support@threemonkeys.com</span>
+                            <span><span className="text-white font-medium">How to Cancel:</span> Email enjoy@threemonkeysphuket.com</span>
                           </div>
                         </div>
                       </div>
@@ -320,7 +320,7 @@ export default function RefundPage() {
                           </li>
                           <li className="flex items-start gap-3">
                             <ChevronRight className="w-5 h-5 text-[#b1b94c] flex-shrink-0 mt-0.5" />
-                            <span>Submit the certificate to support@threemonkeys.com within 7 days</span>
+                            <span>Submit the certificate to enjoy@threemonkeysphuket.com within 7 days</span>
                           </li>
                           <li className="flex items-start gap-3">
                             <ChevronRight className="w-5 h-5 text-[#b1b94c] flex-shrink-0 mt-0.5" />
@@ -472,7 +472,7 @@ export default function RefundPage() {
                               <span className="text-[#b1b94c] font-medium text-sm">1</span>
                             </div>
                             <div>
-                              <p className="text-white font-medium mb-1">Email support@threemonkeys.com with:</p>
+                              <p className="text-white font-medium mb-1">Email enjoy@threemonkeysphuket.com with:</p>
                               <ul className="text-white/60 text-sm space-y-1 ml-4">
                                 <li>• Your booking reference number</li>
                                 <li>• Reason for cancellation</li>
@@ -575,7 +575,7 @@ export default function RefundPage() {
                           <div className="w-8 h-8 rounded-full bg-orange-500/20 flex items-center justify-center flex-shrink-0">
                             <span className="text-orange-400 font-medium text-sm">1</span>
                           </div>
-                          <p className="text-white/70">Contact us at support@threemonkeys.com with your booking reference</p>
+                          <p className="text-white/70">Contact us at enjoy@threemonkeysphuket.com with your booking reference</p>
                         </div>
                         <div className="flex items-start gap-4">
                           <div className="w-8 h-8 rounded-full bg-orange-500/20 flex items-center justify-center flex-shrink-0">
@@ -615,7 +615,7 @@ export default function RefundPage() {
                           <h3 className="text-lg font-medium text-white">For Refund Requests</h3>
                         </div>
                         <div className="space-y-2 text-white/70">
-                          <p>support@threemonkeys.com</p>
+                          <p>enjoy@threemonkeysphuket.com</p>
                           <p className="text-sm text-white/50">Include your booking reference</p>
                         </div>
                       </div>

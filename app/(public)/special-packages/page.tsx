@@ -1,19 +1,24 @@
 'use client';
 
+import { useMemo, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, ArrowLeft, Clock, Star } from 'lucide-react';
+import { ArrowRight, ArrowLeft, CalendarClock } from 'lucide-react';
 import { getSpecialPackages } from '@/lib/data/packages';
 import { formatPrice } from '@/lib/utils';
 
-const specialPackages = getSpecialPackages();
-
 export default function SpecialPackagesPage() {
+  const specialPackages = useMemo(() => getSpecialPackages(), []);
+  
+  // Scroll to top on page mount
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <main className="min-h-screen bg-[#0a0a0a]">
       {/* Hero Section */}
-      <section className="relative min-h-[50vh] flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[50vh] flex items-end justify-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src="/images/Random images/40_resize.jpg"
@@ -26,7 +31,7 @@ export default function SpecialPackagesPage() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-[#0a0a0a]" />
         </div>
 
-        <div className="relative z-10 text-center px-4 py-32">
+        <div className="relative z-10 text-center px-4 pt-32 pb-12">
           {/* Back Link */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -65,25 +70,37 @@ export default function SpecialPackagesPage() {
           >
             Create unforgettable memories with our specially curated packages for every occasion
           </motion.p>
+          
+          {/* Advance Booking Notice */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-amber-500/20 border border-amber-500/40 rounded-full"
+          >
+            <CalendarClock className="w-4 h-4 text-amber-400" />
+            <span className="text-amber-400 text-sm font-medium">
+              All special packages require advance booking at least 1 day before
+            </span>
+          </motion.div>
         </div>
       </section>
 
       {/* Packages Grid */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 gap-6">
             {specialPackages.map((pkg, index) => (
               <motion.div
                 key={pkg.id}
                 initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.05 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05, duration: 0.5 }}
               >
                 <Link href={`/packages/${pkg.slug}`} className="group block h-full">
-                  <div className="relative h-full bg-[#111] rounded-3xl overflow-hidden border border-white/10 hover:border-[#b1b94c]/50 transition-all duration-500">
-                    {/* Image */}
-                    <div className="relative aspect-[4/3] overflow-hidden">
+                  <div className="relative h-full md:min-h-[420px] bg-[#111] rounded-3xl overflow-hidden border-2 border-[#b1b94c]/40 hover:border-[#b1b94c] transition-all duration-500 flex flex-col md:flex-row">
+                    {/* Image - Left Side (60% width) */}
+                    <div className="relative w-full md:w-[60%] aspect-[4/3] md:aspect-auto flex-shrink-0 overflow-hidden">
                       <Image
                         src={pkg.image}
                         alt={pkg.name}
@@ -91,59 +108,58 @@ export default function SpecialPackagesPage() {
                         className="object-cover transition-transform duration-700 group-hover:scale-110"
                         unoptimized
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#111] via-black/30 to-transparent" />
                       
-                      {/* Duration Badge */}
-                      <div className="absolute top-4 left-4 px-3 py-1.5 bg-black/60 backdrop-blur-sm rounded-full flex items-center gap-1.5">
-                        <Clock className="w-3.5 h-3.5 text-white/80" />
-                        <span className="text-white/80 text-xs">{pkg.duration}</span>
-                      </div>
-                      
-                      {/* Popular/Featured Badge */}
-                      {(pkg.popular || pkg.featured) && (
-                        <div className="absolute top-4 right-4 px-3 py-1.5 bg-[#b1b94c] rounded-full flex items-center gap-1.5">
-                          <Star className="w-3.5 h-3.5 text-black fill-current" />
-                          <span className="text-black text-xs font-semibold">
-                            {pkg.popular ? 'Popular' : 'Featured'}
-                          </span>
+                      {/* Advance Booking Badge - Only Badge */}
+                      <div className="absolute top-4 left-4">
+                        <div className="px-3 py-1.5 bg-amber-500/90 backdrop-blur-sm rounded-full flex items-center gap-1.5">
+                          <CalendarClock className="w-3.5 h-3.5 text-black" />
+                          <span className="text-black text-xs font-semibold">Book 1 Day Ahead</span>
                         </div>
-                      )}
+                      </div>
                     </div>
 
-                    {/* Content */}
-                    <div className="p-6">
-                      <h3 className="text-lg font-[family-name:var(--font-krona)] text-white mb-2 group-hover:text-[#b1b94c] transition-colors normal-case line-clamp-2">
+                    {/* Content - Right Side (40% width) */}
+                    <div className="w-full md:w-[40%] p-6 flex flex-col justify-center">
+                      {/* Title */}
+                      <h3 className="text-xl font-[family-name:var(--font-krona)] text-white group-hover:text-[#b1b94c] transition-colors normal-case leading-tight mb-2">
                         {pkg.name}
                       </h3>
-                      <p className="text-white/50 text-sm leading-relaxed mb-4 font-[family-name:var(--font-inter)] line-clamp-2">
+                      <p className="text-white/50 text-sm mb-4 font-[family-name:var(--font-inter)]">
                         {pkg.shortDescription}
                       </p>
                       
-                      {/* Features */}
-                      <div className="flex flex-wrap gap-1.5 mb-4">
-                        {pkg.features.slice(0, 3).map((feature) => (
-                          <span
-                            key={feature}
-                            className="px-2 py-0.5 bg-white/5 rounded-full text-white/50 text-xs"
+                      {/* Feature Tags */}
+                      <div className="flex flex-wrap gap-2 mb-6">
+                        {pkg.features.slice(0, 3).map((feature, idx) => (
+                          <span 
+                            key={idx}
+                            className="px-3 py-1 bg-[#b1b94c]/10 border border-[#b1b94c]/40 rounded-full text-[#b1b94c]/80 text-xs font-[family-name:var(--font-inter)]"
                           >
                             {feature}
                           </span>
                         ))}
                       </div>
                       
-                      {/* Price & CTA */}
-                      <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                        <div>
-                          <span className="text-white/40 text-xs">From</span>
-                          <div className="text-lg font-bold text-[#b1b94c]">
+                      {/* Price Section */}
+                      <div className="mb-4">
+                        <span className="text-white/40 text-xs uppercase tracking-wider block mb-1">Package Price</span>
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-3xl font-bold text-[#b1b94c] font-[family-name:var(--font-krona)]">
                             {formatPrice(pkg.price)}
-                          </div>
+                          </span>
+                          <span className="text-white/40 text-sm">total</span>
                         </div>
-                        <span className="flex items-center gap-1 text-[#b1b94c] text-sm font-medium group-hover:gap-2 transition-all">
-                          Book
-                          <ArrowRight className="w-4 h-4" />
-                        </span>
                       </div>
+                      
+                      {/* Book Button */}
+                      <motion.div
+                        className="flex items-center justify-center gap-2 w-full py-3 bg-[#b1b94c] rounded-xl text-black font-semibold text-sm"
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        Book Now
+                        <ArrowRight className="w-4 h-4" />
+                      </motion.div>
                     </div>
                   </div>
                 </Link>
@@ -169,8 +185,8 @@ export default function SpecialPackagesPage() {
         <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
           >
             <h2 className="text-3xl md:text-4xl font-[family-name:var(--font-krona)] text-black mb-4 normal-case">
               Have Something Unique in Mind?

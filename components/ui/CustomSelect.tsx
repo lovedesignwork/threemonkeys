@@ -1,122 +1,111 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Check } from 'lucide-react';
 
-export interface SelectOption {
+interface Option {
   value: string;
   label: string;
-  icon?: React.ReactNode;
-  description?: string;
-  color?: string;
-  bgColor?: string;
 }
 
 interface CustomSelectProps {
   value: string;
   onChange: (value: string) => void;
-  options: SelectOption[];
+  options: Option[];
   placeholder?: string;
   className?: string;
-  size?: 'sm' | 'md' | 'lg';
-  showIcons?: boolean;
 }
 
-export function CustomSelect({
-  value,
-  onChange,
-  options,
-  placeholder = 'Select...',
-  className = '',
-  size = 'md',
-  showIcons = false,
+export function CustomSelect({ 
+  value, 
+  onChange, 
+  options, 
+  placeholder = 'Select...', 
+  className = '' 
 }: CustomSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  const selectedOption = options.find(opt => opt.value === value);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+    function handleClickOutside(event: MouseEvent) {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
-    };
+    }
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const sizeClasses = {
-    sm: 'px-3 py-1.5 text-sm',
-    md: 'px-4 py-2.5 text-sm',
-    lg: 'px-4 py-3 text-base',
-  };
-
-  const optionSizeClasses = {
-    sm: 'px-3 py-2 text-sm',
-    md: 'px-4 py-2.5 text-sm',
-    lg: 'px-4 py-3 text-base',
-  };
+  const selectedOption = options.find(opt => opt.value === value);
 
   return (
-    <div className={`relative ${className}`} ref={dropdownRef}>
+    <div ref={containerRef} className={`relative ${className}`}>
+      {/* Trigger Button */}
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className={`w-full flex items-center justify-between ${sizeClasses[size]} border-2 rounded-xl transition-all duration-200 ${
-          isOpen
-            ? 'border-[#1a237e] ring-2 ring-[#1a237e]/20'
-            : 'border-slate-200 hover:border-slate-300'
-        } bg-white text-left`}
+        className={`
+          w-full h-12 px-4 pr-10 bg-white/5 border-2 rounded-xl text-sm text-left
+          transition-all duration-200 cursor-pointer
+          ${isOpen 
+            ? 'border-[#b1b94c] bg-white/10' 
+            : 'border-white/10 hover:border-white/20'
+          }
+          ${selectedOption ? 'text-white' : 'text-white/50'}
+        `}
       >
-        <div className="flex items-center gap-2 min-w-0">
-          {showIcons && selectedOption?.icon && (
-            <span className={selectedOption.color || 'text-slate-600'}>
-              {selectedOption.icon}
-            </span>
-          )}
-          <span className={`truncate ${selectedOption ? 'text-slate-800' : 'text-slate-400'}`}>
-            {selectedOption?.label || placeholder}
-          </span>
-        </div>
-        <ChevronDown
-          className={`w-4 h-4 text-slate-400 flex-shrink-0 ml-2 transition-transform duration-200 ${
-            isOpen ? 'rotate-180' : ''
-          }`}
+        {selectedOption ? selectedOption.label : placeholder}
+        <ChevronDown 
+          className={`
+            absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40
+            transition-transform duration-200
+            ${isOpen ? 'rotate-180' : ''}
+          `}
         />
       </button>
 
-      {isOpen && (
-        <div className="absolute z-50 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden max-h-60 overflow-y-auto">
-          {options.map((option) => (
-            <button
-              key={option.value}
-              type="button"
-              onClick={() => {
-                onChange(option.value);
-                setIsOpen(false);
-              }}
-              className={`w-full flex items-center gap-2 ${optionSizeClasses[size]} transition-colors text-left ${
-                value === option.value
-                  ? 'bg-[#1a237e]/5 text-[#1a237e]'
-                  : 'hover:bg-slate-50 text-slate-700'
-              }`}
-            >
-              {showIcons && option.icon && (
-                <span className={value === option.value ? 'text-[#1a237e]' : option.color || 'text-slate-500'}>
-                  {option.icon}
-                </span>
-              )}
-              <span className="flex-1 truncate">{option.label}</span>
-              {value === option.value && (
-                <Check className="w-4 h-4 text-[#1a237e] flex-shrink-0" />
-              )}
-            </button>
-          ))}
-        </div>
-      )}
+      {/* Dropdown Menu */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -8, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -8, scale: 0.96 }}
+            transition={{ duration: 0.15, ease: 'easeOut' }}
+            className="absolute z-50 mt-2 w-full bg-[#1a1a1a] border-2 border-[#b1b94c]/40 rounded-xl shadow-2xl overflow-hidden"
+          >
+            <div className="max-h-[240px] overflow-y-auto custom-scrollbar py-1">
+              {options.map((option) => {
+                const isSelected = option.value === value;
+                return (
+                  <button
+                    key={option.value}
+                    type="button"
+                    onClick={() => {
+                      onChange(option.value);
+                      setIsOpen(false);
+                    }}
+                    className={`
+                      w-full px-4 py-2.5 text-sm text-left flex items-center justify-between
+                      transition-colors duration-150
+                      ${isSelected 
+                        ? 'bg-[#b1b94c]/20 text-[#b1b94c]' 
+                        : 'text-white/70 hover:bg-white/10 hover:text-white'
+                      }
+                    `}
+                  >
+                    <span>{option.label}</span>
+                    {isSelected && (
+                      <Check className="w-4 h-4 text-[#b1b94c]" />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
-
-export default CustomSelect;

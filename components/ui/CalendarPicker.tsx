@@ -108,57 +108,54 @@ export function CalendarPicker({ value, onChange, minDate }: CalendarPickerProps
   const canGoPrev = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1) > minDateObj;
 
   return (
-    <div ref={containerRef} className="relative">
+    <div ref={containerRef} className="relative z-30">
       <div className="relative">
-        <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+        <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full h-11 pl-10 pr-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-sm focus:outline-none focus:border-[#b1b94c] text-left"
+          className="w-full h-12 pl-12 pr-4 bg-white/5 border-2 border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-[#b1b94c] text-left hover:border-white/20 transition-all"
         >
           {value ? formatDisplayDate(value) : 'Select date'}
         </button>
       </div>
 
       {isOpen && (
-        <div 
-          className="absolute z-50 mt-2 bg-white rounded-xl p-6 shadow-xl"
-          style={{ border: '3px solid #b1b94c', minWidth: '340px' }}
-        >
+        <div className="absolute z-50 mt-2 bg-[#1a1a1a] rounded-2xl p-5 shadow-2xl border-2 border-[#b1b94c]/40" style={{ minWidth: '320px' }}>
           {/* Header */}
-          <div className="mb-6 flex items-center justify-between">
+          <div className="mb-4 flex items-center justify-between">
             <button
               type="button"
               onClick={prevMonth}
               disabled={!canGoPrev}
-              className="rounded-lg p-2 hover:bg-gray-100 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+              className="rounded-lg p-2 hover:bg-white/10 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
             >
-              <ChevronLeft className="h-5 w-5 text-gray-600" />
+              <ChevronLeft className="h-5 w-5 text-white/60" />
             </button>
-            <h3 className="text-gray-900" style={{ fontSize: '22px', fontWeight: 400 }}>
+            <h3 className="text-white font-medium text-lg">
               {MONTHS[currentMonth.getMonth()]} {currentMonth.getFullYear()}
             </h3>
             <button
               type="button"
               onClick={nextMonth}
-              className="rounded-lg p-2 hover:bg-gray-100 transition-colors"
+              className="rounded-lg p-2 hover:bg-white/10 transition-colors"
             >
-              <ChevronRight className="h-5 w-5 text-gray-600" />
+              <ChevronRight className="h-5 w-5 text-white/60" />
             </button>
           </div>
 
           {/* Weekday Headers */}
-          <div className="mb-3 grid grid-cols-7 gap-2 text-center text-sm font-medium text-gray-500">
+          <div className="mb-2 grid grid-cols-7 gap-1 text-center text-xs font-medium text-white/40">
             {WEEKDAYS.map((day) => (
-              <div key={day} className="py-2 w-10">{day}</div>
+              <div key={day} className="py-2 w-9">{day}</div>
             ))}
           </div>
 
           {/* Calendar Grid */}
-          <div className="grid grid-cols-7 gap-2">
+          <div className="grid grid-cols-7 gap-1">
             {/* Empty cells before month start */}
             {Array.from({ length: firstDay }).map((_, i) => (
-              <div key={`empty-${i}`} className="w-10 h-10" />
+              <div key={`empty-${i}`} className="w-9 h-9" />
             ))}
 
             {/* Day buttons */}
@@ -175,16 +172,15 @@ export function CalendarPicker({ value, onChange, minDate }: CalendarPickerProps
                     onClick={() => handleDateSelect(day)}
                     disabled={disabled}
                     className={`
-                      w-10 h-10 flex items-center justify-center rounded-full text-sm font-medium transition-all
+                      w-9 h-9 flex items-center justify-center rounded-lg text-sm font-medium transition-all
                       ${selected 
-                        ? 'text-white' 
+                        ? 'bg-[#b1b94c] text-black font-semibold' 
                         : disabled 
-                          ? 'text-gray-300 cursor-not-allowed' 
-                          : 'bg-green-100 text-green-700 hover:bg-green-200 cursor-pointer'
+                          ? 'text-white/20 cursor-not-allowed' 
+                          : 'text-white/70 hover:bg-[#b1b94c]/20 hover:text-[#b1b94c] cursor-pointer'
                       }
-                      ${todayDate && !selected ? 'ring-2 ring-offset-2 ring-blue-500' : ''}
+                      ${todayDate && !selected ? 'ring-2 ring-[#b1b94c]/50' : ''}
                     `}
-                    style={selected ? { backgroundColor: '#b1b94c', color: '#000' } : undefined}
                   >
                     {day}
                   </button>
@@ -194,20 +190,14 @@ export function CalendarPicker({ value, onChange, minDate }: CalendarPickerProps
           </div>
 
           {/* Legend */}
-          <div className="mt-6 pt-4 border-t border-gray-100 flex items-center justify-center gap-8 text-sm">
+          <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-center gap-6 text-xs">
             <div className="flex items-center gap-2">
-              <span 
-                className="h-3 w-3 rounded-full bg-green-100"
-                style={{ border: '1px solid #BBF7D0' }}
-              />
-              <span className="text-gray-600">Available</span>
+              <span className="h-2.5 w-2.5 rounded-full bg-white/20 ring-2 ring-[#b1b94c]/50" />
+              <span className="text-white/50">Today</span>
             </div>
             <div className="flex items-center gap-2">
-              <span 
-                className="h-3 w-3 rounded-full"
-                style={{ backgroundColor: '#b1b94c' }}
-              />
-              <span className="text-gray-600">Selected</span>
+              <span className="h-2.5 w-2.5 rounded-full bg-[#b1b94c]" />
+              <span className="text-white/50">Selected</span>
             </div>
           </div>
         </div>

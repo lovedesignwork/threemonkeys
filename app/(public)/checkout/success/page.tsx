@@ -323,7 +323,7 @@ function SuccessContent() {
         >
           <p className="text-slate-500 text-xs mb-2">Need help with your booking?</p>
           <div className="flex justify-center gap-4">
-            <a href="mailto:support@threemonkeys.com" className="flex items-center gap-1 text-white/80 hover:text-white text-sm transition-colors">
+            <a href="mailto:enjoy@threemonkeysphuket.com" className="flex items-center gap-1 text-white/80 hover:text-white text-sm transition-colors">
               <Mail className="w-4 h-4" /> Email
             </a>
             <a href="tel:+66629795533" className="flex items-center gap-1 text-white/80 hover:text-white text-sm transition-colors">

@@ -8,13 +8,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Phone, Mail } from 'lucide-react';
 
 const navigation = [
-  { name: 'Home', href: '/' },
-  { name: 'Our Seats', href: '/seats' },
-  { name: 'Special Packages', href: '/special-packages' },
-  { name: 'About', href: '/about' },
-  { name: 'Blog', href: '/blog' },
-  { name: 'FAQ', href: '/faq' },
-  { name: 'Contact', href: '/contact' },
+  { name: 'Home', href: '/', lines: ['Home'], hidden: false },
+  { name: 'Menu', href: '/menu', lines: ['Menu'], hidden: false },
+  { name: 'Our Seats', href: '/seats', lines: ['Our', 'Seats'], hidden: false },
+  { name: 'Special Packages', href: '/special-packages', lines: ['Special', 'Packages'], hidden: false },
+  { name: 'About', href: '/about', lines: ['About'], hidden: false },
+  { name: 'Blog', href: '/blog', lines: ['Blog'], hidden: true }, // Hidden - can be shown later
+  { name: 'FAQ', href: '/faq', lines: ['FAQ'], hidden: false },
+  { name: 'Contact', href: '/contact', lines: ['Contact'], hidden: false },
 ];
 
 export function Header() {
@@ -65,18 +66,20 @@ export function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-6">
-            {navigation.map((item) => (
+          <nav className="hidden lg:flex items-center gap-5">
+            {navigation.filter(item => !item.hidden).map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className={`block py-2 font-[family-name:var(--font-krona)] text-sm font-medium uppercase tracking-widest transition-colors ${
+                className={`flex flex-col items-center justify-center py-2 font-[family-name:var(--font-krona)] text-xs font-medium uppercase tracking-widest transition-colors leading-tight text-center ${
                   pathname === item.href
                     ? 'text-[#b1b94c]'
                     : 'text-white/80 hover:text-white'
                 }`}
               >
-                {item.name}
+                {item.lines.map((line, idx) => (
+                  <span key={idx}>{line}</span>
+                ))}
               </Link>
             ))}
           </nav>
@@ -112,7 +115,7 @@ export function Header() {
           >
             <div className="flex h-full flex-col justify-between p-6 pb-24">
               <nav className="flex flex-col space-y-4">
-                {navigation.map((item) => (
+                {navigation.filter(item => !item.hidden).map((item) => (
                   <div key={item.name} className="border-b border-white/10 pb-4">
                     <Link
                       href={item.href}

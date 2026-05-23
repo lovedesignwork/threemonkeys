@@ -6,4 +6,5 @@ export * from './Badge';
 export * from './SectionHeader';
 export * from './CalendarPicker';
 export * from './CustomSelect';
+export * from './CountryCodeSelect';
 export { default as CountryPhoneSelector } from './CountryPhoneSelector';

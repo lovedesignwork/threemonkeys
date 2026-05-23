@@ -21,7 +21,7 @@ export const resend = {
   }
 };
 
-export const EMAIL_FROM = 'Three Monkeys <support@threemonkeys.com>';
+export const EMAIL_FROM = 'Three Monkeys <enjoy@threemonkeysphuket.com>';
 
 // Parse comma-separated emails into array
 export function parseEmails(emailString: string): string[] {
@@ -58,8 +58,8 @@ export async function getNotificationSettings() {
   } catch {
     return {
       emailNotifications: true,
-      bookingNotificationEmails: 'booking@threemonkeys.com',
-      contactNotificationEmails: 'contact@threemonkeys.com',
+      bookingNotificationEmails: 'enjoy@threemonkeysphuket.com',
+      contactNotificationEmails: 'enjoy@threemonkeysphuket.com',
       sendCustomerConfirmation: true,
     };
   }

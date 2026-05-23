@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, MapPin, Play } from 'lucide-react';
+import { ArrowRight, MapPin } from 'lucide-react';
 
 const heroImages = [
   '/images/Random images/32_resize.jpg',
@@ -96,9 +96,6 @@ export function HeroSlideshow() {
                   RESERVE A TABLE
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </Link>
-                <button className="flex h-14 w-14 items-center justify-center rounded-full border border-white/30 bg-black/20 text-white backdrop-blur-md transition-all hover:border-white hover:bg-white/10">
-                  <Play className="ml-1 h-5 w-5 fill-current" />
-                </button>
               </div>
 
               {/* Progress & Controls */}

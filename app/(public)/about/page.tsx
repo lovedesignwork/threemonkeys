@@ -81,7 +81,7 @@ export default function AboutPage() {
   return (
     <main ref={containerRef} className="min-h-screen bg-[#0a0a0a]">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-screen flex items-end justify-center overflow-hidden">
         <motion.div 
           className="absolute inset-0"
           style={{ y: y1 }}
@@ -98,7 +98,7 @@ export default function AboutPage() {
         
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-[#0a0a0a]" />
         
-        <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
+        <div className="relative z-10 text-center px-4 pb-24 max-w-5xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -520,7 +520,7 @@ export default function AboutPage() {
                   <div>
                     <p className="text-white font-medium mb-1">Opening Hours</p>
                     <p className="text-white/50 font-[family-name:var(--font-inter)]">
-                      Daily: 10AM – 01AM<br />
+                      Daily: 10AM – 1AM<br />
                       Last Order: 12AM
                     </p>
                   </div>
@@ -535,7 +535,7 @@ export default function AboutPage() {
                   </button>
                 </Link>
                 <a
-                  href="https://maps.google.com/?q=Three+Monkeys+Restaurant+Phuket"
+                  href="https://maps.app.goo.gl/hk5Z7PQUHnmz6tVB6"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-6 py-3 border border-white/20 text-white font-medium rounded-full hover:bg-white hover:text-black transition-all"

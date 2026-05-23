@@ -9,7 +9,7 @@ const contactDetails = [
     label: 'Location',
     value: 'Inside Hanuman World',
     detail: 'Wichit, Phuket 83000',
-    href: 'https://maps.app.goo.gl/threemonkeys',
+    href: 'https://maps.app.goo.gl/hk5Z7PQUHnmz6tVB6',
   },
   {
     icon: Phone,
@@ -28,7 +28,7 @@ const contactDetails = [
   {
     icon: Clock,
     label: 'Open Hours',
-    value: '10AM – 01AM',
+    value: '10AM – 1AM',
     detail: 'Open Daily',
   },
 ];
@@ -113,7 +113,7 @@ export function Location() {
 
             {/* Floating Get Directions Card */}
             <motion.a
-              href="https://maps.app.goo.gl/threemonkeys"
+              href="https://maps.app.goo.gl/hk5Z7PQUHnmz6tVB6"
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.02 }}

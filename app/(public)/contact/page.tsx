@@ -18,6 +18,7 @@ import {
   Navigation,
   Sparkles
 } from 'lucide-react';
+import { CustomSelect, CountryCodeSelect } from '@/components/ui';
 
 const contactMethods = [
   {
@@ -55,6 +56,7 @@ export default function ContactPage() {
     subject: '',
     message: '',
   });
+  const [countryCode, setCountryCode] = useState('+66');
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -65,12 +67,16 @@ export default function ContactPage() {
     setError(null);
     
     try {
+      const fullPhone = formData.phone ? `${countryCode} ${formData.phone}` : '';
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          phone: fullPhone,
+        }),
       });
 
       const data = await response.json();
@@ -81,6 +87,7 @@ export default function ContactPage() {
 
       setSent(true);
       setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+      setCountryCode('+66');
       setTimeout(() => setSent(false), 10000);
     } catch (err) {
       console.error('Contact form error:', err);
@@ -97,7 +104,7 @@ export default function ContactPage() {
   return (
     <main className="min-h-screen bg-[#0a0a0a]">
       {/* Hero Section */}
-      <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[60vh] flex items-end justify-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src="/images/Random images/46_resize.jpg"
@@ -110,7 +117,7 @@ export default function ContactPage() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-[#0a0a0a]" />
         </div>
 
-        <div className="relative z-10 text-center px-4 py-32 max-w-4xl mx-auto">
+        <div className="relative z-10 text-center px-4 pt-32 pb-12 max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -184,8 +191,8 @@ export default function ContactPage() {
             {/* Contact Form - Takes 3 columns */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
               className="lg:col-span-3"
             >
               <div className="bg-[#111] rounded-3xl p-8 md:p-10 border border-white/10">
@@ -272,36 +279,43 @@ export default function ContactPage() {
                       <label className="block text-sm font-medium text-white/70 mb-2 font-[family-name:var(--font-inter)]">
                         Phone Number
                       </label>
-                      <input
-                        type="tel"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        className="w-full px-5 py-4 bg-[#0a0a0a] border border-white/10 rounded-xl focus:outline-none focus:border-[#b1b94c]/50 focus:bg-[#0a0a0a] transition-all text-white placeholder:text-white/30 font-[family-name:var(--font-inter)]"
-                        placeholder="+66 XX XXX XXXX"
-                      />
+                      <div className="flex gap-2">
+                        <div className="w-[100px] flex-shrink-0">
+                          <CountryCodeSelect
+                            value={countryCode}
+                            onChange={setCountryCode}
+                            placeholder="Code"
+                          />
+                        </div>
+                        <input
+                          type="tel"
+                          name="phone"
+                          value={formData.phone}
+                          onChange={handleChange}
+                          className="min-w-0 flex-1 px-4 py-4 bg-[#0a0a0a] border border-white/10 rounded-xl focus:outline-none focus:border-[#b1b94c]/50 focus:bg-[#0a0a0a] transition-all text-white placeholder:text-white/30 font-[family-name:var(--font-inter)]"
+                          placeholder="98 010 8838"
+                        />
+                      </div>
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-white/70 mb-2 font-[family-name:var(--font-inter)]">
                         Subject *
                       </label>
-                      <select
-                        name="subject"
+                      <CustomSelect
                         value={formData.subject}
-                        onChange={handleChange}
-                        required
-                        className="w-full px-5 py-4 bg-[#0a0a0a] border border-white/10 rounded-xl focus:outline-none focus:border-[#b1b94c]/50 transition-all text-white font-[family-name:var(--font-inter)]"
-                      >
-                        <option value="">Select a topic</option>
-                        <option value="reservation">Reservation Inquiry</option>
-                        <option value="modification">Booking Modification</option>
-                        <option value="cancellation">Cancellation Request</option>
-                        <option value="group">Group Booking (10+)</option>
-                        <option value="event">Special Event / Celebration</option>
-                        <option value="transfer">VVIP Transfer Service</option>
-                        <option value="feedback">Feedback</option>
-                        <option value="other">Other</option>
-                      </select>
+                        onChange={(value) => setFormData({ ...formData, subject: value })}
+                        placeholder="Select a topic"
+                        options={[
+                          { value: 'reservation', label: 'Reservation Inquiry' },
+                          { value: 'modification', label: 'Booking Modification' },
+                          { value: 'cancellation', label: 'Cancellation Request' },
+                          { value: 'group', label: 'Group Booking (10+)' },
+                          { value: 'event', label: 'Special Event / Celebration' },
+                          { value: 'transfer', label: 'VVIP Transfer Service' },
+                          { value: 'feedback', label: 'Feedback' },
+                          { value: 'other', label: 'Other' },
+                        ]}
+                      />
                     </div>
                   </div>
 
@@ -344,8 +358,8 @@ export default function ContactPage() {
             {/* Sidebar - Takes 2 columns */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
               className="lg:col-span-2 space-y-6"
             >
               {/* Location Card */}
@@ -377,7 +391,7 @@ export default function ContactPage() {
                     Thailand
                   </p>
                   <a
-                    href="https://maps.google.com/?q=Three+Monkeys+Restaurant+Phuket"
+                    href="https://maps.app.goo.gl/hk5Z7PQUHnmz6tVB6"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 text-[#b1b94c] text-sm font-medium hover:underline"
@@ -401,7 +415,7 @@ export default function ContactPage() {
                 <div className="space-y-3">
                   <div className="flex justify-between items-center py-2 border-b border-white/5">
                     <span className="text-white/60 font-[family-name:var(--font-inter)]">Monday - Sunday</span>
-                    <span className="text-white font-medium">10AM – 01AM</span>
+                    <span className="text-white font-medium">10AM – 1AM</span>
                   </div>
                   <div className="flex justify-between items-center py-2">
                     <span className="text-white/60 font-[family-name:var(--font-inter)]">Last Order</span>
@@ -416,42 +430,6 @@ export default function ContactPage() {
               </div>
             </motion.div>
           </div>
-        </div>
-      </section>
-
-      {/* Map Section */}
-      <section className="py-16 bg-[#111]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-10"
-          >
-            <h2 className="text-3xl font-[family-name:var(--font-krona)] text-white mb-4 normal-case">
-              Find Us in the Rainforest
-            </h2>
-            <p className="text-white/50 font-[family-name:var(--font-inter)]">
-              Located inside Hanuman World, Kathu, Phuket
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="rounded-3xl overflow-hidden border border-white/10 h-[400px]"
-          >
-            <iframe
-              src="https://www.openstreetmap.org/export/embed.html?bbox=98.30%2C7.92%2C98.32%2C7.94&layer=mapnik&marker=7.93%2C98.31"
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              title="Three Monkeys Location"
-            />
-          </motion.div>
         </div>
       </section>
 

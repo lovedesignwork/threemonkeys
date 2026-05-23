@@ -60,9 +60,38 @@ h1, h2, h3, h4, h5, h6 {
   background: var(--primary-dark);
 }
 
+/* Custom scrollbar for dark theme elements */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(177, 185, 76, 0.4);
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(177, 185, 76, 0.6);
+}
+
 /* ================================
    UTILITY CLASSES
    ================================ */
+
+/* Hide scrollbar */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
 
 .section-padding {
   padding-top: 5rem;

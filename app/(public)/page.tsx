@@ -28,8 +28,8 @@ export default function HomePage() {
   return (
     <main className="min-h-screen bg-[#0f0f0f]">
       <HeroSlideshow />
-      <SpecialPackages />
       <FeaturedPackages />
+      <SpecialPackages />
       <WhyChooseUs />
       <MenuShowcase />
       <PhotoGallery />
