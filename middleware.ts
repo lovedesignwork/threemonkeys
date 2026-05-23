@@ -65,6 +65,17 @@ export function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
+  // Bypass for logged-in admins. Our auth flow stores the Supabase session in
+  // localStorage (see lib/supabase/auth.ts), so we set a small flag cookie
+  // `tm_admin=1` on login. Middleware just checks the flag exists — actual
+  // admin data access is still gated by Supabase JWT verification in the
+  // admin API routes, so the worst a spoofed cookie could do is reveal the
+  // public site, which is harmless.
+  const adminFlag = req.cookies.get('tm_admin')?.value;
+  if (adminFlag === '1') {
+    return NextResponse.next();
+  }
+
   // Otherwise: serve the maintenance page (preserving the original URL so
   // the user's address bar isn't disturbed)
   return NextResponse.rewrite(new URL('/maintenance', req.url));

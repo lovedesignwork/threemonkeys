@@ -60,7 +60,13 @@ export async function signIn(email: string, password: string) {
   
   localStorage.setItem(storageKey, JSON.stringify(sessionData));
   console.log('[signIn] Session stored in localStorage');
-  
+
+  // Also set a flag cookie so middleware.ts (which can't read localStorage)
+  // can recognise the admin session and bypass maintenance mode. The cookie
+  // is just a presence flag — actual admin data is still gated by Supabase
+  // JWTs verified inside /api/admin/* routes.
+  setAdminFlagCookie(data.expires_in ?? 60 * 60);
+
   return {
     user: data.user,
     session: {
@@ -72,10 +78,36 @@ export async function signIn(email: string, password: string) {
 }
 
 export async function signOut() {
+  clearAdminFlagCookie();
   const { error } = await supabaseAuth.auth.signOut();
   if (error) {
     throw error;
   }
+}
+
+// ---------------------------------------------------------------------
+// tm_admin flag cookie helpers
+// ---------------------------------------------------------------------
+// Browser-only. Safe to call on any admin page — sets/refreshes the flag
+// without disturbing the Supabase session storage.
+const ADMIN_FLAG_COOKIE = 'tm_admin';
+
+export function setAdminFlagCookie(maxAgeSeconds: number = 60 * 60 * 24 * 7) {
+  if (typeof document === 'undefined') return;
+  const isSecure = typeof window !== 'undefined' && window.location.protocol === 'https:';
+  const parts = [
+    `${ADMIN_FLAG_COOKIE}=1`,
+    'Path=/',
+    `Max-Age=${maxAgeSeconds}`,
+    'SameSite=Lax',
+  ];
+  if (isSecure) parts.push('Secure');
+  document.cookie = parts.join('; ');
+}
+
+export function clearAdminFlagCookie() {
+  if (typeof document === 'undefined') return;
+  document.cookie = `${ADMIN_FLAG_COOKIE}=; Path=/; Max-Age=0; SameSite=Lax`;
 }
 
 export async function getCurrentUser() {

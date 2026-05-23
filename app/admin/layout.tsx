@@ -26,6 +26,7 @@ import {
   Grid3x3,
 } from 'lucide-react';
 import { AuthProvider, useAuth } from '@/contexts/AuthContext';
+import { setAdminFlagCookie } from '@/lib/supabase/auth';
 
 interface AdminLayoutProps {
   children: ReactNode;
@@ -96,6 +97,16 @@ function AdminLayoutContent({ children }: AdminLayoutProps) {
       router.push('/admin/blog');
     }
   }, [loading, adminUser?.role, pathname, router]);
+
+  // Refresh the tm_admin flag cookie whenever an admin session is detected.
+  // This makes maintenance mode (see middleware.ts) transparent for admins
+  // who were already logged in before the cookie mechanism existed, and
+  // keeps the cookie alive for the full session.
+  useEffect(() => {
+    if (adminUser) {
+      setAdminFlagCookie();
+    }
+  }, [adminUser]);
 
   const handleSignOut = async () => {
     await signOut();
