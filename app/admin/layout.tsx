@@ -98,6 +98,18 @@ function AdminLayoutContent({ children }: AdminLayoutProps) {
     }
   }, [loading, adminUser?.role, pathname, router]);
 
+  // Allotment-only role: lock the user to /admin/allotment. Any deeper
+  // path under /admin/allotment/* is still allowed; anything else bounces.
+  useEffect(() => {
+    if (
+      !loading &&
+      adminUser?.role === 'allotment' &&
+      !pathname.startsWith('/admin/allotment')
+    ) {
+      router.push('/admin/allotment');
+    }
+  }, [loading, adminUser?.role, pathname, router]);
+
   // Refresh the tm_admin flag cookie whenever an admin session is detected.
   // This makes maintenance mode (see middleware.ts) transparent for admins
   // who were already logged in before the cookie mechanism existed, and
@@ -145,6 +157,70 @@ function AdminLayoutContent({ children }: AdminLayoutProps) {
   // If not authenticated and not loading, don't render anything (redirect will happen)
   if (!adminUser) {
     return null;
+  }
+
+  // Allotment-only role: render a minimal shell with NO sidebar. The user
+  // gets nothing but the allotment page and a sign-out button.
+  if (adminUser.role === 'allotment') {
+    return (
+      <div className="min-h-screen bg-slate-100">
+        <header className="h-16 bg-white shadow-sm flex items-center justify-between px-4 lg:px-8 border-b border-slate-200">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-[#b1b94c] rounded-lg flex items-center justify-center">
+              <Grid3x3 className="w-5 h-5 text-black" />
+            </div>
+            <div>
+              <h1 className="text-sm font-bold text-slate-800 leading-tight">Three Monkeys</h1>
+              <p className="text-xs text-slate-500">Allotment Manager</p>
+            </div>
+          </div>
+
+          <div className="relative" ref={userMenuRef}>
+            <button
+              onClick={() => setUserMenuOpen(!userMenuOpen)}
+              className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity"
+            >
+              <div className="text-right hidden sm:block">
+                <p className="text-sm font-medium text-slate-800">
+                  {adminUser?.full_name || adminUser?.email?.split('@')[0] || 'Allotment'}
+                </p>
+                <p className="text-xs text-slate-500">Allotment Manager</p>
+              </div>
+              <div className="w-10 h-10 bg-[#b1b94c] rounded-full flex items-center justify-center">
+                <span className="text-black font-bold text-sm">
+                  {adminUser?.full_name?.[0]?.toUpperCase() ||
+                    adminUser?.email?.[0]?.toUpperCase() ||
+                    'A'}
+                </span>
+              </div>
+            </button>
+
+            {userMenuOpen && (
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-slate-200 py-1 z-50">
+                <div className="px-4 py-2 border-b border-slate-100">
+                  <p className="text-sm font-medium text-slate-800">
+                    {adminUser?.full_name || adminUser?.email?.split('@')[0] || 'Allotment'}
+                  </p>
+                  <p className="text-xs text-slate-500">{adminUser?.email}</p>
+                </div>
+                <button
+                  onClick={() => {
+                    setUserMenuOpen(false);
+                    handleSignOut();
+                  }}
+                  className="w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 transition-colors"
+                >
+                  <LogOut className="w-4 h-4" />
+                  <span className="font-medium">Sign Out</span>
+                </button>
+              </div>
+            )}
+          </div>
+        </header>
+
+        <main className="p-4 lg:p-8">{children}</main>
+      </div>
+    );
   }
 
   return (

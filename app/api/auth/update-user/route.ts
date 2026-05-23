@@ -24,7 +24,7 @@ export async function PUT(request: NextRequest) {
     // Update admin_users record
     const updateData: Record<string, string> = {};
     if (fullName) updateData.full_name = fullName;
-    if (role && ['admin', 'staff', 'writer'].includes(role)) updateData.role = role;
+    if (role && ['admin', 'staff', 'writer', 'allotment'].includes(role)) updateData.role = role;
 
     if (Object.keys(updateData).length > 0) {
       const { error: adminError } = await supabaseAdmin

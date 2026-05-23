@@ -3,7 +3,7 @@ import { supabase } from './client';
 // Re-export the singleton client for auth operations
 export const supabaseAuth = supabase;
 
-export type AdminRole = 'superadmin' | 'admin' | 'staff' | 'writer';
+export type AdminRole = 'superadmin' | 'admin' | 'staff' | 'writer' | 'allotment';
 
 export interface AdminUser {
   id: string;

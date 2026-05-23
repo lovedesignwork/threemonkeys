@@ -21,6 +21,7 @@ import {
   AlertTriangle,
   Save,
   PenTool,
+  Grid3x3,
   ChevronDown
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
@@ -30,14 +31,14 @@ interface AdminUser {
   id: string;
   user_id: string;
   email: string;
-  role: 'superadmin' | 'admin' | 'staff' | 'writer';
+  role: 'superadmin' | 'admin' | 'staff' | 'writer' | 'allotment';
   full_name: string | null;
   is_active: boolean;
   created_at: string;
 }
 
 type ModalType = 'add' | 'edit' | 'delete' | null;
-type RoleType = 'admin' | 'staff' | 'writer';
+type RoleType = 'admin' | 'staff' | 'writer' | 'allotment';
 
 interface RoleOption {
   value: RoleType;
@@ -76,6 +77,15 @@ const roleOptions: RoleOption[] = [
     color: 'text-emerald-600',
     bgColor: 'bg-emerald-50',
     borderColor: 'border-emerald-200 hover:border-emerald-400',
+  },
+  {
+    value: 'allotment',
+    label: 'Allotment Manager',
+    description: 'Table allotment page only — no other admin access',
+    icon: <Grid3x3 className="w-5 h-5" />,
+    color: 'text-amber-600',
+    bgColor: 'bg-amber-50',
+    borderColor: 'border-amber-200 hover:border-amber-400',
   },
 ];
 
@@ -172,6 +182,8 @@ export default function UsersPage() {
         return <Shield className="w-4 h-4 text-blue-600" />;
       case 'writer':
         return <PenTool className="w-4 h-4 text-emerald-600" />;
+      case 'allotment':
+        return <Grid3x3 className="w-4 h-4 text-amber-600" />;
       default:
         return <UserCog className="w-4 h-4 text-slate-600" />;
     }
@@ -185,6 +197,8 @@ export default function UsersPage() {
         return 'bg-blue-100 text-blue-700';
       case 'writer':
         return 'bg-emerald-100 text-emerald-700';
+      case 'allotment':
+        return 'bg-amber-100 text-amber-700';
       default:
         return 'bg-slate-100 text-slate-700';
     }
