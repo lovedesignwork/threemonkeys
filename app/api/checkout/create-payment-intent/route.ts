@@ -125,63 +125,31 @@ export async function POST(request: NextRequest) {
     const clientIp = getClientIP(request);
     const geo = await getGeoFromIP(clientIp);
 
-    // Generate the next sequential booking reference in 3M-NNNNNN format.
-    // We compute it from the existing row count of matching refs and retry
-    // on the (extremely rare) duplicate-key race. Once migration 012 is
-    // applied, the BEFORE INSERT trigger takes over; until then this
-    // app-level fallback keeps the format consistent.
-    const generateNextBookingRef = async (): Promise<string> => {
-      const { data: lastRow } = await supabaseAdmin
-        .from('bookings')
-        .select('booking_ref')
-        .like('booking_ref', '3M-%')
-        .order('booking_ref', { ascending: false })
-        .limit(1)
-        .maybeSingle();
-      const lastNum = lastRow?.booking_ref
-        ? parseInt(lastRow.booking_ref.replace('3M-', ''), 10) || 0
-        : 0;
-      return `3M-${String(lastNum + 1).padStart(6, '0')}`;
-    };
+    // Create booking in pending state. The DB BEFORE INSERT trigger
+    // (`generate_booking_ref_trigger`, see migration 012) assigns a
+    // sequential 3M-NNNNNN reference atomically when booking_ref is NULL,
+    // so concurrent bookings can never collide.
+    const { data: booking, error: bookingError } = await supabaseAdmin
+      .from('bookings')
+      .insert({
+        package_id: packageId,
+        activity_date: date,
+        time_slot: time,
+        guest_count: guests,
+        status: 'pending',
+        total_amount: finalAmount,
+        discount_amount: discountAmount,
+        promo_code_id: promoCodeId || null,
+        currency: 'THB',
+        zone_id: zone?.zoneId ?? null,
+        booking_origin_ip: geo?.ip ?? clientIp,
+        booking_origin_country_code: geo?.country_code ?? null,
+        booking_origin_country_name: geo?.country_name ?? null,
+      })
+      .select('id, booking_ref')
+      .single();
 
-    // Create booking in pending state, retrying on booking_ref collision.
-    let booking: { id: string; booking_ref: string } | null = null;
-    let bookingError: unknown = null;
-    for (let attempt = 0; attempt < 5; attempt++) {
-      const bookingRef = await generateNextBookingRef();
-      const { data, error } = await supabaseAdmin
-        .from('bookings')
-        .insert({
-          booking_ref: bookingRef,
-          package_id: packageId,
-          activity_date: date,
-          time_slot: time,
-          guest_count: guests,
-          status: 'pending',
-          total_amount: finalAmount,
-          discount_amount: discountAmount,
-          promo_code_id: promoCodeId || null,
-          currency: 'THB',
-          zone_id: zone?.zoneId ?? null,
-          booking_origin_ip: geo?.ip ?? clientIp,
-          booking_origin_country_code: geo?.country_code ?? null,
-          booking_origin_country_name: geo?.country_name ?? null,
-        })
-        .select('id, booking_ref')
-        .single();
-      if (data && !error) {
-        booking = data;
-        break;
-      }
-      // 23505 = unique_violation — another booking grabbed this ref first.
-      const pgCode = (error as { code?: string } | null)?.code;
-      if (pgCode !== '23505') {
-        bookingError = error;
-        break;
-      }
-    }
-
-    if (!booking) {
+    if (bookingError || !booking) {
       console.error('Booking creation error:', bookingError);
       return NextResponse.json({ error: 'Failed to create booking' }, { status: 500 });
     }
