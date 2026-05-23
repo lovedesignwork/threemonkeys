@@ -15,7 +15,10 @@ function isRomanticZone(pkg: Package): boolean {
 export function FeaturedPackages() {
   const seatPackages = useMemo(() => getSeatPackages(), []);
   const premiumSeats = seatPackages.filter(pkg => pkg.id === 'monkey-dome' || pkg.id === 'monkey-nest');
-  const otherSeats = seatPackages.filter(pkg => pkg.id !== 'monkey-dome' && pkg.id !== 'monkey-nest');
+  const openSeating = seatPackages.filter(pkg => pkg.id === 'indoor-seat' || pkg.id === 'outdoor-seat');
+  const otherSeats = seatPackages.filter(
+    pkg => pkg.id !== 'monkey-dome' && pkg.id !== 'monkey-nest' && pkg.id !== 'indoor-seat' && pkg.id !== 'outdoor-seat'
+  );
 
   return (
     <section id="seats" className="relative py-24 bg-black overflow-hidden">
@@ -286,6 +289,86 @@ export function FeaturedPackages() {
                         {/* Decorative glow */}
                         <div className="absolute -right-8 -bottom-8 w-24 h-24 bg-[#b1b94c]/10 rounded-full blur-2xl group-hover:bg-[#b1b94c]/20 transition-all" />
                       </div>
+                    </div>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* Open Seating - Indoor & Outdoor (horizontal cards, same as Premium) */}
+        <div className="mt-16">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-2 h-2 bg-[#b1b94c] rounded-full" />
+            <span className="text-sm font-medium text-[#b1b94c] uppercase tracking-wider">
+              Open Seating — No Reservation Limit
+            </span>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6">
+            {openSeating.map((pkg, index) => (
+              <motion.div
+                key={pkg.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.05, duration: 0.5 }}
+              >
+                <Link href={`/packages/${pkg.slug}`} className="group block h-full">
+                  <div className="relative h-full md:min-h-[420px] bg-[#111] rounded-3xl overflow-hidden border-2 border-[#b1b94c]/40 hover:border-[#b1b94c] transition-all duration-500 flex flex-col md:flex-row">
+                    {/* Image - Left Side (60% width) */}
+                    <div className="relative w-full md:w-[60%] aspect-[4/3] md:aspect-auto flex-shrink-0 overflow-hidden">
+                      <Image
+                        src={pkg.image}
+                        alt={pkg.name}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-110"
+                        unoptimized
+                      />
+                    </div>
+
+                    {/* Content - Right Side (40% width) */}
+                    <div className="w-full md:w-[40%] p-6 flex flex-col justify-center">
+                      <h3 className="text-xl font-[family-name:var(--font-krona)] text-white group-hover:text-[#b1b94c] transition-colors normal-case leading-tight mb-2">
+                        {pkg.name}
+                      </h3>
+                      <p className="text-white/50 text-sm mb-4 font-[family-name:var(--font-inter)]">
+                        {pkg.shortDescription}
+                      </p>
+
+                      {/* Feature Tags */}
+                      <div className="flex flex-wrap gap-2 mb-6">
+                        {pkg.features.slice(0, 3).map((feature, idx) => (
+                          <span
+                            key={idx}
+                            className="px-3 py-1 bg-[#b1b94c]/10 border border-[#b1b94c]/40 rounded-full text-[#b1b94c]/80 text-xs font-[family-name:var(--font-inter)]"
+                          >
+                            {feature}
+                          </span>
+                        ))}
+                      </div>
+
+                      {/* Price Section */}
+                      <div className="mb-4">
+                        <span className="text-white/40 text-xs uppercase tracking-wider block mb-1">Deposit</span>
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-3xl font-bold text-[#b1b94c] font-[family-name:var(--font-krona)]">
+                            ฿500
+                          </span>
+                          <span className="text-white/40 text-sm">/ person</span>
+                        </div>
+                        <span className="text-white/30 text-xs">No reservation limit</span>
+                      </div>
+
+                      {/* Reserve Button */}
+                      <motion.div
+                        className="flex items-center justify-center gap-2 w-full py-3 bg-[#b1b94c] rounded-xl text-black font-semibold text-sm"
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        Reserve Now
+                        <ArrowRight className="w-4 h-4" />
+                      </motion.div>
                     </div>
                   </div>
                 </Link>
