@@ -20,7 +20,8 @@ import {
   Save,
   History,
   Tag,
-  Cloud
+  Cloud,
+  Send
 } from 'lucide-react';
 import { adminGet, adminPost, adminPut } from '@/lib/auth/api-client';
 interface PromoCode {
@@ -94,6 +95,8 @@ export default function BookingDetailPage() {
   // Sync to OneBooking
   const [syncingToOneBooking, setSyncingToOneBooking] = useState(false);
   const [syncMessage, setSyncMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [resendingEmails, setResendingEmails] = useState(false);
+  const [resendMessage, setResendMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   useEffect(() => {
     fetchBooking();
@@ -173,6 +176,33 @@ export default function BookingDetailPage() {
     } finally {
       setSyncingToOneBooking(false);
       setTimeout(() => setSyncMessage(null), 5000);
+    }
+  };
+
+  const resendEmails = async () => {
+    if (!booking) return;
+    setResendingEmails(true);
+    setResendMessage(null);
+    try {
+      const response = await adminPost(`/api/admin/bookings/${booking.id}/resend-emails`, {});
+      const result = await response.json();
+      if (response.ok && result.customer?.ok && result.admin?.ok) {
+        setResendMessage({ type: 'success', text: 'Confirmation + admin notification re-sent.' });
+      } else if (response.ok && (result.customer?.ok || result.admin?.ok)) {
+        const parts: string[] = [];
+        if (result.customer?.ok) parts.push('customer ✓'); else parts.push(`customer ✗ ${result.customer?.error}`);
+        if (result.admin?.ok) parts.push('admin ✓'); else parts.push(`admin ✗ ${result.admin?.error}`);
+        setResendMessage({ type: 'error', text: `Partial: ${parts.join(' · ')}` });
+      } else {
+        const msg = result.customer?.error || result.admin?.error || result.error || 'Failed to send emails';
+        setResendMessage({ type: 'error', text: msg });
+      }
+    } catch (error) {
+      console.error('Resend error:', error);
+      setResendMessage({ type: 'error', text: error instanceof Error ? error.message : 'Resend failed' });
+    } finally {
+      setResendingEmails(false);
+      setTimeout(() => setResendMessage(null), 10000);
     }
   };
 
@@ -468,6 +498,30 @@ export default function BookingDetailPage() {
                     : 'bg-red-50 text-red-700 border border-red-200'
                 }`}>
                   {syncMessage.text}
+                </div>
+              )}
+
+              {/* Resend confirmation + admin notification emails */}
+              <button
+                onClick={resendEmails}
+                disabled={resendingEmails}
+                className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl transition-colors disabled:opacity-50"
+              >
+                {resendingEmails ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Send className="w-4 h-4" />
+                )}
+                Resend Confirmation Emails
+              </button>
+
+              {resendMessage && (
+                <div className={`p-3 rounded-lg text-sm ${
+                  resendMessage.type === 'success'
+                    ? 'bg-green-50 text-green-700 border border-green-200'
+                    : 'bg-red-50 text-red-700 border border-red-200'
+                }`}>
+                  {resendMessage.text}
                 </div>
               )}
 

@@ -212,60 +212,60 @@ export async function POST(request: NextRequest) {
           const zoneMapping = getZoneForPackage(booking.package_id);
           const zoneName = zoneMapping?.zoneName ?? null;
 
-          // Use Vercel's waitUntil to run background tasks after response is sent
-          // This prevents timeout while still completing all tasks
-          const backgroundTasks = async () => {
-            try {
-              // Customer confirmation email
-              await sendBookingConfirmationEmail({
-                customerEmail: customer.email,
-                customerName: customer.first_name,
-                bookingRef: booking.booking_ref,
-                packageName: booking.packages?.name || 'Adventure Package',
-                activityDate,
-                timeSlot: formatTime(booking.time_slot),
-                guestCount: booking.guest_count,
-                totalAmount: booking.total_amount,
-                hotelName: transport?.hotel_name,
-                roomNumber: transport?.room_number,
-                hasTransfer: !!transport,
-                isPrivateTransfer: transport?.transport_type === 'private',
-                addons,
-                zoneName: zoneName,
-              });
-              console.log(`Booking confirmation email sent for ${booking.booking_ref}`);
-            } catch (err) {
-              console.error('Error sending booking confirmation email:', err);
-            }
+          // Emails: AWAIT these (don't background) so any failure surfaces
+          // in the webhook response and we don't lose deliveries when the
+          // Vercel function container is recycled between the response and
+          // the trailing waitUntil flush.
+          try {
+            await sendBookingConfirmationEmail({
+              customerEmail: customer.email,
+              customerName: customer.first_name,
+              bookingRef: booking.booking_ref,
+              packageName: booking.packages?.name || 'Adventure Package',
+              activityDate,
+              timeSlot: formatTime(booking.time_slot),
+              guestCount: booking.guest_count,
+              totalAmount: booking.total_amount,
+              hotelName: transport?.hotel_name,
+              roomNumber: transport?.room_number,
+              hasTransfer: !!transport,
+              isPrivateTransfer: transport?.transport_type === 'private',
+              addons,
+              zoneName: zoneName,
+            });
+            console.log(`[Email] Customer confirmation sent for ${booking.booking_ref}`);
+          } catch (err) {
+            console.error(`[Email] Customer confirmation FAILED for ${booking.booking_ref}:`, err);
+          }
 
-            try {
-              // Admin notification email
-              await sendBookingNotificationEmail({
-                bookingRef: booking.booking_ref,
-                customerName: `${customer.first_name} ${customer.last_name}`,
-                customerEmail: customer.email,
-                customerPhone: customer.phone || '',
-                packageName: booking.packages?.name || 'Dining Package',
-                playDate: activityDate,
-                timeSlot: formatTime(booking.time_slot),
-                guests: booking.guest_count,
-                additionalGuests: transport?.non_players || undefined,
-                transportType: transport?.transport_type || 'none',
-                hotelName: transport?.hotel_name || undefined,
-                roomNumber: transport?.room_number || undefined,
-                privatePassengers: transport?.private_passengers || undefined,
-                addons,
-                totalAmount: booking.total_amount,
-                paymentStatus: 'confirmed',
-              });
-              console.log(`Admin notification email sent for ${booking.booking_ref}`);
-            } catch (err) {
-              console.error('Failed to send admin notification:', err);
-            }
+          try {
+            await sendBookingNotificationEmail({
+              bookingRef: booking.booking_ref,
+              customerName: `${customer.first_name} ${customer.last_name}`,
+              customerEmail: customer.email,
+              customerPhone: customer.phone || '',
+              packageName: booking.packages?.name || 'Dining Package',
+              playDate: activityDate,
+              timeSlot: formatTime(booking.time_slot),
+              guests: booking.guest_count,
+              additionalGuests: transport?.non_players || undefined,
+              transportType: transport?.transport_type || 'none',
+              hotelName: transport?.hotel_name || undefined,
+              roomNumber: transport?.room_number || undefined,
+              privatePassengers: transport?.private_passengers || undefined,
+              addons,
+              totalAmount: booking.total_amount,
+              paymentStatus: 'confirmed',
+            });
+            console.log(`[Email] Admin notification sent for ${booking.booking_ref}`);
+          } catch (err) {
+            console.error(`[Email] Admin notification FAILED for ${booking.booking_ref}:`, err);
+          }
 
+          // OneBooking sync can stay in waitUntil — it's idempotent and a
+          // failure here doesn't lose customer-visible state.
+          const onebookingSync = async () => {
             try {
-              // Sync booking to OneBooking Central Dashboard
-              // Build origin payloads from the just-updated booking row
               const bookingOrigin = booking.booking_origin_ip ? {
                 ip: booking.booking_origin_ip,
                 country_code: booking.booking_origin_country_code || '',
@@ -326,10 +326,9 @@ export async function POST(request: NextRequest) {
               console.error(`[OneBooking] Sync error for ${booking.booking_ref}:`, syncError);
             }
           };
+          waitUntil(onebookingSync());
 
-          // Schedule background tasks to run after response is sent
-          waitUntil(backgroundTasks());
-          console.log(`Booking ${booking.booking_ref} confirmed - background tasks scheduled`);
+          console.log(`Booking ${booking.booking_ref} confirmed`);
         }
       }
       break;
