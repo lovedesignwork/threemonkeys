@@ -537,7 +537,7 @@ function BookingContent() {
       <section className="relative min-h-[50vh] flex items-end justify-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="/images/Random images/42_resize.jpg"
+            src="/images/new/threemonkeys008.jpg"
             alt="Restaurant"
             fill
             className="object-cover"
