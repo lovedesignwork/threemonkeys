@@ -8,6 +8,7 @@ import { pushBookingToOneBooking } from '@/lib/onebooking/sync';
 import { waitUntil } from '@vercel/functions';
 import { claimTable, releaseTable } from '@/lib/allotment/server';
 import { buildBangkokTimestamp, getZoneForPackage } from '@/lib/allotment/zones';
+import { getCountryName } from '@/lib/geo/ip-lookup';
 
 export async function POST(request: NextRequest) {
   const body = await request.text();
@@ -72,12 +73,37 @@ export async function POST(request: NextRequest) {
       const bookingId = paymentIntent.metadata?.booking_id;
 
       if (bookingId) {
+        // Retrieve card country (payment origin) from the payment method.
+        // Non-blocking — if it fails we still confirm the booking.
+        let paymentOriginCountryCode: string | null = null;
+        let paymentOriginCountryName: string | null = null;
+        try {
+          if (paymentIntent.payment_method) {
+            const pm = await stripe.paymentMethods.retrieve(
+              paymentIntent.payment_method as string
+            );
+            if (pm.card?.country) {
+              paymentOriginCountryCode = pm.card.country;
+              paymentOriginCountryName = getCountryName(pm.card.country);
+              console.log('[Payment Origin] Card country:', paymentOriginCountryCode, paymentOriginCountryName);
+            }
+          }
+        } catch (pmErr) {
+          console.error('[Payment Origin] Failed to retrieve payment method:', pmErr);
+        }
+
+        const updateData: Record<string, unknown> = {
+          status: 'confirmed',
+          stripe_payment_intent_id: paymentIntent.id,
+        };
+        if (paymentOriginCountryCode) {
+          updateData.payment_origin_country_code = paymentOriginCountryCode;
+          updateData.payment_origin_country_name = paymentOriginCountryName;
+        }
+
         await supabaseAdmin
           .from('bookings')
-          .update({
-            status: 'confirmed',
-            stripe_payment_intent_id: paymentIntent.id,
-          })
+          .update(updateData)
           .eq('id', bookingId);
 
         // Fetch complete booking data for email
@@ -239,6 +265,20 @@ export async function POST(request: NextRequest) {
 
             try {
               // Sync booking to OneBooking Central Dashboard
+              // Build origin payloads from the just-updated booking row
+              const bookingOrigin = booking.booking_origin_ip ? {
+                ip: booking.booking_origin_ip,
+                country_code: booking.booking_origin_country_code || '',
+                country_name: booking.booking_origin_country_name || '',
+              } : null;
+              const paymentOrigin = paymentOriginCountryCode ? {
+                country_code: paymentOriginCountryCode,
+                country_name: paymentOriginCountryName || '',
+              } : (booking.payment_origin_country_code ? {
+                country_code: booking.payment_origin_country_code,
+                country_name: booking.payment_origin_country_name || '',
+              } : null);
+
               const syncResult = await pushBookingToOneBooking('booking.created', {
                 id: booking.id,
                 booking_ref: booking.booking_ref,
@@ -274,6 +314,8 @@ export async function POST(request: NextRequest) {
                 zone_id: booking.zone_id || null,
                 zone_name: zoneName,
                 table_code: claimedTableCode,
+                booking_origin: bookingOrigin,
+                payment_origin: paymentOrigin,
               });
               if (syncResult.success) {
                 console.log(`[OneBooking] Synced ${booking.booking_ref} to central dashboard`);

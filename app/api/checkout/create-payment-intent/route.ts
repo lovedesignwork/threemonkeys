@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { stripe, PRIVATE_TRANSFER_PRICE, NON_PLAYER_PRICE } from '@/lib/stripe/client';
 import { supabaseAdmin } from '@/lib/supabase/server';
 import { getZoneForPackage } from '@/lib/allotment/zones';
+import { getClientIP, getGeoFromIP } from '@/lib/geo/ip-lookup';
 
 interface BookingData {
   packageId: string;
@@ -119,6 +120,12 @@ export async function POST(request: NextRequest) {
     // don't consume allotment automatically - admin assigns those manually later).
     const zone = getZoneForPackage(packageId);
 
+    // Capture client IP + geolocate. Fire-and-forget timing — but we await
+    // here because the lookup is fast (3s timeout). If it fails we still
+    // store null/Unknown so the booking row records what we have.
+    const clientIp = getClientIP(request);
+    const geo = await getGeoFromIP(clientIp);
+
     // Create booking in pending state
     const { data: booking, error: bookingError } = await supabaseAdmin
       .from('bookings')
@@ -133,6 +140,9 @@ export async function POST(request: NextRequest) {
         promo_code_id: promoCodeId || null,
         currency: 'THB',
         zone_id: zone?.zoneId ?? null,
+        booking_origin_ip: geo?.ip ?? clientIp,
+        booking_origin_country_code: geo?.country_code ?? null,
+        booking_origin_country_name: geo?.country_name ?? null,
       })
       .select()
       .single();

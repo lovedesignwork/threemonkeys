@@ -33,6 +33,17 @@ export interface AddonData {
   unit_price: number;
 }
 
+export interface BookingOrigin {
+  ip: string;
+  country_code: string;
+  country_name: string;
+}
+
+export interface PaymentOrigin {
+  country_code: string;
+  country_name: string;
+}
+
 export interface BookingSyncPayload {
   event: BookingSyncEvent;
   source_booking_id: string;
@@ -57,6 +68,9 @@ export interface BookingSyncPayload {
   zone_id?: string | null;
   zone_name?: string | null;
   table_code?: string | null;
+  // Origin tracking (matches Baboon's shape)
+  booking_origin?: BookingOrigin | null;
+  payment_origin?: PaymentOrigin | null;
 }
 
 export interface SyncSuccessResponse {

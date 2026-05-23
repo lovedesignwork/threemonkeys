@@ -1,9 +1,17 @@
 'use client';
 
+/**
+ * /admin/bookings — Bookings list (Baboon-style compact layout, 3M-specific)
+ *
+ * Columns:
+ *   Ref · Booked · Customer (+ country flag) · Reservation · Time · Guests ·
+ *   Zone / Table · Add-ons · Deposit · Notes · Origin · Status / Action
+ */
+
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { 
-  Search, 
+import {
+  Search,
   Download,
   ChevronLeft,
   ChevronRight,
@@ -23,11 +31,31 @@ import {
   ExternalLink,
   Info,
   X,
-  StickyNote
+  StickyNote,
+  Clock,
+  Users,
+  Globe,
+  CreditCard,
 } from 'lucide-react';
 import { adminGet, adminFetch } from '@/lib/auth/api-client';
 import { useAuth } from '@/contexts/AuthContext';
 import { CustomSelect } from '@/components/ui';
+import ReactCountryFlag from 'react-country-flag';
+
+function CountryFlag({ countryCode, size = 'md', title }: { countryCode: string | null | undefined; size?: 'sm' | 'md' | 'lg'; title?: string }) {
+  const sizeMap = { sm: '1em', md: '1.2em', lg: '1.5em' };
+  if (!countryCode || countryCode.length !== 2 || countryCode.toUpperCase() === 'XX') {
+    return <span className="text-slate-300">🏳️</span>;
+  }
+  return (
+    <ReactCountryFlag
+      countryCode={countryCode.toUpperCase()}
+      svg
+      style={{ width: sizeMap[size], height: sizeMap[size] }}
+      title={title ?? countryCode.toUpperCase()}
+    />
+  );
+}
 
 interface Booking {
   id: string;
@@ -39,17 +67,38 @@ interface Booking {
   discount_amount?: number;
   status: string;
   created_at: string;
+  admin_notes?: string | null;
+  zone_id?: string | null;
+  table_code?: string | null;
   packages: { name: string };
   promo_codes?: { code: string; discount_type: string; discount_value: number } | null;
-  booking_customers: { first_name: string; last_name: string; email: string; phone: string; special_requests?: string | null }[];
-  booking_transport: { id?: string; transport_type: string; hotel_name: string | null; room_number: string | null; private_passengers: number | null; additional_guests: number | null }[];
-  booking_addons: { quantity: number; promo_addons: { name: string } }[];
+  booking_customers: { first_name: string; last_name: string; email: string; phone: string; country_code?: string | null; special_requests?: string | null }[];
+  booking_transport: { id?: string; transport_type: string; hotel_name: string | null; room_number: string | null; private_passengers: number | null; non_players?: number | null }[];
+  booking_addons: { quantity: number; unit_price?: number; promo_addons: { name: string } }[];
+  booking_origin_ip?: string | null;
+  booking_origin_country_code?: string | null;
+  booking_origin_country_name?: string | null;
+  payment_origin_country_code?: string | null;
+  payment_origin_country_name?: string | null;
 }
 
 type SortField = 'booking_ref' | 'activity_date' | 'guest_count' | 'total_amount' | 'status' | 'created_at';
 type SortDirection = 'asc' | 'desc';
 
 const STATUS_OPTIONS = ['all', 'pending', 'confirmed', 'cancelled', 'completed', 'refunded'];
+
+// Friendly display name for zone_id. Falls back to the id if unknown.
+const ZONE_NAMES: Record<string, string> = {
+  'monkey-dome':           'Monkey Dome',
+  'monkey-nest':           'Monkey Nest',
+  'monkey-hilltop':        'Monkey Hilltop',
+  'bamboo-pavilion':       'Bamboo Pavilion',
+  'zone-t':                'Zone T',
+  'zone-z':                'Zone Z',
+  'exclusive-romantic':    'Exclusive Romantic',
+  'romantic-rooftop-luge': 'Romantic Rooftop',
+};
+const zoneName = (id: string | null | undefined) => (id ? ZONE_NAMES[id] ?? id : null);
 
 export default function BookingsPage() {
   const { loading: authLoading } = useAuth();
@@ -71,10 +120,10 @@ export default function BookingsPage() {
   const [syncResult, setSyncResult] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
   useEffect(() => {
-    // Wait for auth to be ready before fetching
     if (!authLoading) {
       fetchBookings();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authLoading, page, pageSize, statusFilter, dateFilterType, dateFrom, dateTo, sortField, sortDirection]);
 
   const fetchBookings = async () => {
@@ -90,12 +139,9 @@ export default function BookingsPage() {
         dateFrom,
         dateTo,
       });
-
       const response = await adminGet(`/api/admin/bookings?${params}`);
       const result = await response.json();
-
       if (!response.ok) throw new Error(result.error);
-
       setBookings(result.data || []);
       setTotalCount(result.count || 0);
     } catch (error) {
@@ -116,10 +162,8 @@ export default function BookingsPage() {
   };
 
   const SortIcon = ({ field }: { field: SortField }) => {
-    if (sortField !== field) {
-      return <ArrowUpDown className="w-3 h-3 text-slate-300" />;
-    }
-    return sortDirection === 'asc' 
+    if (sortField !== field) return <ArrowUpDown className="w-3 h-3 text-slate-300" />;
+    return sortDirection === 'asc'
       ? <ArrowUp className="w-3 h-3 text-[#1a237e]" />
       : <ArrowDown className="w-3 h-3 text-[#1a237e]" />;
   };
@@ -134,45 +178,26 @@ export default function BookingsPage() {
       customer?.email?.toLowerCase().includes(searchLower) ||
       customer?.first_name?.toLowerCase().includes(searchLower) ||
       customer?.last_name?.toLowerCase().includes(searchLower) ||
-      transport?.hotel_name?.toLowerCase().includes(searchLower)
+      transport?.hotel_name?.toLowerCase().includes(searchLower) ||
+      booking.table_code?.toLowerCase().includes(searchLower) ||
+      zoneName(booking.zone_id)?.toLowerCase().includes(searchLower)
     );
   });
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('th-TH', {
-      style: 'currency',
-      currency: 'THB',
-      minimumFractionDigits: 0,
+      style: 'currency', currency: 'THB', minimumFractionDigits: 0,
     }).format(amount);
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'confirmed':
-        return 'bg-green-100 text-green-800';
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'cancelled':
-        return 'bg-red-100 text-red-800';
-      case 'completed':
-        return 'bg-blue-100 text-blue-800';
-      case 'refunded':
-        return 'bg-purple-100 text-purple-800';
-      default:
-        return 'bg-slate-100 text-slate-800';
-    }
-  };
-
-  const getTransportLabel = (type: string) => {
-    switch (type) {
-      case 'hotel_pickup':
-        return { label: 'Hotel Pickup', icon: Hotel, color: 'text-blue-600 bg-blue-50' };
-      case 'private':
-        return { label: 'Private', icon: Car, color: 'text-purple-600 bg-purple-50' };
-      case 'self_arrange':
-        return { label: 'Self Transfer', icon: MapPin, color: 'text-slate-600 bg-slate-50' };
-      default:
-        return { label: type, icon: MapPin, color: 'text-slate-600 bg-slate-50' };
+      case 'confirmed': return 'bg-green-100 text-green-800';
+      case 'pending':   return 'bg-yellow-100 text-yellow-800';
+      case 'cancelled': return 'bg-red-100 text-red-800';
+      case 'completed': return 'bg-blue-100 text-blue-800';
+      case 'refunded':  return 'bg-purple-100 text-purple-800';
+      default:          return 'bg-slate-100 text-slate-800';
     }
   };
 
@@ -181,19 +206,9 @@ export default function BookingsPage() {
   const handleExport = async () => {
     setExporting(true);
     try {
-      const params = new URLSearchParams({
-        status: statusFilter,
-        dateType: dateFilterType,
-        dateFrom,
-        dateTo,
-      });
-
+      const params = new URLSearchParams({ status: statusFilter, dateType: dateFilterType, dateFrom, dateTo });
       const response = await adminGet(`/api/admin/bookings/export?${params}`);
-      
-      if (!response.ok) {
-        throw new Error('Export failed');
-      }
-
+      if (!response.ok) throw new Error('Export failed');
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -212,39 +227,24 @@ export default function BookingsPage() {
   };
 
   const handleBulkSyncToOneBooking = async () => {
-    if (!confirm('Manual backup sync: This will sync 1 confirmed booking that may not have been synced automatically. New bookings are now synced automatically via database trigger. Continue?')) {
-      return;
-    }
-    
+    if (!confirm('Manual backup sync: This will sync confirmed bookings that may not have been synced automatically. New bookings are now synced automatically. Continue?')) return;
     setBulkSyncing(true);
     setSyncResult(null);
-    
     try {
       const response = await adminFetch('/api/admin/bookings/bulk-sync-onebooking', {
         method: 'POST',
         body: JSON.stringify({ syncAll: true }),
       });
-      
       const result = await response.json();
-      
       if (result.success) {
         const hasMore = result.results?.total === 1;
-        setSyncResult({ 
-          type: 'success', 
-          message: `${result.message}${hasMore ? ' - click again to sync more' : ''}` 
-        });
+        setSyncResult({ type: 'success', message: `${result.message}${hasMore ? ' - click again to sync more' : ''}` });
       } else {
-        setSyncResult({ 
-          type: 'error', 
-          message: result.error || 'Sync failed' 
-        });
+        setSyncResult({ type: 'error', message: result.error || 'Sync failed' });
       }
     } catch (error) {
       console.error('Bulk sync error:', error);
-      setSyncResult({ 
-        type: 'error', 
-        message: error instanceof Error ? error.message : 'Sync failed' 
-      });
+      setSyncResult({ type: 'error', message: error instanceof Error ? error.message : 'Sync failed' });
     } finally {
       setBulkSyncing(false);
       setTimeout(() => setSyncResult(null), 10000);
@@ -259,28 +259,20 @@ export default function BookingsPage() {
           <p className="text-slate-500">View all booking records (read-only)</p>
         </div>
         <div className="flex items-center gap-3">
-          <button 
+          <button
             onClick={handleBulkSyncToOneBooking}
             disabled={bulkSyncing}
             className="flex items-center gap-2 px-4 py-2 border border-blue-300 text-blue-600 hover:bg-blue-50 rounded-xl transition-colors disabled:opacity-50"
           >
-            {bulkSyncing ? (
-              <RefreshCw className="w-4 h-4 animate-spin" />
-            ) : (
-              <Cloud className="w-4 h-4" />
-            )}
+            {bulkSyncing ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Cloud className="w-4 h-4" />}
             {bulkSyncing ? 'Syncing...' : 'Manual Sync'}
           </button>
-          <button 
+          <button
             onClick={handleExport}
             disabled={exporting}
             className="flex items-center gap-2 px-4 py-2 bg-[#1a237e] text-white rounded-xl hover:bg-[#0d1259] transition-colors disabled:opacity-50"
           >
-            {exporting ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
-            ) : (
-              <Download className="w-4 h-4" />
-            )}
+            {exporting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
             {exporting ? 'Exporting...' : 'Export'}
           </button>
         </div>
@@ -293,9 +285,9 @@ export default function BookingsPage() {
           <p className="text-sm text-blue-800">
             <span className="font-medium">This page is view-only.</span> New confirmed bookings are automatically synced to OneBooking Dashboard. To edit bookings (status, hotel, etc.), please use OneBooking Dashboard.
           </p>
-          <a 
-            href="https://onebooking-dashboard.vercel.app/bookings" 
-            target="_blank" 
+          <a
+            href="https://db.onebooking.co/bookings"
+            target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1 mt-2 text-sm font-medium text-blue-700 hover:text-blue-900 transition-colors"
           >
@@ -307,8 +299,8 @@ export default function BookingsPage() {
 
       {syncResult && (
         <div className={`mb-4 p-4 rounded-xl ${
-          syncResult.type === 'success' 
-            ? 'bg-green-50 text-green-800 border border-green-200' 
+          syncResult.type === 'success'
+            ? 'bg-green-50 text-green-800 border border-green-200'
             : 'bg-red-50 text-red-800 border border-red-200'
         }`}>
           {syncResult.message}
@@ -326,16 +318,13 @@ export default function BookingsPage() {
                   type="text"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  placeholder="Search by reference, name, email, or hotel..."
+                  placeholder="Search by ref, name, email, hotel, zone, table…"
                   className="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-xl focus:outline-none focus:border-[#1a237e] text-slate-800 placeholder:text-slate-500"
                 />
               </div>
               <CustomSelect
                 value={statusFilter}
-                onChange={(value) => {
-                  setStatusFilter(value);
-                  setPage(1);
-                }}
+                onChange={(value) => { setStatusFilter(value); setPage(1); }}
                 options={STATUS_OPTIONS.map((status) => ({
                   value: status,
                   label: status === 'all' ? 'All Status' : status.charAt(0).toUpperCase() + status.slice(1),
@@ -343,55 +332,30 @@ export default function BookingsPage() {
                 className="w-40"
               />
             </div>
-            
+
             {/* Row 2: Date Range Filter */}
             <div className="flex flex-col md:flex-row items-start md:items-center gap-3">
               <div className="flex items-center gap-2">
                 <Calendar className="w-4 h-4 text-slate-500" />
                 <span className="text-sm font-medium text-slate-600">Filter by:</span>
               </div>
-              
-              {/* Date Type Toggle */}
               <div className="flex rounded-lg border border-slate-200 overflow-hidden">
                 <button
-                  onClick={() => {
-                    setDateFilterType('booking');
-                    setPage(1);
-                  }}
-                  className={`px-3 py-1.5 text-sm font-medium transition-colors ${
-                    dateFilterType === 'booking'
-                      ? 'bg-[#1a237e] text-white'
-                      : 'bg-white text-slate-600 hover:bg-slate-50'
-                  }`}
-                >
-                  Booking Date
-                </button>
+                  onClick={() => { setDateFilterType('booking'); setPage(1); }}
+                  className={`px-3 py-1.5 text-sm font-medium transition-colors ${dateFilterType === 'booking' ? 'bg-[#1a237e] text-white' : 'bg-white text-slate-600 hover:bg-slate-50'}`}
+                >Booking Date</button>
                 <button
-                  onClick={() => {
-                    setDateFilterType('play');
-                    setPage(1);
-                  }}
-                  className={`px-3 py-1.5 text-sm font-medium transition-colors ${
-                    dateFilterType === 'play'
-                      ? 'bg-[#1a237e] text-white'
-                      : 'bg-white text-slate-600 hover:bg-slate-50'
-                  }`}
-                >
-                  Play Date
-                </button>
+                  onClick={() => { setDateFilterType('play'); setPage(1); }}
+                  className={`px-3 py-1.5 text-sm font-medium transition-colors ${dateFilterType === 'play' ? 'bg-[#1a237e] text-white' : 'bg-white text-slate-600 hover:bg-slate-50'}`}
+                >Reservation Date</button>
               </div>
-              
-              {/* Date Range Inputs */}
               <div className="flex items-center gap-2">
                 <div className="flex items-center gap-2">
                   <span className="text-sm text-slate-500">From:</span>
                   <input
                     type="date"
                     value={dateFrom}
-                    onChange={(e) => {
-                      setDateFrom(e.target.value);
-                      setPage(1);
-                    }}
+                    onChange={(e) => { setDateFrom(e.target.value); setPage(1); }}
                     className="px-3 py-1.5 border border-slate-200 rounded-lg focus:outline-none focus:border-[#1a237e] text-slate-800 text-sm"
                   />
                 </div>
@@ -400,27 +364,17 @@ export default function BookingsPage() {
                   <input
                     type="date"
                     value={dateTo}
-                    onChange={(e) => {
-                      setDateTo(e.target.value);
-                      setPage(1);
-                    }}
+                    onChange={(e) => { setDateTo(e.target.value); setPage(1); }}
                     className="px-3 py-1.5 border border-slate-200 rounded-lg focus:outline-none focus:border-[#1a237e] text-slate-800 text-sm"
                   />
                 </div>
               </div>
-              
-              {/* Clear Filter Button */}
               {(dateFrom || dateTo) && (
                 <button
-                  onClick={() => {
-                    setDateFrom('');
-                    setDateTo('');
-                    setPage(1);
-                  }}
+                  onClick={() => { setDateFrom(''); setDateTo(''); setPage(1); }}
                   className="flex items-center gap-1 px-3 py-1.5 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                 >
-                  <X className="w-4 h-4" />
-                  Clear
+                  <X className="w-4 h-4" />Clear
                 </button>
               )}
             </div>
@@ -432,201 +386,130 @@ export default function BookingsPage() {
             <Loader2 className="w-8 h-8 animate-spin text-[#1a237e]" />
           </div>
         ) : filteredBookings.length === 0 ? (
-          <div className="p-8 text-center text-slate-500">
-            No bookings found
-          </div>
+          <div className="p-8 text-center text-slate-500">No bookings found</div>
         ) : (
           <>
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead className="bg-slate-50">
                   <tr>
-                    <th 
-                      className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100"
-                      onClick={() => handleSort('booking_ref')}
-                    >
-                      <div className="flex items-center gap-1">
-                        Booking Ref
-                        <SortIcon field="booking_ref" />
-                      </div>
+                    <th className="px-3 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100" onClick={() => handleSort('booking_ref')}>
+                      <div className="flex items-center gap-1">Ref<SortIcon field="booking_ref" /></div>
                     </th>
-                    <th 
-                      className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100"
-                      onClick={() => handleSort('created_at')}
-                    >
-                      <div className="flex items-center gap-1">
-                        Booked On
-                        <SortIcon field="created_at" />
-                      </div>
+                    <th className="px-3 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100" onClick={() => handleSort('created_at')}>
+                      <div className="flex items-center gap-1">Booked<SortIcon field="created_at" /></div>
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                      Customer
+                    <th className="px-3 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Customer</th>
+                    <th className="px-3 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100" onClick={() => handleSort('activity_date')}>
+                      <div className="flex items-center gap-1">Reservation<SortIcon field="activity_date" /></div>
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                      Package
+                    <th className="px-3 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Time</th>
+                    <th className="px-3 py-3 text-center text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100" onClick={() => handleSort('guest_count')}>
+                      <div className="flex items-center justify-center gap-1">Guests<SortIcon field="guest_count" /></div>
                     </th>
-                    <th 
-                      className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100"
-                      onClick={() => handleSort('activity_date')}
-                    >
-                      <div className="flex items-center gap-1">
-                        Play Date
-                        <SortIcon field="activity_date" />
-                      </div>
+                    <th className="px-3 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Zone / Table</th>
+                    <th className="px-3 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Add-ons</th>
+                    <th className="px-3 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100" onClick={() => handleSort('total_amount')}>
+                      <div className="flex items-center gap-1">Deposit<SortIcon field="total_amount" /></div>
                     </th>
-                    <th 
-                      className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100"
-                      onClick={() => handleSort('guest_count')}
-                    >
-                      <div className="flex items-center gap-1">
-                        Guests
-                        <SortIcon field="guest_count" />
-                      </div>
-                    </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                      Additional
-                    </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                      Transport
-                    </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                      Hotel / Room
-                    </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                      Add-ons
-                    </th>
-                    <th 
-                      className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100"
-                      onClick={() => handleSort('total_amount')}
-                    >
-                      <div className="flex items-center gap-1">
-                        Amount
-                        <SortIcon field="total_amount" />
-                      </div>
-                    </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                      Notes
-                    </th>
-                    <th 
-                      className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100"
-                      onClick={() => handleSort('status')}
-                    >
-                      <div className="flex items-center gap-1">
-                        Status
-                        <SortIcon field="status" />
-                      </div>
-                    </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                      Actions
-                    </th>
+                    <th className="px-3 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Notes</th>
+                    <th className="px-3 py-3 text-center text-xs font-medium text-slate-500 uppercase tracking-wider">Origin</th>
+                    <th className="px-3 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider w-28"></th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
                   {filteredBookings.map((booking) => {
                     const customer = booking.booking_customers?.[0];
-                    const transport = booking.booking_transport?.[0];
                     const addons = booking.booking_addons || [];
-                    const transportInfo = transport ? getTransportLabel(transport.transport_type) : null;
-                    const TransportIcon = transportInfo?.icon || MapPin;
+                    const transport = booking.booking_transport?.[0];
+                    const zone = zoneName(booking.zone_id);
 
                     return (
                       <tr key={booking.id} className="hover:bg-slate-50">
-                        <td className="px-4 py-3 whitespace-nowrap">
-                          <span className="text-sm font-medium text-[#1a237e]">
-                            {booking.booking_ref}
-                          </span>
+                        {/* Ref */}
+                        <td className="px-3 py-3 whitespace-nowrap">
+                          <span className="text-sm font-medium text-[#1a237e]">{booking.booking_ref}</span>
                         </td>
-                        <td className="px-4 py-3 whitespace-nowrap">
+                        {/* Booked */}
+                        <td className="px-3 py-3 whitespace-nowrap">
                           <p className="text-sm text-slate-800">
-                            {new Date(booking.created_at).toLocaleDateString('en-GB', { 
-                              day: '2-digit', 
-                              month: 'short', 
-                              year: 'numeric',
-                              timeZone: 'Asia/Bangkok'
-                            })}
+                            {new Date(booking.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', timeZone: 'Asia/Bangkok' })}
                           </p>
                           <p className="text-xs text-slate-500">
-                            {new Date(booking.created_at).toLocaleTimeString('en-GB', { 
-                              hour: '2-digit', 
-                              minute: '2-digit',
-                              timeZone: 'Asia/Bangkok'
-                            })}
+                            {new Date(booking.created_at).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Bangkok' })}
                           </p>
                         </td>
-                        <td className="px-4 py-3 whitespace-nowrap">
+                        {/* Customer */}
+                        <td className="px-3 py-3">
                           <div>
-                            <p className="text-sm font-medium text-slate-800">
+                            <p className="text-sm font-medium text-slate-800 flex items-center gap-1.5">
                               {customer ? `${customer.first_name} ${customer.last_name}` : 'N/A'}
                             </p>
                             <p className="text-xs text-slate-500">{customer?.email}</p>
+                            {customer?.phone && (
+                              <p className="text-xs text-slate-400 mt-0.5">
+                                {customer.country_code && `${customer.country_code} `}{customer.phone}
+                              </p>
+                            )}
                           </div>
                         </td>
-                        <td className="px-4 py-3 whitespace-nowrap">
-                          <p className="text-sm text-slate-800">{booking.packages?.name}</p>
-                        </td>
-                        <td className="px-4 py-3 whitespace-nowrap">
+                        {/* Reservation Date */}
+                        <td className="px-3 py-3 whitespace-nowrap">
                           <p className="text-sm text-slate-800">
-                            {new Date(booking.activity_date).toLocaleDateString()}
+                            {new Date(booking.activity_date).toLocaleDateString('en-GB', { weekday: 'short', day: '2-digit', month: 'short' })}
                           </p>
                           <p className="text-xs text-slate-500">
-                            {booking.time_slot === 'flexible' ? '8AM-6PM (Flex)' : booking.time_slot}
+                            {new Date(booking.activity_date).toLocaleDateString('en-GB', { year: 'numeric' })}
                           </p>
                         </td>
-                        <td className="px-4 py-3 whitespace-nowrap text-center">
-                          <p className="text-sm text-slate-800">{booking.guest_count}</p>
+                        {/* Time */}
+                        <td className="px-3 py-3 whitespace-nowrap">
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium bg-slate-100 text-slate-700 rounded-full">
+                            <Clock className="w-3 h-3" />
+                            {booking.time_slot || '-'}
+                          </span>
                         </td>
-                        <td className="px-4 py-3 whitespace-nowrap text-center">
-                          {transport?.additional_guests && transport.additional_guests > 0 ? (
-                            <span className="inline-flex items-center justify-center px-2 py-1 text-xs font-medium bg-orange-100 text-orange-700 rounded-full">
-                              {transport.additional_guests}
-                            </span>
-                          ) : (
-                            <span className="text-xs text-slate-400">-</span>
-                          )}
+                        {/* Guests */}
+                        <td className="px-3 py-3 whitespace-nowrap text-center">
+                          <span className="inline-flex items-center gap-1 px-2 py-1 text-sm font-medium bg-blue-50 text-blue-700 rounded-full">
+                            <Users className="w-3.5 h-3.5" />
+                            {booking.guest_count}
+                          </span>
                         </td>
-                        <td className="px-4 py-3 whitespace-nowrap">
-                          {transportInfo && (
-                            <div className="flex flex-col gap-1">
-                              <span className={`inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-full ${transportInfo.color}`}>
-                                <TransportIcon className="w-3 h-3" />
-                                {transportInfo.label}
-                              </span>
-                              {transport?.transport_type === 'private' && transport.private_passengers ? (
-                                <span className="text-xs text-purple-600 font-medium">
-                                  {transport.private_passengers} pax
-                                </span>
-                              ) : transport?.transport_type === 'hotel_pickup' && (
-                                <span className="text-xs text-slate-600">
-                                  Pickup: {booking.guest_count + (transport?.additional_guests || 0)} pax
-                                </span>
-                              )}
-                            </div>
-                          )}
-                        </td>
-                        <td className="px-4 py-3 whitespace-nowrap">
-                          {transport?.hotel_name ? (
+                        {/* Zone / Table */}
+                        <td className="px-3 py-3 whitespace-nowrap">
+                          {zone ? (
                             <div>
-                              <p className="text-sm text-slate-800">{transport.hotel_name}</p>
-                              {transport.room_number && (
-                                <p className="text-xs text-slate-500">Room {transport.room_number}</p>
+                              <p className="text-sm font-medium text-slate-800">{zone}</p>
+                              {booking.table_code && (
+                                <span className="inline-block mt-0.5 px-1.5 py-0.5 text-[10px] font-mono font-bold bg-emerald-100 text-emerald-800 rounded">
+                                  {booking.table_code}
+                                </span>
                               )}
                             </div>
                           ) : (
-                            <span className="text-xs text-slate-400">-</span>
+                            <span className="text-xs text-slate-400">{booking.packages?.name ?? '-'}</span>
+                          )}
+                          {transport?.transport_type === 'hotel_pickup' && transport?.hotel_name && (
+                            <p className="text-[10px] text-slate-500 mt-1 flex items-center gap-1 truncate max-w-[140px]" title={`${transport.hotel_name}${transport.room_number ? ' · Room ' + transport.room_number : ''}`}>
+                              <Hotel className="w-3 h-3 flex-shrink-0" />
+                              {transport.hotel_name}
+                            </p>
+                          )}
+                          {transport?.transport_type === 'private' && (
+                            <p className="text-[10px] text-purple-600 mt-1 flex items-center gap-1">
+                              <Car className="w-3 h-3" />Private transfer
+                            </p>
                           )}
                         </td>
-                        <td className="px-4 py-3">
+                        {/* Add-ons */}
+                        <td className="px-3 py-3">
                           {addons.length > 0 ? (
-                            <div className="flex flex-col gap-1">
+                            <div className="flex flex-col gap-1 max-w-[160px]">
                               {addons.map((addon, idx) => (
-                                <span
-                                  key={idx}
-                                  className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium bg-orange-50 text-orange-700 rounded-lg"
-                                >
+                                <span key={idx} className="inline-flex items-center gap-1 px-2 py-0.5 text-[11px] font-medium bg-amber-50 text-amber-800 rounded">
                                   <Gift className="w-3 h-3 flex-shrink-0" />
-                                  <span className="truncate max-w-[150px]">
-                                    {addon.quantity}x {addon.promo_addons?.name || 'Add-on'}
-                                  </span>
+                                  <span className="truncate">{addon.quantity}× {addon.promo_addons?.name || 'Add-on'}</span>
                                 </span>
                               ))}
                             </div>
@@ -634,56 +517,74 @@ export default function BookingsPage() {
                             <span className="text-xs text-slate-400">-</span>
                           )}
                         </td>
-                        <td className="px-4 py-3 whitespace-nowrap">
-                          <div>
-                            <p className="text-sm font-medium text-slate-800">
-                              {formatCurrency(booking.total_amount)}
-                            </p>
-                            {booking.promo_codes && booking.discount_amount && booking.discount_amount > 0 && (
-                              <div className="flex items-center gap-1 mt-0.5">
-                                <Tag className="w-3 h-3 text-green-600" />
-                                <span className="text-xs font-medium text-green-600">
-                                  {booking.promo_codes.code}
-                                </span>
-                                <span className="text-xs text-green-500">
-                                  ({booking.promo_codes.discount_type === 'percentage' 
-                                    ? `${booking.promo_codes.discount_value}% OFF`
-                                    : `-฿${booking.promo_codes.discount_value}`
-                                  })
-                                </span>
-                              </div>
-                            )}
-                          </div>
+                        {/* Deposit */}
+                        <td className="px-3 py-3 whitespace-nowrap">
+                          <p className="text-sm font-medium text-slate-800">{formatCurrency(booking.total_amount)}</p>
+                          {booking.promo_codes && booking.discount_amount && booking.discount_amount > 0 && (
+                            <div className="flex items-center gap-1 mt-0.5">
+                              <Tag className="w-3 h-3 text-green-600" />
+                              <span className="text-[10px] font-medium text-green-600">{booking.promo_codes.code}</span>
+                              <span className="text-[10px] text-green-500">
+                                ({booking.promo_codes.discount_type === 'percentage'
+                                  ? `${booking.promo_codes.discount_value}% OFF`
+                                  : `-฿${booking.promo_codes.discount_value}`})
+                              </span>
+                            </div>
+                          )}
                         </td>
-                        <td className="px-4 py-3">
+                        {/* Notes (special_requests) */}
+                        <td className="px-3 py-3">
                           {customer?.special_requests ? (
-                            <div className="flex items-start gap-1.5 max-w-[180px]" title={customer.special_requests}>
+                            <div className="flex items-start gap-1.5 max-w-[160px]" title={customer.special_requests}>
                               <StickyNote className="w-3.5 h-3.5 text-amber-500 flex-shrink-0 mt-0.5" />
-                              <p className="text-xs text-slate-600 line-clamp-2">
-                                {customer.special_requests}
-                              </p>
+                              <p className="text-xs text-slate-600 line-clamp-2">{customer.special_requests}</p>
                             </div>
                           ) : (
                             <span className="text-xs text-slate-400">-</span>
                           )}
                         </td>
-                        <td className="px-4 py-3 whitespace-nowrap">
-                          <span
-                            className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(
-                              booking.status
-                            )}`}
-                          >
-                            {booking.status}
-                          </span>
+                        {/* Origin (booking + payment) */}
+                        <td className="px-3 py-3 whitespace-nowrap">
+                          <div className="flex flex-col gap-0.5 items-center text-[10px] text-slate-500">
+                            {booking.booking_origin_country_code && (
+                              <span
+                                className="flex items-center gap-1"
+                                title={`Booked from: ${booking.booking_origin_country_name || booking.booking_origin_country_code}${booking.booking_origin_ip ? ' (' + booking.booking_origin_ip + ')' : ''}`}
+                              >
+                                <Globe className="w-3 h-3" />
+                                <CountryFlag countryCode={booking.booking_origin_country_code} size="sm" />
+                                <span className="uppercase">{booking.booking_origin_country_code}</span>
+                              </span>
+                            )}
+                            {booking.payment_origin_country_code && (
+                              <span
+                                className="flex items-center gap-1"
+                                title={`Card from: ${booking.payment_origin_country_name || booking.payment_origin_country_code}`}
+                              >
+                                <CreditCard className="w-3 h-3" />
+                                <CountryFlag countryCode={booking.payment_origin_country_code} size="sm" />
+                                <span className="uppercase">{booking.payment_origin_country_code}</span>
+                              </span>
+                            )}
+                            {!booking.booking_origin_country_code && !booking.payment_origin_country_code && (
+                              <span className="text-slate-400">-</span>
+                            )}
+                          </div>
                         </td>
-                        <td className="px-4 py-3 whitespace-nowrap">
-                          <Link
-                            href={`/admin/bookings/${booking.id}`}
-                            className="inline-flex items-center gap-1 px-3 py-1.5 text-sm text-[#1a237e] hover:bg-[#1a237e]/10 rounded-lg transition-colors"
-                          >
-                            <Eye className="w-4 h-4" />
-                            View
-                          </Link>
+                        {/* Status + Action */}
+                        <td className="px-3 py-3 whitespace-nowrap">
+                          <div className="flex items-center gap-2">
+                            <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(booking.status)}`}>
+                              {booking.status}
+                            </span>
+                            <Link
+                              href={`/admin/bookings/${booking.id}`}
+                              className="p-1.5 text-[#1a237e] hover:bg-[#1a237e]/10 rounded-lg transition-colors"
+                              title="View details"
+                            >
+                              <Eye className="w-4 h-4" />
+                            </Link>
+                          </div>
                         </td>
                       </tr>
                     );
@@ -701,14 +602,8 @@ export default function BookingsPage() {
                   <span className="text-sm text-slate-500">Show:</span>
                   <CustomSelect
                     value={String(pageSize)}
-                    onChange={(value) => {
-                      setPageSize(Number(value));
-                      setPage(1);
-                    }}
-                    options={PAGE_SIZE_OPTIONS.map((size) => ({
-                      value: String(size),
-                      label: String(size),
-                    }))}
+                    onChange={(value) => { setPageSize(Number(value)); setPage(1); }}
+                    options={PAGE_SIZE_OPTIONS.map((size) => ({ value: String(size), label: String(size) }))}
                     size="sm"
                     className="w-20"
                   />
@@ -723,9 +618,7 @@ export default function BookingsPage() {
                 >
                   <ChevronLeft className="w-4 h-4 text-slate-700" />
                 </button>
-                <span className="text-sm text-slate-600">
-                  Page {page} of {totalPages || 1}
-                </span>
+                <span className="text-sm text-slate-600">Page {page} of {totalPages || 1}</span>
                 <button
                   onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                   disabled={page === totalPages || totalPages === 0}

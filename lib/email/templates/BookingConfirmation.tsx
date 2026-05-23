@@ -67,12 +67,13 @@ export const BookingConfirmationEmail = ({
           {/* Header with Logo */}
           <Section style={header}>
             <Img
-              src={`${baseUrl}/images/LOGO-NS.png`}
+              src={`${baseUrl}/images/threemonkeyslogo.png`}
               width="180"
               height="auto"
-              alt="Three Monkeys"
+              alt="Three Monkeys Restaurant Phuket"
               style={logo}
             />
+            <Text style={tagline}>Authentic Southern Thai · Phuket</Text>
           </Section>
 
           {/* Success Banner */}
@@ -355,6 +356,16 @@ const header: React.CSSProperties = {
 
 const logo: React.CSSProperties = {
   margin: '0 auto',
+  display: 'block',
+};
+
+const tagline: React.CSSProperties = {
+  color: '#b1b94c',
+  fontSize: '11px',
+  letterSpacing: '0.2em',
+  textTransform: 'uppercase' as const,
+  margin: '8px 0 0 0',
+  textAlign: 'center' as const,
 };
 
 const successBanner: React.CSSProperties = {

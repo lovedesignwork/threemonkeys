@@ -53,6 +53,8 @@ export function buildSyncPayload(
     zone_id?: string | null;
     zone_name?: string | null;
     table_code?: string | null;
+    booking_origin?: import('./types').BookingOrigin | null;
+    payment_origin?: import('./types').PaymentOrigin | null;
   },
   customer: CustomerData,
   transport: TransportData,
@@ -87,6 +89,8 @@ export function buildSyncPayload(
     zone_id: booking.zone_id ?? null,
     zone_name: booking.zone_name ?? null,
     table_code: booking.table_code ?? null,
+    booking_origin: booking.booking_origin ?? null,
+    payment_origin: booking.payment_origin ?? null,
   };
 }
 
@@ -236,6 +240,8 @@ export async function pushBookingToOneBooking(
     zone_id?: string | null;
     zone_name?: string | null;
     table_code?: string | null;
+    booking_origin?: import('./types').BookingOrigin | null;
+    payment_origin?: import('./types').PaymentOrigin | null;
   }
 ): Promise<SyncResponse> {
   // Validate customer email exists before attempting sync
@@ -278,6 +284,12 @@ export async function pushBookingToOneBooking(
     transport,
     addons
   );
+
+  // buildSyncPayload reads booking.booking_origin / payment_origin
+  // already, but the typed booking arg above doesn't include them — so
+  // forward explicitly on the final payload.
+  payload.booking_origin = bookingData.booking_origin ?? null;
+  payload.payment_origin = bookingData.payment_origin ?? null;
 
   return syncWithRetry(payload);
 }

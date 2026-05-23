@@ -4,7 +4,8 @@ import { useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { CheckCircle, Calendar, Clock, Users, MapPin, Mail, Phone, ChevronRight } from 'lucide-react';
+import Image from 'next/image';
+import { CheckCircle, Calendar, Clock, Users, MapPin, Mail, Phone, ChevronRight, Gift, Sparkles } from 'lucide-react';
 
 interface BookingAddon {
   id: string;
@@ -25,6 +26,8 @@ interface BookingData {
   total_amount: number;
   discount_amount?: number;
   currency: string;
+  zone_id?: string | null;
+  table_code?: string | null;
   packages: {
     name: string;
     slug: string;
@@ -43,6 +46,18 @@ interface BookingData {
   }[];
   booking_addons: BookingAddon[];
 }
+
+// Friendly zone names
+const ZONE_NAMES: Record<string, string> = {
+  'monkey-dome':           'Monkey Dome',
+  'monkey-nest':           'Monkey Nest',
+  'monkey-hilltop':        'Monkey Hilltop',
+  'bamboo-pavilion':       'Bamboo Pavilion',
+  'zone-t':                'Zone T',
+  'zone-z':                'Zone Z',
+  'exclusive-romantic':    'Exclusive Romantic — Zone Z',
+  'romantic-rooftop-luge': 'Romantic Rooftop Luge',
+};
 
 function SuccessContent() {
   const searchParams = useSearchParams();
@@ -119,37 +134,73 @@ function SuccessContent() {
     );
   }
 
+  const zoneDisplay = booking?.zone_id ? (ZONE_NAMES[booking.zone_id] || booking.zone_id) : null;
+
   return (
-    <main className="min-h-screen bg-[#0f0f0f]">
-      <div className="max-w-lg mx-auto px-4 py-8">
+    <main className="relative min-h-screen overflow-hidden bg-[#0a0a0a] text-white">
+      {/* Decorative background — soft brand glow */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute -top-1/3 left-1/2 h-[700px] w-[700px] -translate-x-1/2 rounded-full bg-[#b1b94c]/10 blur-[140px]" />
+        <div className="absolute bottom-0 left-0 h-[300px] w-[300px] rounded-full bg-[#b1b94c]/5 blur-[100px]" />
+        <div
+          className="absolute inset-0 opacity-[0.04]"
+          style={{
+            backgroundImage:
+              'radial-gradient(circle at 1px 1px, rgba(177, 185, 76, 1) 1px, transparent 0)',
+            backgroundSize: '32px 32px',
+          }}
+        />
+      </div>
+
+      <div className="relative z-10 max-w-lg mx-auto px-4 py-10">
+        {/* Logo */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex items-center justify-center mb-6"
+        >
+          <Image
+            src="/images/threemonkeyslogo.png"
+            alt="Three Monkeys Restaurant"
+            width={140}
+            height={48}
+            priority
+            unoptimized
+            className="h-auto w-auto max-w-[140px]"
+          />
+        </motion.div>
+
         {/* Success Header Card */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-gradient-to-br from-[#b1b94c] to-[#d4c91e] rounded-2xl p-6 text-center mb-4 shadow-lg"
+          transition={{ delay: 0.05 }}
+          className="bg-gradient-to-br from-[#b1b94c] to-[#8a9139] rounded-2xl p-6 text-center mb-4 shadow-xl shadow-[#b1b94c]/20"
         >
           <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.2, type: 'spring' }}
-            className="w-16 h-16 bg-black rounded-full flex items-center justify-center mx-auto mb-3"
+            initial={{ scale: 0, rotate: -90 }}
+            animate={{ scale: 1, rotate: 0 }}
+            transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
+            className="w-16 h-16 bg-black rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg"
           >
             <CheckCircle className="w-9 h-9 text-[#b1b94c]" />
           </motion.div>
-          <h1 className="text-2xl font-bold text-black font-[family-name:var(--font-krona)] mb-1">
-            BOOKING CONFIRMED!
+          <p className="text-black/60 text-[10px] uppercase tracking-[0.25em] mb-1">Reservation Confirmed</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-black font-[family-name:var(--font-krona)] normal-case mb-2">
+            Your table awaits
           </h1>
           {customer && (
-            <p className="text-black/70 text-sm">
-              Thank you, <span className="font-bold text-black">{customer.first_name}</span>!
+            <p className="text-black/80 text-sm">
+              Thank you, <span className="font-bold text-black">{customer.first_name}</span>! See you soon at Three Monkeys.
             </p>
           )}
-          <div className="mt-4 bg-black/10 rounded-xl px-4 py-2 inline-block">
-            <span className="text-xs text-black/60 block">Booking Reference</span>
-            <span className="text-xl font-bold text-black tracking-wide">{bookingRef}</span>
+          <div className="mt-4 bg-black/15 backdrop-blur rounded-xl px-4 py-2 inline-block">
+            <span className="text-[10px] text-black/60 uppercase tracking-wider block">Booking Reference</span>
+            <span className="text-xl font-bold text-black tracking-wide font-mono">{bookingRef}</span>
           </div>
           {customer?.email && (
-            <p className="text-xs text-black/60 mt-3">
+            <p className="text-xs text-black/60 mt-3 flex items-center justify-center gap-1.5">
+              <Mail className="w-3 h-3" />
               Confirmation sent to <span className="font-medium text-black/80">{customer.email}</span>
             </p>
           )}
@@ -162,12 +213,18 @@ function SuccessContent() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="bg-white rounded-2xl shadow-lg overflow-hidden mb-4"
+              className="bg-white rounded-2xl shadow-xl overflow-hidden mb-4"
             >
-              {/* Package Header */}
+              {/* Package + Zone Header */}
               <div className="bg-[#b1b94c] px-5 py-4">
-                <p className="text-black/60 text-xs font-medium uppercase tracking-wider mb-1">Package</p>
+                <p className="text-black/60 text-[10px] font-medium uppercase tracking-wider mb-1">Your reservation</p>
                 <h2 className="text-black text-lg font-bold">{booking.packages?.name || 'Dining Package'}</h2>
+                {zoneDisplay && (
+                  <p className="text-black/70 text-xs mt-1 flex items-center gap-1.5">
+                    <MapPin className="w-3 h-3" />
+                    Seated in <span className="font-semibold text-black">{zoneDisplay}</span>
+                  </p>
+                )}
               </div>
 
               {/* Details Grid */}
@@ -204,11 +261,14 @@ function SuccessContent() {
                 {/* Add-ons */}
                 {booking.booking_addons && booking.booking_addons.length > 0 && (
                   <div className="border-t border-slate-100 pt-4 mt-4">
-                    <p className="text-xs text-slate-400 uppercase mb-2">Add-ons</p>
+                    <p className="text-xs text-slate-400 uppercase mb-2 flex items-center gap-1.5">
+                      <Gift className="w-3.5 h-3.5 text-[#b1b94c]" />
+                      Add-ons
+                    </p>
                     {booking.booking_addons.map((addon, index) => (
                       <div key={index} className="flex items-center justify-between py-1">
                         <span className="text-sm text-slate-600">{addon.promo_addons?.name} × {addon.quantity}</span>
-                        <span className="text-sm font-semibold text-green-600">{formatCurrency((addon.unit_price || 0) * (addon.quantity || 1))}</span>
+                        <span className="text-sm font-semibold text-[#7a8534]">{formatCurrency((addon.unit_price || 0) * (addon.quantity || 1))}</span>
                       </div>
                     ))}
                   </div>
@@ -286,17 +346,23 @@ function SuccessContent() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="bg-white rounded-2xl shadow-lg p-4 mb-4"
+              className="bg-white rounded-2xl shadow-xl p-4 mb-4"
             >
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-[#b1b94c] rounded-xl flex items-center justify-center flex-shrink-0">
+              <a
+                href="https://maps.app.goo.gl/hk5Z7PQUHnmz6tVB6"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 group"
+              >
+                <div className="w-12 h-12 bg-[#b1b94c] rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
                   <MapPin className="w-6 h-6 text-black" />
                 </div>
-                <div>
+                <div className="flex-1">
                   <h3 className="font-bold text-slate-800">Three Monkeys Restaurant</h3>
-                  <p className="text-sm text-slate-500">Kathu, Phuket, Thailand</p>
+                  <p className="text-sm text-slate-500">Inside Hanuman World, Kathu, Phuket</p>
                 </div>
-              </div>
+                <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-[#b1b94c]" />
+              </a>
             </motion.div>
           </>
         )}
@@ -306,9 +372,11 @@ function SuccessContent() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
+          className="flex gap-3"
         >
-          <Link href="/">
-            <button className="w-full py-4 bg-[#b1b94c] hover:bg-[#d4c91e] text-black font-bold rounded-2xl transition-all text-lg shadow-lg hover:shadow-xl">
+          <Link href="/" className="flex-1">
+            <button className="w-full py-4 bg-[#b1b94c] hover:bg-[#c4cc5a] text-black font-bold rounded-2xl transition-all text-base shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
+              <Sparkles className="w-4 h-4" />
               Back to Home
             </button>
           </Link>
@@ -321,15 +389,18 @@ function SuccessContent() {
           transition={{ delay: 0.5 }}
           className="mt-6 text-center"
         >
-          <p className="text-slate-500 text-xs mb-2">Need help with your booking?</p>
+          <p className="text-white/40 text-xs mb-3">Need help with your booking?</p>
           <div className="flex justify-center gap-4">
-            <a href="mailto:enjoy@threemonkeysphuket.com" className="flex items-center gap-1 text-white/80 hover:text-white text-sm transition-colors">
-              <Mail className="w-4 h-4" /> Email
+            <a href="mailto:enjoy@threemonkeysphuket.com" className="flex items-center gap-1.5 text-white/70 hover:text-[#b1b94c] text-sm transition-colors">
+              <Mail className="w-4 h-4" /> Email us
             </a>
-            <a href="tel:+66629795533" className="flex items-center gap-1 text-white/80 hover:text-white text-sm transition-colors">
-              <Phone className="w-4 h-4" /> Call
+            <a href="tel:+66993632222" className="flex items-center gap-1.5 text-white/70 hover:text-[#b1b94c] text-sm transition-colors">
+              <Phone className="w-4 h-4" /> Call us
             </a>
           </div>
+          <p className="text-white/20 text-[10px] mt-6">
+            © {new Date().getFullYear()} Three Monkeys Restaurant Phuket
+          </p>
         </motion.div>
       </div>
     </main>

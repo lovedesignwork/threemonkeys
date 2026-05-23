@@ -23,9 +23,9 @@ export async function GET(request: NextRequest) {
         *,
         packages (name),
         promo_codes (code, discount_type, discount_value),
-        booking_customers (first_name, last_name, email, phone, special_requests),
+        booking_customers (first_name, last_name, email, phone, country_code, special_requests),
         booking_transport (id, transport_type, hotel_name, room_number, private_passengers, non_players),
-        booking_addons (quantity, promo_addons (name))
+        booking_addons (quantity, unit_price, promo_addons (name))
       `, { count: 'exact' })
       .order(sortField, { ascending: sortDirection === 'asc' })
       .range((page - 1) * pageSize, page * pageSize - 1);
