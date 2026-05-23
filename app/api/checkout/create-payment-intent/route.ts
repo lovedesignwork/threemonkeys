@@ -3,6 +3,8 @@ import { stripe, PRIVATE_TRANSFER_PRICE, NON_PLAYER_PRICE } from '@/lib/stripe/c
 import { supabaseAdmin } from '@/lib/supabase/server';
 import { getZoneForPackage } from '@/lib/allotment/zones';
 import { getClientIP, getGeoFromIP } from '@/lib/geo/ip-lookup';
+import { getPackageById } from '@/lib/data/packages';
+import { getAddonById, isFixedPricePackage } from '@/lib/data/addons';
 
 interface BookingData {
   packageId: string;
@@ -55,39 +57,36 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Server configuration error. Please contact support.' }, { status: 500 });
     }
 
-    // Get package details
-    const { data: packageData, error: packageError } = await supabaseAdmin
-      .from('packages')
-      .select('*')
-      .eq('id', packageId)
-      .single();
-
-    if (packageError) {
-      console.error('Package fetch error:', packageError);
-      return NextResponse.json({ error: `Failed to fetch package: ${packageError.message}` }, { status: 500 });
-    }
+    // Get package details from local data source (packages are hardcoded in
+    // lib/data/packages.ts, not stored in the database).
+    const packageData = getPackageById(packageId);
 
     if (!packageData) {
+      console.error('Package not found in local data:', packageId);
       return NextResponse.json({ error: 'Package not found' }, { status: 404 });
     }
 
-    // Get addon details
-    const { data: addonsData } = await supabaseAdmin
-      .from('promo_addons')
-      .select('*')
-      .in('id', Object.keys(promoAddons));
+    // Resolve addon details from the shared local catalog (kept in sync with
+    // the checkout UI in lib/data/addons.ts).
+    const requestedAddons = Object.entries(promoAddons)
+      .filter(([, qty]) => qty > 0)
+      .map(([id, qty]) => {
+        const addon = getAddonById(id);
+        return addon ? { ...addon, quantity: qty } : null;
+      })
+      .filter((a): a is NonNullable<typeof a> => a !== null);
 
-    // Calculate total
-    let totalAmount = packageData.price * guests;
+    // Calculate base price. Per-table seats (Monkey Dome / Monkey Nest) and
+    // special packages charge a flat package price; everything else is
+    // priced per guest. This mirrors the booking/checkout UI logic so the
+    // server-side amount matches what the customer was quoted.
+    let totalAmount = isFixedPricePackage(packageId)
+      ? packageData.price
+      : packageData.price * guests;
 
     // Add addons cost
-    if (addonsData) {
-      for (const addon of addonsData) {
-        const qty = promoAddons[addon.id] || 0;
-        if (qty > 0) {
-          totalAmount += addon.price * qty;
-        }
-      }
+    for (const addon of requestedAddons) {
+      totalAmount += addon.price * addon.quantity;
     }
 
     // Transport costs
@@ -175,19 +174,15 @@ export async function POST(request: NextRequest) {
     });
 
     // Insert addons
-    if (addonsData) {
-      const addonInserts = addonsData
-        .filter((addon) => promoAddons[addon.id] > 0)
-        .map((addon) => ({
-          booking_id: booking.id,
-          addon_id: addon.id,
-          quantity: promoAddons[addon.id],
-          unit_price: addon.price,
-        }));
+    if (requestedAddons.length > 0) {
+      const addonInserts = requestedAddons.map((addon) => ({
+        booking_id: booking.id,
+        addon_id: addon.id,
+        quantity: addon.quantity,
+        unit_price: addon.price,
+      }));
 
-      if (addonInserts.length > 0) {
-        await supabaseAdmin.from('booking_addons').insert(addonInserts);
-      }
+      await supabaseAdmin.from('booking_addons').insert(addonInserts);
     }
 
     // Build description for Stripe
