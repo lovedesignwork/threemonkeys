@@ -176,7 +176,10 @@ export async function POST(request: NextRequest) {
       transport_cost: transportCost,
     });
 
-    // Insert addons
+    // Insert addons. booking_addons.addon_id has a FK -> promo_addons(id),
+    // so if the promo_addons table is missing entries the insert will fail
+    // and we'd lose the customer's add-on selection. Log explicitly so we
+    // notice in Vercel logs instead of swallowing the error.
     if (requestedAddons.length > 0) {
       const addonInserts = requestedAddons.map((addon) => ({
         booking_id: booking.id,
@@ -185,7 +188,17 @@ export async function POST(request: NextRequest) {
         unit_price: addon.price,
       }));
 
-      await supabaseAdmin.from('booking_addons').insert(addonInserts);
+      const { error: addonsError } = await supabaseAdmin
+        .from('booking_addons')
+        .insert(addonInserts);
+      if (addonsError) {
+        console.error(
+          '[checkout] Failed to insert booking_addons for booking',
+          booking.booking_ref,
+          '— check that promo_addons is seeded. Error:',
+          addonsError,
+        );
+      }
     }
 
     // Build description for Stripe
