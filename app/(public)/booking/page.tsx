@@ -94,11 +94,12 @@ const isSpecialPackage = (packageId: string | null): boolean => {
 };
 
 // Helper to check if booking date is at least 1 day in advance (for add-ons availability)
-const isAdvanceBooking = (selectedDate: Date | null): boolean => {
+const isAdvanceBooking = (selectedDate: string | Date | null | undefined): boolean => {
   if (!selectedDate) return false;
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const bookingDate = new Date(selectedDate);
+  if (isNaN(bookingDate.getTime())) return false;
   bookingDate.setHours(0, 0, 0, 0);
   const diffTime = bookingDate.getTime() - today.getTime();
   const diffDays = diffTime / (1000 * 60 * 60 * 24);

@@ -16,6 +16,8 @@ interface CustomSelectProps {
   options: Option[];
   placeholder?: string;
   className?: string;
+  /** Visual density. `"sm"` makes the trigger button shorter and tighter. */
+  size?: 'sm' | 'md';
 }
 
 export function CustomSelect({ 
@@ -23,8 +25,10 @@ export function CustomSelect({
   onChange, 
   options, 
   placeholder = 'Select...', 
-  className = '' 
+  className = '',
+  size = 'md',
 }: CustomSelectProps) {
+  const triggerSize = size === 'sm' ? 'h-9 px-3 pr-9 text-xs' : 'h-12 px-4 pr-10 text-sm';
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -47,7 +51,7 @@ export function CustomSelect({
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         className={`
-          w-full h-12 px-4 pr-10 bg-white/5 border-2 rounded-xl text-sm text-left
+          w-full ${triggerSize} bg-white/5 border-2 rounded-xl text-left
           transition-all duration-200 cursor-pointer
           ${isOpen 
             ? 'border-[#b1b94c] bg-white/10' 
