@@ -47,9 +47,43 @@ const promotionalAddons = [
   },
 ];
 
-// Available hours for booking (11 AM - 2 PM, 5 PM - 9 PM)
-const availableHours = ['11', '12', '13', '14', '17', '18', '19', '20', '21'];
-const availableMinutes = ['00', '15', '30', '45'];
+// Time slot configurations based on seat type
+const PREMIUM_TIME_SLOTS = ['16:00', '19:00', '22:00']; // Monkey Dome, Monkey Nest
+const SEMI_PREMIUM_TIME_SLOTS = ['19:00', '22:00']; // Monkey Hilltop, Bamboo Pavilion
+const NORMAL_TIME_SLOTS = ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00']; // All other seats
+
+// Helper to get available time slots based on package
+const getAvailableTimeSlots = (packageId: string | null): string[] => {
+  if (!packageId) return NORMAL_TIME_SLOTS;
+  
+  // Premium seats: Monkey Dome, Monkey Nest
+  if (packageId === 'monkey-dome' || packageId === 'monkey-nest') {
+    return PREMIUM_TIME_SLOTS;
+  }
+  
+  // Semi-premium seats: Monkey Hilltop, Bamboo Pavilion
+  if (packageId === 'monkey-hilltop' || packageId === 'bamboo-pavilion') {
+    return SEMI_PREMIUM_TIME_SLOTS;
+  }
+  
+  // All other seats and special packages: normal hourly slots
+  return NORMAL_TIME_SLOTS;
+};
+
+// Helper to check if a time slot is bookable (at least 2 hours before)
+const isTimeSlotBookable = (timeSlot: string, selectedDate: string): boolean => {
+  if (!selectedDate) return true; // If no date selected, show all as enabled initially
+  
+  const now = new Date();
+  const [hours, minutes] = timeSlot.split(':').map(Number);
+  const slotDate = new Date(selectedDate);
+  slotDate.setHours(hours, minutes, 0, 0);
+  
+  // Add 2 hours buffer to current time
+  const minBookingTime = new Date(now.getTime() + 2 * 60 * 60 * 1000);
+  
+  return slotDate > minBookingTime;
+};
 
 const allBookablePackages = packages.filter(pkg => pkg.type === 'seat' || pkg.type === 'special');
 const seatPackages = packages.filter(pkg => pkg.type === 'seat');
@@ -210,9 +244,19 @@ function BookingContent() {
   }, [searchParams]);
 
   const [selectedDate, setSelectedDate] = useState('');
-  const [selectedHour, setSelectedHour] = useState('');
-  const [selectedMinute, setSelectedMinute] = useState('00');
-  const selectedTime = selectedHour ? `${selectedHour}:${selectedMinute}` : '';
+  const [selectedTime, setSelectedTime] = useState('');
+  
+  // Get available time slots based on selected package
+  const availableTimeSlots = useMemo(() => {
+    return getAvailableTimeSlots(selectedPackageId);
+  }, [selectedPackageId]);
+  
+  // Reset selected time when package changes and current time is not available
+  useEffect(() => {
+    if (selectedTime && !availableTimeSlots.includes(selectedTime)) {
+      setSelectedTime('');
+    }
+  }, [selectedPackageId, availableTimeSlots, selectedTime]);
   const [guestCount, setGuestCount] = useState(2);
   const [needTransfer, setNeedTransfer] = useState(false);
   const [hotelName, setHotelName] = useState('');
@@ -656,48 +700,43 @@ function BookingContent() {
                           />
                         </div>
 
-                        {/* Time Picker - HH:MM dropdowns */}
+                        {/* Time Picker - Single dropdown based on seat type */}
                         <div>
                           <label className="block text-sm font-medium text-white/70 mb-3 flex items-center gap-2">
                             <Clock className="w-4 h-4 text-[#b1b94c]" />
                             Select Time
+                            {(selectedPackageId === 'monkey-dome' || selectedPackageId === 'monkey-nest' || 
+                              selectedPackageId === 'monkey-hilltop' || selectedPackageId === 'bamboo-pavilion') && (
+                              <span className="text-white/40 text-xs ml-1">
+                                ({availableTimeSlots.length} time slots available)
+                              </span>
+                            )}
                           </label>
-                          <div className="flex items-center gap-3">
-                            {/* Hour Dropdown */}
-                            <CustomSelect
-                              value={selectedHour}
-                              onChange={setSelectedHour}
-                              placeholder="HH"
-                              className="flex-1"
-                              options={availableHours.map((hour) => {
-                                const hourNum = parseInt(hour);
-                                const display12h = hourNum > 12 ? hourNum - 12 : hourNum;
-                                const ampm = hourNum >= 12 ? 'PM' : 'AM';
-                                // Show 24h format with 12h equivalent in parentheses for PM
-                                const label = hourNum >= 13 
-                                  ? `${hour} (${display12h}${ampm})`
-                                  : `${hour} ${ampm}`;
-                                return { value: hour, label };
-                              })}
-                            />
-
-                            {/* Separator */}
-                            <div className="flex items-center">
-                              <span className="text-2xl text-white/30 font-light">:</span>
-                            </div>
-
-                            {/* Minute Dropdown */}
-                            <CustomSelect
-                              value={selectedMinute}
-                              onChange={setSelectedMinute}
-                              placeholder="MM"
-                              className="flex-1"
-                              options={availableMinutes.map((minute) => ({
-                                value: minute,
-                                label: minute
-                              }))}
-                            />
-                          </div>
+                          <CustomSelect
+                            value={selectedTime}
+                            onChange={setSelectedTime}
+                            placeholder="Select time"
+                            className="w-full"
+                            options={availableTimeSlots.map((timeSlot) => {
+                              const [hourStr] = timeSlot.split(':');
+                              const hourNum = parseInt(hourStr);
+                              const display12h = hourNum > 12 ? hourNum - 12 : (hourNum === 0 ? 12 : hourNum);
+                              const ampm = hourNum >= 12 ? 'PM' : 'AM';
+                              const isBookable = isTimeSlotBookable(timeSlot, selectedDate);
+                              
+                              return { 
+                                value: timeSlot, 
+                                label: `${timeSlot} (${display12h}:00 ${ampm})${!isBookable ? ' - Not available' : ''}`,
+                                disabled: !isBookable
+                              };
+                            })}
+                          />
+                          {selectedDate && (
+                            <p className="text-white/40 text-xs mt-2 flex items-center gap-1">
+                              <Info className="w-3 h-3" />
+                              Bookings must be made at least 2 hours in advance
+                            </p>
+                          )}
                         </div>
 
                         {/* Number of Persons */}
@@ -1106,11 +1145,17 @@ function BookingContent() {
                           </div>
                         )}
                         
-                        {selectedHour && (
+                        {selectedTime && (
                           <div className="flex items-center gap-3 text-sm">
                             <Clock className="w-4 h-4 text-[#b1b94c]" />
                             <span className="text-white">
-                              {parseInt(selectedHour) > 12 ? parseInt(selectedHour) - 12 : parseInt(selectedHour)}:{selectedMinute} {parseInt(selectedHour) >= 12 ? 'PM' : 'AM'}
+                              {(() => {
+                                const [hourStr, minuteStr] = selectedTime.split(':');
+                                const hourNum = parseInt(hourStr);
+                                const display12h = hourNum > 12 ? hourNum - 12 : (hourNum === 0 ? 12 : hourNum);
+                                const ampm = hourNum >= 12 ? 'PM' : 'AM';
+                                return `${display12h}:${minuteStr} ${ampm}`;
+                              })()}
                             </span>
                           </div>
                         )}
