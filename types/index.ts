@@ -3,6 +3,10 @@ export interface PackageStats {
   meals?: number;
   capacity?: number;
   duration?: number;
+  // Allow arbitrary descriptive stat fields used per-package (panoramicView,
+  // naturalImmersion, iconicTree, ambience, vibrantAtmosphere, liveShows,
+  // indoorSetting, outdoorSetting, scenicViews, guestRating, etc.)
+  [key: string]: string | number | boolean | undefined;
 }
 
 export interface Package {
