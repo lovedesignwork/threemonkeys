@@ -69,46 +69,10 @@ export default function MaintenancePage() {
         </h1>
 
         {/* Subline */}
-        <p className="mb-12 max-w-xl text-center text-base text-white/60 sm:text-lg">
+        <p className="max-w-xl text-center text-base text-white/60 sm:text-lg">
           Our website is briefly offline while we update the experience.
-          We&apos;ll be back very soon — meanwhile our restaurant is open as
-          usual and you can still reach us directly.
+          We&apos;ll be back very soon.
         </p>
-
-        {/* Contact card */}
-        <div className="grid w-full max-w-2xl grid-cols-1 gap-3 sm:grid-cols-3">
-          <a
-            href="tel:+66993632222"
-            className="group flex flex-col items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-5 py-5 transition-all hover:border-[#b1b94c]/40 hover:bg-[#b1b94c]/5"
-          >
-            <span className="text-[10px] uppercase tracking-[0.2em] text-white/40">Call us</span>
-            <span className="text-sm font-semibold text-white group-hover:text-[#b1b94c]">
-              +66 99 363 2222
-            </span>
-          </a>
-          <a
-            href="https://www.instagram.com/threemonkeyspkt/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group flex flex-col items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-5 py-5 transition-all hover:border-[#b1b94c]/40 hover:bg-[#b1b94c]/5"
-          >
-            <span className="text-[10px] uppercase tracking-[0.2em] text-white/40">Follow</span>
-            <span className="text-sm font-semibold text-white group-hover:text-[#b1b94c]">
-              @threemonkeyspkt
-            </span>
-          </a>
-          <a
-            href="https://maps.app.goo.gl/hk5Z7PQUHnmz6tVB6"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group flex flex-col items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-5 py-5 transition-all hover:border-[#b1b94c]/40 hover:bg-[#b1b94c]/5"
-          >
-            <span className="text-[10px] uppercase tracking-[0.2em] text-white/40">Visit</span>
-            <span className="text-sm font-semibold text-white group-hover:text-[#b1b94c]">
-              Hanuman World, Kathu
-            </span>
-          </a>
-        </div>
 
         {/* Footer */}
         <p className="mt-16 text-center text-xs text-white/30">
