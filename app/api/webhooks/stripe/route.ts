@@ -221,7 +221,7 @@ export async function POST(request: NextRequest) {
               customerEmail: customer.email,
               customerName: customer.first_name,
               bookingRef: booking.booking_ref,
-              packageName: booking.packages?.name || 'Adventure Package',
+              packageName: booking.packages?.name || 'Dining Package',
               activityDate,
               timeSlot: formatTime(booking.time_slot),
               guestCount: booking.guest_count,
@@ -232,6 +232,7 @@ export async function POST(request: NextRequest) {
               isPrivateTransfer: transport?.transport_type === 'private',
               addons,
               zoneName: zoneName,
+              specialRequests: customer.special_requests ?? null,
             });
             console.log(`[Email] Customer confirmation sent for ${booking.booking_ref}`);
           } catch (err) {

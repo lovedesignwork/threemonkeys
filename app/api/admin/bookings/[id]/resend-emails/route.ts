@@ -103,6 +103,7 @@ export async function POST(
       isPrivateTransfer: transport?.transport_type === 'private',
       addons,
       zoneName,
+      specialRequests: customer.special_requests ?? null,
     });
     result.customer.ok = true;
   } catch (err) {

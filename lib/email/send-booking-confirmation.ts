@@ -17,6 +17,8 @@ interface BookingData {
   addons?: Array<{ name: string; quantity: number; price: number }>;
   /** Optional dining zone (e.g. "Monkey Dome"). Shown to customer; table code is not. */
   zoneName?: string | null;
+  /** Customer's typed note from checkout (booking_customers.special_requests). */
+  specialRequests?: string | null;
 }
 
 export async function sendBookingConfirmationEmail(data: BookingData) {
@@ -31,7 +33,7 @@ export async function sendBookingConfirmationEmail(data: BookingData) {
     const { data: result, error } = await resend.emails.send({
       from: EMAIL_FROM,
       to: data.customerEmail,
-      subject: `Booking Confirmed! Your Hanuman World Adventure #${data.bookingRef}`,
+      subject: `Booking Confirmed · Three Monkeys Restaurant · ${data.bookingRef}`,
       react: BookingConfirmationEmail({
         customerName: data.customerName,
         bookingRef: data.bookingRef,
@@ -46,6 +48,7 @@ export async function sendBookingConfirmationEmail(data: BookingData) {
         isPrivateTransfer: data.isPrivateTransfer,
         addons: data.addons,
         zoneName: data.zoneName ?? null,
+        specialRequests: data.specialRequests ?? null,
       }),
     });
 

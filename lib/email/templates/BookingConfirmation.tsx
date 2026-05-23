@@ -30,33 +30,34 @@ interface BookingConfirmationEmailProps {
   isPrivateTransfer?: boolean;
   addons?: Array<{ name: string; quantity: number; price: number }>;
   zoneName?: string | null;
+  specialRequests?: string | null;
 }
 
-const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://threemonkeys.com';
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://threemonkeysphuket.com';
 
 export const BookingConfirmationEmail = ({
-  customerName = 'John',
-  bookingRef = '3M-00001',
-  packageName = 'World A+',
-  activityDate = 'March 15, 2026',
-  timeSlot = '10:00 AM',
+  customerName = 'Guest',
+  bookingRef = '3M-000000',
+  packageName = '',
+  activityDate = '',
+  timeSlot = '',
   guestCount = 2,
-  totalAmount = 5980,
-  hotelName = 'Patong Beach Hotel',
-  roomNumber = '302',
-  hasTransfer = true,
+  totalAmount = 0,
+  hotelName,
+  roomNumber,
+  hasTransfer = false,
   isPrivateTransfer = false,
   addons = [],
   zoneName = null,
+  specialRequests = null,
 }: BookingConfirmationEmailProps) => {
-  const previewText = `Your Three Monkeys reservation is confirmed! Booking #${bookingRef}`;
+  const previewText = `Your Three Monkeys reservation is confirmed — ${bookingRef}`;
 
-  const formatPrice = (amount: number) => {
-    return new Intl.NumberFormat('th-TH', {
+  const formatPrice = (amount: number) =>
+    new Intl.NumberFormat('th-TH', {
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     }).format(amount);
-  };
 
   return (
     <Html>
@@ -64,267 +65,232 @@ export const BookingConfirmationEmail = ({
       <Preview>{previewText}</Preview>
       <Body style={main}>
         <Container style={container}>
-          {/* Header with Logo */}
+          {/* ───── HEADER: lime band with logo + tagline ───── */}
           <Section style={header}>
             <Img
               src={`${baseUrl}/images/threemonkeyslogo.png`}
-              width="180"
+              width="120"
               height="auto"
               alt="Three Monkeys Restaurant Phuket"
               style={logo}
             />
-            <Text style={tagline}>Authentic Southern Thai · Phuket</Text>
+            <Text style={tagline}>Rainforest Dining · Phuket</Text>
           </Section>
 
-          {/* Success Banner */}
-          <Section style={successBanner}>
-            <div style={checkmarkCircle}>
+          {/* ───── HERO: confirmation banner ───── */}
+          <Section style={heroSection}>
+            <div style={checkmarkWrap}>
               <Text style={checkmark}>✓</Text>
             </div>
-            <Heading style={successTitle}>Booking Confirmed!</Heading>
-            <Text style={successSubtitle}>
-              Thank you for choosing Three Monkeys, {customerName}!
+            <Text style={heroBadge}>RESERVATION CONFIRMED</Text>
+            <Heading style={heroTitle}>Your table awaits</Heading>
+            <Text style={heroSubtitle}>
+              Thank you, {customerName}. We can&apos;t wait to welcome you.
             </Text>
           </Section>
 
-          {/* Booking Reference */}
+          {/* ───── BOOKING REFERENCE pill ───── */}
           <Section style={refSection}>
             <Text style={refLabel}>BOOKING REFERENCE</Text>
             <Text style={refNumber}>{bookingRef}</Text>
-            <Text style={refNote}>Please save this number for your records</Text>
+            <Text style={refNote}>Please keep this number for your records</Text>
           </Section>
 
-          <Hr style={divider} />
-
-          {/* Booking Details Card */}
+          {/* ───── RESERVATION DETAILS card ───── */}
           <Section style={detailsCard}>
             <Heading as="h2" style={sectionTitle}>
-              Your Reservation Details
+              Reservation Details
             </Heading>
 
-            <Row style={detailRow}>
-              <Column style={detailIcon}>
-                <Text style={iconText}>📦</Text>
-              </Column>
-              <Column style={detailContent}>
-                <Text style={detailLabel}>Package</Text>
-                <Text style={detailValue}>{packageName}</Text>
-              </Column>
-            </Row>
-
-            <Row style={detailRow}>
-              <Column style={detailIcon}>
-                <Text style={iconText}>📅</Text>
-              </Column>
-              <Column style={detailContent}>
-                <Text style={detailLabel}>Date</Text>
-                <Text style={detailValue}>{activityDate}</Text>
-              </Column>
-            </Row>
-
-            <Row style={detailRow}>
-              <Column style={detailIcon}>
-                <Text style={iconText}>🕐</Text>
-              </Column>
-              <Column style={detailContent}>
-                <Text style={detailLabel}>Time</Text>
-                <Text style={detailValue}>{timeSlot}</Text>
-              </Column>
-            </Row>
-
-            <Row style={detailRow}>
-              <Column style={detailIcon}>
-                <Text style={iconText}>👥</Text>
-              </Column>
-              <Column style={detailContent}>
-                <Text style={detailLabel}>Guests</Text>
-                <Text style={detailValue}>{guestCount} {guestCount === 1 ? 'person' : 'people'}</Text>
-              </Column>
-            </Row>
-
-            {zoneName && (
-              <Row style={detailRow}>
-                <Column style={detailIcon}>
-                  <Text style={iconText}>📍</Text>
-                </Column>
-                <Column style={detailContent}>
-                  <Text style={detailLabel}>Dining Zone</Text>
-                  <Text style={detailValue}>{zoneName}</Text>
-                </Column>
-              </Row>
-            )}
-
-            {hasTransfer && hotelName && (
-              <Row style={detailRow}>
-                <Column style={detailIcon}>
-                  <Text style={iconText}>🚐</Text>
-                </Column>
-                <Column style={detailContent}>
-                  <Text style={detailLabel}>
-                    {isPrivateTransfer ? 'Private Transfer' : 'Hotel Pickup'}
-                  </Text>
-                  <Text style={detailValue}>
-                    {hotelName}{roomNumber ? `, Room ${roomNumber}` : ''}
-                  </Text>
-                </Column>
-              </Row>
-            )}
+            <table style={detailsTable}>
+              <tbody>
+                <tr style={detailsTr}>
+                  <td style={detailsKey}>Package</td>
+                  <td style={detailsValue}>{packageName}</td>
+                </tr>
+                <tr style={detailsTr}>
+                  <td style={detailsKey}>Date</td>
+                  <td style={detailsValue}>{activityDate}</td>
+                </tr>
+                <tr style={detailsTr}>
+                  <td style={detailsKey}>Time</td>
+                  <td style={detailsValue}>{timeSlot}</td>
+                </tr>
+                <tr style={detailsTr}>
+                  <td style={detailsKey}>Guests</td>
+                  <td style={detailsValue}>
+                    {guestCount} {guestCount === 1 ? 'person' : 'people'}
+                  </td>
+                </tr>
+                {zoneName && (
+                  <tr style={detailsTr}>
+                    <td style={detailsKey}>Dining Zone</td>
+                    <td style={detailsValue}>{zoneName}</td>
+                  </tr>
+                )}
+                {hasTransfer && hotelName && (
+                  <tr style={detailsTr}>
+                    <td style={detailsKey}>
+                      {isPrivateTransfer ? 'Private Transfer' : 'Hotel Pickup'}
+                    </td>
+                    <td style={detailsValue}>
+                      {hotelName}
+                      {roomNumber ? `, Room ${roomNumber}` : ''}
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
           </Section>
 
-          {/* Add-ons if any */}
+          {/* ───── ADD-ONS card ───── */}
           {addons && addons.length > 0 && (
-            <Section style={addonsSection}>
-              <Heading as="h3" style={addonsTitle}>
-                Add-ons
+            <Section style={addonsCard}>
+              <Heading as="h3" style={subSectionTitle}>
+                Add-ons &amp; Extras
               </Heading>
               {addons.map((addon, index) => (
                 <Row key={index} style={addonRow}>
                   <Column>
                     <Text style={addonName}>
-                      {addon.name} × {addon.quantity}
+                      {addon.name}
+                      <span style={addonQty}> × {addon.quantity}</span>
                     </Text>
                   </Column>
                   <Column style={addonPriceCol}>
-                    <Text style={addonPrice}>฿{formatPrice(addon.price * addon.quantity)}</Text>
+                    <Text style={addonPrice}>
+                      ฿{formatPrice(addon.price * addon.quantity)}
+                    </Text>
                   </Column>
                 </Row>
               ))}
             </Section>
           )}
 
-          <Hr style={divider} />
+          {/* ───── SPECIAL REQUESTS card ───── */}
+          {specialRequests && specialRequests.trim() && (
+            <Section style={requestsCard}>
+              <Heading as="h3" style={subSectionTitle}>
+                Special Requests
+              </Heading>
+              <Text style={requestsText}>{specialRequests}</Text>
+            </Section>
+          )}
 
-          {/* Total Amount */}
+          {/* ───── TOTAL ───── */}
           <Section style={totalSection}>
             <Row>
               <Column>
                 <Text style={totalLabel}>Total Paid</Text>
               </Column>
               <Column style={totalAmountCol}>
-                <Text style={totalAmount_}>฿{formatPrice(totalAmount)}</Text>
+                <Text style={totalAmountStyle}>฿{formatPrice(totalAmount)}</Text>
               </Column>
             </Row>
+            <Text style={descriptorNote}>
+              The charge appears as <strong style={descriptorTag}>ONEBOOKING</strong> on
+              your card statement.
+            </Text>
           </Section>
 
-          <Hr style={divider} />
-
-          {/* What to Bring */}
-          <Section style={infoSection}>
-            <Heading as="h2" style={sectionTitle}>
-              What to Bring
-            </Heading>
-            <Row style={infoRow}>
-              <Column style={infoBullet}>
-                <Text style={bulletPoint}>•</Text>
-              </Column>
-              <Column>
-                <Text style={infoText}>Comfortable clothing & closed-toe shoes</Text>
-              </Column>
-            </Row>
-            <Row style={infoRow}>
-              <Column style={infoBullet}>
-                <Text style={bulletPoint}>•</Text>
-              </Column>
-              <Column>
-                <Text style={infoText}>Sunscreen & insect repellent</Text>
-              </Column>
-            </Row>
-            <Row style={infoRow}>
-              <Column style={infoBullet}>
-                <Text style={bulletPoint}>•</Text>
-              </Column>
-              <Column>
-                <Text style={infoText}>Camera with secure strap (optional)</Text>
-              </Column>
-            </Row>
-            <Row style={infoRow}>
-              <Column style={infoBullet}>
-                <Text style={bulletPoint}>•</Text>
-              </Column>
-              <Column>
-                <Text style={infoText}>This booking confirmation (digital or printed)</Text>
-              </Column>
-            </Row>
-          </Section>
-
-          {/* Important Notes */}
-          <Section style={notesSection}>
-            <Heading as="h2" style={notesSectionTitle}>
+          {/* ───── IMPORTANT INFO ───── */}
+          <Section style={importantSection}>
+            <Heading as="h3" style={importantTitle}>
               Important Information
             </Heading>
-            <Text style={noteText}>
-              ⏰ Please arrive 15 minutes before your reservation time
-            </Text>
-            <Text style={noteText}>
-              🍽️ Smart casual dress code is recommended
-            </Text>
-            <Text style={noteText}>
-              ⚠️ Please inform us of any dietary restrictions or allergies
-            </Text>
-            <Text style={noteText}>
-              📞 Contact us at least 24 hours in advance for any changes
-            </Text>
+            <Text style={importantItem}>• Please arrive 15 minutes before your reservation time</Text>
+            <Text style={importantItem}>• Smart casual dress code recommended</Text>
+            <Text style={importantItem}>• Let us know about dietary requirements in advance</Text>
+            <Text style={importantItem}>• Reservations held for 15 minutes past booking time</Text>
+            <Text style={importantItem}>• Contact us at least 24 hours ahead for any changes</Text>
           </Section>
 
-          {/* CTA Button */}
+          {/* ───── CTA ───── */}
           <Section style={ctaSection}>
-            <Button style={ctaButton} href={`${baseUrl}/booking?ref=${bookingRef}`}>
-              View Booking Details
+            <Button style={ctaButton} href={`${baseUrl}`}>
+              Visit Three Monkeys
             </Button>
           </Section>
 
-          {/* Contact Information */}
-          <Section style={contactSection}>
-            <Heading as="h3" style={contactTitle}>
+          {/* ───── CONTACT ───── */}
+          <Section style={contactCard}>
+            <Heading as="h3" style={subSectionTitle}>
               Need Help?
             </Heading>
-            <Text style={contactText}>
-              📧 Email: <Link href="mailto:enjoy@threemonkeysphuket.com" style={contactLink}>enjoy@threemonkeysphuket.com</Link>
-            </Text>
-            <Text style={contactText}>
-              📞 Phone: <Link href="tel:+66980108838" style={contactLink}>+66 98-010-8838</Link>
-            </Text>
-            <Text style={contactText}>
-              💬 LINE: @threemonkeys
-            </Text>
+            <table style={contactTable}>
+              <tbody>
+                <tr>
+                  <td style={contactIconCell}>📞</td>
+                  <td style={contactInfoCell}>
+                    <Text style={contactLabel}>PHONE</Text>
+                    <Link href="tel:+66980108838" style={contactLink}>
+                      +66 98-010-8838
+                    </Link>
+                  </td>
+                </tr>
+                <tr>
+                  <td style={contactIconCell}>💬</td>
+                  <td style={contactInfoCell}>
+                    <Text style={contactLabel}>WHATSAPP</Text>
+                    <Link href="https://wa.me/66980108838" style={contactLink}>
+                      +66 98-010-8838
+                    </Link>
+                  </td>
+                </tr>
+                <tr>
+                  <td style={contactIconCell}>✉️</td>
+                  <td style={contactInfoCell}>
+                    <Text style={contactLabel}>EMAIL</Text>
+                    <Link href="mailto:enjoy@threemonkeysphuket.com" style={contactLink}>
+                      enjoy@threemonkeysphuket.com
+                    </Link>
+                  </td>
+                </tr>
+                <tr>
+                  <td style={contactIconCell}>📍</td>
+                  <td style={contactInfoCell}>
+                    <Text style={contactLabel}>LOCATION</Text>
+                    <Link
+                      href="https://maps.app.goo.gl/hk5Z7PQUHnmz6tVB6"
+                      style={contactLink}
+                    >
+                      Inside Hanuman World, Kathu, Phuket
+                    </Link>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </Section>
 
-          <Hr style={divider} />
-
-          {/* Footer */}
+          {/* ───── FOOTER ───── */}
           <Section style={footer}>
-            <Img
-              src={`${baseUrl}/images/LOGO-NS.png`}
-              width="120"
-              height="auto"
-              alt="Three Monkeys"
-              style={footerLogo}
-            />
-            <Text style={footerText}>
-              Phuket&apos;s Premier Thai Restaurant
+            <Text style={footerBrand}>THREE MONKEYS RESTAURANT</Text>
+            <Text style={footerTagline}>Phuket&apos;s rainforest dining experience</Text>
+            <Hr style={footerDivider} />
+            <Text style={footerLinks}>
+              <Link href={baseUrl} style={footerLink}>
+                Website
+              </Link>
+              {' · '}
+              <Link href={`${baseUrl}/menu`} style={footerLink}>
+                Menu
+              </Link>
+              {' · '}
+              <Link href={`${baseUrl}/special-packages`} style={footerLink}>
+                Special Packages
+              </Link>
+              {' · '}
+              <Link href={`${baseUrl}/contact`} style={footerLink}>
+                Contact
+              </Link>
             </Text>
-            <Row style={socialRow}>
-              <Column style={socialCol}>
-                <Link href="https://www.facebook.com/threemonkeys" style={socialLink}>
-                  Facebook
-                </Link>
-              </Column>
-              <Column style={socialCol}>
-                <Link href="https://www.instagram.com/threemonkeysrestaurant/" style={socialLink}>
-                  Instagram
-                </Link>
-              </Column>
-              <Column style={socialCol}>
-                <Link href="https://www.tripadvisor.com/Attraction_Review-g293920-d3519838-Reviews-Flying_Hanuman-Phuket.html" style={socialLink}>
-                  TripAdvisor
-                </Link>
-              </Column>
-            </Row>
             <Text style={footerAddress}>
-              Inside Hanuman World, 105 Moo 4, Muang Chao Fa Rd., Wichit, Mueang Phuket, Phuket 83000, Thailand
+              Inside Hanuman World, 105 Moo 4, Muang Chao Fa Rd., Wichit, Mueang
+              Phuket, Phuket 83000, Thailand
             </Text>
             <Text style={footerCopyright}>
-              © 2026 Three Monkeys. All rights reserved.
+              © {new Date().getFullYear()} Three Monkeys Restaurant Phuket. All rights
+              reserved.
             </Text>
           </Section>
         </Container>
@@ -335,10 +301,25 @@ export const BookingConfirmationEmail = ({
 
 export default BookingConfirmationEmail;
 
+// ────────────────────────────────────────────────────────────
+// Three Monkeys CI palette
+// ────────────────────────────────────────────────────────────
+const BRAND = '#b1b94c'; // lime
+const BRAND_DARK = '#8a9139';
+const BLACK = '#0a0a0a';
+const INK = '#111111';
+const TEXT = '#1f2937';
+const MUTED = '#6b7280';
+const SUCCESS = '#16a34a';
+const BG = '#f6f6f1';
+
+// ────────────────────────────────────────────────────────────
 // Styles
+// ────────────────────────────────────────────────────────────
 const main: React.CSSProperties = {
-  backgroundColor: '#f4f4f5',
-  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Ubuntu, sans-serif',
+  backgroundColor: BG,
+  fontFamily:
+    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
 };
 
 const container: React.CSSProperties = {
@@ -348,10 +329,10 @@ const container: React.CSSProperties = {
 };
 
 const header: React.CSSProperties = {
-  backgroundColor: '#1a1a1a',
-  padding: '30px 40px',
+  backgroundColor: BRAND,
+  padding: '32px 40px 24px',
   textAlign: 'center' as const,
-  borderRadius: '16px 16px 0 0',
+  borderRadius: '14px 14px 0 0',
 };
 
 const logo: React.CSSProperties = {
@@ -360,147 +341,150 @@ const logo: React.CSSProperties = {
 };
 
 const tagline: React.CSSProperties = {
-  color: '#b1b94c',
+  color: BLACK,
   fontSize: '11px',
-  letterSpacing: '0.2em',
+  fontWeight: 700,
+  letterSpacing: '0.3em',
   textTransform: 'uppercase' as const,
-  margin: '8px 0 0 0',
+  margin: '12px 0 0',
+  opacity: 0.75,
+};
+
+const heroSection: React.CSSProperties = {
+  backgroundColor: INK,
+  padding: '40px 40px 32px',
   textAlign: 'center' as const,
 };
 
-const successBanner: React.CSSProperties = {
-  backgroundColor: '#1a1a1a',
-  padding: '20px 40px 40px',
-  textAlign: 'center' as const,
-};
-
-const checkmarkCircle: React.CSSProperties = {
-  width: '80px',
-  height: '80px',
-  backgroundColor: '#22c55e',
+const checkmarkWrap: React.CSSProperties = {
+  width: '72px',
+  height: '72px',
+  backgroundColor: SUCCESS,
   borderRadius: '50%',
-  margin: '0 auto 20px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
+  margin: '0 auto 18px',
+  display: 'inline-block',
+  boxShadow: '0 8px 28px rgba(22, 163, 74, 0.35)',
 };
 
 const checkmark: React.CSSProperties = {
   color: '#ffffff',
-  fontSize: '40px',
+  fontSize: '36px',
   fontWeight: 'bold',
-  lineHeight: '80px',
+  lineHeight: '72px',
   margin: 0,
   textAlign: 'center' as const,
 };
 
-const successTitle: React.CSSProperties = {
-  color: '#b1b94c',
-  fontSize: '32px',
-  fontWeight: '700',
+const heroBadge: React.CSSProperties = {
+  color: BRAND,
+  fontSize: '11px',
+  fontWeight: 700,
+  letterSpacing: '0.3em',
   margin: '0 0 10px',
   textTransform: 'uppercase' as const,
-  letterSpacing: '1px',
 };
 
-const successSubtitle: React.CSSProperties = {
-  color: 'rgba(255, 255, 255, 0.8)',
-  fontSize: '16px',
+const heroTitle: React.CSSProperties = {
+  color: '#ffffff',
+  fontSize: '30px',
+  fontWeight: 700,
+  margin: '0 0 10px',
+  lineHeight: '1.2',
+};
+
+const heroSubtitle: React.CSSProperties = {
+  color: 'rgba(255, 255, 255, 0.7)',
+  fontSize: '15px',
   margin: 0,
+  lineHeight: '1.5',
 };
 
 const refSection: React.CSSProperties = {
-  backgroundColor: '#0f0f0f',
-  padding: '25px 40px',
+  backgroundColor: INK,
+  padding: '8px 40px 32px',
   textAlign: 'center' as const,
+  borderBottom: `2px solid ${BRAND}`,
 };
 
 const refLabel: React.CSSProperties = {
-  color: 'rgba(255, 255, 255, 0.6)',
-  fontSize: '12px',
-  fontWeight: '600',
-  letterSpacing: '2px',
+  color: 'rgba(255, 255, 255, 0.5)',
+  fontSize: '10px',
+  fontWeight: 700,
+  letterSpacing: '0.3em',
   margin: '0 0 8px',
   textTransform: 'uppercase' as const,
 };
 
 const refNumber: React.CSSProperties = {
-  color: '#b1b94c',
+  color: BRAND,
   fontSize: '28px',
-  fontWeight: '700',
-  margin: '0 0 8px',
-  letterSpacing: '2px',
+  fontWeight: 700,
+  margin: '0 0 6px',
+  letterSpacing: '0.1em',
+  fontFamily: '"SF Mono", Menlo, Consolas, monospace',
 };
 
 const refNote: React.CSSProperties = {
-  color: 'rgba(255, 255, 255, 0.5)',
-  fontSize: '12px',
-  margin: 0,
-};
-
-const divider: React.CSSProperties = {
-  borderColor: '#e4e4e7',
+  color: 'rgba(255, 255, 255, 0.4)',
+  fontSize: '11px',
   margin: 0,
 };
 
 const detailsCard: React.CSSProperties = {
   backgroundColor: '#ffffff',
-  padding: '30px 40px',
+  padding: '28px 40px',
 };
 
 const sectionTitle: React.CSSProperties = {
-  color: '#1a1a1a',
-  fontSize: '20px',
-  fontWeight: '700',
-  margin: '0 0 20px',
-  textTransform: 'uppercase' as const,
-  letterSpacing: '0.5px',
-};
-
-const detailRow: React.CSSProperties = {
-  marginBottom: '16px',
-};
-
-const detailIcon: React.CSSProperties = {
-  width: '40px',
-  verticalAlign: 'top',
-};
-
-const iconText: React.CSSProperties = {
-  fontSize: '20px',
-  margin: 0,
-};
-
-const detailContent: React.CSSProperties = {
-  verticalAlign: 'top',
-};
-
-const detailLabel: React.CSSProperties = {
-  color: '#71717a',
-  fontSize: '12px',
-  fontWeight: '500',
-  margin: '0 0 2px',
-  textTransform: 'uppercase' as const,
-};
-
-const detailValue: React.CSSProperties = {
-  color: '#18181b',
+  color: BLACK,
   fontSize: '16px',
-  fontWeight: '600',
-  margin: 0,
-};
-
-const addonsSection: React.CSSProperties = {
-  backgroundColor: '#f9fafb',
-  padding: '20px 40px',
-};
-
-const addonsTitle: React.CSSProperties = {
-  color: '#1a1a1a',
-  fontSize: '14px',
-  fontWeight: '600',
-  margin: '0 0 12px',
+  fontWeight: 700,
+  margin: '0 0 18px',
+  letterSpacing: '0.05em',
   textTransform: 'uppercase' as const,
+};
+
+const subSectionTitle: React.CSSProperties = {
+  color: BLACK,
+  fontSize: '13px',
+  fontWeight: 700,
+  margin: '0 0 14px',
+  letterSpacing: '0.15em',
+  textTransform: 'uppercase' as const,
+};
+
+const detailsTable: React.CSSProperties = {
+  width: '100%',
+  borderCollapse: 'collapse' as const,
+};
+
+const detailsTr: React.CSSProperties = {
+  borderBottom: '1px solid #f1f1ec',
+};
+
+const detailsKey: React.CSSProperties = {
+  color: MUTED,
+  fontSize: '12px',
+  fontWeight: 500,
+  padding: '12px 0',
+  width: '40%',
+  verticalAlign: 'top' as const,
+  textTransform: 'uppercase' as const,
+  letterSpacing: '0.05em',
+};
+
+const detailsValue: React.CSSProperties = {
+  color: TEXT,
+  fontSize: '15px',
+  fontWeight: 600,
+  padding: '12px 0',
+  verticalAlign: 'top' as const,
+};
+
+const addonsCard: React.CSSProperties = {
+  backgroundColor: '#fafaf5',
+  padding: '24px 40px',
+  borderTop: `1px solid ${BRAND}22`,
 };
 
 const addonRow: React.CSSProperties = {
@@ -508,9 +492,15 @@ const addonRow: React.CSSProperties = {
 };
 
 const addonName: React.CSSProperties = {
-  color: '#52525b',
+  color: TEXT,
   fontSize: '14px',
+  fontWeight: 500,
   margin: 0,
+};
+
+const addonQty: React.CSSProperties = {
+  color: MUTED,
+  fontWeight: 400,
 };
 
 const addonPriceCol: React.CSSProperties = {
@@ -518,21 +508,40 @@ const addonPriceCol: React.CSSProperties = {
 };
 
 const addonPrice: React.CSSProperties = {
-  color: '#18181b',
+  color: BRAND_DARK,
   fontSize: '14px',
-  fontWeight: '600',
+  fontWeight: 700,
   margin: 0,
+};
+
+const requestsCard: React.CSSProperties = {
+  backgroundColor: '#ffffff',
+  padding: '24px 40px',
+  borderTop: '1px solid #f1f1ec',
+};
+
+const requestsText: React.CSSProperties = {
+  color: TEXT,
+  fontSize: '14px',
+  lineHeight: '1.6',
+  margin: 0,
+  padding: '14px 16px',
+  backgroundColor: '#fafaf5',
+  border: `1px solid ${BRAND}22`,
+  borderRadius: '10px',
+  whiteSpace: 'pre-wrap' as const,
 };
 
 const totalSection: React.CSSProperties = {
   backgroundColor: '#ffffff',
-  padding: '20px 40px',
+  padding: '24px 40px',
+  borderTop: `2px solid ${BRAND}`,
 };
 
 const totalLabel: React.CSSProperties = {
-  color: '#52525b',
-  fontSize: '16px',
-  fontWeight: '500',
+  color: TEXT,
+  fontSize: '15px',
+  fontWeight: 500,
   margin: 0,
 };
 
@@ -540,145 +549,157 @@ const totalAmountCol: React.CSSProperties = {
   textAlign: 'right' as const,
 };
 
-const totalAmount_: React.CSSProperties = {
-  color: '#1a1a1a',
+const totalAmountStyle: React.CSSProperties = {
+  color: BLACK,
   fontSize: '28px',
-  fontWeight: '700',
+  fontWeight: 700,
   margin: 0,
+  letterSpacing: '-0.02em',
 };
 
-const infoSection: React.CSSProperties = {
-  backgroundColor: '#ffffff',
-  padding: '30px 40px',
+const descriptorNote: React.CSSProperties = {
+  color: MUTED,
+  fontSize: '11px',
+  margin: '10px 0 0',
+  textAlign: 'right' as const,
 };
 
-const infoRow: React.CSSProperties = {
-  marginBottom: '8px',
+const descriptorTag: React.CSSProperties = {
+  backgroundColor: '#f1f1ec',
+  padding: '2px 6px',
+  borderRadius: '4px',
+  fontFamily: '"SF Mono", Menlo, Consolas, monospace',
+  fontSize: '10px',
+  color: TEXT,
 };
 
-const infoBullet: React.CSSProperties = {
-  width: '20px',
-  verticalAlign: 'top',
+const importantSection: React.CSSProperties = {
+  backgroundColor: '#fffaeb',
+  padding: '20px 40px',
+  border: '1px solid #fde68a',
+  borderLeft: '4px solid #f59e0b',
+  margin: '16px 0 0',
 };
 
-const bulletPoint: React.CSSProperties = {
-  color: '#b1b94c',
-  fontSize: '16px',
-  fontWeight: 'bold',
-  margin: 0,
-};
-
-const infoText: React.CSSProperties = {
-  color: '#52525b',
-  fontSize: '14px',
-  margin: 0,
-  lineHeight: '1.5',
-};
-
-const notesSection: React.CSSProperties = {
-  backgroundColor: '#fef9c3',
-  padding: '25px 40px',
-  borderLeft: '4px solid #b1b94c',
-};
-
-const notesSectionTitle: React.CSSProperties = {
-  color: '#713f12',
-  fontSize: '16px',
-  fontWeight: '700',
-  margin: '0 0 15px',
+const importantTitle: React.CSSProperties = {
+  color: '#92400e',
+  fontSize: '13px',
+  fontWeight: 700,
+  margin: '0 0 10px',
+  letterSpacing: '0.05em',
   textTransform: 'uppercase' as const,
 };
 
-const noteText: React.CSSProperties = {
-  color: '#78350f',
-  fontSize: '14px',
-  margin: '0 0 8px',
+const importantItem: React.CSSProperties = {
+  color: '#92400e',
+  fontSize: '13px',
   lineHeight: '1.5',
+  margin: '4px 0',
 };
 
 const ctaSection: React.CSSProperties = {
-  backgroundColor: '#ffffff',
-  padding: '30px 40px',
+  backgroundColor: '#fafaf5',
+  padding: '28px 40px',
   textAlign: 'center' as const,
 };
 
 const ctaButton: React.CSSProperties = {
-  backgroundColor: '#b1b94c',
-  borderRadius: '12px',
-  color: '#000000',
-  fontSize: '16px',
-  fontWeight: '700',
-  padding: '16px 32px',
-  textDecoration: 'none',
-  textTransform: 'uppercase' as const,
-  letterSpacing: '1px',
-};
-
-const contactSection: React.CSSProperties = {
-  backgroundColor: '#f4f4f5',
-  padding: '30px 40px',
-  textAlign: 'center' as const,
-};
-
-const contactTitle: React.CSSProperties = {
-  color: '#1a1a1a',
-  fontSize: '18px',
-  fontWeight: '700',
-  margin: '0 0 15px',
-};
-
-const contactText: React.CSSProperties = {
-  color: '#52525b',
+  backgroundColor: BRAND,
+  borderRadius: '999px',
+  color: BLACK,
   fontSize: '14px',
-  margin: '0 0 8px',
+  fontWeight: 700,
+  padding: '14px 36px',
+  textDecoration: 'none',
+  letterSpacing: '0.05em',
+};
+
+const contactCard: React.CSSProperties = {
+  backgroundColor: '#ffffff',
+  padding: '24px 40px 32px',
+  borderTop: '1px solid #f1f1ec',
+};
+
+const contactTable: React.CSSProperties = {
+  width: '100%',
+};
+
+const contactIconCell: React.CSSProperties = {
+  fontSize: '20px',
+  padding: '10px 14px 10px 0',
+  verticalAlign: 'top' as const,
+  width: '34px',
+};
+
+const contactInfoCell: React.CSSProperties = {
+  padding: '10px 0',
+  verticalAlign: 'top' as const,
+};
+
+const contactLabel: React.CSSProperties = {
+  color: MUTED,
+  fontSize: '10px',
+  fontWeight: 700,
+  letterSpacing: '0.15em',
+  margin: '0 0 3px',
 };
 
 const contactLink: React.CSSProperties = {
-  color: '#1a1a1a',
+  color: BRAND_DARK,
+  fontSize: '14px',
+  fontWeight: 600,
   textDecoration: 'none',
 };
 
 const footer: React.CSSProperties = {
-  backgroundColor: '#1a1a1a',
-  padding: '40px',
-  textAlign: 'center' as const,
-  borderRadius: '0 0 16px 16px',
-};
-
-const footerLogo: React.CSSProperties = {
-  margin: '0 auto 15px',
-};
-
-const footerText: React.CSSProperties = {
-  color: 'rgba(255, 255, 255, 0.8)',
-  fontSize: '14px',
-  margin: '0 0 20px',
-};
-
-const socialRow: React.CSSProperties = {
-  marginBottom: '20px',
-};
-
-const socialCol: React.CSSProperties = {
+  backgroundColor: BLACK,
+  padding: '32px 40px 28px',
+  borderRadius: '0 0 14px 14px',
   textAlign: 'center' as const,
 };
 
-const socialLink: React.CSSProperties = {
-  color: '#b1b94c',
+const footerBrand: React.CSSProperties = {
+  color: '#ffffff',
   fontSize: '14px',
+  fontWeight: 700,
+  letterSpacing: '0.15em',
+  margin: '0 0 4px',
+};
+
+const footerTagline: React.CSSProperties = {
+  color: BRAND,
+  fontSize: '11px',
+  letterSpacing: '0.2em',
+  margin: '0 0 14px',
+  textTransform: 'uppercase' as const,
+};
+
+const footerDivider: React.CSSProperties = {
+  borderColor: '#1f2937',
+  margin: '14px 0',
+};
+
+const footerLinks: React.CSSProperties = {
+  color: '#9ca3af',
+  fontSize: '12px',
+  margin: '0 0 14px',
+};
+
+const footerLink: React.CSSProperties = {
+  color: BRAND,
   textDecoration: 'none',
-  padding: '0 15px',
+  fontWeight: 500,
 };
 
 const footerAddress: React.CSSProperties = {
-  color: 'rgba(255, 255, 255, 0.5)',
-  fontSize: '12px',
-  margin: '0 0 10px',
+  color: '#6b7280',
+  fontSize: '11px',
+  margin: '0 0 12px',
   lineHeight: '1.5',
 };
 
 const footerCopyright: React.CSSProperties = {
-  color: 'rgba(255, 255, 255, 0.4)',
-  fontSize: '11px',
+  color: '#4b5563',
+  fontSize: '10px',
   margin: 0,
 };
