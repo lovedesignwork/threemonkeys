@@ -151,13 +151,13 @@ export function WhyChooseUs() {
             className="lg:col-span-2 relative overflow-hidden rounded-3xl aspect-[16/9] lg:aspect-auto lg:h-full min-h-[300px]"
           >
             <Image
-              src="/images/Random images/47_resize.jpg"
+              src="/images/small/threemonkeys047_resize.jpg"
               alt="Three Monkeys Restaurant Interior"
               fill
               className="object-cover"
               unoptimized
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
             
             {/* Floating Label */}
             <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between">

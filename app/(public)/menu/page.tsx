@@ -519,13 +519,14 @@ export default function MenuPage() {
       <section className="relative pt-32 pb-20 overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="/images/Random images/32_resize.jpg"
+            src="/images/new/threemonkeys009.jpg"
             alt="Menu"
             fill
-            className="object-cover opacity-30"
+            className="object-cover opacity-60"
             priority
+            unoptimized
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0a] via-[#0a0a0a]/80 to-[#0a0a0a]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0a]/60 via-[#0a0a0a]/40 to-[#0a0a0a]" />
         </div>
         
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
