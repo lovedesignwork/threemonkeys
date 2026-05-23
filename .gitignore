@@ -48,3 +48,6 @@ logs
 *.log
 
 .vercel
+
+# Large SQL dumps
+3M SQL/

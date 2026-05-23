@@ -71,12 +71,12 @@ export default function PackagePage() {
 
   const otherPackages = packages.filter(p => p.id !== pkg.id && p.category !== 'transfer').slice(0, 3);
   
-  // Gallery images (using main image + placeholders)
+  // Gallery images (using main image + slide_05 images)
   const galleryImages = [
     pkg.image,
-    '/images/Random images/44_resize.jpg',
-    '/images/Random images/45_resize.jpg',
-    '/images/Random images/46_resize.jpg',
+    '/images/by_slide/slide_05/monkey-dome02.jpg',
+    '/images/by_slide/slide_05/monkey-dome03.jpg',
+    '/images/by_slide/slide_05/monkey-dome04.jpg',
   ];
 
   return (
@@ -167,7 +167,7 @@ export default function PackagePage() {
                   </div>
                   <div className="flex items-center gap-2 text-white/60">
                     <Users className="w-4 h-4 text-[#b1b94c]" />
-                    <span className="text-sm">2-6 Guests</span>
+                    <span className="text-sm">2-4 guests</span>
                   </div>
                   {pkg.includesMeal && (
                     <div className="flex items-center gap-2 text-white/60">
@@ -327,7 +327,7 @@ export default function PackagePage() {
                       <span className="text-4xl font-[family-name:var(--font-krona)] text-black">
                         {formatPrice(pkg.price)}
                       </span>
-                      <span className="text-black/60">/ person</span>
+                      <span className="text-black/60">/table</span>
                     </div>
                   </div>
 
@@ -338,7 +338,7 @@ export default function PackagePage() {
                     </div>
                     <div className="flex items-center justify-between text-sm">
                       <span className="text-black/60">Capacity</span>
-                      <span className="text-black font-medium">2-6 guests</span>
+                      <span className="text-black font-medium">2-4 guests</span>
                     </div>
                     {pkg.includesMeal && (
                       <div className="flex items-center gap-2 text-black/80 text-sm">
