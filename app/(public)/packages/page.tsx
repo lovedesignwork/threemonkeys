@@ -97,7 +97,7 @@ export default function PackagesLandingPage() {
                       className="object-cover transition-transform duration-700 group-hover:scale-110"
                       unoptimized
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#111] via-black/40 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#111]/70 via-transparent to-transparent" />
                     
                     {/* Icon */}
                     <div className="absolute top-6 left-6 w-14 h-14 bg-[#b1b94c] rounded-2xl flex items-center justify-center">
@@ -150,7 +150,7 @@ export default function PackagesLandingPage() {
                       className="object-cover transition-transform duration-700 group-hover:scale-110"
                       unoptimized
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#111] via-black/40 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#111]/70 via-transparent to-transparent" />
                     
                     {/* Icon */}
                     <div className="absolute top-6 left-6 w-14 h-14 bg-[#b1b94c] rounded-2xl flex items-center justify-center">

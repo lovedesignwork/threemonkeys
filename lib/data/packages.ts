@@ -83,7 +83,7 @@ export const packages: Package[] = [
     duration: '1-2 hours',
     category: 'combined',
     type: 'seat',
-    image: '/images/by_slide/slide_15/bamboopav1.jpg',
+    image: '/images/by_slide/slide_15/bamboopav2.jpg',
     gallery: [
       '/images/by_slide/slide_15/bamboopav1.jpg',
       '/images/by_slide/slide_15/bamboopav2.jpg',
@@ -156,7 +156,7 @@ export const packages: Package[] = [
     duration: 'up to 4 hours',
     category: 'combined',
     type: 'seat',
-    image: '/images/by_slide/slide_25/zone7_1.jpg',
+    image: '/images/by_slide/slide_25/zone7_4_resize.jpg',
     gallery: [
       '/images/by_slide/slide_25/zone7_1.jpg',
       '/images/by_slide/slide_25/zone7_2.jpg',

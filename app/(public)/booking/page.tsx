@@ -544,7 +544,7 @@ function BookingContent() {
             priority
             unoptimized
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-[#0a0a0a]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-[#0a0a0a]" />
         </div>
 
         <div className="relative z-10 max-w-4xl mx-auto px-4 pt-32 pb-12 text-center">

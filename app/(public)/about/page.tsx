@@ -96,7 +96,7 @@ export default function AboutPage() {
           />
         </motion.div>
         
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-[#0a0a0a]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-[#0a0a0a]" />
         
         <div className="relative z-10 text-center px-4 pb-24 max-w-5xl mx-auto">
           <motion.div

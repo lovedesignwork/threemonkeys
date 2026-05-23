@@ -253,7 +253,7 @@ export default function SeatsPage() {
                         className="object-cover transition-transform duration-700 group-hover:scale-110"
                         unoptimized
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#111] via-black/30 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#111]/70 via-transparent to-transparent" />
                       
                       {/* Badges - Right Side */}
                       <div className="absolute top-4 right-4 flex flex-row gap-2 items-center">

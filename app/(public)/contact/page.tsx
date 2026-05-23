@@ -114,7 +114,7 @@ export default function ContactPage() {
             priority
             unoptimized
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-[#0a0a0a]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-[#0a0a0a]" />
         </div>
 
         <div className="relative z-10 text-center px-4 pt-32 pb-12 max-w-4xl mx-auto">
@@ -366,13 +366,13 @@ export default function ContactPage() {
               <div className="bg-[#111] rounded-3xl overflow-hidden border border-white/10">
                 <div className="relative h-48">
                   <Image
-                    src="/images/Random images/47_resize.jpg"
+                    src="/images/small/small-sized_49.jpg"
                     alt="Rainforest Location"
                     fill
                     className="object-cover"
                     unoptimized
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#111] to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#111]/60 to-transparent" />
                   <div className="absolute bottom-4 left-4 right-4">
                     <div className="flex items-center gap-2 text-[#b1b94c]">
                       <MapPin className="w-4 h-4" />
