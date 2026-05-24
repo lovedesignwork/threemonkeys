@@ -77,10 +77,10 @@ export default function FAQPage() {
   const faqCategories = useMemo(() => {
     return categoryMeta.map(cat => ({
       ...cat,
-      category: t(`categories.${cat.id}.name`),
+      category: t(`categories.${cat.id}`),
       questions: Array.from({ length: cat.questionCount }, (_, i) => ({
-        question: t(`categories.${cat.id}.questions.${i}.q`),
-        answer: t(`categories.${cat.id}.questions.${i}.a`),
+        question: t(`questions.${cat.id}.q${i + 1}`),
+        answer: t(`questions.${cat.id}.a${i + 1}`),
       })),
     }));
   }, [t]);
@@ -206,7 +206,7 @@ export default function FAQPage() {
                 <p className={`text-xs mt-1 transition-colors ${
                   activeCategory === cat.id ? 'text-black/60' : 'text-white/40'
                 }`}>
-                  {t('questionCount', { count: cat.questions.length })}
+                  {t('questionsCount', { count: cat.questions.length })}
                 </p>
               </motion.button>
             ))}
@@ -289,10 +289,10 @@ export default function FAQPage() {
             className="text-center mb-12"
           >
             <h2 className="text-3xl font-[family-name:var(--font-krona)] text-white mb-4 normal-case">
-              {t('contactTitle')}
+              {t('contact.title')}
             </h2>
             <p className="text-white/50 font-[family-name:var(--font-inter)]">
-              {t('contactDescription')}
+              {t('contact.description')}
             </p>
           </motion.div>
 
@@ -310,10 +310,10 @@ export default function FAQPage() {
                 <Phone className="w-7 h-7 text-[#b1b94c]" />
               </div>
               <h3 className="text-lg font-[family-name:var(--font-krona)] text-white mb-2 normal-case">
-                {t('callUs')}
+                {t('contact.call')}
               </h3>
               <p className="text-[#b1b94c] font-medium">+66 98-010-8838</p>
-              <p className="text-white/40 text-sm mt-2">{t('callHours')}</p>
+              <p className="text-white/40 text-sm mt-2">{t('contact.callHours')}</p>
             </motion.a>
 
             {/* Email */}
@@ -329,10 +329,10 @@ export default function FAQPage() {
                 <Mail className="w-7 h-7 text-[#b1b94c]" />
               </div>
               <h3 className="text-lg font-[family-name:var(--font-krona)] text-white mb-2 normal-case">
-                {t('emailUs')}
+                {t('contact.email')}
               </h3>
               <p className="text-[#b1b94c] font-medium">enjoy@threemonkeysphuket.com</p>
-              <p className="text-white/40 text-sm mt-2">{t('emailReply')}</p>
+              <p className="text-white/40 text-sm mt-2">{t('contact.emailNote')}</p>
             </motion.a>
 
             {/* Live Chat */}
@@ -347,10 +347,10 @@ export default function FAQPage() {
                 <MessageCircle className="w-7 h-7 text-[#b1b94c]" />
               </div>
               <h3 className="text-lg font-[family-name:var(--font-krona)] text-white mb-2 normal-case">
-                {t('visitUs')}
+                {t('contact.visit')}
               </h3>
-              <p className="text-white/60 text-sm">{t('visitLocation')}</p>
-              <p className="text-white/40 text-sm mt-2">{t('visitAddress')}</p>
+              <p className="text-white/60 text-sm">Inside Hanuman World</p>
+              <p className="text-white/40 text-sm mt-2">{t('contact.visitAddress')}</p>
             </motion.div>
           </div>
         </div>
@@ -377,21 +377,21 @@ export default function FAQPage() {
           >
             <Clock className="w-12 h-12 text-black mx-auto mb-6" />
             <h2 className="text-3xl md:text-4xl font-[family-name:var(--font-krona)] text-black mb-4 normal-case">
-              {t('ctaTitle')}
+              {t('cta.title')}
             </h2>
             <p className="text-black/60 text-lg mb-8 font-[family-name:var(--font-inter)] max-w-xl mx-auto">
-              {t('ctaDescription')}
+              {t('cta.description')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/booking">
                 <button className="px-8 py-4 bg-black text-[#b1b94c] font-[family-name:var(--font-krona)] rounded-full hover:bg-black/80 transition-all inline-flex items-center gap-2">
-                  {t('ctaReserve')}
+                  {t('cta.reserve')}
                   <ArrowRight className="w-5 h-5" />
                 </button>
               </Link>
               <Link href="/contact">
                 <button className="px-8 py-4 bg-transparent border-2 border-black text-black font-[family-name:var(--font-krona)] rounded-full hover:bg-black hover:text-[#b1b94c] transition-all">
-                  {t('ctaContact')}
+                  {t('cta.contact')}
                 </button>
               </Link>
             </div>

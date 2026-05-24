@@ -76,7 +76,7 @@ export default function AboutPage() {
             >
               <TreePine className="w-5 h-5 text-[#b1b94c]" />
               <span className="text-white/80 text-sm font-medium tracking-wide">
-                {t('heroBadge')}
+                {t('badge')}
               </span>
             </motion.div>
             
@@ -86,9 +86,7 @@ export default function AboutPage() {
               transition={{ delay: 0.4 }}
               className="text-5xl md:text-7xl lg:text-8xl font-[family-name:var(--font-krona)] text-white mb-8 normal-case leading-[1.1]"
             >
-              {t('heroTitle1')}
-              <br />
-              <span className="text-[#b1b94c]">{t('heroTitle2')}</span>
+              {t('headline')}
             </motion.h1>
             
             <motion.p
@@ -97,7 +95,7 @@ export default function AboutPage() {
               transition={{ delay: 0.6 }}
               className="text-xl md:text-2xl text-white/60 max-w-2xl mx-auto font-[family-name:var(--font-inter)] leading-relaxed"
             >
-              {t('heroDescription')}
+              {t('description')}
             </motion.p>
           </motion.div>
         </div>
@@ -123,11 +121,16 @@ export default function AboutPage() {
       <section className="py-20 relative z-10 -mt-32">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            {['years', 'guests', 'awards', 'zones'].map((key, index) => {
+            {[
+              { key: 'years', value: '14+' },
+              { key: 'guests', value: '100K+' },
+              { key: 'awards', value: '12' },
+              { key: 'zones', value: '6' }
+            ].map((stat, index) => {
               const Icon = statIcons[index];
               return (
                 <motion.div
-                  key={key}
+                  key={stat.key}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -138,10 +141,10 @@ export default function AboutPage() {
                     <Icon className="w-6 h-6 text-[#b1b94c]" />
                   </div>
                   <p className="text-3xl font-[family-name:var(--font-krona)] text-white mb-1">
-                    {t(`stats.${key}.value`)}
+                    {stat.value}
                   </p>
                   <p className="text-white/50 text-sm font-[family-name:var(--font-inter)]">
-                    {t(`stats.${key}.label`)}
+                    {t(`stats.${stat.key}`)}
                   </p>
                 </motion.div>
               );
@@ -213,7 +216,7 @@ export default function AboutPage() {
                 className="absolute -bottom-6 left-1/2 -translate-x-1/2 px-6 py-4 bg-[#b1b94c] rounded-2xl shadow-2xl"
               >
                 <p className="text-black font-[family-name:var(--font-krona)] text-lg">
-                  {t('storyEst')}
+                  {t('stats.established')}
                 </p>
               </motion.div>
             </motion.div>
@@ -225,24 +228,22 @@ export default function AboutPage() {
               viewport={{ once: true }}
             >
               <span className="text-[#b1b94c] text-sm font-medium uppercase tracking-[0.3em] mb-4 block">
-                {t('storyBadge')}
+                {t('story.badge')}
               </span>
               <h2 className="text-4xl md:text-5xl font-[family-name:var(--font-krona)] text-white mb-8 normal-case leading-tight">
-                {t('storyTitle1')}
-                <br />
-                <span className="text-[#b1b94c]">{t('storyTitle2')}</span>
+                {t('story.title')}
               </h2>
               
               <div className="space-y-6 text-white/60 text-lg font-[family-name:var(--font-inter)] leading-relaxed">
-                <p>{t('storyP1')}</p>
-                <p>{t('storyP2')}</p>
-                <p>{t('storyP3')}</p>
+                <p>{t('story.p1')}</p>
+                <p>{t('story.p2')}</p>
+                <p>{t('story.p3')}</p>
               </div>
 
               <div className="mt-10">
                 <Link href="/seats">
                   <button className="inline-flex items-center gap-3 px-8 py-4 bg-[#b1b94c] text-black font-[family-name:var(--font-krona)] rounded-full hover:bg-[#c4cc5a] transition-all">
-                    {t('storyButton')}
+                    {t('story.button')}
                     <ArrowRight className="w-5 h-5" />
                   </button>
                 </Link>
@@ -262,10 +263,10 @@ export default function AboutPage() {
             className="text-center mb-16"
           >
             <span className="text-[#b1b94c] text-sm font-medium uppercase tracking-[0.3em] mb-4 block">
-              {t('valuesBadge')}
+              {t('values.badge')}
             </span>
             <h2 className="text-4xl md:text-5xl font-[family-name:var(--font-krona)] text-white normal-case">
-              {t('valuesTitle')}
+              {t('values.title')}
             </h2>
           </motion.div>
 
@@ -307,20 +308,24 @@ export default function AboutPage() {
             className="text-center mb-16"
           >
             <span className="text-[#b1b94c] text-sm font-medium uppercase tracking-[0.3em] mb-4 block">
-              {t('experiencesBadge')}
+              {t('experience.badge')}
             </span>
             <h2 className="text-4xl md:text-5xl font-[family-name:var(--font-krona)] text-white normal-case mb-4">
-              {t('experiencesTitle')}
+              {t('experience.title')}
             </h2>
             <p className="text-white/50 text-lg font-[family-name:var(--font-inter)] max-w-2xl mx-auto">
-              {t('experiencesDescription')}
+              {t('experience.description')}
             </p>
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-6">
-            {['monkeyDome', 'monkeyNest', 'outdoorZone'].map((key, index) => (
+            {[
+              { key: 'monkeyDome', title: 'Monkey Dome' },
+              { key: 'monkeyNest', title: 'Monkey Nest' },
+              { key: 'outdoorZone', title: 'Outdoor Zone' }
+            ].map((zone, index) => (
               <motion.div
-                key={key}
+                key={zone.key}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -330,7 +335,7 @@ export default function AboutPage() {
                 <div className="relative aspect-[4/5]">
                   <Image
                     src={experienceImages[index]}
-                    alt={t(`experiences.${key}.title`)}
+                    alt={zone.title}
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-110"
                     unoptimized
@@ -340,10 +345,10 @@ export default function AboutPage() {
                 
                 <div className="absolute bottom-0 left-0 right-0 p-8">
                   <h3 className="text-2xl font-[family-name:var(--font-krona)] text-white mb-2 normal-case">
-                    {t(`experiences.${key}.title`)}
+                    {zone.title}
                   </h3>
                   <p className="text-white/60 font-[family-name:var(--font-inter)]">
-                    {t(`experiences.${key}.description`)}
+                    {t(`experience.${zone.key}`)}
                   </p>
                 </div>
               </motion.div>
@@ -358,7 +363,7 @@ export default function AboutPage() {
           >
             <Link href="/seats">
               <button className="inline-flex items-center gap-2 text-[#b1b94c] font-medium hover:gap-3 transition-all">
-                {t('experiencesViewAll')}
+                {t('experience.viewAll')}
                 <ArrowRight className="w-5 h-5" />
               </button>
             </Link>
@@ -387,24 +392,22 @@ export default function AboutPage() {
           >
             <Sparkles className="w-12 h-12 text-[#b1b94c] mx-auto mb-8" />
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-[family-name:var(--font-krona)] text-white mb-8 normal-case leading-tight">
-              {t('ctaTitle1')}
-              <br />
-              <span className="text-[#b1b94c]">{t('ctaTitle2')}</span>
+              {t('cta.title')}
             </h2>
             <p className="text-xl text-white/60 mb-12 font-[family-name:var(--font-inter)] max-w-2xl mx-auto">
-              {t('ctaDescription')}
+              {t('cta.description')}
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/booking">
                 <button className="inline-flex items-center gap-3 px-10 py-5 bg-[#b1b94c] text-black font-[family-name:var(--font-krona)] rounded-full hover:bg-[#c4cc5a] transition-all">
-                  {t('ctaReserve')}
+                  {t('cta.reserve')}
                   <ArrowRight className="w-5 h-5" />
                 </button>
               </Link>
               <Link href="/special-packages">
                 <button className="inline-flex items-center gap-2 px-10 py-5 border-2 border-white/30 text-white font-[family-name:var(--font-krona)] rounded-full hover:bg-white hover:text-black transition-all">
-                  {t('ctaPackages')}
+                  {t('cta.packages')}
                 </button>
               </Link>
             </div>
@@ -438,10 +441,10 @@ export default function AboutPage() {
               viewport={{ once: true }}
             >
               <span className="text-[#b1b94c] text-sm font-medium uppercase tracking-[0.3em] mb-4 block">
-                {t('locationBadge')}
+                {t('location.badge')}
               </span>
               <h2 className="text-4xl md:text-5xl font-[family-name:var(--font-krona)] text-white mb-8 normal-case">
-                {t('locationTitle')}
+                {t('location.title')}
               </h2>
               
               <div className="space-y-6">
@@ -450,11 +453,11 @@ export default function AboutPage() {
                     <MapPin className="w-6 h-6 text-[#b1b94c]" />
                   </div>
                   <div>
-                    <p className="text-white font-medium mb-1">{t('locationLabel')}</p>
+                    <p className="text-white font-medium mb-1">{t('location.labelLocation')}</p>
                     <p className="text-white/50 font-[family-name:var(--font-inter)]">
-                      {t('locationAddress1')}<br />
-                      {t('locationAddress2')}<br />
-                      {t('locationAddress3')}
+                      Inside Hanuman World<br />
+                      Wichit, Phuket 83000<br />
+                      Thailand
                     </p>
                   </div>
                 </div>
@@ -464,7 +467,7 @@ export default function AboutPage() {
                     <Phone className="w-6 h-6 text-[#b1b94c]" />
                   </div>
                   <div>
-                    <p className="text-white font-medium mb-1">{t('contactLabel')}</p>
+                    <p className="text-white font-medium mb-1">{t('location.labelContact')}</p>
                     <p className="text-white/50 font-[family-name:var(--font-inter)]">
                       +66 98-010-8838<br />
                       enjoy@threemonkeysphuket.com
@@ -477,10 +480,10 @@ export default function AboutPage() {
                     <Clock className="w-6 h-6 text-[#b1b94c]" />
                   </div>
                   <div>
-                    <p className="text-white font-medium mb-1">{t('hoursLabel')}</p>
+                    <p className="text-white font-medium mb-1">{t('location.labelHours')}</p>
                     <p className="text-white/50 font-[family-name:var(--font-inter)]">
-                      {t('hoursDaily')}<br />
-                      {t('hoursLastOrder')}
+                      {t('location.hours')}<br />
+                      {t('location.lastOrder')}
                     </p>
                   </div>
                 </div>
@@ -489,7 +492,7 @@ export default function AboutPage() {
               <div className="mt-8 flex gap-4">
                 <Link href="/contact">
                   <button className="inline-flex items-center gap-2 px-6 py-3 bg-[#b1b94c] text-black font-medium rounded-full hover:bg-[#c4cc5a] transition-all">
-                    {t('contactButton')}
+                    {t('location.contact')}
                     <ArrowRight className="w-4 h-4" />
                   </button>
                 </Link>
@@ -499,7 +502,7 @@ export default function AboutPage() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-6 py-3 border border-white/20 text-white font-medium rounded-full hover:bg-white hover:text-black transition-all"
                 >
-                  {t('directionsButton')}
+                  {t('location.directions')}
                 </a>
               </div>
             </motion.div>

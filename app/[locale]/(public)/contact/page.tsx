@@ -52,8 +52,8 @@ export default function ContactPage() {
   const contactMethods = useMemo(() => {
     return contactMethodsMeta.map(m => ({
       ...m,
-      title: t(`methods.${m.key}.title`),
-      description: t(`methods.${m.key}.description`),
+      title: t(`methods.${m.key}`),
+      description: t(`methods.${m.key}Desc`),
     }));
   }, [t]);
   const [formData, setFormData] = useState({
@@ -252,7 +252,7 @@ export default function ContactPage() {
                   <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
                     <div>
                       <label className="block text-sm font-medium text-white/70 mb-2 font-[family-name:var(--font-inter)]">
-                        {t('form.nameLabel')} *
+                        {t('form.name')} *
                       </label>
                       <input
                         type="text"
@@ -261,12 +261,12 @@ export default function ContactPage() {
                         onChange={handleChange}
                         required
                         className="w-full px-4 sm:px-5 py-3 sm:py-4 bg-[#0a0a0a] border border-white/10 rounded-xl focus:outline-none focus:border-[#b1b94c]/50 focus:bg-[#0a0a0a] transition-all text-white placeholder:text-white/30 font-[family-name:var(--font-inter)] text-base"
-                        placeholder={t('form.namePlaceholder')}
+                        placeholder="John Doe"
                       />
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-white/70 mb-2 font-[family-name:var(--font-inter)]">
-                        {t('form.emailLabel')} *
+                        {t('form.email')} *
                       </label>
                       <input
                         type="email"
@@ -275,7 +275,7 @@ export default function ContactPage() {
                         onChange={handleChange}
                         required
                         className="w-full px-4 sm:px-5 py-3 sm:py-4 bg-[#0a0a0a] border border-white/10 rounded-xl focus:outline-none focus:border-[#b1b94c]/50 focus:bg-[#0a0a0a] transition-all text-white placeholder:text-white/30 font-[family-name:var(--font-inter)] text-base"
-                        placeholder={t('form.emailPlaceholder')}
+                        placeholder="john@example.com"
                       />
                     </div>
                   </div>
@@ -283,14 +283,14 @@ export default function ContactPage() {
                   <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
                     <div>
                       <label className="block text-sm font-medium text-white/70 mb-2 font-[family-name:var(--font-inter)]">
-                        {t('form.phoneLabel')}
+                        {t('form.phone')}
                       </label>
                       <div className="flex gap-2">
                         <div className="w-[92px] flex-shrink-0">
                           <CountryCodeSelect
                             value={countryCode}
                             onChange={setCountryCode}
-                            placeholder={t('form.codePlaceholder')}
+                            placeholder="+66"
                           />
                         </div>
                         <input
@@ -305,21 +305,18 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-white/70 mb-2 font-[family-name:var(--font-inter)]">
-                        {t('form.subjectLabel')} *
+                        {t('form.subject')} *
                       </label>
                       <CustomSelect
                         value={formData.subject}
                         onChange={(value) => setFormData({ ...formData, subject: value })}
                         placeholder={t('form.subjectPlaceholder')}
                         options={[
-                          { value: 'reservation', label: t('form.subjects.reservation') },
-                          { value: 'modification', label: t('form.subjects.modification') },
-                          { value: 'cancellation', label: t('form.subjects.cancellation') },
-                          { value: 'group', label: t('form.subjects.group') },
-                          { value: 'event', label: t('form.subjects.event') },
-                          { value: 'transfer', label: t('form.subjects.transfer') },
-                          { value: 'feedback', label: t('form.subjects.feedback') },
-                          { value: 'other', label: t('form.subjects.other') },
+                          { value: 'reservation', label: t('form.subjectOptions.reservation') },
+                          { value: 'event', label: t('form.subjectOptions.event') },
+                          { value: 'feedback', label: t('form.subjectOptions.feedback') },
+                          { value: 'partnership', label: t('form.subjectOptions.partnership') },
+                          { value: 'other', label: t('form.subjectOptions.other') },
                         ]}
                       />
                     </div>
@@ -327,7 +324,7 @@ export default function ContactPage() {
 
                   <div>
                     <label className="block text-sm font-medium text-white/70 mb-2 font-[family-name:var(--font-inter)]">
-                      {t('form.messageLabel')} *
+                      {t('form.message')} *
                     </label>
                     <textarea
                       name="message"
@@ -336,7 +333,7 @@ export default function ContactPage() {
                       required
                       rows={5}
                       className="w-full px-4 sm:px-5 py-3 sm:py-4 bg-[#0a0a0a] border border-white/10 rounded-xl focus:outline-none focus:border-[#b1b94c]/50 focus:bg-[#0a0a0a] transition-all resize-none text-white placeholder:text-white/30 font-[family-name:var(--font-inter)] text-base"
-                      placeholder={t('form.messagePlaceholder')}
+                      placeholder=""
                     />
                   </div>
 
@@ -352,7 +349,7 @@ export default function ContactPage() {
                       </>
                     ) : (
                       <>
-                        {t('form.submit')}
+                        {t('form.send')}
                         <ArrowRight className="w-5 h-5" />
                       </>
                     )}
@@ -382,18 +379,18 @@ export default function ContactPage() {
                   <div className="absolute bottom-4 left-4 right-4">
                     <div className="flex items-center gap-2 text-[#b1b94c]">
                       <MapPin className="w-4 h-4" />
-                      <span className="text-sm font-medium">{t('location.ourLocation')}</span>
+                      <span className="text-sm font-medium">{t('location.title')}</span>
                     </div>
                   </div>
                 </div>
                 <div className="p-6">
                   <h3 className="text-lg font-[family-name:var(--font-krona)] text-white mb-3 normal-case">
-                    {t('location.restaurantName')}
+                    {t('location.restaurant')}
                   </h3>
                   <p className="text-white/50 text-sm leading-relaxed mb-4 font-[family-name:var(--font-inter)]">
-                    {t('location.insideHanuman')}<br />
-                    {t('location.address1')}<br />
-                    {t('location.address2')}<br />
+                    {t('location.address')}<br />
+                    {t('location.addressLine2')}<br />
+                    {t('location.addressLine3')}<br />
                     {t('location.country')}
                   </p>
                   <a
@@ -403,7 +400,7 @@ export default function ContactPage() {
                     className="inline-flex items-center gap-2 text-[#b1b94c] text-sm font-medium hover:underline"
                   >
                     <Navigation className="w-4 h-4" />
-                    {t('location.getDirections')}
+                    {t('location.directions')}
                   </a>
                 </div>
               </div>
@@ -430,7 +427,7 @@ export default function ContactPage() {
                 </div>
                 <div className="mt-4 p-3 bg-[#b1b94c]/10 rounded-xl">
                   <p className="text-[#b1b94c] text-sm font-[family-name:var(--font-inter)]">
-                    {t('hours.reservationNote')}
+                    {t('hours.note')}
                   </p>
                 </div>
               </div>
