@@ -3,35 +3,37 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Leaf, ChefHat, Utensils, Users } from 'lucide-react';
-
-const qualitySteps = [
-  {
-    step: '01',
-    icon: Leaf,
-    title: 'Fresh Ingredients',
-    description: 'We source only the freshest local ingredients daily from trusted local farmers and markets. Our seafood arrives fresh each morning.',
-  },
-  {
-    step: '02',
-    icon: ChefHat,
-    title: 'Expert Chefs',
-    description: 'Our chefs have decades of combined experience in authentic Thai cuisine. Each dish is prepared with passion and expertise.',
-  },
-  {
-    step: '03',
-    icon: Utensils,
-    title: 'Kitchen Hygiene',
-    description: 'Our kitchen maintains the highest standards of cleanliness and food safety. Regular inspections ensure we exceed health regulations.',
-  },
-  {
-    step: '04',
-    icon: Users,
-    title: 'Attentive Service',
-    description: 'Our staff is trained to provide exceptional service. From dietary accommodations to special occasions, we ensure every detail is perfect.',
-  },
-];
+import { useTranslations } from 'next-intl';
 
 export function SafetyCertifications() {
+  const t = useTranslations('home.quality');
+  
+  const qualitySteps = [
+    {
+      step: '01',
+      icon: Leaf,
+      title: t('steps.fresh.title'),
+      description: t('steps.fresh.description'),
+    },
+    {
+      step: '02',
+      icon: ChefHat,
+      title: t('steps.chefs.title'),
+      description: t('steps.chefs.description'),
+    },
+    {
+      step: '03',
+      icon: Utensils,
+      title: t('steps.hygiene.title'),
+      description: t('steps.hygiene.description'),
+    },
+    {
+      step: '04',
+      icon: Users,
+      title: t('steps.service.title'),
+      description: t('steps.service.description'),
+    },
+  ];
   return (
     <section className="relative py-24 overflow-hidden">
       {/* Leaves Background with Green Overlay */}
@@ -57,7 +59,7 @@ export function SafetyCertifications() {
               className="inline-flex items-center gap-2 px-4 py-2 bg-black text-[#b1b94c] rounded-full text-sm font-medium mb-6"
             >
               <Leaf className="w-4 h-4" />
-              Quality & Excellence
+              {t('subtitle')}
             </motion.div>
 
             <motion.h2
@@ -67,9 +69,9 @@ export function SafetyCertifications() {
               transition={{ delay: 0.1 }}
               className="text-4xl md:text-5xl font-[family-name:var(--font-krona)] text-black mb-6"
             >
-              World-Class
+              {t('title1')}
               <br />
-              Quality Standards
+              {t('title2')}
             </motion.h2>
 
             <motion.p
@@ -79,9 +81,7 @@ export function SafetyCertifications() {
               transition={{ delay: 0.2 }}
               className="text-black/70 text-lg mb-10"
             >
-              At Three Monkeys, we believe dining should be an exceptional experience. 
-              Our commitment to quality, freshness, and hygiene ensures you can 
-              focus on enjoying your meal while we handle everything else.
+              {t('description')}
             </motion.p>
 
             {/* Safety Steps */}
@@ -149,8 +149,8 @@ export function SafetyCertifications() {
                   <Leaf className="w-8 h-8 text-black" />
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-[#b1b94c]">Fresh</div>
-                  <div className="text-white/60 text-sm">Daily Ingredients</div>
+                  <div className="text-2xl font-bold text-[#b1b94c]">{t('badges.fresh')}</div>
+                  <div className="text-white/60 text-sm">{t('badges.dailyIngredients')}</div>
                 </div>
               </div>
             </motion.div>
@@ -165,8 +165,8 @@ export function SafetyCertifications() {
               <div className="flex items-center gap-3">
                 <ChefHat className="w-8 h-8 text-[#b1b94c]" />
                 <div className="text-white">
-                  <div className="font-bold text-sm">Expert</div>
-                  <div className="text-xs text-white/60">Thai Chefs</div>
+                  <div className="font-bold text-sm">{t('badges.expert')}</div>
+                  <div className="text-xs text-white/60">{t('badges.thaiChefs')}</div>
                 </div>
               </div>
             </motion.div>

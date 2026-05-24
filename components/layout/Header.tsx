@@ -106,19 +106,32 @@ export function Header() {
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center gap-5">
-              {visibleNav.map((item) => (
-                <Link
-                  key={item.key}
-                  href={item.href}
-                  className={`flex flex-col items-center justify-center py-2 font-[family-name:var(--font-krona)] text-xs font-medium uppercase tracking-widest transition-colors leading-tight text-center ${
-                    pathname === item.href
-                      ? 'text-[#b1b94c]'
-                      : 'text-white/80 hover:text-white'
-                  }`}
-                >
-                  <span>{tNav(item.key)}</span>
-                </Link>
-              ))}
+              {visibleNav.map((item) => {
+                const label = tNav(item.key);
+                const words = label.split(' ');
+
+                return (
+                  <Link
+                    key={item.key}
+                    href={item.href}
+                    className={`flex flex-col items-center justify-center py-2 font-[family-name:var(--font-krona)] text-xs font-medium uppercase tracking-widest transition-colors leading-tight text-center min-h-[40px] ${
+                      pathname === item.href
+                        ? 'text-[#b1b94c]'
+                        : 'text-white/80 hover:text-white'
+                    }`}
+                  >
+                    {words.length > 1 ? (
+                      words.map((word, i) => (
+                        <span key={i} className="leading-[1.3]">
+                          {word}
+                        </span>
+                      ))
+                    ) : (
+                      <span>{label}</span>
+                    )}
+                  </Link>
+                );
+              })}
             </nav>
 
             {/* Right CTA, Language Switcher, Mobile Toggle */}

@@ -249,8 +249,8 @@ export function Location() {
                 </svg>
               </div>
               <div>
-                <div className="text-white font-[family-name:var(--font-krona)] text-lg normal-case">Travel Times</div>
-                <div className="text-white/40 text-xs">By car</div>
+                <div className="text-white font-[family-name:var(--font-krona)] text-lg normal-case">{t('travel_times')}</div>
+                <div className="text-white/40 text-xs">{t('by_car')}</div>
               </div>
             </div>
 
@@ -276,7 +276,7 @@ export function Location() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <span className="text-white/60 text-sm font-[family-name:var(--font-inter)]">Free parking available</span>
+              <span className="text-white/60 text-sm font-[family-name:var(--font-inter)]">{t('free_parking')}</span>
             </div>
           </motion.div>
         </div>
@@ -290,7 +290,7 @@ export function Location() {
           className="mt-20 text-center"
         >
           <p className="text-white/30 text-sm tracking-widest uppercase font-[family-name:var(--font-inter)]">
-            Where nature meets gastronomy
+            {t('tagline')}
           </p>
         </motion.div>
       </div>

@@ -49,10 +49,10 @@ export function Footer() {
             <div className="flex flex-col md:flex-row items-center justify-between gap-8">
               <div>
                 <h3 className="text-2xl md:text-3xl font-[family-name:var(--font-krona)] text-white mb-2 normal-case">
-                  Need help with your booking?
+                  {tFooter('cta_booking_title')}
                 </h3>
                 <p className="text-white/50 font-[family-name:var(--font-inter)]">
-                  Contact us directly for any questions or assistance
+                  {tFooter('cta_booking_subtitle')}
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row items-center gap-4">
@@ -67,7 +67,7 @@ export function Footer() {
                     className="flex items-center gap-3 px-8 py-4 bg-[#25D366] text-white font-[family-name:var(--font-krona)] rounded-full hover:bg-[#20BD5A] transition-all"
                   >
                     <MessageCircle className="w-5 h-5" />
-                    WHATSAPP US
+                    {tActions('whatsappUs')}
                   </motion.button>
                 </a>
                 <a href="mailto:enjoy@threemonkeysphuket.com">
@@ -77,7 +77,7 @@ export function Footer() {
                     className="flex items-center gap-3 px-8 py-4 bg-white/10 border border-white/20 text-white font-[family-name:var(--font-krona)] rounded-full hover:bg-white/20 transition-all"
                   >
                     <Mail className="w-5 h-5" />
-                    EMAIL US
+                    {tActions('emailUs')}
                   </motion.button>
                 </a>
               </div>
@@ -87,10 +87,10 @@ export function Footer() {
             <div className="flex flex-col md:flex-row items-center justify-between gap-8">
               <div>
                 <h3 className="text-2xl md:text-3xl font-[family-name:var(--font-krona)] text-white mb-2 normal-case">
-                  Ready for an unforgettable meal?
+                  {tFooter('cta_default_title')}
                 </h3>
                 <p className="text-white/50 font-[family-name:var(--font-inter)]">
-                  Reserve your table in the rainforest today
+                  {tFooter('cta_default_subtitle')}
                 </p>
               </div>
               <Link href="/booking">

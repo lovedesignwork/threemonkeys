@@ -4,31 +4,33 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
 import { Leaf, TreePine, Heart, Sparkles, ArrowRight } from 'lucide-react';
-
-const features = [
-  {
-    icon: TreePine,
-    title: 'Rainforest Setting',
-    description: 'Dine surrounded by lush tropical rainforest',
-  },
-  {
-    icon: Sparkles,
-    title: 'Unique Ambiance',
-    description: 'Traditional Thai meets modern design',
-  },
-  {
-    icon: Heart,
-    title: 'Romantic Dining',
-    description: 'Perfect for special celebrations',
-  },
-  {
-    icon: Leaf,
-    title: 'Fresh & Local',
-    description: 'Daily sourced from local markets',
-  },
-];
+import { useTranslations } from 'next-intl';
 
 export function WhyChooseUs() {
+  const t = useTranslations('home.why');
+  
+  const features = [
+    {
+      icon: TreePine,
+      title: t('feat_rainforest_title'),
+      description: t('feat_rainforest_desc'),
+    },
+    {
+      icon: Sparkles,
+      title: t('feat_ambiance_title'),
+      description: t('feat_ambiance_desc'),
+    },
+    {
+      icon: Heart,
+      title: t('feat_romantic_title'),
+      description: t('feat_romantic_desc'),
+    },
+    {
+      icon: Leaf,
+      title: t('feat_fresh_title'),
+      description: t('feat_fresh_desc'),
+    },
+  ];
   return (
     <section className="relative py-32 overflow-hidden">
       {/* Leaves Background with Dark Overlay */}
@@ -58,22 +60,21 @@ export function WhyChooseUs() {
           >
             <div className="relative z-10 max-w-xl">
               <span className="text-[#b1b94c] text-sm font-medium uppercase tracking-[0.3em]">
-                Why Choose Us
+                {t('eyebrow')}
               </span>
               <h2 className="mt-4 text-4xl md:text-5xl font-[family-name:var(--font-krona)] text-white leading-tight normal-case">
-                An Experience
+                {t('title_a')}
                 <br />
-                <span className="text-[#b1b94c]">Unlike Any Other</span>
+                <span className="text-[#b1b94c]">{t('title_b')}</span>
               </h2>
               <p className="mt-6 text-white/60 text-lg leading-relaxed">
-                At Three Monkeys, every meal becomes a cherished memory. Our sophisticated 
-                setting seamlessly blends traditional Thai decor with modern design.
+                {t('description')}
               </p>
               <Link
                 href="/about"
                 className="mt-8 inline-flex items-center gap-3 text-[#b1b94c] hover:text-white transition-colors group"
               >
-                <span className="font-medium">Discover Our Story</span>
+                <span className="font-medium">{t('discoverStory')}</span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
@@ -95,18 +96,18 @@ export function WhyChooseUs() {
                 15+
               </div>
               <div className="mt-2 text-black/70 text-lg font-medium">
-                Years of Culinary Excellence
+                {t('yearsExcellence')}
               </div>
             </div>
             <div className="mt-8 pt-8 border-t border-black/10">
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <div className="text-3xl font-[family-name:var(--font-krona)] text-black">50K+</div>
-                  <div className="text-black/60 text-sm">Happy Guests</div>
+                  <div className="text-black/60 text-sm">{t('happyGuests')}</div>
                 </div>
                 <div>
                   <div className="text-3xl font-[family-name:var(--font-krona)] text-black">4.9</div>
-                  <div className="text-black/60 text-sm">Rating</div>
+                  <div className="text-black/60 text-sm">{t('rating')}</div>
                 </div>
               </div>
             </div>
@@ -162,8 +163,8 @@ export function WhyChooseUs() {
             {/* Floating Label */}
             <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between">
               <div>
-                <div className="text-white/60 text-sm mb-1">Featured in</div>
-                <div className="text-white font-semibold">Phuket&apos;s Top 10 Restaurants</div>
+                <div className="text-white/60 text-sm mb-1">{t('featuredIn')}</div>
+                <div className="text-white font-semibold">{t('topRestaurants')}</div>
               </div>
             </div>
           </motion.div>

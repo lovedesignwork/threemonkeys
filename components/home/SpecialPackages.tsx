@@ -7,9 +7,13 @@ import { Link } from '@/i18n/navigation';
 import { ArrowRight, CalendarClock } from 'lucide-react';
 import { getSpecialPackages } from '@/lib/data/packages';
 import { formatPrice } from '@/lib/utils';
+import { useTranslations } from 'next-intl';
+import { useTranslatedPackage } from '@/hooks/useTranslatedPackage';
 
 export function SpecialPackages() {
-  const specialPackages = useMemo(() => getSpecialPackages(), []);
+  const t = useTranslations('home.packages');
+  const { getTranslatedPackage } = useTranslatedPackage();
+  const specialPackages = useMemo(() => getSpecialPackages().map(getTranslatedPackage), [getTranslatedPackage]);
 
   return (
     <section className="relative py-24 bg-[#0f0f0f] overflow-hidden">
@@ -25,7 +29,7 @@ export function SpecialPackages() {
             viewport={{ once: true }}
             className="inline-block text-[#b1b94c] text-sm font-medium uppercase tracking-[0.3em] mb-4"
           >
-            Celebrate With Us
+            {t('eyebrow')}
           </motion.span>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -34,7 +38,7 @@ export function SpecialPackages() {
             transition={{ delay: 0.1 }}
             className="text-4xl md:text-5xl lg:text-6xl font-[family-name:var(--font-krona)] text-white mb-6 normal-case"
           >
-            Special Packages
+            {t('title')}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -43,7 +47,7 @@ export function SpecialPackages() {
             transition={{ delay: 0.2 }}
             className="text-white/50 text-lg max-w-2xl mx-auto font-[family-name:var(--font-inter)]"
           >
-            Create unforgettable memories with our specially curated packages for every occasion
+            {t('description')}
           </motion.p>
         </div>
 
@@ -73,7 +77,7 @@ export function SpecialPackages() {
                     <div className="absolute top-4 left-4">
                       <div className="px-3 py-1.5 bg-amber-500/90 backdrop-blur-sm rounded-full flex items-center gap-1.5">
                         <CalendarClock className="w-3.5 h-3.5 text-black" />
-                        <span className="text-black text-xs font-semibold">Book 1 Day Ahead</span>
+                        <span className="text-black text-xs font-semibold">{t('bookAhead')}</span>
                       </div>
                     </div>
                   </div>
@@ -102,12 +106,12 @@ export function SpecialPackages() {
                     
                     {/* Price Section */}
                     <div className="mb-4">
-                      <span className="text-white/40 text-xs uppercase tracking-wider block mb-1">Package Price</span>
+                      <span className="text-white/40 text-xs uppercase tracking-wider block mb-1">{t('packagePrice')}</span>
                       <div className="flex items-baseline gap-1">
                         <span className="text-3xl font-bold text-[#b1b94c] font-[family-name:var(--font-krona)]">
                           {formatPrice(pkg.price)}
                         </span>
-                        <span className="text-white/40 text-sm">total</span>
+                        <span className="text-white/40 text-sm">{t('total')}</span>
                       </div>
                     </div>
                     
@@ -117,7 +121,7 @@ export function SpecialPackages() {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                     >
-                      Book Now
+                      {t('bookNow')}
                       <ArrowRight className="w-4 h-4" />
                     </motion.div>
                   </div>

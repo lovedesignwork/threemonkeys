@@ -4,8 +4,10 @@ import { motion } from 'framer-motion';
 import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
 import { ArrowRight, Phone, MessageCircle } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 export function CTABanner() {
+  const t = useTranslations('home.cta');
   return (
     <section className="relative py-24 overflow-hidden">
       {/* Background Image */}
@@ -39,7 +41,7 @@ export function CTABanner() {
           viewport={{ once: true }}
         >
           <span className="inline-block px-6 py-2 bg-[#b1b94c] text-black font-medium rounded-full text-sm mb-8">
-            People Who Love to Eat Are the Best People
+            {t('badge')}
           </span>
         </motion.div>
 
@@ -50,9 +52,9 @@ export function CTABanner() {
           transition={{ delay: 0.1 }}
           className="text-4xl md:text-5xl lg:text-6xl font-[family-name:var(--font-krona)] text-white mb-6"
         >
-          Ready For An
+          {t('title_a')}
           <br />
-          <span className="text-[#b1b94c]">Unforgettable Experience?</span>
+          <span className="text-[#b1b94c]">{t('title_b')}</span>
         </motion.h2>
 
         <motion.p
@@ -62,9 +64,7 @@ export function CTABanner() {
           transition={{ delay: 0.2 }}
           className="text-xl text-white/70 mb-10 max-w-2xl mx-auto"
         >
-          Whether it&apos;s a romantic dinner beneath the stars, a lively gathering with 
-          friends and family, or celebrating a special occasion — we&apos;re here to 
-          make your memories unforgettable.
+          {t('description')}
         </motion.p>
 
         <motion.div
@@ -80,7 +80,7 @@ export function CTABanner() {
               whileTap={{ scale: 0.95 }}
               className="group px-10 py-5 bg-[#b1b94c] text-black font-[family-name:var(--font-krona)] text-xl rounded-full transition-all flex items-center justify-center gap-3"
             >
-              RESERVE A TABLE
+              {t('reserveTable')}
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </motion.button>
           </Link>
@@ -92,7 +92,7 @@ export function CTABanner() {
               className="px-10 py-5 bg-white/10 backdrop-blur-sm text-white font-medium text-xl rounded-full border border-white/20 hover:bg-white/20 transition-all flex items-center justify-center gap-3"
             >
               <Phone className="w-5 h-5" />
-              Call Us
+              {t('callUs')}
             </motion.button>
           </a>
         </motion.div>

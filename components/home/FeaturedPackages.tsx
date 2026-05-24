@@ -7,13 +7,17 @@ import Image from 'next/image';
 import { ArrowRight, Star, Sparkles, Heart } from 'lucide-react';
 import { getSeatPackages } from '@/lib/data/packages';
 import { Package } from '@/types';
+import { useTranslations } from 'next-intl';
+import { useTranslatedPackage } from '@/hooks/useTranslatedPackage';
 
 function isRomanticZone(pkg: Package): boolean {
   return pkg.id === 'monkey-dome' || pkg.id === 'monkey-nest';
 }
 
 export function FeaturedPackages() {
-  const seatPackages = useMemo(() => getSeatPackages(), []);
+  const t = useTranslations('home.seats');
+  const { getTranslatedPackage } = useTranslatedPackage();
+  const seatPackages = useMemo(() => getSeatPackages().map(getTranslatedPackage), [getTranslatedPackage]);
   const premiumSeats = seatPackages.filter(pkg => pkg.id === 'monkey-dome' || pkg.id === 'monkey-nest');
   const openSeating = seatPackages.filter(pkg => pkg.id === 'indoor-seat' || pkg.id === 'outdoor-seat');
   const otherSeats = seatPackages.filter(
@@ -65,7 +69,7 @@ export function FeaturedPackages() {
               viewport={{ once: true }}
               className="inline-block text-[#b1b94c] text-sm font-medium uppercase tracking-[0.3em] mb-4"
             >
-              Unique Dining Zones
+              {t('eyebrow')}
             </motion.span>
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
@@ -74,7 +78,7 @@ export function FeaturedPackages() {
               transition={{ delay: 0.1 }}
               className="text-4xl md:text-5xl lg:text-6xl font-[family-name:var(--font-krona)] text-white normal-case"
             >
-              Our Seats
+              {t('title')}
             </motion.h2>
           </div>
           
@@ -88,7 +92,7 @@ export function FeaturedPackages() {
               href="/seats"
               className="group inline-flex items-center gap-3 text-white/60 hover:text-[#b1b94c] transition-colors"
             >
-              <span className="text-sm uppercase tracking-widest">View All</span>
+              <span className="text-sm uppercase tracking-widest">{t('viewAll')}</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
           </motion.div>
@@ -98,7 +102,7 @@ export function FeaturedPackages() {
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-2 h-2 bg-[#b1b94c] rounded-full" />
-            <span className="text-sm font-medium text-[#b1b94c] uppercase tracking-wider">Premium Seats</span>
+            <span className="text-sm font-medium text-[#b1b94c] uppercase tracking-wider">{t('premiumSeats')}</span>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
             {premiumSeats.map((pkg, index) => (
@@ -126,7 +130,7 @@ export function FeaturedPackages() {
                         {pkg.popular && (
                           <div className="px-3 py-1.5 bg-[#b1b94c] rounded-full flex items-center gap-1.5">
                             <Star className="w-3.5 h-3.5 text-black fill-current" />
-                            <span className="text-black text-xs font-semibold">Popular</span>
+                            <span className="text-black text-xs font-semibold">{t('popular')}</span>
                           </div>
                         )}
                         {isRomanticZone(pkg) && (
@@ -162,14 +166,14 @@ export function FeaturedPackages() {
                       
                       {/* Price Section */}
                       <div className="mb-4">
-                        <span className="text-white/40 text-xs uppercase tracking-wider block mb-1">Deposit</span>
+                        <span className="text-white/40 text-xs uppercase tracking-wider block mb-1">{t('deposit')}</span>
                         <div className="flex items-baseline gap-1">
                           <span className="text-3xl font-bold text-[#b1b94c] font-[family-name:var(--font-krona)]">
                             ฿4,000
                           </span>
-                          <span className="text-white/40 text-sm">/ table</span>
+                          <span className="text-white/40 text-sm">{t('perTable')}</span>
                         </div>
-                        <span className="text-white/30 text-xs">(up to 4 persons)</span>
+                        <span className="text-white/30 text-xs">{t('upTo', { n: 4 })}</span>
                       </div>
                       
                       {/* Reserve Button */}
@@ -178,7 +182,7 @@ export function FeaturedPackages() {
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                       >
-                        Reserve Now
+                        {t('reserveNow')}
                         <ArrowRight className="w-4 h-4" />
                       </motion.div>
                     </div>
@@ -193,7 +197,7 @@ export function FeaturedPackages() {
         <div>
           <div className="flex items-center gap-3 mb-6">
             <div className="w-2 h-2 bg-white/40 rounded-full" />
-            <span className="text-sm font-medium text-white/40 uppercase tracking-wider">More Seating Options</span>
+            <span className="text-sm font-medium text-white/40 uppercase tracking-wider">{t('moreOptions')}</span>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {otherSeats.map((pkg, index) => (
@@ -222,7 +226,7 @@ export function FeaturedPackages() {
                         {pkg.popular && (
                           <div className="px-3 py-1.5 bg-[#b1b94c] rounded-full flex items-center gap-1.5">
                             <Star className="w-3.5 h-3.5 text-black fill-current" />
-                            <span className="text-black text-xs font-semibold">Popular</span>
+                            <span className="text-black text-xs font-semibold">{t('popular')}</span>
                           </div>
                         )}
                         {isRomanticZone(pkg) && (
@@ -270,18 +274,18 @@ export function FeaturedPackages() {
                       <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#b1b94c]/10 via-[#b1b94c]/5 to-transparent p-4 border border-[#b1b94c]/20 group-hover:border-[#b1b94c]/40 transition-all">
                         <div className="flex items-center justify-between">
                           <div>
-                            <span className="text-white/40 text-[10px] uppercase tracking-wider block">Deposit</span>
+                            <span className="text-white/40 text-[10px] uppercase tracking-wider block">{t('deposit')}</span>
                             <span className="text-xl font-bold text-[#b1b94c] font-[family-name:var(--font-krona)]">
                               ฿500
                             </span>
-                            <span className="text-white/30 text-[10px] ml-1">/ person</span>
+                            <span className="text-white/30 text-[10px] ml-1">{t('perPerson')}</span>
                           </div>
                           <motion.div
                             className="flex items-center gap-2 px-4 py-2 bg-[#b1b94c] rounded-xl text-black font-semibold text-sm"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                           >
-                            Reserve
+                            {t('reserve')}
                             <ArrowRight className="w-4 h-4" />
                           </motion.div>
                         </div>
@@ -302,7 +306,7 @@ export function FeaturedPackages() {
           <div className="flex items-center gap-3 mb-6">
             <div className="w-2 h-2 bg-[#b1b94c] rounded-full" />
             <span className="text-sm font-medium text-[#b1b94c] uppercase tracking-wider">
-              Open Seating — No Reservation Limit
+              {t('openSeating')}
             </span>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
@@ -350,14 +354,14 @@ export function FeaturedPackages() {
 
                       {/* Price Section */}
                       <div className="mb-4">
-                        <span className="text-white/40 text-xs uppercase tracking-wider block mb-1">Deposit</span>
+                        <span className="text-white/40 text-xs uppercase tracking-wider block mb-1">{t('deposit')}</span>
                         <div className="flex items-baseline gap-1">
                           <span className="text-3xl font-bold text-[#b1b94c] font-[family-name:var(--font-krona)]">
                             ฿500
                           </span>
-                          <span className="text-white/40 text-sm">/ person</span>
+                          <span className="text-white/40 text-sm">{t('perPerson')}</span>
                         </div>
-                        <span className="text-white/30 text-xs">No reservation limit</span>
+                        <span className="text-white/30 text-xs">{t('noLimit')}</span>
                       </div>
 
                       {/* Reserve Button */}
@@ -366,7 +370,7 @@ export function FeaturedPackages() {
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                       >
-                        Reserve Now
+                        {t('reserveNow')}
                         <ArrowRight className="w-4 h-4" />
                       </motion.div>
                     </div>
@@ -385,11 +389,11 @@ export function FeaturedPackages() {
           className="mt-16 text-center"
         >
           <p className="text-white/40 text-sm mb-6">
-            Can&apos;t decide? Let us help you choose the perfect spot.
+            {t('helpChoose')}
           </p>
           <Link href="/booking">
             <button className="inline-flex items-center gap-3 px-8 py-4 bg-[#b1b94c] hover:bg-[#c5cd6f] text-black font-[family-name:var(--font-krona)] rounded-full transition-all">
-              Reserve Your Seat
+              {t('reserveSeat')}
               <ArrowRight className="w-5 h-5" />
             </button>
           </Link>

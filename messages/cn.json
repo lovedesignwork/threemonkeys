@@ -14,12 +14,15 @@
   "actions": {
     "call": "致电",
     "whatsapp": "WhatsApp",
+    "whatsappUs": "通过 WHATSAPP 联系我们",
     "email": "电子邮件",
+    "emailUs": "发送邮件",
     "directions": "查看路线",
     "viewAll": "查看全部",
     "exploreMenu": "查看完整菜单",
     "bookNow": "立即预订",
     "reserveNow": "立即预订",
+    "reserve": "预订",
     "sendMessage": "发送消息",
     "backToHome": "返回首页",
     "loading": "加载中…",
@@ -42,7 +45,11 @@
     "legal": "法律条款",
     "visit_us": "前来用餐",
     "open_daily": "每日营业 {hours}",
-    "rights_reserved": "© {year} Three Monkeys 餐厅。版权所有。"
+    "rights_reserved": "© {year} Three Monkeys 餐厅。版权所有。",
+    "cta_booking_title": "需要预订帮助？",
+    "cta_booking_subtitle": "如有任何问题或需要帮助，请直接联系我们",
+    "cta_default_title": "准备好享用难忘的美食了吗？",
+    "cta_default_subtitle": "立即在雨林中预订您的餐桌"
   },
   "home": {
     "hero": {
@@ -75,7 +82,185 @@
       "detail_email": "24 小时内回复",
       "label_hours": "营业时间",
       "value_hours": "10:00 – 01:00",
-      "detail_hours": "每日营业"
+      "detail_hours": "每日营业",
+      "travel_times": "交通时间",
+      "by_car": "驾车",
+      "free_parking": "免费停车",
+      "tagline": "自然与美食的交汇处"
+    },
+    "seats": {
+      "eyebrow": "独特用餐区域",
+      "title": "我们的座位",
+      "viewAll": "查看全部",
+      "premiumSeats": "高级座位",
+      "moreOptions": "更多座位选择",
+      "openSeating": "开放座位 — 无预订限制",
+      "popular": "热门",
+      "deposit": "订金",
+      "perTable": "/ 桌",
+      "perPerson": "/ 人",
+      "upTo": "（最多 {n} 人）",
+      "noLimit": "无预订限制",
+      "helpChoose": "无法决定？让我们帮您选择完美的座位。",
+      "reserveSeat": "预订座位",
+      "reserveNow": "立即预订",
+      "reserve": "预订"
+    },
+    "packages": {
+      "eyebrow": "与我们一起庆祝",
+      "title": "特别套餐",
+      "description": "为每个特殊场合精心策划的套餐，创造难忘回忆",
+      "bookAhead": "需提前1天预订",
+      "packagePrice": "套餐价格",
+      "total": "总计",
+      "bookNow": "立即预订"
+    },
+    "why": {
+      "eyebrow": "为什么选择我们",
+      "title_a": "独一无二的",
+      "title_b": "用餐体验",
+      "description": "在 Three Monkeys，每一餐都将成为珍贵的回忆。我们精致的环境完美融合了传统泰式装饰与现代设计。",
+      "discoverStory": "探索我们的故事",
+      "yearsExcellence": "年烹饪卓越",
+      "happyGuests": "满意的顾客",
+      "rating": "评分",
+      "feat_rainforest_title": "雨林环境",
+      "feat_rainforest_desc": "在茂密的热带雨林中用餐",
+      "feat_ambiance_title": "独特氛围",
+      "feat_ambiance_desc": "传统泰式与现代设计相遇",
+      "feat_romantic_title": "浪漫用餐",
+      "feat_romantic_desc": "适合特别庆祝活动",
+      "feat_fresh_title": "新鲜本地",
+      "feat_fresh_desc": "每日从当地市场采购",
+      "featuredIn": "媒体推荐",
+      "topRestaurants": "普吉岛十佳餐厅"
+    },
+    "cta": {
+      "badge": "热爱美食的人是最棒的人",
+      "title_a": "准备好迎接",
+      "title_b": "难忘的体验了吗？",
+      "description": "无论是星空下的浪漫晚餐、与亲朋好友的欢聚时光，还是庆祝特别的场合——我们都在这里为您创造难忘的回忆。",
+      "reserveTable": "预订餐桌",
+      "callUs": "致电我们"
+    },
+    "reviews": {
+      "subtitle": "顾客评价",
+      "title1": "听听",
+      "title2": "顾客怎么说",
+      "description": "不只是我们说好。来看看世界各地食客的真实评价。",
+      "stats": {
+        "googleRating": "谷歌评分",
+        "happyGuests": "满意的顾客",
+        "inPhuket": "普吉岛排名"
+      }
+    },
+    "gallery": {
+      "subtitle": "相册",
+      "title": "捕捉美好时刻",
+      "description": "每一餐都创造难忘的回忆。这里是等待您的美好瞬间。",
+      "followInstagram": "关注我们的 Instagram"
+    },
+    "quality": {
+      "subtitle": "品质与卓越",
+      "title1": "世界级",
+      "title2": "品质标准",
+      "description": "在 Three Monkeys，我们相信用餐应该是一种卓越的体验。我们对品质、新鲜度和卫生的承诺，让您可以专注于享受美食，其他一切交给我们。",
+      "steps": {
+        "fresh": {
+          "title": "新鲜食材",
+          "description": "我们每天从信赖的本地农民和市场采购最新鲜的食材。海鲜每天早晨新鲜送达。"
+        },
+        "chefs": {
+          "title": "专业厨师",
+          "description": "我们的厨师团队拥有数十年正宗泰国料理的丰富经验。每道菜都用热情和专业技艺精心烹制。"
+        },
+        "hygiene": {
+          "title": "厨房卫生",
+          "description": "我们的厨房保持最高标准的清洁和食品安全。定期检查确保我们超越卫生法规要求。"
+        },
+        "service": {
+          "title": "贴心服务",
+          "description": "我们的员工经过培训提供卓越服务。从饮食需求到特别场合，我们确保每个细节都完美。"
+        }
+      },
+      "badges": {
+        "fresh": "新鲜",
+        "dailyIngredients": "每日食材",
+        "expert": "专业",
+        "thaiChefs": "泰国厨师"
+      }
+    }
+  },
+  "pkgData": {
+    "monkey-dome": {
+      "name": "猴子穹顶",
+      "shortDesc": "上镜区，浪漫景点（3-4人）",
+      "features": ["上镜区", "浪漫氛围", "丛林景观"]
+    },
+    "monkey-nest": {
+      "name": "猴子巢穴",
+      "shortDesc": "必看景点，招牌角落（2-6人）",
+      "features": ["招牌角落", "高空座位", "自然环境"]
+    },
+    "bamboo-pavilion": {
+      "name": "竹亭专属座位",
+      "shortDesc": "独家新亭阁座位",
+      "features": ["专属座位", "竹建筑", "新区域"]
+    },
+    "zone-6": {
+      "name": "6区 (T)",
+      "shortDesc": "会议时间（最多50人）",
+      "features": ["标志性巨树", "夜间氛围", "风景"]
+    },
+    "zone-7": {
+      "name": "7区 (Z)",
+      "shortDesc": "会议时间（最多50人）",
+      "features": ["大型团队容量", "活动空间", "灵活座位"]
+    },
+    "monkey-hilltop": {
+      "name": "猴子山顶",
+      "shortDesc": "风景山顶用餐",
+      "features": ["活力氛围", "极致私密", "风景"]
+    },
+    "rooftop-romantic": {
+      "name": "三只猴子屋顶浪漫区",
+      "shortDesc": "浪漫屋顶区（最多40人）",
+      "features": ["屋顶环境", "全景", "现场表演"]
+    },
+    "exclusive-romantic-zone-7": {
+      "name": "7区专属浪漫区",
+      "shortDesc": "浪漫景点（2-4人）",
+      "features": ["上镜区", "浪漫氛围", "现场表演"]
+    },
+    "indoor-seat": {
+      "name": "室内座位",
+      "shortDesc": "室内用餐（开放座位）",
+      "features": ["室内环境", "空调", "温馨氛围"]
+    },
+    "outdoor-seat": {
+      "name": "户外座位",
+      "shortDesc": "户外用餐（开放座位）",
+      "features": ["户外环境", "新鲜空气", "风景"]
+    },
+    "ultimate-dinner": {
+      "name": "终极晚餐套餐",
+      "shortDesc": "浪漫体验（1-10人）",
+      "features": ["浪漫体验", "蜜月与周年纪念", "摄影与摄像"]
+    },
+    "ultimate-birthday": {
+      "name": "终极生日套餐",
+      "shortDesc": "欢乐、优雅、难忘（1-10人）",
+      "features": ["生日庆祝", "冰淇淋蛋糕", "气球拱门"]
+    },
+    "ultimate-romantic-dinner": {
+      "name": "终极浪漫晚餐",
+      "shortDesc": "浪漫与现场娱乐（1-2人）",
+      "features": ["私人萨克斯", "现场乐队", "火焰表演"]
+    },
+    "will-you-marry-me": {
+      "name": "在三只猴子求婚",
+      "shortDesc": "求婚套餐（1-20人）",
+      "features": ["求婚布置", "浪漫装饰", "上镜区"]
     }
   },
   "booking": {

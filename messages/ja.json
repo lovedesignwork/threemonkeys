@@ -14,12 +14,15 @@
   "actions": {
     "call": "電話",
     "whatsapp": "WhatsApp",
+    "whatsappUs": "WHATSAPPでお問い合わせ",
     "email": "メール",
+    "emailUs": "メールを送る",
     "directions": "ルートを表示",
     "viewAll": "すべて見る",
     "exploreMenu": "メニューを見る",
     "bookNow": "今すぐ予約",
     "reserveNow": "今すぐ予約",
+    "reserve": "予約",
     "sendMessage": "メッセージを送る",
     "backToHome": "ホームに戻る",
     "loading": "読み込み中…",
@@ -42,7 +45,11 @@
     "legal": "法的事項",
     "visit_us": "ご来店",
     "open_daily": "毎日営業 {hours}",
-    "rights_reserved": "© {year} Three Monkeys Restaurant. All rights reserved."
+    "rights_reserved": "© {year} Three Monkeys Restaurant. 無断複写・転載を禁じます。",
+    "cta_booking_title": "ご予約でお困りですか？",
+    "cta_booking_subtitle": "ご質問やサポートが必要な場合は、直接お問い合わせください",
+    "cta_default_title": "忘れられない食事の準備はできましたか？",
+    "cta_default_subtitle": "今日、熱帯雨林でテーブルを予約しましょう"
   },
   "home": {
     "hero": {
@@ -75,7 +82,185 @@
       "detail_email": "24時間以内に返信",
       "label_hours": "営業時間",
       "value_hours": "10:00 – 01:00",
-      "detail_hours": "毎日営業"
+      "detail_hours": "毎日営業",
+      "travel_times": "所要時間",
+      "by_car": "車で",
+      "free_parking": "無料駐車場あり",
+      "tagline": "自然と美食が出会う場所"
+    },
+    "seats": {
+      "eyebrow": "ユニークなダイニングゾーン",
+      "title": "お席",
+      "viewAll": "すべて見る",
+      "premiumSeats": "プレミアム席",
+      "moreOptions": "その他の席オプション",
+      "openSeating": "オープン席 — 予約制限なし",
+      "popular": "人気",
+      "deposit": "デポジット",
+      "perTable": "/ テーブル",
+      "perPerson": "/ 人",
+      "upTo": "（最大 {n} 名様）",
+      "noLimit": "予約制限なし",
+      "helpChoose": "お決まりでないですか？完璧な席選びをお手伝いします。",
+      "reserveSeat": "席を予約",
+      "reserveNow": "今すぐ予約",
+      "reserve": "予約"
+    },
+    "packages": {
+      "eyebrow": "私たちと一緒にお祝いを",
+      "title": "スペシャルパッケージ",
+      "description": "あらゆる機会のために特別に厳選されたパッケージで、忘れられない思い出を作りましょう",
+      "bookAhead": "1日前までにご予約ください",
+      "packagePrice": "パッケージ価格",
+      "total": "合計",
+      "bookNow": "今すぐ予約"
+    },
+    "why": {
+      "eyebrow": "なぜ私たちを選ぶのか",
+      "title_a": "唯一無二の",
+      "title_b": "体験",
+      "description": "Three Monkeysでは、すべての食事が大切な思い出になります。洗練された空間は、伝統的なタイの装飾とモダンなデザインを見事に融合させています。",
+      "discoverStory": "私たちの物語を発見",
+      "yearsExcellence": "年の料理の卓越性",
+      "happyGuests": "満足したお客様",
+      "rating": "評価",
+      "feat_rainforest_title": "熱帯雨林の環境",
+      "feat_rainforest_desc": "緑豊かな熱帯雨林に囲まれてお食事",
+      "feat_ambiance_title": "ユニークな雰囲気",
+      "feat_ambiance_desc": "伝統的なタイとモダンデザインの融合",
+      "feat_romantic_title": "ロマンチックなダイニング",
+      "feat_romantic_desc": "特別なお祝いに最適",
+      "feat_fresh_title": "新鮮 & 地元産",
+      "feat_fresh_desc": "毎日地元の市場から仕入れ",
+      "featuredIn": "メディア掲載",
+      "topRestaurants": "プーケットのトップ10レストラン"
+    },
+    "cta": {
+      "badge": "食べることを愛する人は最高の人",
+      "title_a": "忘れられない",
+      "title_b": "体験の準備はできていますか？",
+      "description": "星空の下でのロマンチックなディナー、友人や家族との楽しい集まり、特別な機会のお祝い — 私たちはあなたの忘れられない思い出作りをお手伝いします。",
+      "reserveTable": "テーブルを予約",
+      "callUs": "お電話ください"
+    },
+    "reviews": {
+      "subtitle": "レビュー",
+      "title1": "お客様の",
+      "title2": "声",
+      "description": "私たちの言葉だけでなく、世界中のお客様の声をお聞きください。",
+      "stats": {
+        "googleRating": "Google評価",
+        "happyGuests": "満足したお客様",
+        "inPhuket": "プーケットで"
+      }
+    },
+    "gallery": {
+      "subtitle": "ギャラリー",
+      "title": "瞬間を捉えて",
+      "description": "すべての食事が忘れられない思い出を作ります。あなたを待っているものをご覧ください。",
+      "followInstagram": "Instagramをフォロー"
+    },
+    "quality": {
+      "subtitle": "品質と卓越性",
+      "title1": "ワールドクラスの",
+      "title2": "品質基準",
+      "description": "Three Monkeysでは、ダイニングは卓越した体験であるべきだと信じています。品質、新鮮さ、衛生への取り組みにより、お客様はお食事を楽しむことに集中でき、残りは私たちにお任せいただけます。",
+      "steps": {
+        "fresh": {
+          "title": "新鮮な食材",
+          "description": "信頼できる地元の農家や市場から毎日最も新鮮な食材のみを仕入れています。シーフードは毎朝新鮮に届きます。"
+        },
+        "chefs": {
+          "title": "熟練シェフ",
+          "description": "私たちのシェフは、本格タイ料理で数十年の経験を持っています。すべての料理は情熱と専門技術で調理されます。"
+        },
+        "hygiene": {
+          "title": "キッチンの衛生",
+          "description": "私たちのキッチンは、清潔さと食品安全の最高基準を維持しています。定期的な検査により、衛生規制を上回っています。"
+        },
+        "service": {
+          "title": "心のこもったサービス",
+          "description": "スタッフは卓越したサービスを提供するよう訓練されています。食事制限から特別な機会まで、すべての細部が完璧であることを保証します。"
+        }
+      },
+      "badges": {
+        "fresh": "新鮮",
+        "dailyIngredients": "毎日の食材",
+        "expert": "熟練",
+        "thaiChefs": "タイ人シェフ"
+      }
+    }
+  },
+  "pkgData": {
+    "monkey-dome": {
+      "name": "モンキードーム",
+      "shortDesc": "フォトジェニックゾーン、ロマンチックスポット（3-4名）",
+      "features": ["フォトジェニックゾーン", "ロマンチックな雰囲気", "ジャングルビュー"]
+    },
+    "monkey-nest": {
+      "name": "モンキーネスト",
+      "shortDesc": "必見スポット、シグネチャーコーナー（2-6名）",
+      "features": ["シグネチャーコーナー", "高台席", "自然に囲まれて"]
+    },
+    "bamboo-pavilion": {
+      "name": "バンブーパビリオン特別席",
+      "shortDesc": "新しいパビリオンの特別席",
+      "features": ["特別席", "竹建築", "新ゾーン"]
+    },
+    "zone-6": {
+      "name": "ゾーン6 (T)",
+      "shortDesc": "ミーティングタイム（最大50名）",
+      "features": ["象徴的な巨木", "夜の雰囲気", "絶景"]
+    },
+    "zone-7": {
+      "name": "ゾーン7 (Z)",
+      "shortDesc": "ミーティングタイム（最大50名）",
+      "features": ["大人数対応", "イベントスペース", "フレキシブル席"]
+    },
+    "monkey-hilltop": {
+      "name": "モンキーヒルトップ",
+      "shortDesc": "丘の上でのお食事",
+      "features": ["活気ある雰囲気", "最高のプライバシー", "絶景"]
+    },
+    "rooftop-romantic": {
+      "name": "スリーモンキーズ屋上ロマンチックゾーン",
+      "shortDesc": "ロマンチックな屋上ゾーン（最大40名）",
+      "features": ["屋上の雰囲気", "パノラマビュー", "ライブショー"]
+    },
+    "exclusive-romantic-zone-7": {
+      "name": "ゾーン7 専用ロマンチックエリア",
+      "shortDesc": "ロマンチックスポット（2-4名）",
+      "features": ["フォトジェニックゾーン", "ロマンチックな雰囲気", "ライブショー"]
+    },
+    "indoor-seat": {
+      "name": "屋内席",
+      "shortDesc": "屋内ダイニング（オープン席）",
+      "features": ["屋内環境", "空調完備", "居心地の良い雰囲気"]
+    },
+    "outdoor-seat": {
+      "name": "屋外席",
+      "shortDesc": "屋外ダイニング（オープン席）",
+      "features": ["屋外環境", "新鮮な空気", "絶景"]
+    },
+    "ultimate-dinner": {
+      "name": "アルティメットディナーパッケージ",
+      "shortDesc": "ロマンチック体験（1-10名）",
+      "features": ["ロマンチック体験", "ハネムーン＆記念日", "写真＆ビデオ"]
+    },
+    "ultimate-birthday": {
+      "name": "アルティメットバースデーパッケージ",
+      "shortDesc": "楽しく、エレガント、思い出に残る（1-10名）",
+      "features": ["お誕生日祝い", "アイスクリームケーキ", "バルーンアーチ"]
+    },
+    "ultimate-romantic-dinner": {
+      "name": "アルティメットロマンチックディナー",
+      "shortDesc": "ロマンス＆ライブエンターテイメント（1-2名）",
+      "features": ["プライベートサックス", "ライブバンド", "ファイヤーショー"]
+    },
+    "will-you-marry-me": {
+      "name": "スリーモンキーズでプロポーズ",
+      "shortDesc": "プロポーズパッケージ（1-20名）",
+      "features": ["プロポーズセットアップ", "ロマンチックな装飾", "フォトジェニックゾーン"]
     }
   },
   "booking": {

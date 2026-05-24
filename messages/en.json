@@ -14,12 +14,15 @@
   "actions": {
     "call": "Call",
     "whatsapp": "WhatsApp",
+    "whatsappUs": "WHATSAPP US",
     "email": "Email",
+    "emailUs": "EMAIL US",
     "directions": "Get Directions",
     "viewAll": "View All",
     "exploreMenu": "Explore Full Menu",
     "bookNow": "Book Now",
     "reserveNow": "Reserve Now",
+    "reserve": "Reserve",
     "sendMessage": "Send Message",
     "backToHome": "Back to Home",
     "loading": "Loading…",
@@ -42,7 +45,11 @@
     "legal": "Legal",
     "visit_us": "Visit Us",
     "open_daily": "Open Daily {hours}",
-    "rights_reserved": "© {year} Three Monkeys Restaurant. All rights reserved."
+    "rights_reserved": "© {year} Three Monkeys Restaurant. All rights reserved.",
+    "cta_booking_title": "Need help with your booking?",
+    "cta_booking_subtitle": "Contact us directly for any questions or assistance",
+    "cta_default_title": "Ready for an unforgettable meal?",
+    "cta_default_subtitle": "Reserve your table in the rainforest today"
   },
   "home": {
     "hero": {
@@ -75,7 +82,185 @@
       "detail_email": "We reply within 24h",
       "label_hours": "Open Hours",
       "value_hours": "10AM – 1AM",
-      "detail_hours": "Open Daily"
+      "detail_hours": "Open Daily",
+      "travel_times": "Travel Times",
+      "by_car": "By car",
+      "free_parking": "Free parking available",
+      "tagline": "Where nature meets gastronomy"
+    },
+    "seats": {
+      "eyebrow": "Unique Dining Zones",
+      "title": "Our Seats",
+      "viewAll": "View All",
+      "premiumSeats": "Premium Seats",
+      "moreOptions": "More Seating Options",
+      "openSeating": "Open Seating — No Reservation Limit",
+      "popular": "Popular",
+      "deposit": "Deposit",
+      "perTable": "/ table",
+      "perPerson": "/ person",
+      "upTo": "(up to {n} persons)",
+      "noLimit": "No reservation limit",
+      "helpChoose": "Can't decide? Let us help you choose the perfect spot.",
+      "reserveSeat": "Reserve Your Seat",
+      "reserveNow": "Reserve Now",
+      "reserve": "Reserve"
+    },
+    "packages": {
+      "eyebrow": "Celebrate With Us",
+      "title": "Special Packages",
+      "description": "Create unforgettable memories with our specially curated packages for every occasion",
+      "bookAhead": "Book 1 Day Ahead",
+      "packagePrice": "Package Price",
+      "total": "total",
+      "bookNow": "Book Now"
+    },
+    "why": {
+      "eyebrow": "Why Choose Us",
+      "title_a": "An Experience",
+      "title_b": "Unlike Any Other",
+      "description": "At Three Monkeys, every meal becomes a cherished memory. Our sophisticated setting seamlessly blends traditional Thai decor with modern design.",
+      "discoverStory": "Discover Our Story",
+      "yearsExcellence": "Years of Culinary Excellence",
+      "happyGuests": "Happy Guests",
+      "rating": "Rating",
+      "feat_rainforest_title": "Rainforest Setting",
+      "feat_rainforest_desc": "Dine surrounded by lush tropical rainforest",
+      "feat_ambiance_title": "Unique Ambiance",
+      "feat_ambiance_desc": "Traditional Thai meets modern design",
+      "feat_romantic_title": "Romantic Dining",
+      "feat_romantic_desc": "Perfect for special celebrations",
+      "feat_fresh_title": "Fresh & Local",
+      "feat_fresh_desc": "Daily sourced from local markets",
+      "featuredIn": "Featured in",
+      "topRestaurants": "Phuket's Top 10 Restaurants"
+    },
+    "cta": {
+      "badge": "People Who Love to Eat Are the Best People",
+      "title_a": "Ready For An",
+      "title_b": "Unforgettable Experience?",
+      "description": "Whether it's a romantic dinner beneath the stars, a lively gathering with friends and family, or celebrating a special occasion — we're here to make your memories unforgettable.",
+      "reserveTable": "RESERVE A TABLE",
+      "callUs": "Call Us"
+    },
+    "reviews": {
+      "subtitle": "Reviews",
+      "title1": "What Our",
+      "title2": "Guests Say",
+      "description": "Don't just take our word for it. Here's what diners from around the world have to say.",
+      "stats": {
+        "googleRating": "Google Rating",
+        "happyGuests": "Happy Guests",
+        "inPhuket": "In Phuket"
+      }
+    },
+    "gallery": {
+      "subtitle": "Gallery",
+      "title": "Capture The Moments",
+      "description": "Every meal creates unforgettable memories. Here's a glimpse of what awaits you.",
+      "followInstagram": "Follow Us on Instagram"
+    },
+    "quality": {
+      "subtitle": "Quality & Excellence",
+      "title1": "World-Class",
+      "title2": "Quality Standards",
+      "description": "At Three Monkeys, we believe dining should be an exceptional experience. Our commitment to quality, freshness, and hygiene ensures you can focus on enjoying your meal while we handle everything else.",
+      "steps": {
+        "fresh": {
+          "title": "Fresh Ingredients",
+          "description": "We source only the freshest local ingredients daily from trusted local farmers and markets. Our seafood arrives fresh each morning."
+        },
+        "chefs": {
+          "title": "Expert Chefs",
+          "description": "Our chefs have decades of combined experience in authentic Thai cuisine. Each dish is prepared with passion and expertise."
+        },
+        "hygiene": {
+          "title": "Kitchen Hygiene",
+          "description": "Our kitchen maintains the highest standards of cleanliness and food safety. Regular inspections ensure we exceed health regulations."
+        },
+        "service": {
+          "title": "Attentive Service",
+          "description": "Our staff is trained to provide exceptional service. From dietary accommodations to special occasions, we ensure every detail is perfect."
+        }
+      },
+      "badges": {
+        "fresh": "Fresh",
+        "dailyIngredients": "Daily Ingredients",
+        "expert": "Expert",
+        "thaiChefs": "Thai Chefs"
+      }
+    }
+  },
+  "pkgData": {
+    "monkey-dome": {
+      "name": "MONKEY DOME",
+      "shortDesc": "Photogenic Zone, Romantic Spot (3-4 Persons)",
+      "features": ["Photogenic Zone", "Romantic Setting", "Jungle Views"]
+    },
+    "monkey-nest": {
+      "name": "MONKEY NEST",
+      "shortDesc": "Must-See Spot, Signature Corner (2-6 Persons)",
+      "features": ["Signature Corner", "Elevated Seating", "Nature Surroundings"]
+    },
+    "bamboo-pavilion": {
+      "name": "Bamboo Pavilion Exclusive Seat",
+      "shortDesc": "Exclusive New Pavilion Seating",
+      "features": ["Exclusive Seating", "Bamboo Architecture", "New Zone"]
+    },
+    "zone-6": {
+      "name": "ZONE 6 (T)",
+      "shortDesc": "Meeting Time (up to 50 Persons)",
+      "features": ["Iconic Giant Tree", "Night Ambience", "Scenic Views"]
+    },
+    "zone-7": {
+      "name": "ZONE 7 (Z)",
+      "shortDesc": "Meeting Time (up to 50 Persons)",
+      "features": ["Large Group Capacity", "Event Space", "Flexible Seating"]
+    },
+    "monkey-hilltop": {
+      "name": "Monkey Hill Top",
+      "shortDesc": "Scenic Hilltop Dining",
+      "features": ["Vibrant Atmosphere", "Ultimate Privacy", "Scenic Views"]
+    },
+    "rooftop-romantic": {
+      "name": "Three Monkeys Roof Top Romantic Zone",
+      "shortDesc": "Romantic Rooftop Zone (up to 40 Persons)",
+      "features": ["Rooftop Setting", "Panoramic Views", "Live Shows"]
+    },
+    "exclusive-romantic-zone-7": {
+      "name": "Exclusive Romantic Area Zone 7",
+      "shortDesc": "Romantic Spot (2-4 Persons)",
+      "features": ["Photogenic Zone", "Romantic Setting", "Live Shows"]
+    },
+    "indoor-seat": {
+      "name": "Indoor Seat",
+      "shortDesc": "Indoor Dining (Open Seating)",
+      "features": ["Indoor Setting", "Climate Controlled", "Cozy Ambience"]
+    },
+    "outdoor-seat": {
+      "name": "Outdoor Seat",
+      "shortDesc": "Outdoor Dining (Open Seating)",
+      "features": ["Outdoor Setting", "Fresh Air", "Scenic Views"]
+    },
+    "ultimate-dinner": {
+      "name": "Ultimate Dinner Package",
+      "shortDesc": "Romantic Experience (1-10 Persons)",
+      "features": ["Romantic Experience", "Honeymoon & Anniversary", "Photo & Video"]
+    },
+    "ultimate-birthday": {
+      "name": "Ultimate Birthday Package",
+      "shortDesc": "Fun, Elegant & Memorable (1-10 Persons)",
+      "features": ["Birthday Celebration", "Ice Cream Cake", "Balloon Arch"]
+    },
+    "ultimate-romantic-dinner": {
+      "name": "Ultimate Romantic Dinner",
+      "shortDesc": "Romance & Live Entertainment (1-2 Persons)",
+      "features": ["Private Saxophone", "Live Band", "Fire Show"]
+    },
+    "will-you-marry-me": {
+      "name": "WILL YOU MARRY ME? at Three Monkeys",
+      "shortDesc": "Proposal Package (1-20 Persons)",
+      "features": ["Proposal Setup", "Romantic Decorations", "Photogenic Zone"]
     }
   },
   "booking": {

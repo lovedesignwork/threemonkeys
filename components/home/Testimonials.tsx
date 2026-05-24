@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Star, ArrowLeft, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 
 const testimonials = [
   {
@@ -41,6 +42,7 @@ const testimonials = [
 ];
 
 export function Testimonials() {
+  const t = useTranslations('home.reviews');
   const [current, setCurrent] = useState(0);
 
   const next = () => setCurrent((prev) => (prev + 1) % testimonials.length);
@@ -76,15 +78,15 @@ export function Testimonials() {
               viewport={{ once: true }}
             >
               <span className="text-[#b1b94c] text-sm font-medium uppercase tracking-[0.3em]">
-                Reviews
+                {t('subtitle')}
               </span>
               <h2 className="mt-4 text-4xl md:text-5xl lg:text-6xl font-[family-name:var(--font-krona)] text-white leading-tight normal-case">
-                What Our
+                {t('title1')}
                 <br />
-                <span className="text-[#b1b94c]">Guests Say</span>
+                <span className="text-[#b1b94c]">{t('title2')}</span>
               </h2>
               <p className="mt-6 text-white/50 text-lg max-w-md">
-                Don&apos;t just take our word for it. Here&apos;s what diners from around the world have to say.
+                {t('description')}
               </p>
             </motion.div>
 
@@ -103,15 +105,15 @@ export function Testimonials() {
                     <Star key={i} className="w-4 h-4 text-[#b1b94c] fill-current" />
                   ))}
                 </div>
-                <div className="mt-2 text-white/40 text-sm">Google Rating</div>
+                <div className="mt-2 text-white/40 text-sm">{t('stats.googleRating')}</div>
               </div>
               <div>
                 <div className="text-4xl md:text-5xl font-[family-name:var(--font-krona)] text-white">50K+</div>
-                <div className="mt-2 text-white/40 text-sm">Happy Guests</div>
+                <div className="mt-2 text-white/40 text-sm">{t('stats.happyGuests')}</div>
               </div>
               <div>
                 <div className="text-4xl md:text-5xl font-[family-name:var(--font-krona)] text-white">#1</div>
-                <div className="mt-2 text-white/40 text-sm">In Phuket</div>
+                <div className="mt-2 text-white/40 text-sm">{t('stats.inPhuket')}</div>
               </div>
             </motion.div>
           </div>
