@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, MapPin } from 'lucide-react';
+import { ArrowRight, MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const heroImages = [
   '/images/new/threemonkeys057.jpg',
@@ -22,6 +22,10 @@ export function HeroSlideshow() {
     }, 6000);
     return () => clearInterval(interval);
   }, []);
+
+  const goPrev = () =>
+    setCurrentImage((prev) => (prev - 1 + heroImages.length) % heroImages.length);
+  const goNext = () => setCurrentImage((prev) => (prev + 1) % heroImages.length);
 
   return (
     <section className="relative h-[100dvh] w-full overflow-hidden bg-black">
@@ -50,6 +54,24 @@ export function HeroSlideshow() {
         {/* Minimal Gradient for text legibility at the bottom only */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80" />
       </div>
+
+      {/* Prev / Next slide arrows */}
+      <button
+        type="button"
+        onClick={goPrev}
+        aria-label="Previous slide"
+        className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-30 flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full border border-white/15 bg-black/30 text-white backdrop-blur-md transition-all hover:bg-[#b1b94c] hover:text-black hover:border-[#b1b94c]"
+      >
+        <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
+      </button>
+      <button
+        type="button"
+        onClick={goNext}
+        aria-label="Next slide"
+        className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-30 flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full border border-white/15 bg-black/30 text-white backdrop-blur-md transition-all hover:bg-[#b1b94c] hover:text-black hover:border-[#b1b94c]"
+      >
+        <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
+      </button>
 
       {/* Floating Content Dock - Tucked at the bottom to let the image breathe */}
       <div className="absolute bottom-0 left-0 right-0 z-20 pb-8 pt-32 sm:pb-12 lg:pb-16">

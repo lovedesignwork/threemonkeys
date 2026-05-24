@@ -4,7 +4,7 @@ import { useMemo, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, Star, ArrowLeft, Heart, Sparkles } from 'lucide-react';
+import { ArrowRight, Star, Heart, Sparkles } from 'lucide-react';
 import { getSeatPackages } from '@/lib/data/packages';
 import { Package } from '@/types';
 
@@ -90,21 +90,6 @@ export default function SeatsPage() {
         </div>
 
         <div className="relative z-10 text-center px-4 pt-32 pb-12">
-          {/* Back Link */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="absolute top-8 left-8"
-          >
-            <Link 
-              href="/"
-              className="inline-flex items-center gap-2 text-white/60 hover:text-[#b1b94c] transition-colors font-[family-name:var(--font-inter)]"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Back to Home
-            </Link>
-          </motion.div>
-
           <motion.span
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

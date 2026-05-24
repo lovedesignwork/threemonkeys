@@ -32,10 +32,10 @@ export default function HomePage() {
     // button — slightly off the right edge.
     <main className="min-h-screen bg-[#0f0f0f] overflow-x-clip">
       <HeroSlideshow />
+      <MenuShowcase />
       <FeaturedPackages />
       <SpecialPackages />
       <WhyChooseUs />
-      <MenuShowcase />
       <PhotoGallery />
       <Testimonials />
       <SafetyCertifications />

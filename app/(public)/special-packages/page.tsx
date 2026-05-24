@@ -4,7 +4,7 @@ import { useMemo, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, ArrowLeft, CalendarClock } from 'lucide-react';
+import { ArrowRight, CalendarClock } from 'lucide-react';
 import { getSpecialPackages } from '@/lib/data/packages';
 import { formatPrice } from '@/lib/utils';
 
@@ -17,8 +17,9 @@ export default function SpecialPackagesPage() {
   }, []);
   return (
     <main className="min-h-screen bg-[#0a0a0a]">
-      {/* Hero Section */}
-      <section className="relative min-h-[50vh] flex items-end justify-center overflow-hidden">
+      {/* Hero Section — taller on phones so the image is visible above
+          the title text (was getting completely covered on mobile) */}
+      <section className="relative min-h-[78vh] sm:min-h-[60vh] md:min-h-[50vh] flex items-end justify-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src="/images/Random images/40_resize.jpg"
@@ -32,21 +33,6 @@ export default function SpecialPackagesPage() {
         </div>
 
         <div className="relative z-10 text-center px-4 pt-32 pb-12">
-          {/* Back Link */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="absolute top-8 left-8"
-          >
-            <Link 
-              href="/"
-              className="inline-flex items-center gap-2 text-white/60 hover:text-[#b1b94c] transition-colors font-[family-name:var(--font-inter)]"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Back to Home
-            </Link>
-          </motion.div>
-
           <motion.span
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

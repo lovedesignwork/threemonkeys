@@ -302,8 +302,11 @@ function BookingContent() {
     }
   }, [searchParams]);
 
-  const [selectedDate, setSelectedDate] = useState('');
-  const [selectedTime, setSelectedTime] = useState('');
+  // Initialize date/time/guests/transfer/hotel/requests/addons from URL
+  // params so the "Edit" link on the checkout page restores the
+  // customer's previous booking selections instead of resetting them.
+  const [selectedDate, setSelectedDate] = useState(() => searchParams.get('date') || '');
+  const [selectedTime, setSelectedTime] = useState(() => searchParams.get('time') || '');
   
   // Get available time slots based on selected package
   const availableTimeSlots = useMemo(() => {
@@ -339,12 +342,27 @@ function BookingContent() {
       setSelectedTime('');
     }
   }, [selectedPackageId, availableTimeSlots, selectedTime]);
-  const [guestCount, setGuestCount] = useState(2);
-  const [needTransfer, setNeedTransfer] = useState(false);
-  const [hotelName, setHotelName] = useState('');
-  const [specialRequests, setSpecialRequests] = useState('');
+  const [guestCount, setGuestCount] = useState(() => {
+    const g = parseInt(searchParams.get('guests') || '', 10);
+    return Number.isFinite(g) && g > 0 ? g : 2;
+  });
+  const [needTransfer, setNeedTransfer] = useState(() => searchParams.get('transfer') === 'true');
+  const [hotelName, setHotelName] = useState(() => searchParams.get('hotel') || '');
+  const [specialRequests, setSpecialRequests] = useState(() => searchParams.get('requests') || '');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [selectedAddons, setSelectedAddons] = useState<Record<string, number>>({});
+  const [selectedAddons, setSelectedAddons] = useState<Record<string, number>>(() => {
+    // URL format: "addonId:qty,addonId:qty"
+    const addonsParam = searchParams.get('addons') || '';
+    const result: Record<string, number> = {};
+    if (addonsParam) {
+      addonsParam.split(',').forEach((item) => {
+        const [id, qty] = item.split(':');
+        const n = parseInt(qty || '', 10);
+        if (id && Number.isFinite(n) && n > 0) result[id] = n;
+      });
+    }
+    return result;
+  });
 
   const updateAddonQuantity = (addonId: string, delta: number) => {
     setSelectedAddons(prev => {

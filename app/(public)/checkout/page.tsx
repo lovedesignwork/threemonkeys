@@ -73,12 +73,21 @@ function CheckoutContent() {
     return result;
   }, [addonsParam]);
 
-  // Build edit URL to go back to booking page with all details
+  // Build edit URL to go back to booking page with EVERY field the
+  // customer has already filled, so clicking "Edit" doesn't reset their
+  // date/time/guest count/add-ons.
   const editBookingUrl = useMemo(() => {
     const params = new URLSearchParams();
     if (packageId) params.set('package', packageId);
+    if (date) params.set('date', date);
+    if (time) params.set('time', time);
+    if (guests) params.set('guests', String(guests));
+    if (transfer) params.set('transfer', 'true');
+    if (hotel) params.set('hotel', hotel);
+    if (requests) params.set('requests', requests);
+    if (addonsParam) params.set('addons', addonsParam);
     return `/booking?${params.toString()}`;
-  }, [packageId]);
+  }, [packageId, date, time, guests, transfer, hotel, requests, addonsParam]);
 
   // Customer details form
   const [firstName, setFirstName] = useState('');
