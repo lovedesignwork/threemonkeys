@@ -350,11 +350,11 @@ function CheckoutContent() {
                   </Link>
                 </div>
                 
-                <div className="p-6">
-                  {/* Package Info with Booking Details */}
-                  <div className="flex gap-5">
+                <div className="p-4 sm:p-6">
+                  {/* Package Info — image + title row on top, full-width details grid below */}
+                  <div className="flex items-center gap-3 sm:gap-4 mb-4">
                     {/* Package Image */}
-                    <div className="relative w-28 h-28 rounded-2xl overflow-hidden flex-shrink-0 ring-2 ring-[#b1b94c]/30">
+                    <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden flex-shrink-0 ring-2 ring-[#b1b94c]/30">
                       <Image
                         src={selectedPackage.image}
                         alt={selectedPackage.name}
@@ -364,65 +364,74 @@ function CheckoutContent() {
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                       {selectedPackage.type === 'special' && (
-                        <div className="absolute bottom-2 left-2">
-                          <span className="px-2 py-0.5 bg-amber-500 text-black text-[10px] font-bold rounded-full flex items-center gap-1">
+                        <div className="absolute bottom-1.5 left-1.5">
+                          <span className="px-1.5 py-0.5 bg-amber-500 text-black text-[9px] font-bold rounded-full flex items-center gap-1">
                             <Sparkles className="w-2.5 h-2.5" />
                             SPECIAL
                           </span>
                         </div>
                       )}
                     </div>
-                    
-                    {/* Package Details */}
-                    <div className="flex-grow min-w-0">
-                      <h3 className="text-xl font-[family-name:var(--font-krona)] text-white normal-case mb-3">
+
+                    {/* Package title */}
+                    <div className="min-w-0 flex-grow">
+                      <h3 className="text-base sm:text-xl font-[family-name:var(--font-krona)] text-white normal-case leading-tight line-clamp-2">
                         {selectedPackage.name}
                       </h3>
-                      
-                      {/* Booking Details Grid */}
-                      <div className="grid grid-cols-2 gap-2">
-                        <div className="flex items-center gap-2 px-3 py-2 bg-white/5 rounded-lg border border-[#b1b94c]/30">
-                          <Calendar className="w-4 h-4 text-[#b1b94c]" />
-                          <div className="min-w-0">
-                            <p className="text-[10px] text-white/40 uppercase tracking-wider">Date</p>
-                            <p className="text-sm text-white font-medium truncate">{formatDisplayDate(date || '').split(',')[0]}</p>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-2 px-3 py-2 bg-white/5 rounded-lg border border-[#b1b94c]/30">
-                          <Clock className="w-4 h-4 text-[#b1b94c]" />
-                          <div className="min-w-0">
-                            <p className="text-[10px] text-white/40 uppercase tracking-wider">Time</p>
-                            <p className="text-sm text-white font-medium">{formatTime(time || '')}</p>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-2 px-3 py-2 bg-white/5 rounded-lg border border-[#b1b94c]/30">
-                          <Users className="w-4 h-4 text-[#b1b94c]" />
-                          <div className="min-w-0">
-                            <p className="text-[10px] text-white/40 uppercase tracking-wider">Guests</p>
-                            <p className="text-sm text-white font-medium">{guests} {guests === 1 ? 'Person' : 'People'}</p>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-2 px-3 py-2 bg-white/5 rounded-lg border border-[#b1b94c]/30">
-                          <Car className="w-4 h-4 text-[#b1b94c]" />
-                          <div className="min-w-0">
-                            <p className="text-[10px] text-white/40 uppercase tracking-wider">Transfer</p>
-                            <p className="text-sm text-white font-medium truncate">{transfer ? 'VVIP Transfer' : 'Self Arrange'}</p>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      {/* Hotel Info */}
-                      {transfer && hotel && (
-                        <div className="mt-2 flex items-center gap-2 px-3 py-2 bg-[#b1b94c]/10 rounded-lg border border-[#b1b94c]/20">
-                          <MapPin className="w-4 h-4 text-[#b1b94c] flex-shrink-0" />
-                          <div className="min-w-0">
-                            <p className="text-[10px] text-[#b1b94c]/70 uppercase tracking-wider">Pickup Location</p>
-                            <p className="text-sm text-white font-medium truncate">{hotel}</p>
-                          </div>
-                        </div>
-                      )}
+                      <p className="text-[10px] sm:text-xs text-white/40 uppercase tracking-wider mt-1">
+                        Your reservation
+                      </p>
                     </div>
                   </div>
+
+                  {/* Booking Details Grid — full width on mobile so each cell breathes */}
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="flex items-center gap-2 px-3 py-2.5 bg-white/5 rounded-lg border border-[#b1b94c]/30">
+                      <Calendar className="w-4 h-4 text-[#b1b94c] flex-shrink-0" />
+                      <div className="min-w-0">
+                        <p className="text-[10px] text-white/40 uppercase tracking-wider">Date</p>
+                        <p className="text-sm text-white font-medium truncate">
+                          {formatDisplayDate(date || '').split(',')[0]}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 px-3 py-2.5 bg-white/5 rounded-lg border border-[#b1b94c]/30">
+                      <Clock className="w-4 h-4 text-[#b1b94c] flex-shrink-0" />
+                      <div className="min-w-0">
+                        <p className="text-[10px] text-white/40 uppercase tracking-wider">Time</p>
+                        <p className="text-sm text-white font-medium truncate">{formatTime(time || '')}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 px-3 py-2.5 bg-white/5 rounded-lg border border-[#b1b94c]/30">
+                      <Users className="w-4 h-4 text-[#b1b94c] flex-shrink-0" />
+                      <div className="min-w-0">
+                        <p className="text-[10px] text-white/40 uppercase tracking-wider">Guests</p>
+                        <p className="text-sm text-white font-medium truncate">
+                          {guests} {guests === 1 ? 'Person' : 'People'}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 px-3 py-2.5 bg-white/5 rounded-lg border border-[#b1b94c]/30">
+                      <Car className="w-4 h-4 text-[#b1b94c] flex-shrink-0" />
+                      <div className="min-w-0">
+                        <p className="text-[10px] text-white/40 uppercase tracking-wider">Transfer</p>
+                        <p className="text-sm text-white font-medium truncate">
+                          {transfer ? 'VVIP Transfer' : 'Self Arrange'}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Hotel Info */}
+                  {transfer && hotel && (
+                    <div className="mt-2 flex items-center gap-2 px-3 py-2 bg-[#b1b94c]/10 rounded-lg border border-[#b1b94c]/20">
+                      <MapPin className="w-4 h-4 text-[#b1b94c] flex-shrink-0" />
+                      <div className="min-w-0">
+                        <p className="text-[10px] text-[#b1b94c]/70 uppercase tracking-wider">Pickup Location</p>
+                        <p className="text-sm text-white font-medium truncate">{hotel}</p>
+                      </div>
+                    </div>
+                  )}
 
                   {/* Add-ons Section */}
                   {hasAddons && (
