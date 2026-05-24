@@ -239,7 +239,7 @@ const container = {
 };
 
 const header = {
-  backgroundColor: BLACK,
+  backgroundColor: '#cccc5c',
   padding: '32px 40px 24px',
   borderRadius: '14px 14px 0 0',
   textAlign: 'center' as const,
@@ -250,11 +250,13 @@ const logo = {
 };
 
 const tagline = {
-  color: BRAND,
+  color: BLACK,
   fontSize: '11px',
-  letterSpacing: '0.25em',
+  fontWeight: 700,
+  letterSpacing: '0.3em',
   margin: '12px 0 0',
   textTransform: 'uppercase' as const,
+  opacity: 0.7,
 };
 
 const heroBanner = {

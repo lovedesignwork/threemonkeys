@@ -181,72 +181,79 @@ function SuccessContent() {
       </div>
 
       <div className="relative z-10 max-w-2xl mx-auto px-4 py-10 sm:py-14">
-        {/* Success hero */}
+        {/* Success hero — fresher: floating leaves backdrop, prominent
+            checkmark medallion, larger booking reference. */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.05 }}
-          className="relative bg-gradient-to-br from-[#b1b94c] to-[#8a9139] rounded-3xl p-8 sm:p-10 text-center mb-6 shadow-2xl shadow-[#b1b94c]/20 overflow-hidden"
+          className="relative bg-gradient-to-br from-[#b1b94c] via-[#a6ad48] to-[#8a9139] rounded-3xl p-8 sm:p-12 text-center mb-6 shadow-2xl shadow-[#b1b94c]/30 overflow-hidden"
         >
-          {/* Subtle pattern */}
+          {/* Layer 1: dot mesh */}
           <div
-            className="absolute inset-0 opacity-10"
+            className="absolute inset-0 opacity-[0.08]"
             style={{
               backgroundImage:
                 'radial-gradient(circle at 1px 1px, rgba(0,0,0,0.6) 1px, transparent 0)',
               backgroundSize: '24px 24px',
             }}
           />
+          {/* Layer 2: soft white glow at top */}
+          <div className="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 h-72 w-72 rounded-full bg-white/20 blur-[80px]" />
+          {/* Layer 3: dark drift at bottom-right for depth */}
+          <div className="pointer-events-none absolute -bottom-24 -right-24 h-72 w-72 rounded-full bg-black/20 blur-[100px]" />
 
+          {/* Check medallion */}
           <motion.div
             initial={{ scale: 0, rotate: -90 }}
             animate={{ scale: 1, rotate: 0 }}
             transition={{ delay: 0.15, type: 'spring', stiffness: 200 }}
-            className="relative w-20 h-20 bg-black rounded-full flex items-center justify-center mx-auto mb-4 shadow-xl ring-4 ring-black/10"
+            className="relative w-24 h-24 bg-black rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl ring-[6px] ring-black/15"
           >
-            <CheckCircle2 className="w-11 h-11 text-[#b1b94c]" strokeWidth={2.5} />
+            <span className="absolute inset-0 rounded-full ring-1 ring-white/10" />
+            <CheckCircle2 className="w-14 h-14 text-[#b1b94c]" strokeWidth={2.5} />
           </motion.div>
 
-          <p className="relative text-black/60 text-[10px] uppercase tracking-[0.3em] mb-2">
+          <p className="relative text-black/70 text-[11px] uppercase tracking-[0.35em] mb-3 font-semibold">
             Reservation Confirmed
           </p>
-          <h1 className="relative text-3xl sm:text-4xl font-bold text-black font-[family-name:var(--font-krona)] normal-case mb-3 leading-tight">
+          <h1 className="relative text-3xl sm:text-4xl font-bold text-black font-[family-name:var(--font-krona)] normal-case mb-3 leading-[1.1]">
             Your table awaits
           </h1>
           {customer && (
-            <p className="relative text-black/80 text-base">
+            <p className="relative text-black/80 text-base sm:text-lg">
               Thank you, <span className="font-bold text-black">{customer.first_name}</span>. See
               you soon at Three Monkeys.
             </p>
           )}
 
-          {/* Booking ref pill */}
+          {/* Booking ref card — bigger, with a subtle inner glow */}
           <button
             onClick={copyBookingRef}
-            className="relative mt-6 group inline-flex items-center gap-3 bg-black/15 hover:bg-black/25 backdrop-blur rounded-2xl px-5 py-3 transition-colors"
+            className="relative mt-8 group inline-flex items-center gap-4 sm:gap-5 bg-black/95 hover:bg-black backdrop-blur rounded-2xl px-6 sm:px-7 py-4 sm:py-5 transition-all shadow-xl shadow-black/20"
           >
             <div className="text-left">
-              <span className="text-[9px] text-black/60 uppercase tracking-[0.2em] block">
+              <span className="text-[10px] sm:text-[11px] text-[#b1b94c]/80 uppercase tracking-[0.25em] block mb-1 font-semibold">
                 Booking Reference
               </span>
-              <span className="text-xl font-bold text-black tracking-wide font-mono">
+              <span className="text-2xl sm:text-3xl font-bold text-[#b1b94c] tracking-[0.1em] font-mono leading-none">
                 {bookingRef}
               </span>
             </div>
-            <div className="w-8 h-8 bg-black/10 group-hover:bg-black/20 rounded-lg flex items-center justify-center transition-colors">
+            <div className="w-9 h-9 bg-[#b1b94c]/15 group-hover:bg-[#b1b94c]/25 border border-[#b1b94c]/30 rounded-lg flex items-center justify-center transition-colors flex-shrink-0">
               {copied ? (
-                <Check className="w-4 h-4 text-black" />
+                <Check className="w-4 h-4 text-[#b1b94c]" />
               ) : (
-                <Copy className="w-4 h-4 text-black/70" />
+                <Copy className="w-4 h-4 text-[#b1b94c]/80" />
               )}
             </div>
           </button>
 
           {customer?.email && (
-            <p className="relative text-xs text-black/60 mt-4 flex items-center justify-center gap-1.5">
-              <Mail className="w-3 h-3" />
+            <p className="relative text-sm text-black/70 mt-5 flex items-center justify-center gap-1.5 px-2 break-all">
+              <Mail className="w-3.5 h-3.5 flex-shrink-0" />
               Confirmation sent to{' '}
-              <span className="font-medium text-black/80">{customer.email}</span>
+              <span className="font-semibold text-black">{customer.email}</span>
             </p>
           )}
         </motion.div>
