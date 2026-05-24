@@ -169,13 +169,24 @@ function CheckoutContent() {
     return `${displayHours}:${String(minutes).padStart(2, '0')} ${period}`;
   };
 
-  // Form validation
-  const isCustomerFormValid = useMemo(() => {
-    const emailValid = Boolean(email && email.includes('@'));
-    const phoneValid = phone.length >= 8;
-    const nameValid = Boolean(firstName.trim() && lastName.trim());
-    return emailValid && phoneValid && nameValid;
+  // Form validation. Phone only requires *something* — some guests use
+  // short LINE IDs or international numbers we can't predict the length of,
+  // and we'd rather let them book and reach out manually than block the
+  // sale on a length heuristic.
+  const customerValidation = useMemo(() => {
+    const missing: string[] = [];
+    const firstNameOk = Boolean(firstName.trim());
+    const lastNameOk = Boolean(lastName.trim());
+    const emailOk = Boolean(email && /\S+@\S+\.\S+/.test(email));
+    const phoneOk = phone.trim().length > 0;
+    if (!firstNameOk) missing.push('First name');
+    if (!lastNameOk) missing.push('Last name');
+    if (!emailOk) missing.push(email ? 'A valid email address' : 'Email address');
+    if (!phoneOk) missing.push('Phone number');
+    return { isValid: missing.length === 0, missing };
   }, [email, phone, firstName, lastName]);
+
+  const isCustomerFormValid = customerValidation.isValid;
 
   // Validate promo code
   const validatePromoCode = async () => {
@@ -729,6 +740,7 @@ function CheckoutContent() {
                         <EmbeddedCardForm
                           amount={prices.total}
                           isCustomerFormValid={isCustomerFormValid}
+                          missingFields={customerValidation.missing}
                           onSubmit={handleCreateBookingAndPay}
                           isCreatingBooking={isCreatingBooking}
                         />

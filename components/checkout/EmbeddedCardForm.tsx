@@ -2,12 +2,14 @@
 
 import { useState } from 'react';
 import { CardNumberElement, CardExpiryElement, CardCvcElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import { Lock, Loader2, AlertCircle, CreditCard } from 'lucide-react';
+import { Lock, Loader2, AlertCircle, CreditCard, Info } from 'lucide-react';
 import { LegalModal } from '@/components/ui/LegalModal';
 
 interface EmbeddedCardFormProps {
   amount: number;
   isCustomerFormValid: boolean;
+  /** Human-readable list of customer fields that still need attention. */
+  missingFields?: string[];
   onSubmit: () => Promise<{ clientSecret: string; bookingRef: string } | null>;
   isCreatingBooking: boolean;
 }
@@ -15,6 +17,7 @@ interface EmbeddedCardFormProps {
 export default function EmbeddedCardForm({
   amount,
   isCustomerFormValid,
+  missingFields = [],
   onSubmit,
   isCreatingBooking,
 }: EmbeddedCardFormProps) {
@@ -115,6 +118,18 @@ export default function EmbeddedCardForm({
 
   const canSubmit = stripe && agreeTerms && isCustomerFormValid && cardComplete && !isProcessing && !isCreatingBooking;
 
+  // Build a friendly list of what's still missing — surfaced as a light
+  // grey hint above the "Debit / Credit Card" header so the customer
+  // knows exactly why the Pay button is grey.
+  const pendingItems: string[] = [];
+  if (!isCustomerFormValid) pendingItems.push(...missingFields);
+  if (!agreeTerms) pendingItems.push('Agree to the Terms & Conditions and Privacy Policy');
+  if (isCustomerFormValid && agreeTerms) {
+    if (!cardNumberComplete) pendingItems.push('Card number');
+    if (!cardExpiryComplete) pendingItems.push('Expiry date');
+    if (!cardCvcComplete) pendingItems.push('CVV / CVC');
+  }
+
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       {/* Terms & Conditions */}
@@ -145,6 +160,23 @@ export default function EmbeddedCardForm({
         onClose={() => setPrivacyModalOpen(false)}
         type="privacy_policy"
       />
+
+      {/* What's missing before they can pay — light grey hint */}
+      {!canSubmit && pendingItems.length > 0 && !isProcessing && !isCreatingBooking && (
+        <div className="flex items-start gap-2 mb-3 px-3.5 py-3 rounded-xl bg-white/[0.03] border border-white/10 text-white/55 text-xs leading-relaxed">
+          <Info className="w-3.5 h-3.5 flex-shrink-0 mt-0.5 text-white/40" />
+          <div className="min-w-0">
+            <span className="block text-white/70 font-medium mb-0.5">
+              Almost there — to enable the Pay button:
+            </span>
+            <ul className="list-disc pl-4 space-y-0.5">
+              {pendingItems.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
 
       {/* Debit/Credit Card Header */}
       <div className="flex items-center gap-2 mb-3 pb-2 border-b border-white/10">
