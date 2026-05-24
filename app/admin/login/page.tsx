@@ -76,20 +76,17 @@ export default function AdminLoginPage() {
       >
         <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
           {/* Header */}
-          <div className="bg-[#b1b94c] px-8 py-6 text-center">
-            <div className="w-24 h-24 bg-black rounded-2xl flex items-center justify-center mx-auto mb-4 p-3">
-              <Image
-                src="/images/threemonkeyslogo.png"
-                alt="Three Monkeys Restaurant"
-                width={96}
-                height={96}
-                className="w-full h-full object-contain"
-                priority
-                unoptimized
-              />
-            </div>
+          <div className="bg-[#b1b94c] px-8 pt-8 pb-6 text-center">
+            <Image
+              src="/images/threemonkeyslogo.png"
+              alt="Three Monkeys Restaurant"
+              width={180}
+              height={180}
+              className="mx-auto mb-4 h-auto w-[160px] sm:w-[180px] object-contain"
+              priority
+              unoptimized
+            />
             <h1 className="text-2xl font-bold text-black">Admin Login</h1>
-            <p className="text-black/70 text-sm mt-1">Three Monkeys Restaurant</p>
           </div>
 
           {/* Form */}

@@ -15,6 +15,7 @@ import {
   Phone,
   Calendar,
   ChevronLeft,
+  ChevronRight,
   Sparkles,
   Heart,
   Music,
@@ -85,16 +86,21 @@ export default function PackagePage() {
 
   return (
     <main className="min-h-screen bg-[#0a0a0a]">
-      {/* Hero Section - Full Width Image */}
-      <section className="relative h-[60vh] lg:h-[70vh] overflow-hidden">
-        {/* Background Image */}
-        <motion.div 
+      {/* Hero Section
+          - Mobile: square (1:1) so the dish/zone image shows in full
+            with minimal overlay.
+          - Tablet+: 60vh / 70vh tall as before.
+          - Arrows + thumbnails let the customer browse the gallery. */}
+      <section className="relative aspect-square sm:aspect-auto sm:h-[60vh] lg:h-[70vh] overflow-hidden">
+        {/* Background image */}
+        <motion.div
           className="absolute inset-0"
-          initial={{ scale: 1.1 }}
+          initial={{ scale: 1.05 }}
           animate={{ scale: 1 }}
           transition={{ duration: 1.5 }}
         >
           <Image
+            key={galleryImages[activeImage]}
             src={galleryImages[activeImage]}
             alt={pkg.name}
             fill
@@ -102,37 +108,56 @@ export default function PackagePage() {
             priority
             unoptimized
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-black/40 to-black/20" />
+          {/* Lighter overlay on mobile (image-forward), stronger on
+              desktop where text overlays the hero. */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/80 via-transparent to-transparent sm:from-[#0a0a0a] sm:via-black/40 sm:to-black/20" />
         </motion.div>
 
-        {/* Back Button */}
-        <div className="absolute top-24 left-4 sm:left-8 z-20">
-          <Link href="/packages">
-            <motion.button
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="flex items-center gap-2 px-4 py-2 bg-black/40 backdrop-blur-sm rounded-full text-white/80 hover:text-white hover:bg-black/60 transition-all"
-            >
-              <ChevronLeft className="w-4 h-4" />
-              <span className="text-sm">All Seats</span>
-            </motion.button>
-          </Link>
-        </div>
-
-        {/* Thumbnail Gallery - Positioned higher */}
-        <div className="absolute bottom-24 left-1/2 -translate-x-1/2 z-20 flex gap-2">
-          {galleryImages.map((img, index) => (
+        {/* Prev / Next arrows — vertically centered, never on top of the title */}
+        {galleryImages.length > 1 && (
+          <>
             <button
-              key={index}
-              onClick={() => setActiveImage(index)}
-              className={`relative w-14 h-10 rounded-lg overflow-hidden border-2 transition-all ${
-                activeImage === index ? 'border-[#b1b94c] scale-110' : 'border-white/20 opacity-60 hover:opacity-100'
-              }`}
+              type="button"
+              onClick={() =>
+                setActiveImage((prev) => (prev - 1 + galleryImages.length) % galleryImages.length)
+              }
+              aria-label="Previous photo"
+              className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full border border-white/20 bg-black/40 text-white backdrop-blur-md transition-all hover:bg-[#b1b94c] hover:text-black hover:border-[#b1b94c]"
             >
-              <Image src={img} alt="" fill className="object-cover" unoptimized />
+              <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
             </button>
-          ))}
-        </div>
+            <button
+              type="button"
+              onClick={() =>
+                setActiveImage((prev) => (prev + 1) % galleryImages.length)
+              }
+              aria-label="Next photo"
+              className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full border border-white/20 bg-black/40 text-white backdrop-blur-md transition-all hover:bg-[#b1b94c] hover:text-black hover:border-[#b1b94c]"
+            >
+              <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
+            </button>
+          </>
+        )}
+
+        {/* Thumbnail rail — tighter on mobile so it doesn't compete with arrows */}
+        {galleryImages.length > 1 && (
+          <div className="absolute bottom-4 sm:bottom-24 left-1/2 -translate-x-1/2 z-20 flex gap-2 max-w-[80vw] overflow-x-auto px-1">
+            {galleryImages.map((img, index) => (
+              <button
+                key={index}
+                onClick={() => setActiveImage(index)}
+                aria-label={`Show photo ${index + 1}`}
+                className={`relative flex-shrink-0 w-12 h-9 sm:w-14 sm:h-10 rounded-lg overflow-hidden border-2 transition-all ${
+                  activeImage === index
+                    ? 'border-[#b1b94c] scale-110'
+                    : 'border-white/20 opacity-60 hover:opacity-100'
+                }`}
+              >
+                <Image src={img} alt="" fill className="object-cover" unoptimized />
+              </button>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Content Section */}
