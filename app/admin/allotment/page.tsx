@@ -1002,9 +1002,9 @@ function ZoneBlockModal({
     zone_id: '',
     date: initialDate,
     selectedSlots: [] as string[],
-    customHoursEnabled: false,
-    customStartHour: '10',
-    customEndHour: '22',
+    blockType: 'all_day' as 'all_day' | 'custom_time',
+    customStartTime: '10:00',
+    customEndTime: '22:00',
     notes: 'Zone blocked by admin',
   });
   const [submitting, setSubmitting] = useState(false);
@@ -1041,32 +1041,41 @@ function ZoneBlockModal({
     return result;
   }, [zoneObj, form.zone_id, form.date, allotments, timeSlots]);
 
-  // Generate custom hour slots
+  // Generate custom time slots based on start/end time
   const customSlots = useMemo(() => {
-    if (!form.customHoursEnabled) return [];
-    const start = parseInt(form.customStartHour);
-    const end = parseInt(form.customEndHour);
+    if (form.blockType !== 'custom_time') return [];
+    const startHour = parseInt(form.customStartTime.split(':')[0]);
+    const endHour = parseInt(form.customEndTime.split(':')[0]);
     const slots: string[] = [];
-    for (let h = start; h <= end; h++) {
+    for (let h = startHour; h <= endHour; h++) {
       const slot = `${pad2(h)}:00`;
       if (timeSlots.includes(slot)) {
         slots.push(slot);
       }
     }
     return slots;
-  }, [form.customHoursEnabled, form.customStartHour, form.customEndHour, timeSlots]);
+  }, [form.blockType, form.customStartTime, form.customEndTime, timeSlots]);
 
-  const handleSelectAll = () => {
-    if (form.customHoursEnabled) {
-      setForm(f => ({ ...f, selectedSlots: customSlots }));
-    } else {
-      setForm(f => ({ ...f, selectedSlots: [...timeSlots] }));
+  // Auto-select slots when block type or time range changes
+  useEffect(() => {
+    if (!form.zone_id) return;
+    
+    if (form.blockType === 'all_day') {
+      // Select all available time slots
+      const availableSlots = timeSlots.filter(slot => {
+        const avail = slotAvailability[slot];
+        return avail && avail.free > 0;
+      });
+      setForm(f => ({ ...f, selectedSlots: availableSlots }));
+    } else if (form.blockType === 'custom_time') {
+      // Select slots within the custom time range
+      const availableSlots = customSlots.filter(slot => {
+        const avail = slotAvailability[slot];
+        return avail && avail.free > 0;
+      });
+      setForm(f => ({ ...f, selectedSlots: availableSlots }));
     }
-  };
-
-  const handleClearAll = () => {
-    setForm(f => ({ ...f, selectedSlots: [] }));
-  };
+  }, [form.zone_id, form.date, form.blockType, form.customStartTime, form.customEndTime, timeSlots, customSlots, slotAvailability]);
 
   const toggleSlot = (slot: string) => {
     setForm(f => ({
@@ -1152,6 +1161,12 @@ function ZoneBlockModal({
     return count;
   }, [zoneObj, form.selectedSlots, slotAvailability]);
 
+  // Generate time options for dropdowns
+  const timeOptions = HOURS.map(h => ({
+    value: `${pad2(h)}:00`,
+    label: `${pad2(h)}:00`,
+  }));
+
   return (
     <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
@@ -1193,112 +1208,141 @@ function ZoneBlockModal({
               onChange={(e) => setForm(f => ({ ...f, date: e.target.value, selectedSlots: [] }))}
               className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:border-[#1a237e]"
             />
+            <p className="text-xs text-slate-500 mt-1">{formatDayLabel(form.date)}</p>
           </div>
 
-          {/* Custom Hours Toggle */}
+          {/* Block Type Selection */}
           {form.zone_id && (
             <div>
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={form.customHoursEnabled}
-                  onChange={(e) => setForm(f => ({ ...f, customHoursEnabled: e.target.checked, selectedSlots: [] }))}
-                  className="w-4 h-4 rounded border-slate-300 text-[#b1b94c] focus:ring-[#b1b94c]"
-                />
-                <span className="text-sm font-medium text-slate-700">Custom hours range</span>
-              </label>
+              <label className="block text-sm font-medium text-slate-700 mb-2">Time Selection <span className="text-red-500">*</span></label>
+              <div className="grid grid-cols-2 gap-3">
+                <button
+                  type="button"
+                  onClick={() => setForm(f => ({ ...f, blockType: 'all_day', selectedSlots: [] }))}
+                  className={`p-4 rounded-xl border-2 text-left transition-all ${
+                    form.blockType === 'all_day'
+                      ? 'border-[#b1b94c] bg-[#b1b94c]/10'
+                      : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                  }`}
+                >
+                  <div className="flex items-center gap-2 mb-1">
+                    <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
+                      form.blockType === 'all_day' ? 'border-[#b1b94c]' : 'border-slate-300'
+                    }`}>
+                      {form.blockType === 'all_day' && <div className="w-2 h-2 rounded-full bg-[#b1b94c]" />}
+                    </div>
+                    <span className="font-medium text-slate-800">All Day</span>
+                  </div>
+                  <p className="text-xs text-slate-500 ml-6">Block all available time slots</p>
+                </button>
 
-              {form.customHoursEnabled && (
-                <div className="mt-3 grid grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-xs text-slate-500 mb-1">Start Hour</label>
-                    <select
-                      value={form.customStartHour}
-                      onChange={(e) => setForm(f => ({ ...f, customStartHour: e.target.value, selectedSlots: [] }))}
-                      className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:border-[#1a237e] bg-white text-sm"
-                    >
-                      {HOURS.map(h => (
-                        <option key={h} value={h}>{hourLabel(h)}</option>
-                      ))}
-                    </select>
+                <button
+                  type="button"
+                  onClick={() => setForm(f => ({ ...f, blockType: 'custom_time', selectedSlots: [] }))}
+                  className={`p-4 rounded-xl border-2 text-left transition-all ${
+                    form.blockType === 'custom_time'
+                      ? 'border-[#b1b94c] bg-[#b1b94c]/10'
+                      : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                  }`}
+                >
+                  <div className="flex items-center gap-2 mb-1">
+                    <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
+                      form.blockType === 'custom_time' ? 'border-[#b1b94c]' : 'border-slate-300'
+                    }`}>
+                      {form.blockType === 'custom_time' && <div className="w-2 h-2 rounded-full bg-[#b1b94c]" />}
+                    </div>
+                    <span className="font-medium text-slate-800">Custom Time</span>
                   </div>
-                  <div>
-                    <label className="block text-xs text-slate-500 mb-1">End Hour</label>
-                    <select
-                      value={form.customEndHour}
-                      onChange={(e) => setForm(f => ({ ...f, customEndHour: e.target.value, selectedSlots: [] }))}
-                      className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:border-[#1a237e] bg-white text-sm"
-                    >
-                      {HOURS.map(h => (
-                        <option key={h} value={h}>{hourLabel(h)}</option>
-                      ))}
-                    </select>
+                  <p className="text-xs text-slate-500 ml-6">Select specific hours</p>
+                </button>
+              </div>
+
+              {/* Custom Time Range Dropdowns */}
+              {form.blockType === 'custom_time' && (
+                <div className="mt-4 p-4 bg-slate-50 rounded-xl border border-slate-200">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-medium text-slate-600 mb-1.5">From</label>
+                      <select
+                        value={form.customStartTime}
+                        onChange={(e) => setForm(f => ({ ...f, customStartTime: e.target.value, selectedSlots: [] }))}
+                        className="w-full px-3 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:border-[#b1b94c] bg-white text-sm font-medium"
+                      >
+                        {timeOptions.map(opt => (
+                          <option key={opt.value} value={opt.value}>{opt.label}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-slate-600 mb-1.5">To</label>
+                      <select
+                        value={form.customEndTime}
+                        onChange={(e) => setForm(f => ({ ...f, customEndTime: e.target.value, selectedSlots: [] }))}
+                        className="w-full px-3 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:border-[#b1b94c] bg-white text-sm font-medium"
+                      >
+                        {timeOptions.map(opt => (
+                          <option key={opt.value} value={opt.value}>{opt.label}</option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
+                  {parseInt(form.customStartTime) > parseInt(form.customEndTime) && (
+                    <p className="text-xs text-amber-600 mt-2 flex items-center gap-1">
+                      <AlertCircle className="w-3 h-3" />
+                      Start time should be before end time
+                    </p>
+                  )}
                 </div>
               )}
             </div>
           )}
 
-          {/* Time Slots Grid */}
+          {/* Time Slots Preview */}
           {form.zone_id && timeSlots.length > 0 && (
             <div>
               <div className="flex items-center justify-between mb-2">
-                <label className="block text-sm font-medium text-slate-700">Time Slots <span className="text-red-500">*</span></label>
-                <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={handleSelectAll}
-                    className="text-xs text-[#1a237e] hover:underline"
-                  >
-                    Select {form.customHoursEnabled ? 'range' : 'all'}
-                  </button>
-                  <span className="text-slate-300">|</span>
-                  <button
-                    type="button"
-                    onClick={handleClearAll}
-                    className="text-xs text-slate-500 hover:underline"
-                  >
-                    Clear
-                  </button>
-                </div>
+                <label className="block text-sm font-medium text-slate-700">
+                  Selected Time Slots
+                  <span className="text-slate-400 font-normal ml-2">
+                    ({form.selectedSlots.length} of {timeSlots.length})
+                  </span>
+                </label>
               </div>
-              <div className="grid grid-cols-4 gap-2">
+              <div className="grid grid-cols-4 sm:grid-cols-6 gap-1.5">
                 {timeSlots.map(slot => {
                   const avail = slotAvailability[slot];
                   const isSelected = form.selectedSlots.includes(slot);
-                  const isInRange = !form.customHoursEnabled || customSlots.includes(slot);
                   const allBlocked = avail?.free === 0;
+                  const isInRange = form.blockType === 'all_day' || customSlots.includes(slot);
 
                   let cls: string;
                   if (allBlocked) {
                     cls = 'bg-red-50 text-red-400 border-red-200 cursor-not-allowed';
                   } else if (!isInRange) {
-                    cls = 'bg-slate-50 text-slate-300 border-slate-200 opacity-50';
+                    cls = 'bg-slate-50 text-slate-300 border-slate-100';
                   } else if (isSelected) {
-                    cls = 'bg-[#b1b94c] text-black border-[#9da53f] font-medium';
+                    cls = 'bg-[#b1b94c] text-black border-[#9da53f] font-medium shadow-sm';
                   } else {
-                    cls = 'bg-white text-slate-700 border-slate-200 hover:border-[#b1b94c] hover:bg-[#b1b94c]/10';
+                    cls = 'bg-white text-slate-700 border-slate-200 hover:border-[#b1b94c] hover:bg-[#b1b94c]/10 cursor-pointer';
                   }
 
                   return (
                     <button
                       key={slot}
                       type="button"
-                      disabled={allBlocked || !isInRange}
-                      onClick={() => toggleSlot(slot)}
-                      className={`px-3 py-2 rounded-lg border text-sm transition-all ${cls}`}
-                      title={allBlocked ? `All tables already blocked at ${slot}` : `${avail?.free ?? 0}/${avail?.total ?? 0} tables free`}
+                      disabled={allBlocked}
+                      onClick={() => isInRange && !allBlocked && toggleSlot(slot)}
+                      className={`px-2 py-1.5 rounded-lg border text-xs transition-all ${cls}`}
+                      title={allBlocked ? `All tables blocked at ${slot}` : `${avail?.free ?? 0}/${avail?.total ?? 0} tables free`}
                     >
-                      <div>{slot}</div>
-                      {avail && (
-                        <div className={`text-[10px] ${isSelected ? 'text-black/70' : 'text-slate-400'}`}>
-                          {avail.free}/{avail.total} free
-                        </div>
-                      )}
+                      {slot}
                     </button>
                   );
                 })}
               </div>
+              <p className="text-[10px] text-slate-400 mt-2">
+                Click on individual slots to toggle selection
+              </p>
             </div>
           )}
 
@@ -1316,10 +1360,24 @@ function ZoneBlockModal({
 
           {/* Summary */}
           {totalBlocksToCreate > 0 && (
-            <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg text-sm text-amber-800">
-              <strong>{totalBlocksToCreate}</strong> table-blocks will be created across{' '}
-              <strong>{form.selectedSlots.length}</strong> time slot{form.selectedSlots.length !== 1 ? 's' : ''} in{' '}
-              <strong>{zoneObj?.name}</strong>.
+            <div className="p-4 bg-[#b1b94c]/10 border border-[#b1b94c]/30 rounded-xl">
+              <div className="flex items-start gap-3">
+                <Layers className="w-5 h-5 text-[#8a9139] flex-shrink-0 mt-0.5" />
+                <div className="text-sm">
+                  <p className="font-medium text-slate-800">
+                    <strong>{totalBlocksToCreate}</strong> table-blocks will be created
+                  </p>
+                  <p className="text-slate-600 mt-0.5">
+                    Across <strong>{form.selectedSlots.length}</strong> time slot{form.selectedSlots.length !== 1 ? 's' : ''} in{' '}
+                    <strong>{zoneObj?.name}</strong>
+                  </p>
+                  {form.blockType === 'custom_time' && (
+                    <p className="text-slate-500 mt-1 text-xs">
+                      Time range: {form.customStartTime} – {form.customEndTime}
+                    </p>
+                  )}
+                </div>
+              </div>
             </div>
           )}
 

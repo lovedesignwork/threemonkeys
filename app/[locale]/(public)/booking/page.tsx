@@ -67,16 +67,17 @@ const promotionalAddons = [
     icon: Gift,
     image: '/images/by_slide/slide_07/threemonkeys_addon2.jpg',
   },
-  {
-    id: 'private-transfer',
-    name: 'Private Round-Trip Transfer',
-    description: 'Maximum 10 Passengers / Van. *Note: Service applied in Phuket Area except for pick up from Phuket International Airport.',
-    price: 2000,
-    originalPrice: null,
-    discount: null,
-    icon: Car,
-    image: '/images/Random images/44_resize.jpg',
-  },
+  // Hidden for now - uncomment to re-enable
+  // {
+  //   id: 'private-transfer',
+  //   name: 'Private Round-Trip Transfer',
+  //   description: 'Maximum 10 Passengers / Van. *Note: Service applied in Phuket Area except for pick up from Phuket International Airport.',
+  //   price: 2000,
+  //   originalPrice: null,
+  //   discount: null,
+  //   icon: Car,
+  //   image: '/images/Random images/44_resize.jpg',
+  // },
 ];
 
 // Time slot configurations based on seat type
@@ -86,7 +87,7 @@ const SPECIAL_PACKAGE_TIME_SLOTS = ['17:00', '18:00', '19:00', '20:00', '21:00',
 const NORMAL_TIME_SLOTS = ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00']; // All other seats
 
 // Special package IDs (require 1 day advance booking)
-const SPECIAL_PACKAGE_IDS = ['ultimate-dinner', 'ultimate-birthday', 'ultimate-romantic-dinner', 'will-you-marry-me'];
+const SPECIAL_PACKAGE_IDS = ['ultimate-dinner', 'ultimate-birthday', 'will-you-marry-me'];
 
 // Helper to check if a package is a special package
 const isSpecialPackage = (packageId: string | null): boolean => {
@@ -365,6 +366,14 @@ function BookingContent() {
     return result;
   });
 
+  // Track which addon descriptions are expanded
+  const [expandedAddons, setExpandedAddons] = useState<Record<string, boolean>>({});
+
+  const toggleAddonExpanded = (addonId: string, e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent triggering the parent onClick (addon selection)
+    setExpandedAddons(prev => ({ ...prev, [addonId]: !prev[addonId] }));
+  };
+
   const updateAddonQuantity = (addonId: string, delta: number) => {
     setSelectedAddons(prev => {
       const current = prev[addonId] || 0;
@@ -389,15 +398,17 @@ function BookingContent() {
     return isPerTablePackage(pkgId) || isSpecialPackage(pkgId);
   };
 
-  // Max guests: Per-table = 4, Bamboo Pavilion = 4, Exclusive Zone 7 = 4, Zone 7 = 50, Special packages = 10, Others = 20
+  // Max guests: Monkey Dome = 4, Monkey Nest = 6, Bamboo Pavilion = 4, Exclusive Zone 7 = 4, Zone 7 = 50, Will You Marry Me = 2, Special packages = 10, Others = 20
   const getMaxGuestsForPackage = (pkgId: string | null) => {
-    if (isPerTablePackage(pkgId)) return 4;
+    if (pkgId === 'monkey-dome') return 4;
+    if (pkgId === 'monkey-nest') return 6;
     if (pkgId === 'bamboo-pavilion') return 4;
     if (pkgId === 'exclusive-romantic-zone-7') return 4;
     if (pkgId === 'zone-7') return 50;
     if (pkgId === 'zone-6') return 50;
     if (pkgId === 'rooftop-romantic') return 40;
     if (pkgId === 'indoor-seat' || pkgId === 'outdoor-seat') return 100;
+    if (pkgId === 'will-you-marry-me') return 2;
     if (isSpecialPackage(pkgId)) return 10;
     return 20;
   };
@@ -427,11 +438,20 @@ function BookingContent() {
     const transfer = needTransfer ? VVIP_TRANSFER_PRICE : 0;
     
     // Deposit calculation:
-    // Fixed price packages: Full package price as deposit
+    // Monkey Dome: 4,000 THB fixed
+    // Monkey Nest: 4,000 THB (1-4 guests), 5,000 THB (5-6 guests)
+    // Other fixed price packages: Full package price as deposit
     // Others: THB 500 per person
-    const deposit = isFixedPricePackage(selectedPackageId)
-      ? selectedPackage.price // Full package price
-      : DEPOSIT_PER_PERSON * guestCount;
+    let deposit: number;
+    if (selectedPackageId === 'monkey-dome') {
+      deposit = 4000;
+    } else if (selectedPackageId === 'monkey-nest') {
+      deposit = guestCount <= 4 ? 4000 : 5000;
+    } else if (isFixedPricePackage(selectedPackageId)) {
+      deposit = selectedPackage.price;
+    } else {
+      deposit = DEPOSIT_PER_PERSON * guestCount;
+    }
     
     let addons = 0;
     Object.entries(selectedAddons).forEach(([addonId, qty]) => {
@@ -662,10 +682,15 @@ function BookingContent() {
                             {selectedPackage.type === 'seat' ? (
                               <>
                                 <div className="text-[10px] text-white/40 uppercase tracking-wider">Deposit</div>
-                                {selectedPackage.id === 'monkey-dome' || selectedPackage.id === 'monkey-nest' ? (
+                                {selectedPackage.id === 'monkey-dome' ? (
                                   <>
                                     <div className="text-xl font-bold text-[#b1b94c]">฿4,000</div>
-                                    <div className="text-xs text-white/40">/ table</div>
+                                    <div className="text-xs text-white/40">/ table (max 4)</div>
+                                  </>
+                                ) : selectedPackage.id === 'monkey-nest' ? (
+                                  <>
+                                    <div className="text-xl font-bold text-[#b1b94c]">฿{guestCount <= 4 ? '4,000' : '5,000'}</div>
+                                    <div className="text-xs text-white/40">/ table ({guestCount <= 4 ? '1-4' : '5-6'} guests)</div>
                                   </>
                                 ) : selectedPackage.id === 'bamboo-pavilion' ? (
                                   <>
@@ -795,10 +820,15 @@ function BookingContent() {
                                   )}
                                   <div className="text-right mt-auto">
                                     <span className="text-[10px] text-white/40 uppercase tracking-wider block">Deposit</span>
-                                    {pkg.id === 'monkey-dome' || pkg.id === 'monkey-nest' ? (
+                                    {pkg.id === 'monkey-dome' ? (
                                       <>
                                         <span className="text-base font-bold text-[#b1b94c]">฿4,000</span>
-                                        <span className="text-white/30 text-[9px] block">/ table</span>
+                                        <span className="text-white/30 text-[9px] block">/ table (max 4)</span>
+                                      </>
+                                    ) : pkg.id === 'monkey-nest' ? (
+                                      <>
+                                        <span className="text-base font-bold text-[#b1b94c]">฿4,000-5,000</span>
+                                        <span className="text-white/30 text-[9px] block">/ table (max 6)</span>
                                       </>
                                     ) : pkg.id === 'bamboo-pavilion' ? (
                                       <>
@@ -1025,8 +1055,10 @@ function BookingContent() {
                                 Number of Persons
                               </span>
                               {(() => {
-                                const hint = isPerTablePackage(selectedPackageId)
+                                const hint = selectedPackageId === 'monkey-dome'
                                   ? 'Max 4 per table'
+                                  : selectedPackageId === 'monkey-nest'
+                                  ? 'Max 6 per table'
                                   : selectedPackageId === 'bamboo-pavilion'
                                   ? 'Max 4 persons'
                                   : selectedPackageId === 'exclusive-romantic-zone-7'
@@ -1088,7 +1120,11 @@ function BookingContent() {
                                     <span className="text-[#b1b94c] font-bold text-lg">{formatPrice(prices.deposit)}</span>
                                   </div>
                                   <p className="text-white/40 text-xs truncate">
-                                    {isFixedPricePackage(selectedPackageId) 
+                                    {selectedPackageId === 'monkey-dome' 
+                                      ? 'Fixed rate (max 4 guests)'
+                                      : selectedPackageId === 'monkey-nest'
+                                      ? guestCount <= 4 ? '1-4 guests: ฿4,000' : '5-6 guests: ฿5,000'
+                                      : isFixedPricePackage(selectedPackageId) 
                                       ? 'Fixed rate package' 
                                       : `฿${DEPOSIT_PER_PERSON} × ${guestCount} ${guestCount === 1 ? 'person' : 'persons'}`}
                                   </p>
@@ -1100,14 +1136,27 @@ function BookingContent() {
 
                         {/* Special Requests */}
                         <div className="flex flex-col h-full">
-                          <label className="block text-sm font-medium text-white/70 mb-3 flex items-center gap-2">
+                          <label className="block text-sm font-medium text-white/70 mb-2 flex items-center gap-2">
                             <Info className="w-4 h-4 text-[#b1b94c]" />
                             Special Requests (Optional)
                           </label>
+                          {selectedPackage?.id === 'ultimate-dinner' && (
+                            <div className="mb-3 p-3 bg-[#b1b94c]/10 border border-[#b1b94c]/30 rounded-xl">
+                              <div className="flex items-start gap-2">
+                                <Car className="w-4 h-4 text-[#b1b94c] mt-0.5 flex-shrink-0" />
+                                <p className="text-xs text-[#b1b94c]">
+                                  <span className="font-semibold">Transfer included:</span> Please provide your hotel name or pickup address for the complimentary round-trip transfer service.
+                                </p>
+                              </div>
+                            </div>
+                          )}
                           <textarea
                             value={specialRequests}
                             onChange={(e) => setSpecialRequests(e.target.value)}
-                            placeholder="Dietary requirements, celebrations, accessibility needs..."
+                            placeholder={selectedPackage?.id === 'ultimate-dinner' 
+                              ? "Please enter your hotel name or pickup address for transfer, plus any dietary requirements or special requests..."
+                              : "Dietary requirements, celebrations, accessibility needs..."
+                            }
                             className="w-full flex-1 min-h-[120px] px-4 py-3 bg-white/5 border-2 border-white/10 rounded-xl text-white placeholder:text-white/30 focus:outline-none focus:border-[#b1b94c] hover:border-white/20 transition-all resize-none text-sm"
                           />
                         </div>
@@ -1180,9 +1229,22 @@ function BookingContent() {
                                 <h4 className="text-base font-bold text-white mb-1">
                                   {addon.name}
                                 </h4>
-                                <p className="text-white/50 text-sm leading-relaxed mb-3 line-clamp-2">
-                                  {addon.description}
-                                </p>
+                                <div className="mb-3">
+                                  <p className={`text-white/50 text-sm leading-relaxed transition-all duration-300 ${
+                                    expandedAddons[addon.id] ? '' : 'line-clamp-2'
+                                  }`}>
+                                    {addon.description}
+                                  </p>
+                                  {addon.description.length > 80 && (
+                                    <button
+                                      type="button"
+                                      onClick={(e) => toggleAddonExpanded(addon.id, e)}
+                                      className="text-[#b1b94c] text-xs font-medium mt-1 hover:underline"
+                                    >
+                                      {expandedAddons[addon.id] ? 'Show less' : 'Read more'}
+                                    </button>
+                                  )}
+                                </div>
                                 
                                 <div className="flex items-center justify-between">
                                   <div className="flex items-baseline gap-1">
@@ -1210,7 +1272,8 @@ function BookingContent() {
                         })}
                       </div>
                       
-                      {/* Remaining items - full width */}
+                      {/* Remaining items - full width (hidden for ultimate-dinner package) */}
+                      {selectedPackage?.id !== 'ultimate-dinner' && (
                       <div className="space-y-4">
                         {promotionalAddons.slice(2).map((addon, index) => {
                           const qty = selectedAddons[addon.id] || 0;
@@ -1245,9 +1308,22 @@ function BookingContent() {
                                   <h4 className="text-base font-bold text-white mb-1">
                                     {addon.name}
                                   </h4>
-                                  <p className="text-white/50 text-sm leading-relaxed mb-3 line-clamp-2">
-                                    {addon.description}
-                                  </p>
+                                  <div className="mb-3">
+                                    <p className={`text-white/50 text-sm leading-relaxed transition-all duration-300 ${
+                                      expandedAddons[addon.id] ? '' : 'line-clamp-2'
+                                    }`}>
+                                      {addon.description}
+                                    </p>
+                                    {addon.description.length > 80 && (
+                                      <button
+                                        type="button"
+                                        onClick={(e) => toggleAddonExpanded(addon.id, e)}
+                                        className="text-[#b1b94c] text-xs font-medium mt-1 hover:underline"
+                                      >
+                                        {expandedAddons[addon.id] ? 'Show less' : 'Read more'}
+                                      </button>
+                                    )}
+                                  </div>
                                   
                                   <div className="flex items-baseline gap-1 mb-3">
                                     <span className="text-xl font-bold text-[#b1b94c]">
@@ -1273,6 +1349,7 @@ function BookingContent() {
                           );
                         })}
                       </div>
+                      )}
                     </div>
                   </motion.div>
                 )}

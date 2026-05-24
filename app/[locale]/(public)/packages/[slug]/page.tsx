@@ -141,23 +141,47 @@ export default function PackagePage() {
           </>
         )}
 
-        {/* Thumbnail rail — tighter on mobile so it doesn't compete with arrows */}
+        {/* Thumbnail rail — redesigned for better visibility */}
         {galleryImages.length > 1 && (
-          <div className="absolute bottom-4 sm:bottom-24 left-1/2 -translate-x-1/2 z-20 flex gap-2 max-w-[80vw] overflow-x-auto px-1">
-            {galleryImages.map((img, index) => (
-              <button
-                key={index}
-                onClick={() => setActiveImage(index)}
-                aria-label={`Show photo ${index + 1}`}
-                className={`relative flex-shrink-0 w-12 h-9 sm:w-14 sm:h-10 rounded-lg overflow-hidden border-2 transition-all ${
-                  activeImage === index
-                    ? 'border-[#b1b94c] scale-110'
-                    : 'border-white/20 opacity-60 hover:opacity-100'
-                }`}
-              >
-                <Image src={img} alt="" fill className="object-cover" unoptimized />
-              </button>
-            ))}
+          <div className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-20">
+            <div className="flex items-center gap-1 sm:gap-2 bg-black/60 backdrop-blur-xl rounded-2xl p-2 sm:p-3 border border-white/10 shadow-2xl">
+              {/* Image counter */}
+              <div className="hidden sm:flex items-center justify-center px-3 py-1 mr-2 bg-white/10 rounded-lg">
+                <span className="text-white/90 text-sm font-medium tabular-nums">
+                  {activeImage + 1} / {galleryImages.length}
+                </span>
+              </div>
+              
+              {/* Thumbnails */}
+              <div className="flex gap-2 sm:gap-3 max-w-[70vw] sm:max-w-[60vw] overflow-x-auto no-scrollbar">
+                {galleryImages.map((img, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setActiveImage(index)}
+                    aria-label={`Show photo ${index + 1}`}
+                    className={`group relative flex-shrink-0 w-16 h-12 sm:w-20 sm:h-14 lg:w-24 lg:h-16 rounded-xl overflow-hidden transition-all duration-300 ${
+                      activeImage === index
+                        ? 'ring-2 ring-[#b1b94c] ring-offset-2 ring-offset-black/60 scale-105'
+                        : 'ring-1 ring-white/20 opacity-70 hover:opacity-100 hover:ring-white/40'
+                    }`}
+                  >
+                    <Image 
+                      src={img} 
+                      alt="" 
+                      fill 
+                      className={`object-cover transition-transform duration-300 ${
+                        activeImage === index ? '' : 'group-hover:scale-110'
+                      }`} 
+                      unoptimized 
+                    />
+                    {/* Active indicator overlay */}
+                    {activeImage === index && (
+                      <div className="absolute inset-0 bg-[#b1b94c]/20 pointer-events-none" />
+                    )}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </section>
@@ -199,7 +223,7 @@ export default function PackagePage() {
                   <div className="flex items-center gap-2 text-white/60">
                     <Users className="w-4 h-4 text-[#b1b94c]" />
                     <span className="text-sm">
-                      {pkg.id === 'monkey-nest' ? '2-6 guests on Monkey Nest seat only' : pkg.id === 'zone-7' || pkg.id === 'zone-6' ? 'up to 50 guests' : pkg.id === 'rooftop-romantic' ? 'up to 40 guests' : pkg.id === 'indoor-seat' || pkg.id === 'outdoor-seat' ? 'open seating' : '2-4 guests'}
+                      {pkg.id === 'monkey-nest' ? '2-6 guests on Monkey Nest seat only' : pkg.id === 'zone-7' ? 'up to 10 guests' : pkg.id === 'zone-6' ? 'up to 50 guests' : pkg.id === 'rooftop-romantic' ? 'up to 40 guests' : pkg.id === 'indoor-seat' || pkg.id === 'outdoor-seat' ? 'open seating' : '2-4 guests'}
                     </span>
                   </div>
                   {pkg.includesMeal && (
@@ -280,6 +304,26 @@ export default function PackagePage() {
                             item === 'Fully redeemable' ? t('included.fullyRedeemable') :
                             item === 'Ambient lighting' ? t('included.ambientLighting') :
                             item === 'Priority service' ? t('included.priorityService') :
+                            item
+                          ) : pkg.id === 'zone-7' ? (
+                            item === 'Reserved zone seating' ? t('included.reservedZoneSeating') :
+                            item === 'Flexible setup' ? t('included.flexibleSetup') :
+                            item === 'Fully redeemable' ? t('included.fullyRedeemable') :
+                            item === 'Prime entertainment' ? t('included.primeEntertainment') :
+                            item
+                          ) : pkg.id === 'ultimate-dinner' ? (
+                            item === 'Romantic table setting curated for honeymoon & anniversary celebrations' ? t('included.romanticTableSetting') :
+                            item === 'Elegant table decorations' ? t('included.elegantDecorations') :
+                            item === '1 bottle of sparkling wine (Prosecco)' ? t('included.sparklingWine') :
+                            item === '1 Bouquet of fresh roses' ? t('included.bouquetRoses') :
+                            item === '1 Spark fountain effect for a dramatic highlight' ? t('included.sparkFountain') :
+                            item === 'Professional photo & video capture' ? t('included.photoVideoCapture') :
+                            item === 'Private round-trip transfer within Phuket (Max 10 persons/van)' ? t('included.privateTransfer') :
+                            item
+                          ) : pkg.id === 'will-you-marry-me' ? (
+                            item === 'Red Rose Bouquet' ? t('included.redRoseBouquet') :
+                            item === 'Spark Fountain Effect' ? t('included.sparkFountainEffect') :
+                            item === 'Heart-Shaped Rose Frame with "Will You Marry Me?" Neon Sign' ? t('included.heartShapedRoseFrame') :
                             item
                           ) : item}
                         </span>
@@ -411,6 +455,27 @@ export default function PackagePage() {
                         <div className="text-white/50 text-sm">Guest Rating</div>
                       </div>
                     </>
+                  ) : pkg.id === 'zone-7' ? (
+                    <>
+                      <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
+                        <div className="text-xl font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
+                          {t('experience.liveShows')}
+                        </div>
+                        <div className="text-white/50 text-sm">Entertainment</div>
+                      </div>
+                      <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
+                        <div className="text-xl font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
+                          {t('experience.goodAmbience')}
+                        </div>
+                        <div className="text-white/50 text-sm">Atmosphere</div>
+                      </div>
+                      <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
+                        <div className="text-3xl font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
+                          5.0
+                        </div>
+                        <div className="text-white/50 text-sm">{t('guestRating')}</div>
+                      </div>
+                    </>
                   ) : pkg.id === 'rooftop-romantic' ? (
                     <>
                       <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
@@ -501,19 +566,19 @@ export default function PackagePage() {
                         <div className="text-3xl font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
                           {pkg.stats?.courses || '5'}
                         </div>
-                        <div className="text-white/50 text-sm">Courses</div>
+                        <div className="text-white/50 text-sm">{t('experience.courses')}</div>
                       </div>
                       <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
                         <div className="text-3xl font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
                           100%
                         </div>
-                        <div className="text-white/50 text-sm">Fresh Ingredients</div>
+                        <div className="text-white/50 text-sm">{t('experience.freshIngredients')}</div>
                       </div>
                       <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
                         <div className="text-3xl font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
-                          4.9
+                          {pkg.stats?.guestRating || '4.9'}
                         </div>
-                        <div className="text-white/50 text-sm">Guest Rating</div>
+                        <div className="text-white/50 text-sm">{t('experience.guestRating')}</div>
                       </div>
                     </>
                   )}
@@ -547,6 +612,28 @@ export default function PackagePage() {
                           req === 'Redeemable; no refund on unused balance' ? t('requirements.redeemableNoRefund') :
                           req === '2-hour seating (for consecutive bookings)' ? t('requirements.twoHourSeating') :
                           req === '24-hour notice for cancellation/amendment (subject to availability)' ? t('requirements.cancellation24hr') :
+                          req
+                        ) : pkg.id === 'zone-7' ? (
+                          req === 'Deposit: 500 THB per person' ? t('requirements.deposit500perPerson') :
+                          req === 'Suitable for up to 10 persons' ? t('requirements.suitableUpTo10') :
+                          req === 'Redeemable; no refund on unused balance' ? t('requirements.redeemableNoRefund') :
+                          req === '24-hour notice for cancellation/amendment (subject to availability)' ? t('requirements.cancellation24hr') :
+                          req
+                        ) : pkg.id === 'ultimate-dinner' ? (
+                          req === 'Table setup will be arranged at Zone Z' ? t('requirements.tableSetupZoneZ') :
+                          req === 'Food & drinks are NOT included — can be purchased separately' ? t('requirements.foodDrinksNotIncluded') :
+                          req === 'Transfer service is available within Phuket area only (airport pickup is excluded)' ? t('requirements.transferPhuketOnly') :
+                          req === 'Sparkling wine can be replaced with 4 mocktails for non-alcoholic preference' ? t('requirements.sparklingWineMocktails') :
+                          req === 'Prices are exclusive of 7% VAT and 10% service charge' ? t('requirements.pricesExclusive') :
+                          req === 'Reservation is required at least 1 day in advance' ? t('requirements.reservationOneDayAdvance') :
+                          req === 'All cancellations are non-refundable' ? t('requirements.nonRefundable') :
+                          req
+                        ) : pkg.id === 'will-you-marry-me' ? (
+                          req === 'Table setup will be arranged at Zone Z' ? t('requirements.tableSetupZoneZ') :
+                          req === 'Food & drinks are NOT included — can be purchased separately' ? t('requirements.foodDrinksNotIncluded') :
+                          req === 'Prices are exclusive of 7% VAT and 10% service charge' ? t('requirements.pricesExclusive') :
+                          req === 'Reservation is required at least 1 day in advance' ? t('requirements.reservationOneDayAdvance') :
+                          req === 'All cancellations are non-refundable' ? t('requirements.nonRefundable') :
                           req
                         ) : req}
                       </li>
@@ -586,7 +673,7 @@ export default function PackagePage() {
                     <div className="flex items-center justify-between text-sm">
                       <span className="text-black/60">{t('capacity')}</span>
                       <span className="text-black font-medium">
-                        {pkg.id === 'monkey-nest' ? '2-6 guests' : pkg.id === 'zone-7' || pkg.id === 'zone-6' ? 'up to 50 guests' : pkg.id === 'rooftop-romantic' ? 'up to 40 guests' : pkg.id === 'indoor-seat' || pkg.id === 'outdoor-seat' ? 'open seating' : '2-4 guests'}
+                        {pkg.id === 'monkey-nest' ? '2-6 guests' : pkg.id === 'zone-7' ? 'up to 10 guests' : pkg.id === 'zone-6' ? 'up to 50 guests' : pkg.id === 'rooftop-romantic' ? 'up to 40 guests' : pkg.id === 'indoor-seat' || pkg.id === 'outdoor-seat' ? 'open seating' : '2-4 guests'}
                       </span>
                     </div>
                     {pkg.includesMeal && (
