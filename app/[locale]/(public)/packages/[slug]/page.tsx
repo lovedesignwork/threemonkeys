@@ -4,6 +4,7 @@ import { useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 import { 
   Clock, 
   Users, 
@@ -67,6 +68,7 @@ export default function PackagePage() {
   const slug = params.slug as string;
   const pkg = getPackageBySlug(slug);
   const [activeImage, setActiveImage] = useState(0);
+  const t = useTranslations('packageDetailPage');
 
   if (!pkg) {
     notFound();
@@ -226,7 +228,7 @@ export default function PackagePage() {
                     <Sparkles className="w-5 h-5 text-[#b1b94c]" />
                   </div>
                   <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white normal-case">
-                    What&apos;s Included
+                    {t('whatsIncluded')}
                   </h2>
                 </div>
 
@@ -273,7 +275,13 @@ export default function PackagePage() {
                           </motion.div>
                         </div>
                         <span className="text-white/80 text-sm font-[family-name:var(--font-inter)]">
-                          {item}
+                          {pkg.id === 'monkey-dome' ? (
+                            item === 'Reserved zone seating' ? t('included.reservedZoneSeating') :
+                            item === 'Fully redeemable' ? t('included.fullyRedeemable') :
+                            item === 'Ambient lighting' ? t('included.ambientLighting') :
+                            item === 'Priority service' ? t('included.priorityService') :
+                            item
+                          ) : item}
                         </span>
                       </motion.div>
                     );
@@ -293,12 +301,33 @@ export default function PackagePage() {
                     <Heart className="w-5 h-5 text-[#b1b94c]" />
                   </div>
                   <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white normal-case">
-                    The Experience
+                    {t('theExperience')}
                   </h2>
                 </div>
 
                 <div className="grid sm:grid-cols-3 gap-4">
-                  {pkg.id === 'monkey-nest' ? (
+                  {pkg.id === 'monkey-dome' ? (
+                    <>
+                      <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
+                        <div className="text-lg font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
+                          {t('romanticSpot')}
+                        </div>
+                        <div className="text-white/50 text-sm">{t('spot')}</div>
+                      </div>
+                      <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
+                        <div className="text-lg font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
+                          {t('natural')}
+                        </div>
+                        <div className="text-white/50 text-sm">{t('immersion')}</div>
+                      </div>
+                      <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
+                        <div className="text-3xl font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
+                          5.0
+                        </div>
+                        <div className="text-white/50 text-sm">{t('guestRating')}</div>
+                      </div>
+                    </>
+                  ) : pkg.id === 'monkey-nest' ? (
                     <>
                       <div className="p-5 bg-gradient-to-br from-[#b1b94c]/10 to-transparent rounded-2xl border border-[#b1b94c]/20 text-center">
                         <div className="text-3xl font-[family-name:var(--font-krona)] text-[#b1b94c] mb-1">
@@ -500,13 +529,19 @@ export default function PackagePage() {
                   className="p-6 bg-white/5 rounded-2xl border border-white/10"
                 >
                   <h3 className="text-lg font-[family-name:var(--font-krona)] text-white mb-4 normal-case">
-                    Good to Know
+                    {t('goodToKnow')}
                   </h3>
                   <ul className="space-y-2">
                     {pkg.requirements.map((req, index) => (
                       <li key={index} className="flex items-start gap-3 text-white/60 text-sm">
                         <span className="text-[#b1b94c] mt-1">•</span>
-                        {req}
+                        {pkg.id === 'monkey-dome' ? (
+                          req === '4,000 THB deposit per table (max 4 guests)' ? t('requirements.deposit4000') :
+                          req === 'Redeemable; no refund on unused balance' ? t('requirements.redeemableNoRefund') :
+                          req === '2-hour seating (for consecutive bookings)' ? t('requirements.twoHourSeating') :
+                          req === '24-hour notice for cancellation/amendment (subject to availability)' ? t('requirements.cancellation24hr') :
+                          req
+                        ) : req}
                       </li>
                     ))}
                   </ul>
@@ -525,24 +560,24 @@ export default function PackagePage() {
                 {/* Price Card */}
                 <div className="p-6 bg-[#b1b94c] rounded-3xl">
                   <div className="mb-6">
-                    <span className="text-black/60 text-sm">Starting from</span>
+                    <span className="text-black/60 text-sm">{t('startingFrom')}</span>
                     <div className="flex items-baseline gap-2">
                       <span className="text-4xl font-[family-name:var(--font-krona)] text-black">
                         {formatPrice(pkg.price)}
                       </span>
                       <span className="text-black/60">
-                        {pkg.priceType === 'per-person' ? '/ person' : '/table'}
+                        {pkg.priceType === 'per-person' ? t('perPerson') : t('perTable')}
                       </span>
                     </div>
                   </div>
 
                   <div className="space-y-3 mb-6 pb-6 border-b border-black/10">
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-black/60">Duration</span>
+                      <span className="text-black/60">{t('duration')}</span>
                       <span className="text-black font-medium">{pkg.duration}</span>
                     </div>
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-black/60">Capacity</span>
+                      <span className="text-black/60">{t('capacity')}</span>
                       <span className="text-black font-medium">
                         {pkg.id === 'monkey-nest' ? '2-6 guests' : pkg.id === 'zone-7' || pkg.id === 'zone-6' ? 'up to 50 guests' : pkg.id === 'rooftop-romantic' ? 'up to 40 guests' : pkg.id === 'indoor-seat' || pkg.id === 'outdoor-seat' ? 'open seating' : '2-4 guests'}
                       </span>
@@ -550,13 +585,13 @@ export default function PackagePage() {
                     {pkg.includesMeal && (
                       <div className="flex items-center gap-2 text-black/80 text-sm">
                         <Check className="w-4 h-4" />
-                        <span>Meal included</span>
+                        <span>{t('mealIncluded')}</span>
                       </div>
                     )}
                     {pkg.includesTransfer && (
                       <div className="flex items-center gap-2 text-black/80 text-sm">
                         <Check className="w-4 h-4" />
-                        <span>Free transfer included</span>
+                        <span>{t('transferIncluded')}</span>
                       </div>
                     )}
                   </div>
@@ -564,7 +599,7 @@ export default function PackagePage() {
                   <Link href={`/booking?package=${pkg.id}`} className="block">
                     <button className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-black text-[#b1b94c] font-[family-name:var(--font-krona)] text-lg rounded-2xl hover:bg-black/80 transition-all">
                       <Calendar className="w-5 h-5" />
-                      Reserve Now
+                      {t('reserveNow')}
                     </button>
                   </Link>
                 </div>
@@ -572,7 +607,7 @@ export default function PackagePage() {
                 {/* Contact Card */}
                 <div className="p-6 bg-[#111] rounded-2xl border border-white/10">
                   <h3 className="text-lg font-[family-name:var(--font-krona)] text-white mb-4 normal-case">
-                    Questions?
+                    {t('questions')}
                   </h3>
                   <div className="space-y-4">
                     <a 
@@ -584,7 +619,7 @@ export default function PackagePage() {
                       </div>
                       <div>
                         <div className="text-white text-sm font-medium">+66 98-010-8838</div>
-                        <div className="text-white/40 text-xs">Call for reservations</div>
+                        <div className="text-white/40 text-xs">{t('callReservations')}</div>
                       </div>
                     </a>
                     <a
@@ -598,7 +633,7 @@ export default function PackagePage() {
                       </div>
                       <div>
                         <div className="text-white text-sm font-medium">WhatsApp</div>
-                        <div className="text-white/40 text-xs">Message us anytime</div>
+                        <div className="text-white/40 text-xs">{t('messageAnytime')}</div>
                       </div>
                     </a>
                     <a
@@ -610,7 +645,7 @@ export default function PackagePage() {
                       </div>
                       <div>
                         <div className="text-white text-sm font-medium">enjoy@threemonkeysphuket.com</div>
-                        <div className="text-white/40 text-xs">Email inquiries</div>
+                        <div className="text-white/40 text-xs">{t('emailInquiries')}</div>
                       </div>
                     </a>
                     <a
@@ -645,10 +680,10 @@ export default function PackagePage() {
             className="text-center mb-12"
           >
             <span className="text-[#b1b94c] text-sm font-medium uppercase tracking-[0.3em] mb-4 block">
-              More Options
+              {t('moreOptions')}
             </span>
             <h2 className="text-3xl md:text-4xl font-[family-name:var(--font-krona)] text-white normal-case">
-              Explore Other Seats
+              {t('exploreOther')}
             </h2>
           </motion.div>
 
@@ -694,7 +729,7 @@ export default function PackagePage() {
           >
             <Link href="/packages">
               <button className="inline-flex items-center gap-3 px-8 py-4 bg-[#b1b94c] hover:bg-[#c4cc5a] text-black font-[family-name:var(--font-krona)] rounded-full transition-all">
-                View All Seats
+                {t('viewAll')}
                 <ArrowRight className="w-5 h-5" />
               </button>
             </Link>

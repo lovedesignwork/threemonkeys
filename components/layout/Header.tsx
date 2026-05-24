@@ -203,12 +203,10 @@ export function Header() {
 
               {/* Drawer header */}
               <div className="relative flex items-center justify-between px-4 py-4 border-b border-white/10">
-                <div className="flex-1 overflow-x-auto pr-3">
-                  <LanguageSwitcher variant="mobile" />
-                </div>
+                <LanguageSwitcher variant="mobile" />
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition-all hover:bg-white/10 hover:border-[#b1b94c]/50 flex-shrink-0"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition-all hover:bg-white/10 hover:border-[#b1b94c]/50 flex-shrink-0 ml-3"
                   aria-label="Close menu"
                 >
                   <X className="h-5 w-5" />

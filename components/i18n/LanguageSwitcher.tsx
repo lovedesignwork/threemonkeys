@@ -47,28 +47,63 @@ export function LanguageSwitcher({ variant = 'default' }: LanguageSwitcherProps)
     router.replace(pathname, { locale: code });
   };
 
-  // Mobile variant — horizontal scrollable pills
+  // Mobile variant — dropdown with native language names
   if (variant === 'mobile') {
     return (
-      <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
-        {LOCALES.map((l) => {
-          const active = l.code === locale;
-          return (
-            <button
-              key={l.code}
-              type="button"
-              onClick={() => handlePick(l.code)}
-              className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-[11px] font-medium uppercase tracking-wider whitespace-nowrap transition-all ${
-                active
-                  ? 'bg-[#b1b94c] text-black shadow-lg shadow-[#b1b94c]/20'
-                  : 'bg-white/10 text-white/70 hover:bg-white/15 hover:text-white border border-white/10'
-              }`}
+      <div ref={rootRef} className="relative">
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          aria-label={t('aria')}
+          aria-expanded={open}
+          className="flex items-center gap-2.5 rounded-xl border border-white/15 bg-white/5 hover:bg-white/10 hover:border-[#b1b94c]/50 text-white px-4 py-2.5 transition-all"
+        >
+          <Flag locale={current.code} className="h-4 w-5 rounded-[3px] overflow-hidden ring-1 ring-black/20 flex-shrink-0" />
+          <span className="text-sm font-medium">{current.native}</span>
+          <ChevronDown className={`h-4 w-4 text-white/60 transition-transform ${open ? 'rotate-180' : ''}`} />
+        </button>
+
+        <AnimatePresence>
+          {open && (
+            <motion.ul
+              initial={{ opacity: 0, y: -8, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -8, scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+              className="absolute left-0 top-full mt-2 w-64 max-h-[60vh] overflow-y-auto rounded-2xl border border-white/10 bg-[#0a0a0a]/98 backdrop-blur-xl shadow-2xl shadow-black/50 p-2 z-[110]"
+              role="listbox"
+              aria-label={t('label')}
             >
-              <Flag locale={l.code} className="h-3 w-4 rounded-[2px] overflow-hidden ring-1 ring-black/20 flex-shrink-0" />
-              <span>{l.code.toUpperCase()}</span>
-            </button>
-          );
-        })}
+              {LOCALES.map((l) => {
+                const active = l.code === locale;
+                return (
+                  <li key={l.code}>
+                    <button
+                      type="button"
+                      onClick={() => handlePick(l.code)}
+                      aria-selected={active}
+                      role="option"
+                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-colors ${
+                        active
+                          ? 'bg-[#b1b94c] text-black'
+                          : 'text-white hover:bg-white/10'
+                      }`}
+                    >
+                      <Flag locale={l.code} className="h-4 w-5 rounded-[3px] overflow-hidden ring-1 ring-black/20 flex-shrink-0" />
+                      <span className="flex-1 min-w-0">
+                        <span className="block text-sm font-medium leading-tight">{l.native}</span>
+                        <span className={`block text-[10px] uppercase tracking-widest ${active ? 'text-black/50' : 'text-white/40'}`}>
+                          {l.english}
+                        </span>
+                      </span>
+                      {active && <Check className="h-4 w-4 text-black/70" />}
+                    </button>
+                  </li>
+                );
+              })}
+            </motion.ul>
+          )}
+        </AnimatePresence>
       </div>
     );
   }
