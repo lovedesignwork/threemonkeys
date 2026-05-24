@@ -31,15 +31,6 @@ const menuImages: MenuImage[] = [
   { src: '/images/three_monkeys_menu/FOODS/Western/Deep Fried Prawns.jpg',                       alt: 'Fried Prawns' },
 ];
 
-const cuisineCategories = [
-  { name: 'Thai',        count: '20+ dishes' },
-  { name: 'Western',     count: '15+ dishes' },
-  { name: 'Japanese',    count: '12+ dishes' },
-  { name: 'Bali Fusion', count: '8+ dishes' },
-  { name: 'Vegetarian',  count: '10+ dishes' },
-  { name: 'Desserts',    count: '12+ dishes' },
-];
-
 export function MenuShowcase() {
   // Duplicate the list so the marquee can loop seamlessly.
   const duplicated = [...menuImages, ...menuImages];
@@ -105,25 +96,6 @@ export function MenuShowcase() {
             A culinary journey through Southern Thailand&apos;s rich flavors —
             with Western, Japanese and Bali fusion crossing every plate.
           </motion.p>
-
-          {/* Cuisine pills */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.25 }}
-            className="mt-7 flex flex-wrap justify-center gap-2"
-          >
-            {cuisineCategories.map((cat) => (
-              <span
-                key={cat.name}
-                className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 text-xs text-white/70 transition-colors hover:border-[#b1b94c]/40 hover:text-[#b1b94c]"
-              >
-                <span className="font-medium">{cat.name}</span>
-                <span className="text-white/30 text-[10px]">{cat.count}</span>
-              </span>
-            ))}
-          </motion.div>
         </div>
 
         {/* ── Marquee row 1 (left-to-right scroll) ── */}

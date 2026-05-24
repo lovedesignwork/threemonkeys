@@ -1125,21 +1125,21 @@ function BookingContent() {
                     exit={{ opacity: 0, y: -20 }}
                     className="bg-[#111] rounded-3xl border border-white/10"
                   >
-                    <div className="p-6 border-b border-white/10">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 bg-gradient-to-br from-[#b1b94c] to-[#8a9139] rounded-xl flex items-center justify-center">
+                    <div className="p-5 sm:p-6 border-b border-white/10">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <div className="flex items-center gap-3 min-w-0">
+                          <div className="w-10 h-10 bg-gradient-to-br from-[#b1b94c] to-[#8a9139] rounded-xl flex items-center justify-center flex-shrink-0">
                             <Gift className="w-5 h-5 text-black" />
                           </div>
-                          <div>
-                            <h2 className="text-xl font-[family-name:var(--font-krona)] text-white normal-case">
-                              Add On & Promotion
+                          <div className="min-w-0">
+                            <h2 className="text-lg sm:text-xl font-[family-name:var(--font-krona)] text-white normal-case">
+                              Add On &amp; Promotion
                             </h2>
-                            <p className="text-white/50 text-sm">Enhance your experience with special add-ons</p>
+                            <p className="text-white/50 text-xs sm:text-sm">Enhance your experience with special add-ons</p>
                           </div>
                         </div>
-                        <div className="px-3 py-1 bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/30 rounded-full">
-                          <span className="text-amber-400 text-xs font-medium">Advance Booking Only</span>
+                        <div className="self-start sm:self-auto inline-flex items-center px-2.5 py-1 bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/30 rounded-full flex-shrink-0">
+                          <span className="text-amber-400 text-[10px] sm:text-xs font-medium whitespace-nowrap">Advance Booking Only</span>
                         </div>
                       </div>
                     </div>

@@ -55,22 +55,24 @@ export function HeroSlideshow() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80" />
       </div>
 
-      {/* Prev / Next slide arrows */}
+      {/* Prev / Next slide arrows — desktop only (floating on hero sides).
+          On mobile the arrows live inside the slide counter pill below
+          so they don't crowd the image. */}
       <button
         type="button"
         onClick={goPrev}
         aria-label="Previous slide"
-        className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-30 flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full border border-white/15 bg-black/30 text-white backdrop-blur-md transition-all hover:bg-[#b1b94c] hover:text-black hover:border-[#b1b94c]"
+        className="hidden sm:flex absolute left-6 top-1/2 -translate-y-1/2 z-30 h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-black/30 text-white backdrop-blur-md transition-all hover:bg-[#b1b94c] hover:text-black hover:border-[#b1b94c]"
       >
-        <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
+        <ChevronLeft className="h-6 w-6" />
       </button>
       <button
         type="button"
         onClick={goNext}
         aria-label="Next slide"
-        className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-30 flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full border border-white/15 bg-black/30 text-white backdrop-blur-md transition-all hover:bg-[#b1b94c] hover:text-black hover:border-[#b1b94c]"
+        className="hidden sm:flex absolute right-6 top-1/2 -translate-y-1/2 z-30 h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-black/30 text-white backdrop-blur-md transition-all hover:bg-[#b1b94c] hover:text-black hover:border-[#b1b94c]"
       >
-        <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
+        <ChevronRight className="h-6 w-6" />
       </button>
 
       {/* Floating Content Dock - Tucked at the bottom to let the image breathe */}
@@ -93,11 +95,13 @@ export function HeroSlideshow() {
               </div>
               
               <h1 className="normal-case font-[family-name:var(--font-krona)] text-3xl font-bold leading-[1.1] tracking-tight text-white sm:text-4xl lg:text-5xl">
-                Three Monkeys is Among Phuket&apos;s <br />
-                <span className="text-[#b1b94c]">Most Exotic Restaurants and Bars</span>
+                Exotic Restaurant &amp; Bar <br />
+                <span className="text-[#b1b94c]">in the Rainforest</span>
               </h1>
-              
-              <p className="mt-6 max-w-lg font-[family-name:var(--font-inter)] text-base font-light leading-relaxed text-white/80 sm:text-lg">
+
+              {/* Description hidden on mobile to keep the hero clean —
+                  appears from sm: up. */}
+              <p className="mt-6 max-w-lg font-[family-name:var(--font-inter)] text-base font-light leading-relaxed text-white/80 sm:text-lg hidden sm:block">
                 Seamlessly blending with its natural surroundings within the island&apos;s top outdoor attraction, Hanuman World. Set amongst the backdrop of lush jungle greenery and stunning views.
               </p>
             </motion.div>
@@ -120,18 +124,32 @@ export function HeroSlideshow() {
                 </Link>
               </div>
 
-              {/* Progress & Controls */}
-              <div className="flex items-center gap-6 rounded-full border border-white/10 bg-black/30 px-6 py-3 backdrop-blur-md">
-                <span className="font-[family-name:var(--font-krona)] text-sm font-semibold tracking-widest text-white">
+              {/* Progress & Controls — integrated prev/next on mobile,
+                  dot rail on desktop. Slimmer padding on phones so it
+                  doesn't take the full width of the screen. */}
+              <div className="flex items-center gap-2 sm:gap-6 rounded-full border border-white/10 bg-black/30 px-2 py-2 sm:px-6 sm:py-3 backdrop-blur-md self-start sm:self-auto">
+                {/* Mobile prev button (lives inside the pill) */}
+                <button
+                  type="button"
+                  onClick={goPrev}
+                  aria-label="Previous slide"
+                  className="flex sm:hidden h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-[#b1b94c] hover:text-black"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </button>
+
+                <span className="font-[family-name:var(--font-krona)] text-xs sm:text-sm font-semibold tracking-widest text-white px-1">
                   0{currentImage + 1}
                 </span>
-                
-                <div className="flex gap-2">
+
+                {/* Dot rail (compact on mobile) */}
+                <div className="flex gap-1.5 sm:gap-2">
                   {heroImages.map((_, idx) => (
                     <button
                       key={idx}
                       onClick={() => setCurrentImage(idx)}
-                      className="group relative h-1.5 w-12 overflow-hidden rounded-full bg-white/20 transition-colors hover:bg-white/40"
+                      aria-label={`Go to slide ${idx + 1}`}
+                      className="group relative h-1.5 w-6 sm:w-12 overflow-hidden rounded-full bg-white/20 transition-colors hover:bg-white/40"
                     >
                       {currentImage === idx && (
                         <motion.div
@@ -143,10 +161,20 @@ export function HeroSlideshow() {
                     </button>
                   ))}
                 </div>
-                
-                <span className="font-[family-name:var(--font-krona)] text-sm font-medium tracking-widest text-white/40">
+
+                <span className="font-[family-name:var(--font-krona)] text-xs sm:text-sm font-medium tracking-widest text-white/40 px-1">
                   0{heroImages.length}
                 </span>
+
+                {/* Mobile next button */}
+                <button
+                  type="button"
+                  onClick={goNext}
+                  aria-label="Next slide"
+                  className="flex sm:hidden h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-[#b1b94c] hover:text-black"
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </button>
               </div>
             </motion.div>
 

@@ -88,7 +88,12 @@ export function Location() {
             </div>
           </motion.div>
 
-          {/* Right - Map Card */}
+          {/* Right - Directions block.
+              Mobile/tablet: a static photo card + "Get Directions" button
+              that opens the user's native map app. We deliberately do NOT
+              render the OpenStreetMap iframe on small screens — it
+              captures touch events and makes the page hard to scroll.
+              Desktop (lg+): full interactive iframe with floating CTA. */}
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -96,9 +101,58 @@ export function Location() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="relative"
           >
-            <div className="relative aspect-[4/3] rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-[#1a1a1a]">
-              {/* OpenStreetMap Embed */}
+            {/* ── Mobile / Tablet: photo + Get Directions ── */}
+            <a
+              href="https://maps.app.goo.gl/hk5Z7PQUHnmz6tVB6"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="lg:hidden block relative aspect-[5/4] sm:aspect-[16/10] rounded-3xl overflow-hidden border border-white/10 shadow-2xl group"
+            >
+              <div
+                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+                style={{
+                  backgroundImage:
+                    "url('/images/new/threemonkeys035.jpg')",
+                }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
+
+              <div className="absolute top-4 right-4 px-3 py-1.5 bg-black/40 backdrop-blur rounded-full border border-white/10 flex items-center gap-1.5">
+                <MapPin className="w-3.5 h-3.5 text-[#b1b94c]" />
+                <span className="text-white text-[10px] uppercase tracking-widest font-medium">
+                  Phuket · Thailand
+                </span>
+              </div>
+
+              <div className="absolute inset-x-4 bottom-4 sm:inset-x-6 sm:bottom-6">
+                <div className="text-white text-xs uppercase tracking-[0.3em] mb-2 opacity-80">
+                  Inside Hanuman World
+                </div>
+                <div className="flex items-center justify-between gap-4">
+                  <div className="min-w-0">
+                    <div className="text-white font-[family-name:var(--font-krona)] text-lg sm:text-xl truncate">
+                      Three Monkeys Restaurant
+                    </div>
+                    <div className="text-white/60 text-xs sm:text-sm">
+                      Wichit, Phuket 83000
+                    </div>
+                  </div>
+                  <span className="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-[#b1b94c] shadow-lg shadow-[#b1b94c]/30 flex-shrink-0 transition-transform group-hover:scale-110">
+                    <Navigation className="h-5 w-5 sm:h-6 sm:w-6 text-black" />
+                  </span>
+                </div>
+
+                <div className="mt-3 flex items-center justify-center gap-2 rounded-full bg-[#b1b94c] py-3 text-black font-[family-name:var(--font-krona)] text-sm tracking-wide">
+                  <span>Get Directions</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </div>
+              </div>
+            </a>
+
+            {/* ── Desktop: interactive map iframe ── */}
+            <div className="hidden lg:block relative aspect-[4/3] rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-[#1a1a1a]">
               <iframe
+                title="Three Monkeys location map"
                 src="https://www.openstreetmap.org/export/embed.html?bbox=98.30%2C7.90%2C98.35%2C7.95&layer=mapnik&marker=7.9267%2C98.3256"
                 width="100%"
                 height="100%"
@@ -106,18 +160,16 @@ export function Location() {
                 loading="lazy"
                 className="grayscale-[30%] hover:grayscale-0 transition-all duration-700"
               />
-              
-              {/* Map Overlay */}
               <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/40 via-transparent to-transparent" />
             </div>
 
-            {/* Floating Get Directions Card */}
+            {/* Floating Get Directions Card — desktop only */}
             <motion.a
               href="https://maps.app.goo.gl/hk5Z7PQUHnmz6tVB6"
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.02 }}
-              className="absolute -bottom-6 -left-6 flex items-center gap-4 p-5 bg-[#b1b94c] rounded-2xl shadow-xl hover:bg-[#c4cc5a] transition-colors group"
+              className="hidden lg:flex absolute -bottom-6 -left-6 items-center gap-4 p-5 bg-[#b1b94c] rounded-2xl shadow-xl hover:bg-[#c4cc5a] transition-colors group"
             >
               <div className="w-14 h-14 bg-black/10 rounded-xl flex items-center justify-center">
                 <Navigation className="w-7 h-7 text-black" />
