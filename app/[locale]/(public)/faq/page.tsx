@@ -26,7 +26,7 @@ const categoryMeta = [
   { id: 'booking', icon: Calendar, color: 'from-blue-500/20 to-cyan-500/20', questionCount: 4 },
   { id: 'dining', icon: Utensils, color: 'from-orange-500/20 to-red-500/20', questionCount: 4 },
   { id: 'experience', icon: Sparkles, color: 'from-purple-500/20 to-pink-500/20', questionCount: 4 },
-  { id: 'pricing', icon: CreditCard, color: 'from-green-500/20 to-emerald-500/20', questionCount: 4 },
+  { id: 'packages', icon: CreditCard, color: 'from-green-500/20 to-emerald-500/20', questionCount: 4 },
   { id: 'location', icon: MapPin, color: 'from-amber-500/20 to-yellow-500/20', questionCount: 4 },
 ];
 

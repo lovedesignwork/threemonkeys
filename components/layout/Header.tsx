@@ -202,32 +202,13 @@ export function Header() {
               </div>
 
               {/* Drawer header */}
-              <div className="relative flex items-center justify-between px-6 py-5 border-b border-white/10">
-                <Link
-                  href="/"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center gap-3 min-w-0"
-                >
-                  <Image
-                    src="/images/3M logo.png"
-                    alt="Three Monkeys Restaurant"
-                    width={56}
-                    height={56}
-                    className="h-12 w-auto flex-shrink-0"
-                    priority
-                  />
-                  <div className="leading-tight min-w-0">
-                    <p className="font-[family-name:var(--font-krona)] text-white text-xs sm:text-sm tracking-wide truncate">
-                      THREE MONKEYS RESTAURANT
-                    </p>
-                    <p className="text-[10px] text-[#b1b94c] uppercase tracking-[0.25em]">
-                      Phuket — Thailand
-                    </p>
-                  </div>
-                </Link>
+              <div className="relative flex items-center justify-between px-4 py-4 border-b border-white/10">
+                <div className="flex-1 overflow-x-auto pr-3">
+                  <LanguageSwitcher variant="mobile" />
+                </div>
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition-all hover:bg-white/10 hover:border-[#b1b94c]/50 flex-shrink-0 ml-3"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition-all hover:bg-white/10 hover:border-[#b1b94c]/50 flex-shrink-0"
                   aria-label="Close menu"
                 >
                   <X className="h-5 w-5" />
@@ -235,7 +216,7 @@ export function Header() {
               </div>
 
               {/* Navigation list */}
-              <nav className="relative flex-1 overflow-y-auto px-3 py-5">
+              <nav className="relative flex-1 overflow-y-auto px-3 py-4">
                 <ul className="space-y-1">
                   {visibleNav.map((item, idx) => {
                     const isActive = pathname === item.href;
@@ -250,28 +231,28 @@ export function Header() {
                         <Link
                           href={item.href}
                           onClick={() => setIsMobileMenuOpen(false)}
-                          className={`group flex items-center justify-between px-4 py-3 rounded-2xl transition-all duration-200 ${
+                          className={`group flex items-center justify-between px-3 py-2.5 rounded-xl transition-all duration-200 ${
                             isActive
                               ? 'bg-[#b1b94c] text-black'
                               : 'text-white hover:bg-white/5 active:bg-white/10'
                           }`}
                         >
-                          <div className="flex items-center gap-3">
+                          <div className="flex items-center gap-2.5">
                             <span
-                              className={`flex h-9 w-9 items-center justify-center rounded-xl transition-all ${
+                              className={`flex h-8 w-8 items-center justify-center rounded-lg transition-all ${
                                 isActive
                                   ? 'bg-black/15 text-black'
                                   : 'bg-white/5 text-[#b1b94c] group-hover:bg-[#b1b94c]/15'
                               }`}
                             >
-                              <Icon className="h-4 w-4" />
+                              <Icon className="h-3.5 w-3.5" />
                             </span>
-                            <span className="font-[family-name:var(--font-krona)] text-xs tracking-[0.15em] uppercase">
+                            <span className="font-[family-name:var(--font-krona)] text-[10px] tracking-[0.12em] uppercase">
                               {tNav(item.key)}
                             </span>
                           </div>
                           <ArrowUpRight
-                            className={`h-4 w-4 transition-all ${
+                            className={`h-3.5 w-3.5 transition-all ${
                               isActive
                                 ? 'text-black/70 translate-x-0'
                                 : 'text-white/30 -translate-x-1 opacity-0 group-hover:translate-x-0 group-hover:opacity-100'
@@ -282,11 +263,6 @@ export function Header() {
                     );
                   })}
                 </ul>
-
-                {/* Language switcher inside the mobile drawer */}
-                <div className="mt-6 px-3">
-                  <LanguageSwitcher variant="default" />
-                </div>
               </nav>
 
               {/* Bottom action panel */}

@@ -9,8 +9,8 @@ import { LOCALES, type Locale } from '@/i18n/routing';
 import { Flag } from './Flag';
 
 interface LanguageSwitcherProps {
-  /** Visual variant — compact for mobile menus, default for desktop header. */
-  variant?: 'default' | 'compact';
+  /** Visual variant — compact for mobile menus, mobile for drawer header, default for desktop header. */
+  variant?: 'default' | 'compact' | 'mobile';
 }
 
 export function LanguageSwitcher({ variant = 'default' }: LanguageSwitcherProps) {
@@ -46,6 +46,32 @@ export function LanguageSwitcher({ variant = 'default' }: LanguageSwitcherProps)
     setOpen(false);
     router.replace(pathname, { locale: code });
   };
+
+  // Mobile variant — horizontal scrollable pills
+  if (variant === 'mobile') {
+    return (
+      <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
+        {LOCALES.map((l) => {
+          const active = l.code === locale;
+          return (
+            <button
+              key={l.code}
+              type="button"
+              onClick={() => handlePick(l.code)}
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-[11px] font-medium uppercase tracking-wider whitespace-nowrap transition-all ${
+                active
+                  ? 'bg-[#b1b94c] text-black shadow-lg shadow-[#b1b94c]/20'
+                  : 'bg-white/10 text-white/70 hover:bg-white/15 hover:text-white border border-white/10'
+              }`}
+            >
+              <Flag locale={l.code} className="h-3 w-4 rounded-[2px] overflow-hidden ring-1 ring-black/20 flex-shrink-0" />
+              <span>{l.code.toUpperCase()}</span>
+            </button>
+          );
+        })}
+      </div>
+    );
+  }
 
   return (
     <div ref={rootRef} className="relative">

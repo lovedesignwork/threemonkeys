@@ -19,11 +19,13 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   AlertCircle,
   Calendar,
+  ChevronDown,
   ChevronLeft,
   ChevronRight,
   Footprints,
   Globe,
   HelpCircle,
+  Layers,
   Loader2,
   Mail,
   Move,
@@ -114,7 +116,8 @@ function bkkHourOf(iso: string): number {
 type ModalMode =
   | { kind: 'closed' }
   | { kind: 'create'; zoneId?: string; date?: string; time?: string; tableCode?: string }
-  | { kind: 'manage'; allotment: TmAllotment };
+  | { kind: 'manage'; allotment: TmAllotment }
+  | { kind: 'zone-block'; date: string };
 
 export default function AllotmentPage() {
   const { loading: authLoading } = useAuth();
@@ -124,6 +127,7 @@ export default function AllotmentPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [modal, setModal] = useState<ModalMode>({ kind: 'closed' });
+  const [showBlockMenu, setShowBlockMenu] = useState(false);
 
   // ── Data fetch ────────────────────────────────────────────────────────
   const fetchDay = useCallback(async (selectedDay: string) => {
@@ -176,13 +180,43 @@ export default function AllotmentPage() {
           <p className="text-slate-500">Every table for the day, hour by hour. Click <kbd className="px-1.5 py-0.5 rounded bg-slate-200 text-xs font-mono">+</kbd> on a free slot to block it, or click any booking to edit/move/cancel.</p>
         </div>
         <div className="flex items-center gap-3">
-          <button
-            onClick={() => setModal({ kind: 'create', date: day })}
-            className="flex items-center gap-2 px-4 py-2 bg-[#b1b94c] text-black font-medium rounded-xl hover:bg-[#9da53f] transition-colors"
-          >
-            <Plus className="w-4 h-4" />
-            New Block
-          </button>
+          <div className="relative">
+            <button
+              onClick={() => setShowBlockMenu(prev => !prev)}
+              className="flex items-center gap-2 px-4 py-2 bg-[#b1b94c] text-black font-medium rounded-xl hover:bg-[#9da53f] transition-colors"
+            >
+              <Plus className="w-4 h-4" />
+              New Block
+              <ChevronDown className="w-4 h-4" />
+            </button>
+            {showBlockMenu && (
+              <>
+                <div className="fixed inset-0 z-40" onClick={() => setShowBlockMenu(false)} />
+                <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-xl shadow-xl border border-slate-200 z-50 overflow-hidden">
+                  <button
+                    onClick={() => { setModal({ kind: 'create', date: day }); setShowBlockMenu(false); }}
+                    className="w-full px-4 py-3 text-left text-sm hover:bg-slate-50 flex items-center gap-3 border-b border-slate-100"
+                  >
+                    <Plus className="w-4 h-4 text-slate-500" />
+                    <div>
+                      <div className="font-medium text-slate-800">Single Table</div>
+                      <div className="text-xs text-slate-500">Block one table at a time slot</div>
+                    </div>
+                  </button>
+                  <button
+                    onClick={() => { setModal({ kind: 'zone-block', date: day }); setShowBlockMenu(false); }}
+                    className="w-full px-4 py-3 text-left text-sm hover:bg-slate-50 flex items-center gap-3"
+                  >
+                    <Layers className="w-4 h-4 text-slate-500" />
+                    <div>
+                      <div className="font-medium text-slate-800">Entire Zone</div>
+                      <div className="text-xs text-slate-500">Block all tables in a zone</div>
+                    </div>
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </div>
 
@@ -291,6 +325,15 @@ export default function AllotmentPage() {
         <BlockModal
           mode="manage"
           allotment={modal.allotment}
+          zones={zones}
+          allotments={allotments}
+          onClose={() => setModal({ kind: 'closed' })}
+          onSuccess={() => { refresh(); setModal({ kind: 'closed' }); }}
+        />
+      )}
+      {modal.kind === 'zone-block' && (
+        <ZoneBlockModal
+          initialDate={modal.date}
           zones={zones}
           allotments={allotments}
           onClose={() => setModal({ kind: 'closed' })}
@@ -932,6 +975,398 @@ function BlockModal(props: BlockModalProps) {
               {isManage ? (hasMovedFields ? <><Move className="w-4 h-4" /> Move &amp; Save</> : <><Pencil className="w-4 h-4" /> Save Changes</>) : 'Block Table'}
             </button>
           </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ZoneBlockModal — block all tables in a zone for selected time slots
+// ─────────────────────────────────────────────────────────────────────────────
+
+function ZoneBlockModal({
+  initialDate,
+  zones,
+  allotments,
+  onClose,
+  onSuccess,
+}: {
+  initialDate: string;
+  zones: ZoneWithTables[];
+  allotments: TmAllotment[];
+  onClose: () => void;
+  onSuccess: () => void;
+}) {
+  const [form, setForm] = useState({
+    zone_id: '',
+    date: initialDate,
+    selectedSlots: [] as string[],
+    customHoursEnabled: false,
+    customStartHour: '10',
+    customEndHour: '22',
+    notes: 'Zone blocked by admin',
+  });
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [progress, setProgress] = useState<{ current: number; total: number } | null>(null);
+
+  const zoneObj = zones.find(z => z.id === form.zone_id);
+  const timeSlots = zoneObj?.time_slots ?? [];
+
+  // Calculate available tables per slot
+  const slotAvailability = useMemo(() => {
+    if (!zoneObj) return {};
+    const result: Record<string, { total: number; free: number; blocked: string[] }> = {};
+    
+    for (const slot of timeSlots) {
+      const slotStart = new Date(`${form.date}T${slot}:00+07:00`);
+      const slotEnd = new Date(slotStart.getTime() + zoneObj.block_minutes * 60_000);
+      
+      const blockedTables = allotments
+        .filter(a =>
+          a.zone_id === form.zone_id &&
+          new Date(a.start_at) < slotEnd &&
+          new Date(a.end_at) > slotStart
+        )
+        .map(a => a.table_code);
+      
+      const blockedSet = new Set(blockedTables);
+      result[slot] = {
+        total: zoneObj.tables.length,
+        free: zoneObj.tables.filter(t => !blockedSet.has(t)).length,
+        blocked: blockedTables,
+      };
+    }
+    return result;
+  }, [zoneObj, form.zone_id, form.date, allotments, timeSlots]);
+
+  // Generate custom hour slots
+  const customSlots = useMemo(() => {
+    if (!form.customHoursEnabled) return [];
+    const start = parseInt(form.customStartHour);
+    const end = parseInt(form.customEndHour);
+    const slots: string[] = [];
+    for (let h = start; h <= end; h++) {
+      const slot = `${pad2(h)}:00`;
+      if (timeSlots.includes(slot)) {
+        slots.push(slot);
+      }
+    }
+    return slots;
+  }, [form.customHoursEnabled, form.customStartHour, form.customEndHour, timeSlots]);
+
+  const handleSelectAll = () => {
+    if (form.customHoursEnabled) {
+      setForm(f => ({ ...f, selectedSlots: customSlots }));
+    } else {
+      setForm(f => ({ ...f, selectedSlots: [...timeSlots] }));
+    }
+  };
+
+  const handleClearAll = () => {
+    setForm(f => ({ ...f, selectedSlots: [] }));
+  };
+
+  const toggleSlot = (slot: string) => {
+    setForm(f => ({
+      ...f,
+      selectedSlots: f.selectedSlots.includes(slot)
+        ? f.selectedSlots.filter(s => s !== slot)
+        : [...f.selectedSlots, slot],
+    }));
+  };
+
+  const handleSubmit = async () => {
+    setSubmitError(null);
+    if (!form.zone_id || form.selectedSlots.length === 0) {
+      setSubmitError('Please select a zone and at least one time slot.');
+      return;
+    }
+
+    if (!zoneObj) return;
+
+    // Calculate all tables to block
+    const blocksToCreate: { table: string; slot: string }[] = [];
+    for (const slot of form.selectedSlots) {
+      const avail = slotAvailability[slot];
+      if (!avail) continue;
+      const freeTables = zoneObj.tables.filter(t => !avail.blocked.includes(t));
+      for (const table of freeTables) {
+        blocksToCreate.push({ table, slot });
+      }
+    }
+
+    if (blocksToCreate.length === 0) {
+      setSubmitError('All tables in the selected slots are already blocked.');
+      return;
+    }
+
+    setSubmitting(true);
+    setProgress({ current: 0, total: blocksToCreate.length });
+
+    let successCount = 0;
+    let failCount = 0;
+
+    for (let i = 0; i < blocksToCreate.length; i++) {
+      const { table, slot } = blocksToCreate[i];
+      try {
+        const res = await adminPost('/api/admin/allotment', {
+          zone_id: form.zone_id,
+          date: form.date,
+          time: slot,
+          table_code: table,
+          source: 'admin',
+          notes: form.notes || 'Zone blocked by admin',
+        });
+        if (res.ok) {
+          successCount++;
+        } else {
+          failCount++;
+        }
+      } catch {
+        failCount++;
+      }
+      setProgress({ current: i + 1, total: blocksToCreate.length });
+    }
+
+    setSubmitting(false);
+    setProgress(null);
+
+    if (failCount > 0) {
+      setSubmitError(`Created ${successCount} blocks, ${failCount} failed.`);
+    }
+    
+    if (successCount > 0) {
+      onSuccess();
+    }
+  };
+
+  const totalBlocksToCreate = useMemo(() => {
+    if (!zoneObj) return 0;
+    let count = 0;
+    for (const slot of form.selectedSlots) {
+      const avail = slotAvailability[slot];
+      if (avail) count += avail.free;
+    }
+    return count;
+  }, [zoneObj, form.selectedSlots, slotAvailability]);
+
+  return (
+    <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
+        <div className="p-5 border-b border-slate-100 flex items-center justify-between">
+          <div>
+            <h3 className="text-lg font-semibold text-slate-800 flex items-center gap-2">
+              <Layers className="w-5 h-5 text-[#b1b94c]" />
+              Block Entire Zone
+            </h3>
+            <p className="text-xs text-slate-500 mt-0.5">Block all available tables in a zone at once</p>
+          </div>
+          <button onClick={onClose} className="p-1.5 text-slate-500 hover:text-slate-800 rounded">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        <div className="p-5 space-y-4">
+          {/* Zone Selection */}
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-1.5">Zone <span className="text-red-500">*</span></label>
+            <select
+              value={form.zone_id}
+              onChange={(e) => setForm(f => ({ ...f, zone_id: e.target.value, selectedSlots: [] }))}
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:border-[#1a237e] bg-white"
+            >
+              <option value="">Choose zone to block…</option>
+              {zones.map(z => (
+                <option key={z.id} value={z.id}>{z.name} ({z.tables.length} tables)</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Date */}
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-1.5">Date <span className="text-red-500">*</span></label>
+            <input
+              type="date"
+              value={form.date}
+              onChange={(e) => setForm(f => ({ ...f, date: e.target.value, selectedSlots: [] }))}
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:border-[#1a237e]"
+            />
+          </div>
+
+          {/* Custom Hours Toggle */}
+          {form.zone_id && (
+            <div>
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={form.customHoursEnabled}
+                  onChange={(e) => setForm(f => ({ ...f, customHoursEnabled: e.target.checked, selectedSlots: [] }))}
+                  className="w-4 h-4 rounded border-slate-300 text-[#b1b94c] focus:ring-[#b1b94c]"
+                />
+                <span className="text-sm font-medium text-slate-700">Custom hours range</span>
+              </label>
+
+              {form.customHoursEnabled && (
+                <div className="mt-3 grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs text-slate-500 mb-1">Start Hour</label>
+                    <select
+                      value={form.customStartHour}
+                      onChange={(e) => setForm(f => ({ ...f, customStartHour: e.target.value, selectedSlots: [] }))}
+                      className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:border-[#1a237e] bg-white text-sm"
+                    >
+                      {HOURS.map(h => (
+                        <option key={h} value={h}>{hourLabel(h)}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs text-slate-500 mb-1">End Hour</label>
+                    <select
+                      value={form.customEndHour}
+                      onChange={(e) => setForm(f => ({ ...f, customEndHour: e.target.value, selectedSlots: [] }))}
+                      className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:border-[#1a237e] bg-white text-sm"
+                    >
+                      {HOURS.map(h => (
+                        <option key={h} value={h}>{hourLabel(h)}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Time Slots Grid */}
+          {form.zone_id && timeSlots.length > 0 && (
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <label className="block text-sm font-medium text-slate-700">Time Slots <span className="text-red-500">*</span></label>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={handleSelectAll}
+                    className="text-xs text-[#1a237e] hover:underline"
+                  >
+                    Select {form.customHoursEnabled ? 'range' : 'all'}
+                  </button>
+                  <span className="text-slate-300">|</span>
+                  <button
+                    type="button"
+                    onClick={handleClearAll}
+                    className="text-xs text-slate-500 hover:underline"
+                  >
+                    Clear
+                  </button>
+                </div>
+              </div>
+              <div className="grid grid-cols-4 gap-2">
+                {timeSlots.map(slot => {
+                  const avail = slotAvailability[slot];
+                  const isSelected = form.selectedSlots.includes(slot);
+                  const isInRange = !form.customHoursEnabled || customSlots.includes(slot);
+                  const allBlocked = avail?.free === 0;
+
+                  let cls: string;
+                  if (allBlocked) {
+                    cls = 'bg-red-50 text-red-400 border-red-200 cursor-not-allowed';
+                  } else if (!isInRange) {
+                    cls = 'bg-slate-50 text-slate-300 border-slate-200 opacity-50';
+                  } else if (isSelected) {
+                    cls = 'bg-[#b1b94c] text-black border-[#9da53f] font-medium';
+                  } else {
+                    cls = 'bg-white text-slate-700 border-slate-200 hover:border-[#b1b94c] hover:bg-[#b1b94c]/10';
+                  }
+
+                  return (
+                    <button
+                      key={slot}
+                      type="button"
+                      disabled={allBlocked || !isInRange}
+                      onClick={() => toggleSlot(slot)}
+                      className={`px-3 py-2 rounded-lg border text-sm transition-all ${cls}`}
+                      title={allBlocked ? `All tables already blocked at ${slot}` : `${avail?.free ?? 0}/${avail?.total ?? 0} tables free`}
+                    >
+                      <div>{slot}</div>
+                      {avail && (
+                        <div className={`text-[10px] ${isSelected ? 'text-black/70' : 'text-slate-400'}`}>
+                          {avail.free}/{avail.total} free
+                        </div>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Notes */}
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-1.5">Reason / Notes</label>
+            <input
+              type="text"
+              value={form.notes}
+              onChange={(e) => setForm(f => ({ ...f, notes: e.target.value }))}
+              placeholder="e.g., Private event, Maintenance, VIP booking"
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:border-[#1a237e]"
+            />
+          </div>
+
+          {/* Summary */}
+          {totalBlocksToCreate > 0 && (
+            <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg text-sm text-amber-800">
+              <strong>{totalBlocksToCreate}</strong> table-blocks will be created across{' '}
+              <strong>{form.selectedSlots.length}</strong> time slot{form.selectedSlots.length !== 1 ? 's' : ''} in{' '}
+              <strong>{zoneObj?.name}</strong>.
+            </div>
+          )}
+
+          {/* Progress */}
+          {progress && (
+            <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
+              <div className="flex items-center justify-between text-sm text-blue-800 mb-2">
+                <span>Creating blocks...</span>
+                <span>{progress.current} / {progress.total}</span>
+              </div>
+              <div className="w-full bg-blue-200 rounded-full h-2">
+                <div
+                  className="bg-blue-600 h-2 rounded-full transition-all"
+                  style={{ width: `${(progress.current / progress.total) * 100}%` }}
+                />
+              </div>
+            </div>
+          )}
+
+          {submitError && (
+            <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-800 flex items-start gap-2">
+              <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+              <span>{submitError}</span>
+            </div>
+          )}
+        </div>
+
+        <div className="p-5 border-t border-slate-100 flex items-center justify-end gap-3">
+          <button
+            onClick={onClose}
+            className="px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-lg"
+            disabled={submitting}
+          >
+            Cancel
+          </button>
+          <button
+            onClick={handleSubmit}
+            disabled={submitting || !form.zone_id || form.selectedSlots.length === 0 || totalBlocksToCreate === 0}
+            className="px-4 py-2 bg-[#b1b94c] text-black font-medium rounded-lg hover:bg-[#9da53f] disabled:opacity-50 flex items-center gap-2"
+          >
+            {submitting ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <Layers className="w-4 h-4" />
+            )}
+            Block {totalBlocksToCreate} Table{totalBlocksToCreate !== 1 ? 's' : ''}
+          </button>
         </div>
       </div>
     </div>

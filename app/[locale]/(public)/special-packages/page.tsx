@@ -73,7 +73,7 @@ export default function SpecialPackagesPage() {
           >
             <CalendarClock className="w-4 h-4 text-amber-400" />
             <span className="text-amber-400 text-sm font-medium">
-              {t('advanceNotice')}
+              {t('advanceBooking')}
             </span>
           </motion.div>
         </div>
