@@ -7,6 +7,8 @@ import Image from 'next/image';
 import { ArrowRight, Star, Heart, Sparkles } from 'lucide-react';
 import { getSeatPackages } from '@/lib/data/packages';
 import { Package } from '@/types';
+import { useTranslations } from 'next-intl';
+import { useTranslatedPackage } from '@/hooks/useTranslatedPackage';
 
 const heroImages = [
   '/images/new/threemonkeys048.jpg',
@@ -20,12 +22,14 @@ const isRomanticZone = (pkg: Package) => {
 };
 
 export default function SeatsPage() {
+  const t = useTranslations('seatsPage');
+  const { getTranslatedPackage } = useTranslatedPackage();
   const [currentImage, setCurrentImage] = useState(0);
   
   const seatPackages = useMemo(() => {
     const packages = getSeatPackages();
-    return packages;
-  }, []);
+    return packages.map(pkg => getTranslatedPackage(pkg));
+  }, [getTranslatedPackage]);
   
   // Scroll to top on page mount
   useEffect(() => {
@@ -95,7 +99,7 @@ export default function SeatsPage() {
             animate={{ opacity: 1, y: 0 }}
             className="inline-block text-[#b1b94c] text-sm font-medium uppercase tracking-[0.3em] mb-6"
           >
-            Unique Dining Zones
+            {t('badge')}
           </motion.span>
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
@@ -103,7 +107,7 @@ export default function SeatsPage() {
             transition={{ delay: 0.1 }}
             className="text-5xl md:text-6xl lg:text-7xl font-[family-name:var(--font-krona)] text-white mb-6 normal-case"
           >
-            Our Seats
+            {t('headline')}
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 30 }}
@@ -111,7 +115,7 @@ export default function SeatsPage() {
             transition={{ delay: 0.2 }}
             className="text-white/60 text-lg max-w-2xl mx-auto font-[family-name:var(--font-inter)]"
           >
-            Each seat offers a unique atmosphere and unforgettable rainforest dining experience. Choose your perfect spot in nature.
+            {t('description')}
           </motion.p>
         </div>
       </section>
@@ -123,7 +127,7 @@ export default function SeatsPage() {
           <div className="mb-8">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-2 h-2 bg-[#b1b94c] rounded-full" />
-              <span className="text-sm font-medium text-[#b1b94c] uppercase tracking-wider">Premium Seats</span>
+              <span className="text-sm font-medium text-[#b1b94c] uppercase tracking-wider">{t('premiumSeats')}</span>
             </div>
             <div className="grid md:grid-cols-2 gap-6">
               {seatPackages.filter(pkg => pkg.id === 'monkey-dome' || pkg.id === 'monkey-nest').map((pkg, index) => (
@@ -150,7 +154,7 @@ export default function SeatsPage() {
                           {pkg.popular && (
                             <div className="px-3 py-1.5 bg-[#b1b94c] rounded-full flex items-center gap-1.5">
                               <Star className="w-3.5 h-3.5 text-black fill-current" />
-                              <span className="text-black text-xs font-semibold">Popular</span>
+                              <span className="text-black text-xs font-semibold">{t('popular')}</span>
                             </div>
                           )}
                           {isRomanticZone(pkg) && (
@@ -186,14 +190,14 @@ export default function SeatsPage() {
                         
                         {/* Price Section */}
                         <div className="mb-4">
-                          <span className="text-white/40 text-xs uppercase tracking-wider block mb-1">Deposit</span>
+                          <span className="text-white/40 text-xs uppercase tracking-wider block mb-1">{t('deposit')}</span>
                           <div className="flex items-baseline gap-1">
                             <span className="text-3xl font-bold text-[#b1b94c] font-[family-name:var(--font-krona)]">
                               ฿4,000
                             </span>
-                            <span className="text-white/40 text-sm">/ table</span>
+                            <span className="text-white/40 text-sm">{t('perTable')}</span>
                           </div>
-                          <span className="text-white/30 text-xs">(up to 4 persons)</span>
+                          <span className="text-white/30 text-xs">{t('upTo', { n: 4 })}</span>
                         </div>
                         
                         {/* Reserve Button */}
@@ -202,7 +206,7 @@ export default function SeatsPage() {
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                         >
-                          Reserve Now
+                          {t('reserveNow')}
                           <ArrowRight className="w-4 h-4" />
                         </motion.div>
                       </div>
@@ -217,7 +221,7 @@ export default function SeatsPage() {
           <div>
             <div className="flex items-center gap-3 mb-6">
               <div className="w-2 h-2 bg-white/40 rounded-full" />
-              <span className="text-sm font-medium text-white/40 uppercase tracking-wider">More Seating Options</span>
+              <span className="text-sm font-medium text-white/40 uppercase tracking-wider">{t('moreOptions')}</span>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {seatPackages.filter(pkg => pkg.id !== 'monkey-dome' && pkg.id !== 'monkey-nest' && pkg.id !== 'indoor-seat' && pkg.id !== 'outdoor-seat').map((pkg, index) => (
@@ -246,7 +250,7 @@ export default function SeatsPage() {
                         {pkg.popular && (
                           <div className="px-3 py-1.5 bg-[#b1b94c] rounded-full flex items-center gap-1.5">
                             <Star className="w-3.5 h-3.5 text-black fill-current" />
-                            <span className="text-black text-xs font-semibold">Popular</span>
+                            <span className="text-black text-xs font-semibold">{t('popular')}</span>
                           </div>
                         )}
                         
@@ -296,18 +300,18 @@ export default function SeatsPage() {
                       <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#b1b94c]/10 via-[#b1b94c]/5 to-transparent p-4 border border-[#b1b94c]/20 group-hover:border-[#b1b94c]/40 transition-all">
                         <div className="flex items-center justify-between">
                           <div>
-                            <span className="text-white/40 text-[10px] uppercase tracking-wider block">Deposit</span>
+                            <span className="text-white/40 text-[10px] uppercase tracking-wider block">{t('deposit')}</span>
                             <span className="text-xl font-bold text-[#b1b94c] font-[family-name:var(--font-krona)]">
                               ฿500
                             </span>
-                            <span className="text-white/30 text-[10px] ml-1">/ person</span>
+                            <span className="text-white/30 text-[10px] ml-1">{t('perPerson')}</span>
                           </div>
                           <motion.div
                             className="flex items-center gap-2 px-4 py-2 bg-[#b1b94c] rounded-xl text-black font-semibold text-sm"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                           >
-                            Reserve
+                            {t('reserve')}
                             <ArrowRight className="w-4 h-4" />
                           </motion.div>
                         </div>
@@ -327,7 +331,7 @@ export default function SeatsPage() {
           <div className="mt-16">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-2 h-2 bg-[#b1b94c] rounded-full" />
-              <span className="text-sm font-medium text-[#b1b94c] uppercase tracking-wider">Open Seating — No Reservation Limit</span>
+              <span className="text-sm font-medium text-[#b1b94c] uppercase tracking-wider">{t('openSeating')}</span>
             </div>
             <div className="grid md:grid-cols-2 gap-6">
               {seatPackages.filter(pkg => pkg.id === 'indoor-seat' || pkg.id === 'outdoor-seat').map((pkg, index) => (
@@ -374,14 +378,14 @@ export default function SeatsPage() {
 
                         {/* Price Section */}
                         <div className="mb-4">
-                          <span className="text-white/40 text-xs uppercase tracking-wider block mb-1">Deposit</span>
+                          <span className="text-white/40 text-xs uppercase tracking-wider block mb-1">{t('deposit')}</span>
                           <div className="flex items-baseline gap-1">
                             <span className="text-3xl font-bold text-[#b1b94c] font-[family-name:var(--font-krona)]">
                               ฿500
                             </span>
-                            <span className="text-white/40 text-sm">/ person</span>
+                            <span className="text-white/40 text-sm">{t('perPerson')}</span>
                           </div>
-                          <span className="text-white/30 text-xs">No reservation limit</span>
+                          <span className="text-white/30 text-xs">{t('noLimit')}</span>
                         </div>
 
                         {/* Reserve Button */}
@@ -390,7 +394,7 @@ export default function SeatsPage() {
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                         >
-                          Reserve Now
+                          {t('reserveNow')}
                           <ArrowRight className="w-4 h-4" />
                         </motion.div>
                       </div>
@@ -412,14 +416,14 @@ export default function SeatsPage() {
             transition={{ delay: 0.5, duration: 0.5 }}
           >
             <h2 className="text-3xl md:text-4xl font-[family-name:var(--font-krona)] text-white mb-4 normal-case">
-              Looking for Something Special?
+              {t('ctaTitle')}
             </h2>
             <p className="text-white/50 text-lg mb-8 font-[family-name:var(--font-inter)]">
-              Check out our special packages for romantic dinners, birthday celebrations, and private events.
+              {t('ctaDescription')}
             </p>
             <Link href="/special-packages">
               <button className="inline-flex items-center gap-2 px-8 py-4 bg-[#b1b94c] text-black font-[family-name:var(--font-krona)] rounded-full hover:bg-[#c4cc5a] transition-all">
-                View Special Packages
+                {t('ctaButton')}
                 <ArrowRight className="w-5 h-5" />
               </button>
             </Link>

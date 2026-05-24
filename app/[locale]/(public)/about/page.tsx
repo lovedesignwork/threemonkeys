@@ -20,56 +20,20 @@ import {
   Mountain,
   Heart
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
-const stats = [
-  { value: '15+', label: 'Years of Excellence', icon: Award },
-  { value: '500K+', label: 'Happy Guests', icon: Users },
-  { value: '12', label: 'Culinary Awards', icon: Star },
-  { value: '6', label: 'Unique Dining Zones', icon: TreePine },
-];
+const statIcons = [Award, Users, Star, TreePine];
 
-const values = [
-  {
-    icon: Leaf,
-    title: 'Farm to Table',
-    description: 'We source the freshest ingredients daily from local farmers and the Andaman Sea.',
-  },
-  {
-    icon: ChefHat,
-    title: 'Culinary Mastery',
-    description: 'Our chefs bring generations of Thai culinary wisdom to every dish we create.',
-  },
-  {
-    icon: Mountain,
-    title: 'Nature Immersion',
-    description: 'Dine surrounded by ancient rainforest trees and breathtaking jungle views.',
-  },
-  {
-    icon: Heart,
-    title: 'Heartfelt Service',
-    description: 'Every guest is family. We create memories that last a lifetime.',
-  },
-];
+const valueIcons = [Leaf, ChefHat, Mountain, Heart];
 
-const experiences = [
-  {
-    title: 'Monkey Dome',
-    description: 'Our signature treehouse dining with panoramic jungle views',
-    image: '/images/small/small-sized_25.jpg',
-  },
-  {
-    title: 'Monkey Nest',
-    description: 'Elevated dining under the stars with sunset views',
-    image: '/images/small/small-sized_52.jpg',
-  },
-  {
-    title: 'Outdoor Zone',
-    description: 'Traditional Thai architecture meets modern comfort',
-    image: '/images/small/small-sized_01.jpg',
-  },
+const experienceImages = [
+  '/images/small/small-sized_25.jpg',
+  '/images/small/small-sized_52.jpg',
+  '/images/small/small-sized_01.jpg',
 ];
 
 export default function AboutPage() {
+  const t = useTranslations('aboutPage');
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -112,7 +76,7 @@ export default function AboutPage() {
             >
               <TreePine className="w-5 h-5 text-[#b1b94c]" />
               <span className="text-white/80 text-sm font-medium tracking-wide">
-                Phuket&apos;s Only Rainforest Restaurant
+                {t('heroBadge')}
               </span>
             </motion.div>
             
@@ -122,9 +86,9 @@ export default function AboutPage() {
               transition={{ delay: 0.4 }}
               className="text-5xl md:text-7xl lg:text-8xl font-[family-name:var(--font-krona)] text-white mb-8 normal-case leading-[1.1]"
             >
-              Dining Among
+              {t('heroTitle1')}
               <br />
-              <span className="text-[#b1b94c]">The Trees</span>
+              <span className="text-[#b1b94c]">{t('heroTitle2')}</span>
             </motion.h1>
             
             <motion.p
@@ -133,7 +97,7 @@ export default function AboutPage() {
               transition={{ delay: 0.6 }}
               className="text-xl md:text-2xl text-white/60 max-w-2xl mx-auto font-[family-name:var(--font-inter)] leading-relaxed"
             >
-              Where authentic Southern Thai cuisine meets the magic of nature
+              {t('heroDescription')}
             </motion.p>
           </motion.div>
         </div>
@@ -159,26 +123,29 @@ export default function AboutPage() {
       <section className="py-20 relative z-10 -mt-32">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            {stats.map((stat, index) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="p-6 bg-[#111] rounded-2xl border border-white/10 text-center group hover:border-[#b1b94c]/30 transition-colors"
-              >
-                <div className="w-12 h-12 bg-[#b1b94c]/10 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-[#b1b94c]/20 transition-colors">
-                  <stat.icon className="w-6 h-6 text-[#b1b94c]" />
-                </div>
-                <p className="text-3xl font-[family-name:var(--font-krona)] text-white mb-1">
-                  {stat.value}
-                </p>
-                <p className="text-white/50 text-sm font-[family-name:var(--font-inter)]">
-                  {stat.label}
-                </p>
-              </motion.div>
-            ))}
+            {['years', 'guests', 'awards', 'zones'].map((key, index) => {
+              const Icon = statIcons[index];
+              return (
+                <motion.div
+                  key={key}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className="p-6 bg-[#111] rounded-2xl border border-white/10 text-center group hover:border-[#b1b94c]/30 transition-colors"
+                >
+                  <div className="w-12 h-12 bg-[#b1b94c]/10 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-[#b1b94c]/20 transition-colors">
+                    <Icon className="w-6 h-6 text-[#b1b94c]" />
+                  </div>
+                  <p className="text-3xl font-[family-name:var(--font-krona)] text-white mb-1">
+                    {t(`stats.${key}.value`)}
+                  </p>
+                  <p className="text-white/50 text-sm font-[family-name:var(--font-inter)]">
+                    {t(`stats.${key}.label`)}
+                  </p>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -246,7 +213,7 @@ export default function AboutPage() {
                 className="absolute -bottom-6 left-1/2 -translate-x-1/2 px-6 py-4 bg-[#b1b94c] rounded-2xl shadow-2xl"
               >
                 <p className="text-black font-[family-name:var(--font-krona)] text-lg">
-                  Est. 2010
+                  {t('storyEst')}
                 </p>
               </motion.div>
             </motion.div>
@@ -258,35 +225,24 @@ export default function AboutPage() {
               viewport={{ once: true }}
             >
               <span className="text-[#b1b94c] text-sm font-medium uppercase tracking-[0.3em] mb-4 block">
-                Our Story
+                {t('storyBadge')}
               </span>
               <h2 className="text-4xl md:text-5xl font-[family-name:var(--font-krona)] text-white mb-8 normal-case leading-tight">
-                A Culinary Journey
+                {t('storyTitle1')}
                 <br />
-                <span className="text-[#b1b94c]">Born in Nature</span>
+                <span className="text-[#b1b94c]">{t('storyTitle2')}</span>
               </h2>
               
               <div className="space-y-6 text-white/60 text-lg font-[family-name:var(--font-inter)] leading-relaxed">
-                <p>
-                  Three Monkeys was born from a simple dream: to create a dining experience 
-                  that connects people with nature while celebrating the rich flavors of 
-                  Southern Thai cuisine.
-                </p>
-                <p>
-                  Nestled within Hanuman World&apos;s ancient rainforest, our restaurant offers 
-                  something truly unique—the chance to dine among towering trees, with the 
-                  sounds of nature as your soundtrack and the jungle canopy as your ceiling.
-                </p>
-                <p>
-                  Every dish we serve is a tribute to our heritage, crafted with locally-sourced 
-                  ingredients and prepared with techniques passed down through generations.
-                </p>
+                <p>{t('storyP1')}</p>
+                <p>{t('storyP2')}</p>
+                <p>{t('storyP3')}</p>
               </div>
 
               <div className="mt-10">
                 <Link href="/seats">
                   <button className="inline-flex items-center gap-3 px-8 py-4 bg-[#b1b94c] text-black font-[family-name:var(--font-krona)] rounded-full hover:bg-[#c4cc5a] transition-all">
-                    Explore Our Dining Zones
+                    {t('storyButton')}
                     <ArrowRight className="w-5 h-5" />
                   </button>
                 </Link>
@@ -306,34 +262,37 @@ export default function AboutPage() {
             className="text-center mb-16"
           >
             <span className="text-[#b1b94c] text-sm font-medium uppercase tracking-[0.3em] mb-4 block">
-              What We Stand For
+              {t('valuesBadge')}
             </span>
             <h2 className="text-4xl md:text-5xl font-[family-name:var(--font-krona)] text-white normal-case">
-              Our Values
+              {t('valuesTitle')}
             </h2>
           </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {values.map((value, index) => (
-              <motion.div
-                key={value.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="p-8 bg-[#0a0a0a] rounded-3xl border border-white/10 group hover:border-[#b1b94c]/30 transition-all"
-              >
-                <div className="w-14 h-14 bg-[#b1b94c]/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-[#b1b94c]/20 transition-colors">
-                  <value.icon className="w-7 h-7 text-[#b1b94c]" />
-                </div>
-                <h3 className="text-xl font-[family-name:var(--font-krona)] text-white mb-3 normal-case">
-                  {value.title}
-                </h3>
-                <p className="text-white/50 font-[family-name:var(--font-inter)] leading-relaxed">
-                  {value.description}
-                </p>
-              </motion.div>
-            ))}
+            {['farmToTable', 'culinaryMastery', 'natureImmersion', 'heartfeltService'].map((key, index) => {
+              const Icon = valueIcons[index];
+              return (
+                <motion.div
+                  key={key}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className="p-8 bg-[#0a0a0a] rounded-3xl border border-white/10 group hover:border-[#b1b94c]/30 transition-all"
+                >
+                  <div className="w-14 h-14 bg-[#b1b94c]/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-[#b1b94c]/20 transition-colors">
+                    <Icon className="w-7 h-7 text-[#b1b94c]" />
+                  </div>
+                  <h3 className="text-xl font-[family-name:var(--font-krona)] text-white mb-3 normal-case">
+                    {t(`values.${key}.title`)}
+                  </h3>
+                  <p className="text-white/50 font-[family-name:var(--font-inter)] leading-relaxed">
+                    {t(`values.${key}.description`)}
+                  </p>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -348,20 +307,20 @@ export default function AboutPage() {
             className="text-center mb-16"
           >
             <span className="text-[#b1b94c] text-sm font-medium uppercase tracking-[0.3em] mb-4 block">
-              Unique Dining Zones
+              {t('experiencesBadge')}
             </span>
             <h2 className="text-4xl md:text-5xl font-[family-name:var(--font-krona)] text-white normal-case mb-4">
-              Choose Your Experience
+              {t('experiencesTitle')}
             </h2>
             <p className="text-white/50 text-lg font-[family-name:var(--font-inter)] max-w-2xl mx-auto">
-              Each zone offers a different atmosphere, from intimate treehouses to open-air pavilions
+              {t('experiencesDescription')}
             </p>
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-6">
-            {experiences.map((exp, index) => (
+            {['monkeyDome', 'monkeyNest', 'outdoorZone'].map((key, index) => (
               <motion.div
-                key={exp.title}
+                key={key}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -370,8 +329,8 @@ export default function AboutPage() {
               >
                 <div className="relative aspect-[4/5]">
                   <Image
-                    src={exp.image}
-                    alt={exp.title}
+                    src={experienceImages[index]}
+                    alt={t(`experiences.${key}.title`)}
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-110"
                     unoptimized
@@ -381,10 +340,10 @@ export default function AboutPage() {
                 
                 <div className="absolute bottom-0 left-0 right-0 p-8">
                   <h3 className="text-2xl font-[family-name:var(--font-krona)] text-white mb-2 normal-case">
-                    {exp.title}
+                    {t(`experiences.${key}.title`)}
                   </h3>
                   <p className="text-white/60 font-[family-name:var(--font-inter)]">
-                    {exp.description}
+                    {t(`experiences.${key}.description`)}
                   </p>
                 </div>
               </motion.div>
@@ -399,7 +358,7 @@ export default function AboutPage() {
           >
             <Link href="/seats">
               <button className="inline-flex items-center gap-2 text-[#b1b94c] font-medium hover:gap-3 transition-all">
-                View All 6 Dining Zones
+                {t('experiencesViewAll')}
                 <ArrowRight className="w-5 h-5" />
               </button>
             </Link>
@@ -428,24 +387,24 @@ export default function AboutPage() {
           >
             <Sparkles className="w-12 h-12 text-[#b1b94c] mx-auto mb-8" />
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-[family-name:var(--font-krona)] text-white mb-8 normal-case leading-tight">
-              Ready for an
+              {t('ctaTitle1')}
               <br />
-              <span className="text-[#b1b94c]">Unforgettable Experience?</span>
+              <span className="text-[#b1b94c]">{t('ctaTitle2')}</span>
             </h2>
             <p className="text-xl text-white/60 mb-12 font-[family-name:var(--font-inter)] max-w-2xl mx-auto">
-              Book your table and discover why Three Monkeys is Phuket&apos;s most unique dining destination
+              {t('ctaDescription')}
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/booking">
                 <button className="inline-flex items-center gap-3 px-10 py-5 bg-[#b1b94c] text-black font-[family-name:var(--font-krona)] rounded-full hover:bg-[#c4cc5a] transition-all">
-                  Reserve Your Table
+                  {t('ctaReserve')}
                   <ArrowRight className="w-5 h-5" />
                 </button>
               </Link>
               <Link href="/special-packages">
                 <button className="inline-flex items-center gap-2 px-10 py-5 border-2 border-white/30 text-white font-[family-name:var(--font-krona)] rounded-full hover:bg-white hover:text-black transition-all">
-                  Special Packages
+                  {t('ctaPackages')}
                 </button>
               </Link>
             </div>
@@ -479,10 +438,10 @@ export default function AboutPage() {
               viewport={{ once: true }}
             >
               <span className="text-[#b1b94c] text-sm font-medium uppercase tracking-[0.3em] mb-4 block">
-                Find Us
+                {t('locationBadge')}
               </span>
               <h2 className="text-4xl md:text-5xl font-[family-name:var(--font-krona)] text-white mb-8 normal-case">
-                Visit Three Monkeys
+                {t('locationTitle')}
               </h2>
               
               <div className="space-y-6">
@@ -491,11 +450,11 @@ export default function AboutPage() {
                     <MapPin className="w-6 h-6 text-[#b1b94c]" />
                   </div>
                   <div>
-                    <p className="text-white font-medium mb-1">Location</p>
+                    <p className="text-white font-medium mb-1">{t('locationLabel')}</p>
                     <p className="text-white/50 font-[family-name:var(--font-inter)]">
-                      Inside Hanuman World<br />
-                      105 Moo 4, Muang Chao Fa Rd.<br />
-                      Wichit, Mueang Phuket, Phuket 83000
+                      {t('locationAddress1')}<br />
+                      {t('locationAddress2')}<br />
+                      {t('locationAddress3')}
                     </p>
                   </div>
                 </div>
@@ -505,7 +464,7 @@ export default function AboutPage() {
                     <Phone className="w-6 h-6 text-[#b1b94c]" />
                   </div>
                   <div>
-                    <p className="text-white font-medium mb-1">Contact</p>
+                    <p className="text-white font-medium mb-1">{t('contactLabel')}</p>
                     <p className="text-white/50 font-[family-name:var(--font-inter)]">
                       +66 98-010-8838<br />
                       enjoy@threemonkeysphuket.com
@@ -518,10 +477,10 @@ export default function AboutPage() {
                     <Clock className="w-6 h-6 text-[#b1b94c]" />
                   </div>
                   <div>
-                    <p className="text-white font-medium mb-1">Opening Hours</p>
+                    <p className="text-white font-medium mb-1">{t('hoursLabel')}</p>
                     <p className="text-white/50 font-[family-name:var(--font-inter)]">
-                      Daily: 10AM – 1AM<br />
-                      Last Order: 12AM
+                      {t('hoursDaily')}<br />
+                      {t('hoursLastOrder')}
                     </p>
                   </div>
                 </div>
@@ -530,7 +489,7 @@ export default function AboutPage() {
               <div className="mt-8 flex gap-4">
                 <Link href="/contact">
                   <button className="inline-flex items-center gap-2 px-6 py-3 bg-[#b1b94c] text-black font-medium rounded-full hover:bg-[#c4cc5a] transition-all">
-                    Contact Us
+                    {t('contactButton')}
                     <ArrowRight className="w-4 h-4" />
                   </button>
                 </Link>
@@ -540,7 +499,7 @@ export default function AboutPage() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-6 py-3 border border-white/20 text-white font-medium rounded-full hover:bg-white hover:text-black transition-all"
                 >
-                  Get Directions
+                  {t('directionsButton')}
                 </a>
               </div>
             </motion.div>

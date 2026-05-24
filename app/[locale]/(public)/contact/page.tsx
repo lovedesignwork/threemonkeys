@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
@@ -19,28 +19,26 @@ import {
   Sparkles
 } from 'lucide-react';
 import { CustomSelect, CountryCodeSelect } from '@/components/ui';
+import { useTranslations } from 'next-intl';
 
-const contactMethods = [
+const contactMethodsMeta = [
   {
+    key: 'call',
     icon: Phone,
-    title: 'Call Us',
-    description: 'Speak directly with our team',
     value: '+66 98-010-8838',
     href: 'tel:+66980108838',
     color: 'from-blue-500/20 to-cyan-500/20',
   },
   {
+    key: 'email',
     icon: Mail,
-    title: 'Email Us',
-    description: 'We reply within 24 hours',
     value: 'enjoy@threemonkeysphuket.com',
     href: 'mailto:enjoy@threemonkeysphuket.com',
     color: 'from-purple-500/20 to-pink-500/20',
   },
   {
+    key: 'whatsapp',
     icon: MessageCircle,
-    title: 'WhatsApp',
-    description: 'Chat with us instantly',
     value: '+66 98-010-8838',
     href: 'https://wa.me/66980108838',
     color: 'from-green-500/20 to-emerald-500/20',
@@ -49,6 +47,15 @@ const contactMethods = [
 
 
 export default function ContactPage() {
+  const t = useTranslations('contactPage');
+  
+  const contactMethods = useMemo(() => {
+    return contactMethodsMeta.map(m => ({
+      ...m,
+      title: t(`methods.${m.key}.title`),
+      description: t(`methods.${m.key}.description`),
+    }));
+  }, [t]);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -124,7 +131,7 @@ export default function ContactPage() {
             className="inline-flex items-center gap-2 px-4 py-2 bg-[#b1b94c]/10 border border-[#b1b94c]/30 rounded-full mb-6"
           >
             <Sparkles className="w-4 h-4 text-[#b1b94c]" />
-            <span className="text-[#b1b94c] text-sm font-medium">We&apos;d Love to Hear From You</span>
+            <span className="text-[#b1b94c] text-sm font-medium">{t('badge')}</span>
           </motion.div>
           
           <motion.h1
@@ -133,7 +140,7 @@ export default function ContactPage() {
             transition={{ delay: 0.1 }}
             className="text-5xl md:text-6xl lg:text-7xl font-[family-name:var(--font-krona)] text-white mb-6 normal-case"
           >
-            Get in Touch
+            {t('headline')}
           </motion.h1>
           
           <motion.p
@@ -142,8 +149,7 @@ export default function ContactPage() {
             transition={{ delay: 0.2 }}
             className="text-white/60 text-lg max-w-2xl mx-auto font-[family-name:var(--font-inter)]"
           >
-            Have questions about reservations, special events, or just want to say hello? 
-            Our team is here to help make your experience unforgettable.
+            {t('description')}
           </motion.p>
         </div>
       </section>
@@ -202,9 +208,9 @@ export default function ContactPage() {
                   </div>
                   <div className="min-w-0">
                     <h2 className="text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white normal-case">
-                      Send a Message
+                      {t('form.title')}
                     </h2>
-                    <p className="text-white/40 text-xs sm:text-sm">We&apos;ll respond within 24 hours</p>
+                    <p className="text-white/40 text-xs sm:text-sm">{t('form.subtitle')}</p>
                   </div>
                 </div>
 
@@ -218,9 +224,9 @@ export default function ContactPage() {
                       <CheckCircle className="w-5 h-5 text-green-400" />
                     </div>
                     <div>
-                      <p className="text-green-400 font-medium">Message sent successfully!</p>
+                      <p className="text-green-400 font-medium">{t('form.successTitle')}</p>
                       <p className="text-green-400/70 text-sm mt-1">
-                        Thank you for reaching out. Our team will get back to you within 24-48 hours.
+                        {t('form.successMessage')}
                       </p>
                     </div>
                   </motion.div>
@@ -236,7 +242,7 @@ export default function ContactPage() {
                       <AlertCircle className="w-5 h-5 text-red-400" />
                     </div>
                     <div>
-                      <p className="text-red-400 font-medium">Failed to send message</p>
+                      <p className="text-red-400 font-medium">{t('form.errorTitle')}</p>
                       <p className="text-red-400/70 text-sm mt-1">{error}</p>
                     </div>
                   </motion.div>
@@ -246,7 +252,7 @@ export default function ContactPage() {
                   <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
                     <div>
                       <label className="block text-sm font-medium text-white/70 mb-2 font-[family-name:var(--font-inter)]">
-                        Your Name *
+                        {t('form.nameLabel')} *
                       </label>
                       <input
                         type="text"
@@ -255,12 +261,12 @@ export default function ContactPage() {
                         onChange={handleChange}
                         required
                         className="w-full px-4 sm:px-5 py-3 sm:py-4 bg-[#0a0a0a] border border-white/10 rounded-xl focus:outline-none focus:border-[#b1b94c]/50 focus:bg-[#0a0a0a] transition-all text-white placeholder:text-white/30 font-[family-name:var(--font-inter)] text-base"
-                        placeholder="John Doe"
+                        placeholder={t('form.namePlaceholder')}
                       />
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-white/70 mb-2 font-[family-name:var(--font-inter)]">
-                        Email Address *
+                        {t('form.emailLabel')} *
                       </label>
                       <input
                         type="email"
@@ -269,7 +275,7 @@ export default function ContactPage() {
                         onChange={handleChange}
                         required
                         className="w-full px-4 sm:px-5 py-3 sm:py-4 bg-[#0a0a0a] border border-white/10 rounded-xl focus:outline-none focus:border-[#b1b94c]/50 focus:bg-[#0a0a0a] transition-all text-white placeholder:text-white/30 font-[family-name:var(--font-inter)] text-base"
-                        placeholder="john@example.com"
+                        placeholder={t('form.emailPlaceholder')}
                       />
                     </div>
                   </div>
@@ -277,14 +283,14 @@ export default function ContactPage() {
                   <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
                     <div>
                       <label className="block text-sm font-medium text-white/70 mb-2 font-[family-name:var(--font-inter)]">
-                        Phone Number
+                        {t('form.phoneLabel')}
                       </label>
                       <div className="flex gap-2">
                         <div className="w-[92px] flex-shrink-0">
                           <CountryCodeSelect
                             value={countryCode}
                             onChange={setCountryCode}
-                            placeholder="Code"
+                            placeholder={t('form.codePlaceholder')}
                           />
                         </div>
                         <input
@@ -299,21 +305,21 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-white/70 mb-2 font-[family-name:var(--font-inter)]">
-                        Subject *
+                        {t('form.subjectLabel')} *
                       </label>
                       <CustomSelect
                         value={formData.subject}
                         onChange={(value) => setFormData({ ...formData, subject: value })}
-                        placeholder="Select a topic"
+                        placeholder={t('form.subjectPlaceholder')}
                         options={[
-                          { value: 'reservation', label: 'Reservation Inquiry' },
-                          { value: 'modification', label: 'Booking Modification' },
-                          { value: 'cancellation', label: 'Cancellation Request' },
-                          { value: 'group', label: 'Group Booking (10+)' },
-                          { value: 'event', label: 'Special Event / Celebration' },
-                          { value: 'transfer', label: 'VVIP Transfer Service' },
-                          { value: 'feedback', label: 'Feedback' },
-                          { value: 'other', label: 'Other' },
+                          { value: 'reservation', label: t('form.subjects.reservation') },
+                          { value: 'modification', label: t('form.subjects.modification') },
+                          { value: 'cancellation', label: t('form.subjects.cancellation') },
+                          { value: 'group', label: t('form.subjects.group') },
+                          { value: 'event', label: t('form.subjects.event') },
+                          { value: 'transfer', label: t('form.subjects.transfer') },
+                          { value: 'feedback', label: t('form.subjects.feedback') },
+                          { value: 'other', label: t('form.subjects.other') },
                         ]}
                       />
                     </div>
@@ -321,7 +327,7 @@ export default function ContactPage() {
 
                   <div>
                     <label className="block text-sm font-medium text-white/70 mb-2 font-[family-name:var(--font-inter)]">
-                      Message *
+                      {t('form.messageLabel')} *
                     </label>
                     <textarea
                       name="message"
@@ -330,7 +336,7 @@ export default function ContactPage() {
                       required
                       rows={5}
                       className="w-full px-4 sm:px-5 py-3 sm:py-4 bg-[#0a0a0a] border border-white/10 rounded-xl focus:outline-none focus:border-[#b1b94c]/50 focus:bg-[#0a0a0a] transition-all resize-none text-white placeholder:text-white/30 font-[family-name:var(--font-inter)] text-base"
-                      placeholder="Tell us how we can help you..."
+                      placeholder={t('form.messagePlaceholder')}
                     />
                   </div>
 
@@ -342,11 +348,11 @@ export default function ContactPage() {
                     {sending ? (
                       <>
                         <Loader2 className="w-5 h-5 animate-spin" />
-                        Sending...
+                        {t('form.sending')}
                       </>
                     ) : (
                       <>
-                        Send Message
+                        {t('form.submit')}
                         <ArrowRight className="w-5 h-5" />
                       </>
                     )}
@@ -376,19 +382,19 @@ export default function ContactPage() {
                   <div className="absolute bottom-4 left-4 right-4">
                     <div className="flex items-center gap-2 text-[#b1b94c]">
                       <MapPin className="w-4 h-4" />
-                      <span className="text-sm font-medium">Our Location</span>
+                      <span className="text-sm font-medium">{t('location.ourLocation')}</span>
                     </div>
                   </div>
                 </div>
                 <div className="p-6">
                   <h3 className="text-lg font-[family-name:var(--font-krona)] text-white mb-3 normal-case">
-                    Three Monkeys Restaurant
+                    {t('location.restaurantName')}
                   </h3>
                   <p className="text-white/50 text-sm leading-relaxed mb-4 font-[family-name:var(--font-inter)]">
-                    Inside Hanuman World<br />
-                    105 Moo 4, Muang Chao Fa Rd.<br />
-                    Wichit, Mueang Phuket, Phuket 83000<br />
-                    Thailand
+                    {t('location.insideHanuman')}<br />
+                    {t('location.address1')}<br />
+                    {t('location.address2')}<br />
+                    {t('location.country')}
                   </p>
                   <a
                     href="https://maps.app.goo.gl/hk5Z7PQUHnmz6tVB6"
@@ -397,7 +403,7 @@ export default function ContactPage() {
                     className="inline-flex items-center gap-2 text-[#b1b94c] text-sm font-medium hover:underline"
                   >
                     <Navigation className="w-4 h-4" />
-                    Get Directions
+                    {t('location.getDirections')}
                   </a>
                 </div>
               </div>
@@ -409,22 +415,22 @@ export default function ContactPage() {
                     <Clock className="w-5 h-5 text-[#b1b94c]" />
                   </div>
                   <h3 className="text-lg font-[family-name:var(--font-krona)] text-white normal-case">
-                    Opening Hours
+                    {t('hours.title')}
                   </h3>
                 </div>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center py-2 border-b border-white/5">
-                    <span className="text-white/60 font-[family-name:var(--font-inter)]">Monday - Sunday</span>
-                    <span className="text-white font-medium">10AM – 1AM</span>
+                    <span className="text-white/60 font-[family-name:var(--font-inter)]">{t('hours.days')}</span>
+                    <span className="text-white font-medium">{t('hours.time')}</span>
                   </div>
                   <div className="flex justify-between items-center py-2">
-                    <span className="text-white/60 font-[family-name:var(--font-inter)]">Last Order</span>
-                    <span className="text-white font-medium">12AM</span>
+                    <span className="text-white/60 font-[family-name:var(--font-inter)]">{t('hours.lastOrder')}</span>
+                    <span className="text-white font-medium">{t('hours.lastOrderTime')}</span>
                   </div>
                 </div>
                 <div className="mt-4 p-3 bg-[#b1b94c]/10 rounded-xl">
                   <p className="text-[#b1b94c] text-sm font-[family-name:var(--font-inter)]">
-                    Reservations recommended for dinner service
+                    {t('hours.reservationNote')}
                   </p>
                 </div>
               </div>
@@ -453,14 +459,14 @@ export default function ContactPage() {
             viewport={{ once: true }}
           >
             <h2 className="text-3xl md:text-4xl font-[family-name:var(--font-krona)] text-white mb-4 normal-case">
-              Ready to Dine in the Rainforest?
+              {t('cta.title')}
             </h2>
             <p className="text-white/60 text-lg mb-8 font-[family-name:var(--font-inter)] max-w-xl mx-auto">
-              Skip the wait and book your table online. Experience authentic Thai cuisine in a magical jungle setting.
+              {t('cta.description')}
             </p>
             <Link href="/booking">
               <button className="px-10 py-5 bg-[#b1b94c] text-black font-[family-name:var(--font-krona)] rounded-full hover:bg-[#c4cc5a] transition-all inline-flex items-center gap-3">
-                Reserve Your Table
+                {t('cta.reserve')}
                 <ArrowRight className="w-5 h-5" />
               </button>
             </Link>

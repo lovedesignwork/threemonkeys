@@ -7,9 +7,16 @@ import Image from 'next/image';
 import { ArrowRight, CalendarClock } from 'lucide-react';
 import { getSpecialPackages } from '@/lib/data/packages';
 import { formatPrice } from '@/lib/utils';
+import { useTranslations } from 'next-intl';
+import { useTranslatedPackage } from '@/hooks/useTranslatedPackage';
 
 export default function SpecialPackagesPage() {
-  const specialPackages = useMemo(() => getSpecialPackages(), []);
+  const t = useTranslations('specialPackagesPage');
+  const { getTranslatedPackage } = useTranslatedPackage();
+  const specialPackages = useMemo(() => {
+    const packages = getSpecialPackages();
+    return packages.map(pkg => getTranslatedPackage(pkg));
+  }, [getTranslatedPackage]);
   
   // Scroll to top on page mount
   useEffect(() => {
@@ -38,7 +45,7 @@ export default function SpecialPackagesPage() {
             animate={{ opacity: 1, y: 0 }}
             className="inline-block text-[#b1b94c] text-sm font-medium uppercase tracking-[0.3em] mb-6"
           >
-            Celebrate With Us
+            {t('badge')}
           </motion.span>
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
@@ -46,7 +53,7 @@ export default function SpecialPackagesPage() {
             transition={{ delay: 0.1 }}
             className="text-5xl md:text-6xl lg:text-7xl font-[family-name:var(--font-krona)] text-white mb-6 normal-case"
           >
-            Special Packages
+            {t('headline')}
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 30 }}
@@ -54,7 +61,7 @@ export default function SpecialPackagesPage() {
             transition={{ delay: 0.2 }}
             className="text-white/60 text-lg max-w-2xl mx-auto font-[family-name:var(--font-inter)]"
           >
-            Create unforgettable memories with our specially curated packages for every occasion
+            {t('description')}
           </motion.p>
           
           {/* Advance Booking Notice */}
@@ -66,7 +73,7 @@ export default function SpecialPackagesPage() {
           >
             <CalendarClock className="w-4 h-4 text-amber-400" />
             <span className="text-amber-400 text-sm font-medium">
-              All special packages require advance booking at least 1 day before
+              {t('advanceNotice')}
             </span>
           </motion.div>
         </div>
@@ -99,7 +106,7 @@ export default function SpecialPackagesPage() {
                       <div className="absolute top-4 left-4">
                         <div className="px-3 py-1.5 bg-amber-500/90 backdrop-blur-sm rounded-full flex items-center gap-1.5">
                           <CalendarClock className="w-3.5 h-3.5 text-black" />
-                          <span className="text-black text-xs font-semibold">Book 1 Day Ahead</span>
+                          <span className="text-black text-xs font-semibold">{t('bookAhead')}</span>
                         </div>
                       </div>
                     </div>
@@ -128,12 +135,12 @@ export default function SpecialPackagesPage() {
                       
                       {/* Price Section */}
                       <div className="mb-4">
-                        <span className="text-white/40 text-xs uppercase tracking-wider block mb-1">Package Price</span>
+                        <span className="text-white/40 text-xs uppercase tracking-wider block mb-1">{t('packagePrice')}</span>
                         <div className="flex items-baseline gap-1">
                           <span className="text-3xl font-bold text-[#b1b94c] font-[family-name:var(--font-krona)]">
                             {formatPrice(pkg.price)}
                           </span>
-                          <span className="text-white/40 text-sm">total</span>
+                          <span className="text-white/40 text-sm">{t('total')}</span>
                         </div>
                       </div>
                       
@@ -143,7 +150,7 @@ export default function SpecialPackagesPage() {
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                       >
-                        Book Now
+                        {t('bookNow')}
                         <ArrowRight className="w-4 h-4" />
                       </motion.div>
                     </div>
@@ -175,20 +182,20 @@ export default function SpecialPackagesPage() {
             transition={{ delay: 0.3, duration: 0.5 }}
           >
             <h2 className="text-3xl md:text-4xl font-[family-name:var(--font-krona)] text-black mb-4 normal-case">
-              Have Something Unique in Mind?
+              {t('ctaTitle')}
             </h2>
             <p className="text-black/60 text-lg mb-8 font-[family-name:var(--font-inter)] max-w-xl mx-auto">
-              We love creating custom experiences. Tell us about your vision and we&apos;ll make it happen.
+              {t('ctaDescription')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/contact">
                 <button className="px-8 py-4 bg-black text-[#b1b94c] font-[family-name:var(--font-krona)] rounded-full hover:bg-black/80 transition-all">
-                  Contact Us
+                  {t('ctaContact')}
                 </button>
               </Link>
               <Link href="/seats">
                 <button className="px-8 py-4 bg-transparent border-2 border-black text-black font-[family-name:var(--font-krona)] rounded-full hover:bg-black hover:text-[#b1b94c] transition-all">
-                  View Our Seats
+                  {t('ctaSeats')}
                 </button>
               </Link>
             </div>

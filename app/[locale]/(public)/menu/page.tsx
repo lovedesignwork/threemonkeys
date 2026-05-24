@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
+import { useTranslations } from 'next-intl';
 import { 
   Utensils, 
   Wine, 
@@ -489,9 +490,50 @@ const getAllDrinkItems = (): MenuItemWithSource[] => {
 };
 
 export default function MenuPage() {
+  const t = useTranslations('menuPage');
   const [activeTab, setActiveTab] = useState<'food' | 'drinks'>('food');
   const [activeCategory, setActiveCategory] = useState('all-food');
   const [imageIndices, setImageIndices] = useState<Record<string, number>>({});
+
+  // Helper to get translated category name
+  const getCategoryName = (id: string): string => {
+    const categoryKeyMap: Record<string, string> = {
+      'all-food': 'allFood',
+      'recommend': 'recommend',
+      'thai': 'thai',
+      'western': 'western',
+      'bali': 'bali',
+      'japanese': 'japanese',
+      'vegetarian': 'vegetarian',
+      'kids': 'kids',
+      'desserts': 'desserts',
+      'all-drinks': 'allDrinks',
+      'three-monkeys-tea': 'threeMonkeysTea',
+      'signature-coffee': 'signatureCoffee',
+      'classic-coffee': 'classicCoffee',
+      'fun-flavoured-coffee': 'funFlavouredCoffee',
+      'non-coffee': 'nonCoffee',
+      'signature-juices': 'signatureJuices',
+      'fresh-juices': 'freshJuices',
+      'smoothies': 'signatureSmoothies',
+      'fruit-shakes': 'fruitShakes',
+      'milkshakes': 'milkshakes',
+      'signature-cocktails': 'signatureCocktails',
+      'classic-cocktails': 'classicCocktails',
+      'mocktails': 'mocktails',
+      'signature-soda': 'signatureSoda',
+      'soda': 'softDrinks',
+    };
+    const key = categoryKeyMap[id];
+    if (key) {
+      try {
+        return t(`categories.${key}`);
+      } catch {
+        return id;
+      }
+    }
+    return id;
+  };
 
   const categories = activeTab === 'food' ? foodCategories : drinkCategories;
   const currentCategory = categories.find(c => c.id === activeCategory) || categories[0];
@@ -537,15 +579,15 @@ export default function MenuPage() {
           >
             <span className="inline-flex items-center gap-2 px-4 py-2 bg-[#b1b94c]/10 border border-[#b1b94c]/20 rounded-full text-[#b1b94c] text-sm font-medium mb-6">
               <Utensils className="w-4 h-4" />
-              Our Menu
+              {t('badge')}
             </span>
             
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-[family-name:var(--font-krona)] text-white mb-6 normal-case">
-              Taste the <span className="text-[#b1b94c]">Jungle</span>
+              {t('headline').split(' ').slice(0, -1).join(' ')} <span className="text-[#b1b94c]">{t('headline').split(' ').slice(-1)}</span>
             </h1>
             
             <p className="text-lg md:text-xl text-white/60 max-w-2xl mx-auto font-[family-name:var(--font-inter)]">
-              From authentic Southern Thai cuisine to international favorites, every dish is crafted with fresh, locally-sourced ingredients
+              {t('description')}
             </p>
           </motion.div>
         </div>
@@ -564,7 +606,7 @@ export default function MenuPage() {
               }`}
             >
               <Utensils className="w-4 h-4" />
-              Food
+              {t('tabFood')}
             </button>
             <button
               onClick={() => handleTabChange('drinks')}
@@ -575,7 +617,7 @@ export default function MenuPage() {
               }`}
             >
               <Wine className="w-4 h-4" />
-              Drinks
+              {t('tabDrinks')}
             </button>
           </div>
         </div>
@@ -596,7 +638,7 @@ export default function MenuPage() {
                 }`}
               >
                 <category.icon className="w-3.5 h-3.5" />
-                {category.name}
+                {getCategoryName(category.id)}
               </button>
             ))}
           </div>
@@ -621,10 +663,10 @@ export default function MenuPage() {
                 </div>
                 <div>
                   <h2 className="text-2xl md:text-3xl font-[family-name:var(--font-krona)] text-white normal-case">
-                    {currentCategory.name}
+                    {getCategoryName(currentCategory.id)}
                   </h2>
                   <p className="text-white/50 text-sm mt-1">
-                    {(() => {
+                    {t('itemsCount', { count: (() => {
                       const isAllCategory = activeCategory === 'all-food' || activeCategory === 'all-drinks';
                       const items = isAllCategory 
                         ? (activeTab === 'food' ? allFoodItems : allDrinkItems)
@@ -639,7 +681,7 @@ export default function MenuPage() {
                         return (imageIndices[imageKey] ?? 0) !== -1;
                       }).length;
                       return validCount;
-                    })()} items
+                    })() })}
                   </p>
                 </div>
               </div>
@@ -721,7 +763,7 @@ export default function MenuPage() {
           {/* Tax Notice */}
           <div className="mt-12 p-6 bg-[#111] rounded-2xl border border-white/10 text-center">
             <p className="text-white/50 text-sm font-[family-name:var(--font-inter)]">
-              All prices are subject to a 10% service charge and 7% government tax
+              {t('taxNotice')}
             </p>
           </div>
         </div>
@@ -737,22 +779,22 @@ export default function MenuPage() {
           >
             <Sparkles className="w-10 h-10 text-[#b1b94c] mx-auto mb-6" />
             <h2 className="text-3xl md:text-4xl font-[family-name:var(--font-krona)] text-white mb-6 normal-case">
-              Ready to Dine in the <span className="text-[#b1b94c]">Jungle?</span>
+              {t('ctaTitle')}
             </h2>
             <p className="text-white/60 text-lg mb-10 font-[family-name:var(--font-inter)] max-w-xl mx-auto">
-              Reserve your table and experience our cuisine surrounded by nature
+              {t('ctaDescription')}
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/booking">
                 <button className="inline-flex items-center gap-3 px-10 py-4 bg-[#b1b94c] text-black font-[family-name:var(--font-krona)] rounded-full hover:bg-[#c4cc5a] transition-all">
-                  Reserve a Table
+                  {t('ctaReserve')}
                   <ArrowRight className="w-5 h-5" />
                 </button>
               </Link>
               <Link href="/special-packages">
                 <button className="inline-flex items-center gap-2 px-10 py-4 border border-white/20 text-white font-[family-name:var(--font-krona)] rounded-full hover:bg-white hover:text-black transition-all">
-                  Special Packages
+                  {t('ctaPackages')}
                 </button>
               </Link>
             </div>
