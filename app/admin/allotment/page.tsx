@@ -117,7 +117,18 @@ type ModalMode =
   | { kind: 'closed' }
   | { kind: 'create'; zoneId?: string; date?: string; time?: string; tableCode?: string }
   | { kind: 'manage'; allotment: TmAllotment }
-  | { kind: 'zone-block'; date: string };
+  | { kind: 'zone-block'; date: string }
+  | { kind: 'bulk-cancel'; date: string };
+
+function formatDateDisplay(iso: string): string {
+  const d = new Date(iso + 'T00:00:00+07:00');
+  return d.toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'Asia/Bangkok',
+  });
+}
 
 export default function AllotmentPage() {
   const { loading: authLoading } = useAuth();
@@ -180,6 +191,16 @@ export default function AllotmentPage() {
           <p className="text-slate-500">Every table for the day, hour by hour. Click <kbd className="px-1.5 py-0.5 rounded bg-slate-200 text-xs font-mono">+</kbd> on a free slot to block it, or click any booking to edit/move/cancel.</p>
         </div>
         <div className="flex items-center gap-3">
+          {/* Bulk Cancel Button */}
+          {allotments.length > 0 && (
+            <button
+              onClick={() => setModal({ kind: 'bulk-cancel', date: day })}
+              className="flex items-center gap-2 px-4 py-2 border border-red-200 text-red-600 font-medium rounded-xl hover:bg-red-50 transition-colors"
+            >
+              <Trash2 className="w-4 h-4" />
+              Bulk Cancel
+            </button>
+          )}
           <div className="relative">
             <button
               onClick={() => setShowBlockMenu(prev => !prev)}
@@ -231,13 +252,17 @@ export default function AllotmentPage() {
         </button>
         <div className="flex items-center gap-3 flex-1 justify-center">
           <Calendar className="w-5 h-5 text-[#b1b94c]" />
-          <input
-            type="date"
-            value={day}
-            onChange={(e) => setDay(e.target.value)}
-            className="px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:border-[#1a237e] text-slate-800"
-          />
-          <span className="text-slate-600 text-sm hidden md:inline">{formatDayLabel(day)}</span>
+          <div className="relative">
+            <input
+              type="date"
+              value={day}
+              onChange={(e) => setDay(e.target.value)}
+              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+            />
+            <div className="px-4 py-2 border border-slate-200 rounded-lg bg-white text-slate-800 font-medium cursor-pointer hover:border-[#b1b94c] transition-colors">
+              {formatDateDisplay(day)}
+            </div>
+          </div>
           <button
             onClick={() => setDay(todayIsoBangkok())}
             className="text-sm text-[#1a237e] underline hover:no-underline"
@@ -334,6 +359,15 @@ export default function AllotmentPage() {
       {modal.kind === 'zone-block' && (
         <ZoneBlockModal
           initialDate={modal.date}
+          zones={zones}
+          allotments={allotments}
+          onClose={() => setModal({ kind: 'closed' })}
+          onSuccess={() => { refresh(); setModal({ kind: 'closed' }); }}
+        />
+      )}
+      {modal.kind === 'bulk-cancel' && (
+        <BulkCancelModal
+          date={modal.date}
           zones={zones}
           allotments={allotments}
           onClose={() => setModal({ kind: 'closed' })}
@@ -1425,6 +1459,363 @@ function ZoneBlockModal({
             )}
             Block {totalBlocksToCreate} Table{totalBlocksToCreate !== 1 ? 's' : ''}
           </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// BulkCancelModal — cancel multiple blocks at once
+// ─────────────────────────────────────────────────────────────────────────────
+
+function BulkCancelModal({
+  date,
+  zones,
+  allotments,
+  onClose,
+  onSuccess,
+}: {
+  date: string;
+  zones: ZoneWithTables[];
+  allotments: TmAllotment[];
+  onClose: () => void;
+  onSuccess: () => void;
+}) {
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [filterZone, setFilterZone] = useState<string>('');
+  const [filterSource, setFilterSource] = useState<string>('');
+  const [filterTimeFrom, setFilterTimeFrom] = useState<string>('');
+  const [filterTimeTo, setFilterTimeTo] = useState<string>('');
+  const [deleting, setDeleting] = useState(false);
+  const [progress, setProgress] = useState<{ current: number; total: number } | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  // Filter allotments based on criteria
+  const filteredAllotments = useMemo(() => {
+    return allotments.filter(a => {
+      if (filterZone && a.zone_id !== filterZone) return false;
+      if (filterSource && a.source !== filterSource) return false;
+      if (filterTimeFrom) {
+        const blockHour = bkkHourOf(a.start_at);
+        const fromHour = parseInt(filterTimeFrom.split(':')[0]);
+        if (blockHour < fromHour) return false;
+      }
+      if (filterTimeTo) {
+        const blockHour = bkkHourOf(a.start_at);
+        const toHour = parseInt(filterTimeTo.split(':')[0]);
+        if (blockHour > toHour) return false;
+      }
+      return true;
+    });
+  }, [allotments, filterZone, filterSource, filterTimeFrom, filterTimeTo]);
+
+  // Group by zone for display
+  const groupedByZone = useMemo(() => {
+    const groups: Record<string, { zone: ZoneWithTables | undefined; blocks: TmAllotment[] }> = {};
+    for (const a of filteredAllotments) {
+      if (!groups[a.zone_id]) {
+        groups[a.zone_id] = { zone: zones.find(z => z.id === a.zone_id), blocks: [] };
+      }
+      groups[a.zone_id].blocks.push(a);
+    }
+    return Object.values(groups).sort((a, b) => 
+      (a.zone?.display_order ?? 0) - (b.zone?.display_order ?? 0)
+    );
+  }, [filteredAllotments, zones]);
+
+  const toggleSelect = (id: string) => {
+    setSelectedIds(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  };
+
+  const selectAll = () => {
+    setSelectedIds(new Set(filteredAllotments.map(a => a.id)));
+  };
+
+  const selectNone = () => {
+    setSelectedIds(new Set());
+  };
+
+  const selectByZone = (zoneId: string) => {
+    const zoneBlockIds = filteredAllotments.filter(a => a.zone_id === zoneId).map(a => a.id);
+    setSelectedIds(prev => {
+      const next = new Set(prev);
+      const allSelected = zoneBlockIds.every(id => next.has(id));
+      if (allSelected) {
+        zoneBlockIds.forEach(id => next.delete(id));
+      } else {
+        zoneBlockIds.forEach(id => next.add(id));
+      }
+      return next;
+    });
+  };
+
+  const handleDelete = async () => {
+    if (selectedIds.size === 0) return;
+    if (!confirm(`Are you sure you want to cancel ${selectedIds.size} block(s)? This cannot be undone.`)) return;
+
+    setDeleting(true);
+    setError(null);
+    setProgress({ current: 0, total: selectedIds.size });
+
+    const ids = Array.from(selectedIds);
+    let successCount = 0;
+    let failCount = 0;
+
+    for (let i = 0; i < ids.length; i++) {
+      try {
+        const res = await adminDelete(`/api/admin/allotment/${ids[i]}`);
+        if (res.ok) {
+          successCount++;
+        } else {
+          failCount++;
+        }
+      } catch {
+        failCount++;
+      }
+      setProgress({ current: i + 1, total: ids.length });
+    }
+
+    setDeleting(false);
+    setProgress(null);
+
+    if (failCount > 0) {
+      setError(`Cancelled ${successCount} blocks, ${failCount} failed.`);
+    }
+
+    if (successCount > 0) {
+      onSuccess();
+    }
+  };
+
+  const timeOptions = HOURS.map(h => ({ value: `${pad2(h)}:00`, label: `${pad2(h)}:00` }));
+
+  return (
+    <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl shadow-xl max-w-2xl w-full max-h-[90vh] flex flex-col">
+        <div className="p-5 border-b border-slate-100 flex items-center justify-between">
+          <div>
+            <h3 className="text-lg font-semibold text-slate-800 flex items-center gap-2">
+              <Trash2 className="w-5 h-5 text-red-500" />
+              Bulk Cancel Blocks
+            </h3>
+            <p className="text-xs text-slate-500 mt-0.5">
+              {formatDateDisplay(date)} · {allotments.length} total blocks
+            </p>
+          </div>
+          <button onClick={onClose} className="p-1.5 text-slate-500 hover:text-slate-800 rounded">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Filters */}
+        <div className="p-4 border-b border-slate-100 bg-slate-50">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div>
+              <label className="block text-xs font-medium text-slate-600 mb-1">Zone</label>
+              <select
+                value={filterZone}
+                onChange={(e) => setFilterZone(e.target.value)}
+                className="w-full px-2 py-1.5 text-sm border border-slate-200 rounded-lg bg-white"
+              >
+                <option value="">All zones</option>
+                {zones.map(z => (
+                  <option key={z.id} value={z.id}>{z.name}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-slate-600 mb-1">Source</label>
+              <select
+                value={filterSource}
+                onChange={(e) => setFilterSource(e.target.value)}
+                className="w-full px-2 py-1.5 text-sm border border-slate-200 rounded-lg bg-white"
+              >
+                <option value="">All sources</option>
+                {SOURCES.map(s => (
+                  <option key={s.value} value={s.value}>{s.label}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-slate-600 mb-1">From</label>
+              <select
+                value={filterTimeFrom}
+                onChange={(e) => setFilterTimeFrom(e.target.value)}
+                className="w-full px-2 py-1.5 text-sm border border-slate-200 rounded-lg bg-white"
+              >
+                <option value="">Any time</option>
+                {timeOptions.map(t => (
+                  <option key={t.value} value={t.value}>{t.label}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-slate-600 mb-1">To</label>
+              <select
+                value={filterTimeTo}
+                onChange={(e) => setFilterTimeTo(e.target.value)}
+                className="w-full px-2 py-1.5 text-sm border border-slate-200 rounded-lg bg-white"
+              >
+                <option value="">Any time</option>
+                {timeOptions.map(t => (
+                  <option key={t.value} value={t.value}>{t.label}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+          <div className="flex items-center gap-2 mt-3">
+            <button
+              onClick={selectAll}
+              className="px-3 py-1 text-xs font-medium text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-slate-50"
+            >
+              Select All ({filteredAllotments.length})
+            </button>
+            <button
+              onClick={selectNone}
+              className="px-3 py-1 text-xs font-medium text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-slate-50"
+            >
+              Clear Selection
+            </button>
+            <span className="text-xs text-slate-500 ml-auto">
+              {selectedIds.size} selected
+            </span>
+          </div>
+        </div>
+
+        {/* Block list */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          {groupedByZone.length === 0 ? (
+            <div className="text-center py-8 text-slate-500">
+              No blocks match the filters
+            </div>
+          ) : (
+            groupedByZone.map(group => {
+              const zoneBlockIds = group.blocks.map(b => b.id);
+              const allSelected = zoneBlockIds.every(id => selectedIds.has(id));
+              const someSelected = zoneBlockIds.some(id => selectedIds.has(id));
+              
+              return (
+                <div key={group.zone?.id ?? 'unknown'} className="border border-slate-200 rounded-xl overflow-hidden">
+                  <div className="px-4 py-2.5 bg-slate-50 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <input
+                        type="checkbox"
+                        checked={allSelected}
+                        ref={(el) => { if (el) el.indeterminate = someSelected && !allSelected; }}
+                        onChange={() => selectByZone(group.zone?.id ?? '')}
+                        className="w-4 h-4 rounded border-slate-300 text-[#b1b94c] focus:ring-[#b1b94c]"
+                      />
+                      <span className="font-medium text-slate-800">{group.zone?.name ?? 'Unknown Zone'}</span>
+                      <span className="text-xs text-slate-500">({group.blocks.length} blocks)</span>
+                    </div>
+                  </div>
+                  <div className="divide-y divide-slate-100">
+                    {group.blocks.map(block => {
+                      const isSelected = selectedIds.has(block.id);
+                      const style = SOURCE_STYLE[block.source];
+                      return (
+                        <label
+                          key={block.id}
+                          className={`flex items-center gap-3 px-4 py-2.5 cursor-pointer hover:bg-slate-50 transition-colors ${
+                            isSelected ? 'bg-red-50/50' : ''
+                          }`}
+                        >
+                          <input
+                            type="checkbox"
+                            checked={isSelected}
+                            onChange={() => toggleSelect(block.id)}
+                            className="w-4 h-4 rounded border-slate-300 text-red-500 focus:ring-red-500"
+                          />
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2">
+                              <span className="font-medium text-slate-800">{block.table_code}</span>
+                              <span className="text-xs text-slate-500">
+                                {formatTimeBKK(block.start_at)} – {formatTimeBKK(block.end_at)}
+                              </span>
+                              <span className={`px-1.5 py-0.5 rounded text-[10px] font-medium ${style.pill}`}>
+                                {block.source}
+                              </span>
+                            </div>
+                            {(block.customer_name || block.notes) && (
+                              <div className="text-xs text-slate-500 truncate mt-0.5">
+                                {block.customer_name && <span>{block.customer_name}</span>}
+                                {block.customer_name && block.notes && <span> · </span>}
+                                {block.notes && <span className="opacity-70">{block.notes}</span>}
+                              </div>
+                            )}
+                          </div>
+                        </label>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })
+          )}
+        </div>
+
+        {/* Progress */}
+        {progress && (
+          <div className="px-5 py-3 border-t border-slate-100 bg-red-50">
+            <div className="flex items-center justify-between text-sm text-red-800 mb-2">
+              <span>Cancelling blocks...</span>
+              <span>{progress.current} / {progress.total}</span>
+            </div>
+            <div className="w-full bg-red-200 rounded-full h-2">
+              <div
+                className="bg-red-600 h-2 rounded-full transition-all"
+                style={{ width: `${(progress.current / progress.total) * 100}%` }}
+              />
+            </div>
+          </div>
+        )}
+
+        {error && (
+          <div className="px-5 py-3 bg-red-50 border-t border-red-200 text-sm text-red-800 flex items-start gap-2">
+            <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+            <span>{error}</span>
+          </div>
+        )}
+
+        {/* Footer */}
+        <div className="p-5 border-t border-slate-100 flex items-center justify-between gap-3">
+          <div className="text-sm text-slate-500">
+            {selectedIds.size > 0 ? (
+              <span className="text-red-600 font-medium">{selectedIds.size} block(s) will be cancelled</span>
+            ) : (
+              <span>Select blocks to cancel</span>
+            )}
+          </div>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={onClose}
+              className="px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-lg"
+              disabled={deleting}
+            >
+              Close
+            </button>
+            <button
+              onClick={handleDelete}
+              disabled={deleting || selectedIds.size === 0}
+              className="px-4 py-2 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 disabled:opacity-50 flex items-center gap-2"
+            >
+              {deleting ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <Trash2 className="w-4 h-4" />
+              )}
+              Cancel {selectedIds.size > 0 ? selectedIds.size : ''} Block{selectedIds.size !== 1 ? 's' : ''}
+            </button>
+          </div>
         </div>
       </div>
     </div>

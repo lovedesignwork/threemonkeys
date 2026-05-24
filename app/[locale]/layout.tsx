@@ -3,7 +3,6 @@ import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { setRequestLocale, getMessages } from 'next-intl/server';
 import { routing, getLocaleMeta } from '@/i18n/routing';
 import { HtmlLangSync } from '@/components/i18n/HtmlLangSync';
-import { LocaleSuggestionBanner } from '@/components/i18n/LocaleSuggestionBanner';
 
 interface LocaleLayoutProps {
   children: React.ReactNode;
@@ -32,7 +31,6 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
   return (
     <NextIntlClientProvider locale={locale} messages={messages} timeZone="Asia/Bangkok">
       <HtmlLangSync lang={locale} dir={meta?.rtl ? 'rtl' : 'ltr'} />
-      <LocaleSuggestionBanner currentLocale={locale} />
       {children}
     </NextIntlClientProvider>
   );
