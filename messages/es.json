@@ -263,6 +263,289 @@
       "features": ["Montaje de propuesta", "Decoración romántica", "Zona fotogénica"]
     }
   },
+  "menuPage": {
+    "badge": "Nuestro Menú",
+    "headline": "Saborea la Selva",
+    "description": "Desde auténtica cocina del sur de Tailandia hasta favoritos internacionales, cada plato está elaborado con ingredientes frescos de origen local",
+    "tabFood": "Comida",
+    "tabDrinks": "Bebidas",
+    "itemsCount": "{count} platos",
+    "taxNotice": "Todos los precios están sujetos a un 10% de cargo por servicio y 7% de impuesto gubernamental",
+    "ctaTitle": "¿Listo para cenar en la selva?",
+    "ctaDescription": "Reserva tu mesa y disfruta de nuestra cocina rodeado de naturaleza",
+    "ctaReserve": "Reservar mesa",
+    "ctaPackages": "Paquetes especiales",
+    "categories": {
+      "allFood": "Toda la comida",
+      "recommend": "Recomendados",
+      "thai": "Tailandés",
+      "western": "Occidental",
+      "bali": "Balinés",
+      "japanese": "Japonés",
+      "vegetarian": "Vegetariano",
+      "kids": "Niños",
+      "desserts": "Postres",
+      "allDrinks": "Todas las bebidas",
+      "threeMonkeysTea": "Té Three Monkeys",
+      "signatureCoffee": "Café Signature",
+      "classicCoffee": "Café clásico",
+      "funFlavouredCoffee": "Café con sabores",
+      "nonCoffee": "Sin café",
+      "signatureJuices": "Jugos Signature",
+      "freshJuices": "Jugos frescos",
+      "signatureSmoothies": "Smoothies Signature",
+      "fruitShakes": "Batidos de frutas",
+      "milkshakes": "Malteadas",
+      "signatureCocktails": "Cócteles Signature",
+      "classicCocktails": "Cócteles clásicos",
+      "mocktails": "Mocktails",
+      "signatureSoda": "Soda Signature",
+      "softDrinks": "Refrescos y sodas"
+    }
+  },
+  "seatsPage": {
+    "badge": "Zonas de comedor únicas",
+    "headline": "Nuestras Mesas",
+    "description": "Cada asiento ofrece un ambiente único y una experiencia gastronómica inolvidable en la selva. Elige tu lugar perfecto en la naturaleza.",
+    "premiumSeats": "Mesas Premium",
+    "moreOptions": "Más opciones de asientos",
+    "openSeating": "Asientos libres — Sin límite de reserva",
+    "popular": "Popular",
+    "deposit": "Depósito",
+    "perTable": "/ mesa",
+    "perPerson": "/ persona",
+    "upTo": "(hasta {n} personas)",
+    "noLimit": "Sin límite de reserva",
+    "reserveNow": "Reservar ahora",
+    "reserve": "Reservar",
+    "ctaTitle": "¿Buscas algo especial?",
+    "ctaDescription": "Descubre nuestros paquetes especiales para cenas románticas, celebraciones de cumpleaños y eventos privados.",
+    "ctaButton": "Ver paquetes especiales"
+  },
+  "specialPackagesPage": {
+    "badge": "Celebra con nosotros",
+    "headline": "Paquetes Especiales",
+    "description": "Crea recuerdos inolvidables con nuestros paquetes especialmente seleccionados para cada ocasión",
+    "advanceBooking": "Todos los paquetes especiales requieren reserva con al menos 1 día de antelación",
+    "bookAhead": "Reserva con 1 día de antelación",
+    "packagePrice": "Precio del paquete",
+    "total": "total",
+    "bookNow": "Reservar ahora",
+    "ctaTitle": "¿Tienes algo único en mente?",
+    "ctaDescription": "Nos encanta crear experiencias personalizadas. Cuéntanos tu visión y lo haremos realidad.",
+    "ctaContact": "Contáctanos",
+    "ctaSeats": "Ver nuestras mesas"
+  },
+  "aboutPage": {
+    "badge": "El único restaurante en la selva de Phuket",
+    "headline": "Cena entre los árboles",
+    "description": "Donde la auténtica cocina del sur de Tailandia se encuentra con la magia de la naturaleza",
+    "stats": {
+      "years": "Años de excelencia",
+      "guests": "Clientes satisfechos",
+      "awards": "Premios culinarios",
+      "zones": "Zonas de comedor únicas",
+      "established": "Est. 2010"
+    },
+    "story": {
+      "badge": "Nuestra historia",
+      "title": "Un viaje culinario nacido en la naturaleza",
+      "p1": "Three Monkeys nació de un sueño simple: crear una experiencia gastronómica que conecte a las personas con la naturaleza mientras celebra los ricos sabores de la cocina del sur de Tailandia.",
+      "p2": "Situado dentro de la antigua selva tropical de Hanuman World, nuestro restaurante ofrece algo verdaderamente único: la oportunidad de cenar entre árboles imponentes, con los sonidos de la naturaleza como banda sonora y el dosel de la selva como techo.",
+      "p3": "Cada plato que servimos es un tributo a nuestra herencia, elaborado con ingredientes de origen local y preparado con técnicas transmitidas de generación en generación.",
+      "button": "Explora nuestras zonas de comedor"
+    },
+    "values": {
+      "badge": "Lo que representamos",
+      "title": "Nuestros valores",
+      "farmToTable": {
+        "title": "Del campo a la mesa",
+        "description": "Seleccionamos los ingredientes más frescos diariamente de agricultores locales y el mar de Andamán."
+      },
+      "culinaryMastery": {
+        "title": "Maestría culinaria",
+        "description": "Nuestros chefs aportan generaciones de sabiduría culinaria tailandesa a cada plato que creamos."
+      },
+      "natureImmersion": {
+        "title": "Inmersión en la naturaleza",
+        "description": "Cena rodeado de árboles de selva tropical ancestrales y vistas impresionantes de la jungla."
+      },
+      "heartfeltService": {
+        "title": "Servicio de corazón",
+        "description": "Cada cliente es familia. Creamos recuerdos que duran toda la vida."
+      }
+    },
+    "experience": {
+      "badge": "Zonas de comedor únicas",
+      "title": "Elige tu experiencia",
+      "description": "Cada zona ofrece un ambiente diferente, desde casas en los árboles íntimas hasta pabellones al aire libre",
+      "monkeyDome": "Nuestra icónica cena en la casa del árbol con vistas panorámicas de la selva",
+      "monkeyNest": "Cena elevada bajo las estrellas con vistas al atardecer",
+      "outdoorZone": "Arquitectura tailandesa tradicional con comodidad moderna",
+      "viewAll": "Ver las 6 zonas de comedor"
+    },
+    "cta": {
+      "title": "¿Listo para una experiencia inolvidable?",
+      "description": "Reserva tu mesa y descubre por qué Three Monkeys es el destino gastronómico más único de Phuket",
+      "reserve": "Reserva tu mesa",
+      "packages": "Paquetes especiales"
+    },
+    "location": {
+      "badge": "Encuéntranos",
+      "title": "Visita Three Monkeys",
+      "labelLocation": "Ubicación",
+      "labelContact": "Contacto",
+      "labelHours": "Horario de apertura",
+      "hours": "Diario: 10:00 – 01:00",
+      "lastOrder": "Última orden: 00:00",
+      "contact": "Contáctanos",
+      "directions": "Cómo llegar"
+    }
+  },
+  "faqPage": {
+    "badge": "Centro de ayuda",
+    "headline": "¿Cómo podemos ayudarte?",
+    "description": "Encuentra respuestas a más de {count} preguntas frecuentes sobre Three Monkeys",
+    "searchPlaceholder": "Buscar respuestas...",
+    "noResults": "No se encontraron preguntas que coincidan con \"{query}\"",
+    "clearSearch": "Limpiar búsqueda",
+    "questionsCount": "{count} preguntas",
+    "categories": {
+      "booking": "Reservas",
+      "dining": "Comida y menú",
+      "experience": "La experiencia",
+      "packages": "Paquetes y precios",
+      "location": "Ubicación y acceso"
+    },
+    "questions": {
+      "booking": {
+        "q1": "¿Cómo hago una reserva?",
+        "a1": "Puedes hacer una reserva a través de nuestro sitio web haciendo clic en el botón 'Reservar', llamándonos directamente al +66 98-010-8838, o enviándonos un mensaje por WhatsApp. Recomendamos reservar con al menos 24 horas de antelación, especialmente para asientos premium y paquetes especiales.",
+        "q2": "¿Puedo modificar o cancelar mi reserva?",
+        "a2": "Sí, puedes modificar o cancelar tu reserva hasta 24 horas antes de la hora de tu reserva. Por favor, contáctanos por teléfono o correo electrónico con tu número de referencia de reserva. Las cancelaciones realizadas con menos de 24 horas de antelación pueden perder el depósito.",
+        "q3": "¿Con cuánta antelación debo reservar?",
+        "a3": "Para asientos regulares, recomendamos reservar con 1-2 días de antelación. Para asientos premium (Monkey Dome, Monkey Nest) y paquetes especiales, recomendamos reservar con al menos 3-7 días de antelación, especialmente durante la temporada alta (noviembre-abril).",
+        "q4": "¿Podemos venir sin reserva?",
+        "a4": "Sí, aceptamos clientes sin reserva según disponibilidad. Sin embargo, recomendamos encarecidamente hacer reservas, especialmente para el servicio de cena y fines de semana. Los asientos premium y paquetes especiales siempre requieren reserva anticipada."
+      },
+      "dining": {
+        "q1": "¿Aceptan restricciones dietéticas?",
+        "a1": "Atendemos requisitos vegetarianos, veganos, sin gluten y halal. Por favor, infórmanos de cualquier alergia o restricción dietética al hacer tu reserva, y nuestros chefs prepararán alternativas adecuadas.",
+        "q2": "¿Qué tipo de cocina sirven?",
+        "a2": "Nos especializamos en auténtica cocina del sur de Tailandia, con especialidades locales de Phuket y recetas tradicionales. También ofrecemos platos occidentales, opciones japonesas y platos inspirados en Bali. Nuestro menú satisface todos los gustos mientras destaca los sabores locales.",
+        "q3": "¿Tienen código de vestimenta?",
+        "a3": "Tenemos un código de vestimenta casual elegante. Aunque queremos que estés cómodo en nuestro entorno selvático, pedimos a los clientes que eviten ropa de playa, camisetas sin mangas para hombres y atuendos demasiado informales. Se recomienda calzado cómodo para moverse por nuestras áreas exteriores.",
+        "q4": "¿Pueden cenar los niños en el restaurante?",
+        "a4": "Los niños son bienvenidos en Three Monkeys. Tenemos un menú infantil dedicado y tronas disponibles. Nuestro entorno al aire libre es familiar, aunque recomendamos supervisar a los niños pequeños cerca de las áreas de asientos elevados."
+      },
+      "experience": {
+        "q1": "¿Cuánto dura la experiencia gastronómica?",
+        "a1": "Una experiencia gastronómica típica dura 2-3 horas, permitiéndote disfrutar plenamente de nuestra cocina y ambiente. Para paquetes especiales, por favor calcula 3-4 horas. Nunca apresuramos a nuestros clientes: tu mesa es tuya toda la noche.",
+        "q2": "¿Puedo solicitar un asiento o zona específica?",
+        "a2": "Sí, puedes solicitar asientos específicos al reservar. Zonas populares como Monkey Dome y Monkey Nest se llenan rápidamente, así que recomendamos reservar con antelación. Haremos todo lo posible para acomodar tus preferencias según disponibilidad.",
+        "q3": "¿Puedo organizar un evento privado o celebración?",
+        "a3": "Nos encanta organizar celebraciones. Ofrecemos paquetes de cumpleaños, paquetes de cena romántica, montajes de propuesta de matrimonio, y podemos acomodar eventos privados para hasta 50 invitados. Contáctanos para discutir tus requisitos y crearemos una experiencia personalizada.",
+        "q4": "¿Tienen entretenimiento en vivo?",
+        "a4": "Algunos paquetes incluyen entretenimiento en vivo como actuaciones de saxofón, bandas en vivo y shows de fuego. Nuestros paquetes de cena romántica y ultimate incluyen entretenimiento privado. Las cenas regulares no incluyen shows en vivo pero cuentan con los sonidos ambientales de la selva."
+      },
+      "packages": {
+        "q1": "¿El depósito es reembolsable?",
+        "a1": "Los depósitos son totalmente reembolsables si cancelas con al menos 24 horas de antelación. Para cancelaciones dentro de las 24 horas, el depósito puede perderse. Los paquetes especiales pueden tener diferentes políticas de cancelación: por favor, verifica al reservar.",
+        "q2": "¿Qué métodos de pago aceptan?",
+        "a2": "Aceptamos efectivo (Baht tailandés), todas las principales tarjetas de crédito (Visa, Mastercard, American Express), transferencia bancaria y pagos móviles incluyendo PromptPay. Para depósitos, aceptamos transferencia bancaria y pagos con tarjeta de crédito en línea.",
+        "q3": "¿Ofrecen vales regalo?",
+        "a3": "Sí, ofrecemos vales regalo por cualquier cantidad o para paquetes específicos. Son regalos perfectos para cumpleaños, aniversarios u ocasiones especiales. Contáctanos para comprar vales, válidos por 12 meses desde la fecha de emisión.",
+        "q4": "¿Tienen áreas semi-privadas o privadas?",
+        "a4": "Sí, nuestros Monkey Dome y Monkey Nest ofrecen experiencias semi-privadas. Para eventos completamente privados, podemos organizar el uso exclusivo de ciertas zonas. La Zona 6 y Zona 7 pueden acomodar grupos grandes que buscan privacidad."
+      },
+      "location": {
+        "q1": "¿Dónde está ubicado Three Monkeys?",
+        "a1": "Estamos ubicados dentro de Hanuman World, en 105 Moo 4, Muang Chao Fa Road, Wichit, Mueang Phuket, Phuket 83000. Estamos a unos 15 minutos de Phuket Town y 30 minutos de Patong Beach.",
+        "q2": "¿Hay estacionamiento disponible?",
+        "a2": "Sí, hay estacionamiento gratuito disponible en Hanuman World. Sigue las señales hacia el área de estacionamiento del restaurante. Durante períodos ocupados, nuestro personal te guiará a los espacios disponibles. Para grupos grandes, por favor infórmanos con antelación.",
+        "q3": "¿Ofrecen traslados desde hoteles?",
+        "a3": "Aunque no proporcionamos traslados directos, podemos recomendar servicios de taxi confiables y ayudar a organizar el transporte. Muchos hoteles en Phuket ofrecen servicios de shuttle a Hanuman World. Grab y taxis locales también están disponibles fácilmente.",
+        "q4": "¿Cuáles son sus horarios de apertura?",
+        "a4": "Estamos abiertos todos los días de 10:00 AM a 1:00 AM. La última orden de comida es a medianoche. Recomendamos llegar antes de las 10 PM para disfrutar de la experiencia gastronómica completa. Los horarios de cocina pueden variar en ocasiones especiales: por favor, verifica al reservar."
+      }
+    },
+    "contact": {
+      "title": "¿Necesitas más ayuda?",
+      "description": "Nuestro equipo está listo para asistirte",
+      "call": "Llámanos",
+      "callHours": "Diario 10:00 AM – 1:00 AM",
+      "email": "Escríbenos",
+      "emailNote": "Respondemos en 24 horas",
+      "visit": "Visítanos",
+      "visitAddress": "Dentro de Hanuman World",
+      "visitCity": "Wichit, Phuket 83000"
+    },
+    "cta": {
+      "title": "¿Listo para experimentar Three Monkeys?",
+      "description": "Reserva tu mesa ahora y descubre la magia de cenar en la selva de Phuket",
+      "reserve": "Reserva tu mesa",
+      "contact": "Contáctanos"
+    }
+  },
+  "contactPage": {
+    "badge": "Nos encantaría saber de ti",
+    "headline": "Contáctanos",
+    "description": "¿Tienes preguntas sobre reservas, eventos especiales o simplemente quieres saludar? Nuestro equipo está aquí para hacer tu experiencia inolvidable.",
+    "methods": {
+      "call": "Llámanos",
+      "callDesc": "Habla directamente con nuestro equipo",
+      "email": "Escríbenos",
+      "emailDesc": "Respondemos en 24 horas",
+      "whatsapp": "WhatsApp",
+      "whatsappDesc": "Chatea con nosotros al instante"
+    },
+    "form": {
+      "title": "Enviar un mensaje",
+      "subtitle": "Responderemos en 24 horas",
+      "success": "¡Mensaje enviado con éxito!",
+      "successDesc": "Gracias por contactarnos. Te responderemos en 24 horas.",
+      "error": "Error al enviar el mensaje",
+      "name": "Tu nombre",
+      "email": "Correo electrónico",
+      "phone": "Número de teléfono",
+      "subject": "Asunto",
+      "subjectPlaceholder": "Selecciona un tema",
+      "subjectOptions": {
+        "reservation": "Consulta de reserva",
+        "event": "Evento privado",
+        "feedback": "Comentarios",
+        "partnership": "Colaboración",
+        "other": "Otro"
+      },
+      "message": "Mensaje",
+      "sending": "Enviando...",
+      "send": "Enviar mensaje",
+      "required": "*"
+    },
+    "location": {
+      "badge": "Ubicación en la selva",
+      "title": "Nuestra ubicación",
+      "restaurant": "Three Monkeys Restaurant",
+      "address": "Dentro de Hanuman World",
+      "addressLine2": "105 Moo 4, Muang Chao Fa Rd.",
+      "addressLine3": "Wichit, Mueang Phuket, Phuket 83000",
+      "country": "Tailandia",
+      "directions": "Cómo llegar"
+    },
+    "hours": {
+      "title": "Horario de apertura",
+      "days": "Lunes - Domingo",
+      "time": "10:00 – 01:00",
+      "lastOrder": "Última orden",
+      "lastOrderTime": "00:00",
+      "note": "Se recomienda reservar para el servicio de cena"
+    },
+    "cta": {
+      "title": "¿Listo para cenar en la selva?",
+      "description": "Evita la espera y reserva tu mesa en línea. Disfruta de auténtica cocina tailandesa en un mágico entorno selvático.",
+      "reserve": "Reserva tu mesa"
+    }
+  },
   "booking": {
     "step_package": "Elige tu paquete",
     "step_date": "Fecha y hora",

@@ -263,6 +263,289 @@
       "features": ["Mise en scène de la demande", "Décoration romantique", "Zone photogénique"]
     }
   },
+  "menuPage": {
+    "badge": "Notre Menu",
+    "headline": "Savourez la Jungle",
+    "description": "De la cuisine authentique du sud de la Thaïlande aux plats internationaux, chaque création est préparée avec des ingrédients frais et locaux",
+    "tabFood": "Plats",
+    "tabDrinks": "Boissons",
+    "itemsCount": "{count} articles",
+    "taxNotice": "Tous les prix sont soumis à 10% de service et 7% de TVA gouvernementale",
+    "ctaTitle": "Prêt à dîner dans la jungle ?",
+    "ctaDescription": "Réservez votre table et savourez notre cuisine au cœur de la nature",
+    "ctaReserve": "Réserver une table",
+    "ctaPackages": "Forfaits spéciaux",
+    "categories": {
+      "allFood": "Tous les plats",
+      "recommend": "Recommandés",
+      "thai": "Thaï",
+      "western": "Occidental",
+      "bali": "Balinais",
+      "japanese": "Japonais",
+      "vegetarian": "Végétarien",
+      "kids": "Enfants",
+      "desserts": "Desserts",
+      "allDrinks": "Toutes les boissons",
+      "threeMonkeysTea": "Thé Three Monkeys",
+      "signatureCoffee": "Café signature",
+      "classicCoffee": "Café classique",
+      "funFlavouredCoffee": "Café aromatisé",
+      "nonCoffee": "Sans café",
+      "signatureJuices": "Jus signature",
+      "freshJuices": "Jus frais",
+      "signatureSmoothies": "Smoothies signature",
+      "fruitShakes": "Milk-shakes aux fruits",
+      "milkshakes": "Milk-shakes",
+      "signatureCocktails": "Cocktails signature",
+      "classicCocktails": "Cocktails classiques",
+      "mocktails": "Mocktails",
+      "signatureSoda": "Sodas signature",
+      "softDrinks": "Boissons gazeuses"
+    }
+  },
+  "seatsPage": {
+    "badge": "Zones de restauration uniques",
+    "headline": "Nos Places",
+    "description": "Chaque place offre une atmosphère unique et une expérience inoubliable au cœur de la forêt tropicale. Choisissez votre coin de nature idéal.",
+    "premiumSeats": "Places Premium",
+    "moreOptions": "Plus d'options de places",
+    "openSeating": "Places libres — Sans limite de réservation",
+    "popular": "Populaire",
+    "deposit": "Acompte",
+    "perTable": "/ table",
+    "perPerson": "/ pers.",
+    "upTo": "(jusqu'à {n} personnes)",
+    "noLimit": "Sans limite de réservation",
+    "reserveNow": "Réserver",
+    "reserve": "Réserver",
+    "ctaTitle": "Vous cherchez quelque chose de spécial ?",
+    "ctaDescription": "Découvrez nos forfaits spéciaux pour dîners romantiques, anniversaires et événements privés.",
+    "ctaButton": "Voir les forfaits spéciaux"
+  },
+  "specialPackagesPage": {
+    "badge": "Célébrez avec nous",
+    "headline": "Forfaits Spéciaux",
+    "description": "Créez des souvenirs inoubliables avec nos forfaits spécialement conçus pour chaque occasion",
+    "advanceBooking": "Tous les forfaits spéciaux nécessitent une réservation au moins 1 jour à l'avance",
+    "bookAhead": "Réservez 1 jour à l'avance",
+    "packagePrice": "Prix du forfait",
+    "total": "total",
+    "bookNow": "Réserver",
+    "ctaTitle": "Une idée particulière en tête ?",
+    "ctaDescription": "Nous adorons créer des expériences sur mesure. Partagez votre vision et nous la réaliserons.",
+    "ctaContact": "Contactez-nous",
+    "ctaSeats": "Voir nos places"
+  },
+  "aboutPage": {
+    "badge": "Le seul restaurant dans la forêt tropicale de Phuket",
+    "headline": "Dîner Parmi les Arbres",
+    "description": "Où la cuisine authentique du sud de la Thaïlande rencontre la magie de la nature",
+    "stats": {
+      "years": "Ans d'excellence",
+      "guests": "Clients satisfaits",
+      "awards": "Prix culinaires",
+      "zones": "Zones de restauration uniques",
+      "established": "Fondé en 2010"
+    },
+    "story": {
+      "badge": "Notre histoire",
+      "title": "Un voyage culinaire né de la nature",
+      "p1": "Three Monkeys est né d'un rêve simple : créer une expérience culinaire qui connecte les gens à la nature tout en célébrant les saveurs riches de la cuisine du sud de la Thaïlande.",
+      "p2": "Niché au cœur de la forêt tropicale ancienne de Hanuman World, notre restaurant offre quelque chose de vraiment unique — la chance de dîner parmi des arbres majestueux, avec les sons de la nature comme bande sonore et la canopée de la jungle comme plafond.",
+      "p3": "Chaque plat que nous servons est un hommage à notre patrimoine, préparé avec des ingrédients locaux et des techniques transmises de génération en génération.",
+      "button": "Explorez nos zones de restauration"
+    },
+    "values": {
+      "badge": "Ce que nous défendons",
+      "title": "Nos valeurs",
+      "farmToTable": {
+        "title": "De la ferme à la table",
+        "description": "Nous sélectionnons les ingrédients les plus frais chaque jour auprès des agriculteurs locaux et de la mer d'Andaman."
+      },
+      "culinaryMastery": {
+        "title": "Maîtrise culinaire",
+        "description": "Nos chefs apportent des générations de sagesse culinaire thaïlandaise à chaque plat que nous créons."
+      },
+      "natureImmersion": {
+        "title": "Immersion dans la nature",
+        "description": "Dînez entouré d'arbres centenaires de la forêt tropicale et de vues spectaculaires sur la jungle."
+      },
+      "heartfeltService": {
+        "title": "Service attentionné",
+        "description": "Chaque client est de la famille. Nous créons des souvenirs qui durent toute une vie."
+      }
+    },
+    "experience": {
+      "badge": "Zones de restauration uniques",
+      "title": "Choisissez votre expérience",
+      "description": "Chaque zone offre une atmosphère différente, des cabanes dans les arbres intimes aux pavillons en plein air",
+      "monkeyDome": "Notre dîner signature dans les arbres avec vue panoramique sur la jungle",
+      "monkeyNest": "Dîner en hauteur sous les étoiles avec vue sur le coucher de soleil",
+      "outdoorZone": "L'architecture thaïlandaise traditionnelle rencontre le confort moderne",
+      "viewAll": "Voir les 6 zones de restauration"
+    },
+    "cta": {
+      "title": "Prêt pour une expérience inoubliable ?",
+      "description": "Réservez votre table et découvrez pourquoi Three Monkeys est la destination culinaire la plus unique de Phuket",
+      "reserve": "Réserver votre table",
+      "packages": "Forfaits spéciaux"
+    },
+    "location": {
+      "badge": "Nous trouver",
+      "title": "Visitez Three Monkeys",
+      "labelLocation": "Adresse",
+      "labelContact": "Contact",
+      "labelHours": "Horaires d'ouverture",
+      "hours": "Tous les jours : 10h – 01h",
+      "lastOrder": "Dernière commande : 00h",
+      "contact": "Contactez-nous",
+      "directions": "Itinéraire"
+    }
+  },
+  "faqPage": {
+    "badge": "Centre d'aide",
+    "headline": "Comment pouvons-nous vous aider ?",
+    "description": "Trouvez les réponses à plus de {count} questions fréquentes sur Three Monkeys",
+    "searchPlaceholder": "Rechercher des réponses...",
+    "noResults": "Aucune question trouvée pour \"{query}\"",
+    "clearSearch": "Effacer la recherche",
+    "questionsCount": "{count} questions",
+    "categories": {
+      "booking": "Réservation",
+      "dining": "Restaurant & Menu",
+      "experience": "L'expérience",
+      "packages": "Forfaits & Tarifs",
+      "location": "Accès & Localisation"
+    },
+    "questions": {
+      "booking": {
+        "q1": "Comment puis-je faire une réservation ?",
+        "a1": "Vous pouvez réserver via notre site web en cliquant sur le bouton 'Réserver', en nous appelant directement au +66 98-010-8838, ou en nous envoyant un message sur WhatsApp. Nous recommandons de réserver au moins 24 heures à l'avance, surtout pour les places premium et les forfaits spéciaux.",
+        "q2": "Puis-je modifier ou annuler ma réservation ?",
+        "a2": "Oui, vous pouvez modifier ou annuler votre réservation jusqu'à 24 heures avant l'heure prévue. Veuillez nous contacter par téléphone ou email avec votre numéro de réservation. Les annulations faites moins de 24 heures à l'avance peuvent entraîner la perte de l'acompte.",
+        "q3": "Combien de temps à l'avance dois-je réserver ?",
+        "a3": "Pour les places régulières, nous recommandons de réserver 1 à 2 jours à l'avance. Pour les places premium (Monkey Dome, Monkey Nest) et les forfaits spéciaux, nous recommandons de réserver au moins 3 à 7 jours à l'avance, surtout en haute saison (novembre-avril).",
+        "q4": "Peut-on venir sans réservation ?",
+        "a4": "Oui, les clients sans réservation sont les bienvenus selon disponibilité. Cependant, nous recommandons fortement les réservations, surtout pour le service du dîner et les week-ends. Les places premium et forfaits spéciaux nécessitent toujours une réservation."
+      },
+      "dining": {
+        "q1": "Acceptez-vous les régimes alimentaires spéciaux ?",
+        "a1": "Nous accommodons les régimes végétarien, végétalien, sans gluten et halal. Veuillez nous informer de toute allergie ou restriction alimentaire lors de votre réservation, et nos chefs prépareront des alternatives adaptées.",
+        "q2": "Quel type de cuisine servez-vous ?",
+        "a2": "Nous sommes spécialisés dans la cuisine authentique du sud de la Thaïlande, avec des spécialités locales de Phuket et des recettes traditionnelles. Nous proposons également des plats occidentaux, des options japonaises et des créations d'inspiration balinaise. Notre menu satisfait tous les goûts tout en mettant en valeur les saveurs locales.",
+        "q3": "Y a-t-il un code vestimentaire ?",
+        "a3": "Nous avons un code vestimentaire décontracté chic. Bien que nous souhaitons que vous soyez à l'aise dans notre cadre forestier, nous demandons aux clients d'éviter les maillots de bain, les chemises sans manches pour les hommes et les tenues trop décontractées. Des chaussures confortables sont recommandées pour circuler dans nos espaces extérieurs.",
+        "q4": "Les enfants peuvent-ils dîner au restaurant ?",
+        "a4": "Les enfants sont les bienvenus chez Three Monkeys. Nous avons un menu enfant dédié et des chaises hautes disponibles. Notre cadre extérieur est adapté aux familles, mais nous recommandons de surveiller les jeunes enfants près des zones de restauration surélevées."
+      },
+      "experience": {
+        "q1": "Combien de temps dure l'expérience culinaire ?",
+        "a1": "Une expérience culinaire typique dure 2 à 3 heures, vous permettant de profiter pleinement de notre cuisine et de notre atmosphère. Pour les forfaits spéciaux, prévoyez 3 à 4 heures. Nous ne pressons jamais nos clients — votre table vous est réservée pour la soirée.",
+        "q2": "Puis-je demander une place ou zone spécifique ?",
+        "a2": "Oui, vous pouvez demander des places spécifiques lors de la réservation. Les zones populaires comme Monkey Dome et Monkey Nest se remplissent rapidement, nous recommandons donc de réserver tôt. Nous ferons de notre mieux pour satisfaire vos préférences selon disponibilité.",
+        "q3": "Puis-je organiser un événement privé ou une célébration ?",
+        "a3": "Nous adorons accueillir les célébrations. Nous proposons des forfaits anniversaire, des dîners romantiques, des mises en scène de demande en mariage, et pouvons accueillir des événements privés jusqu'à 50 personnes. Contactez-nous pour discuter de vos besoins et nous créerons une expérience sur mesure.",
+        "q4": "Y a-t-il des spectacles en direct ?",
+        "a4": "Certains forfaits incluent des divertissements en direct comme des performances de saxophone, des groupes live et des spectacles de feu. Nos forfaits dîner romantique et ultimate comprennent un divertissement privé. Le service régulier n'inclut pas de spectacles mais offre les sons ambiants de la jungle."
+      },
+      "packages": {
+        "q1": "L'acompte est-il remboursable ?",
+        "a1": "Les acomptes sont entièrement remboursables si vous annulez au moins 24 heures avant votre réservation. Pour les annulations dans les 24 heures, l'acompte peut être perdu. Les forfaits spéciaux peuvent avoir des conditions d'annulation différentes — veuillez vérifier lors de la réservation.",
+        "q2": "Quels moyens de paiement acceptez-vous ?",
+        "a2": "Nous acceptons les espèces (Baht thaïlandais), toutes les principales cartes de crédit (Visa, Mastercard, American Express), les virements bancaires et les paiements mobiles dont PromptPay. Pour les acomptes, nous acceptons les virements et paiements par carte en ligne.",
+        "q3": "Proposez-vous des bons cadeaux ?",
+        "a3": "Oui, nous proposons des bons cadeaux pour tout montant ou pour des forfaits spécifiques. Ils font des cadeaux parfaits pour anniversaires, anniversaires de mariage ou occasions spéciales. Contactez-nous pour acheter des bons, valables 12 mois à partir de la date d'émission.",
+        "q4": "Avez-vous des espaces semi-privés ou privés ?",
+        "a4": "Oui, nos Monkey Dome et Monkey Nest offrent des expériences semi-privées. Pour des événements entièrement privés, nous pouvons organiser l'usage exclusif de certaines zones. Les zones 6 et 7 peuvent accueillir de grands groupes recherchant l'intimité."
+      },
+      "location": {
+        "q1": "Où se trouve Three Monkeys ?",
+        "a1": "Nous sommes situés à l'intérieur de Hanuman World, au 105 Moo 4, Muang Chao Fa Road, Wichit, Mueang Phuket, Phuket 83000. Nous sommes à environ 15 minutes de Phuket Town et 30 minutes de Patong Beach.",
+        "q2": "Y a-t-il un parking ?",
+        "a2": "Oui, un parking gratuit est disponible à Hanuman World. Suivez les panneaux vers le parking du restaurant. Pendant les périodes chargées, notre personnel vous guidera vers les places disponibles. Pour les grands groupes, veuillez nous prévenir à l'avance.",
+        "q3": "Proposez-vous des transferts hôtel ?",
+        "a3": "Bien que nous ne proposions pas de transferts directs, nous pouvons recommander des services de taxi fiables et aider à organiser le transport. De nombreux hôtels à Phuket offrent des navettes vers Hanuman World. Grab et les taxis locaux sont également disponibles.",
+        "q4": "Quels sont vos horaires d'ouverture ?",
+        "a4": "Nous sommes ouverts tous les jours de 10h00 à 01h00. La dernière commande de nourriture est à minuit. Nous recommandons d'arriver avant 22h pour profiter pleinement de l'expérience culinaire. Les horaires de cuisine peuvent varier lors d'occasions spéciales — veuillez vérifier lors de la réservation."
+      }
+    },
+    "contact": {
+      "title": "Besoin d'aide supplémentaire ?",
+      "description": "Notre équipe est prête à vous assister",
+      "call": "Appelez-nous",
+      "callHours": "Tous les jours 10h – 01h",
+      "email": "Envoyez-nous un email",
+      "emailNote": "Réponse sous 24 heures",
+      "visit": "Rendez-nous visite",
+      "visitAddress": "À l'intérieur de Hanuman World",
+      "visitCity": "Wichit, Phuket 83000"
+    },
+    "cta": {
+      "title": "Prêt à découvrir Three Monkeys ?",
+      "description": "Réservez votre table maintenant et découvrez la magie d'un dîner dans la jungle à Phuket",
+      "reserve": "Réserver votre table",
+      "contact": "Contactez-nous"
+    }
+  },
+  "contactPage": {
+    "badge": "Nous serions ravis d'avoir de vos nouvelles",
+    "headline": "Contactez-nous",
+    "description": "Des questions sur les réservations, les événements spéciaux, ou simplement envie de dire bonjour ? Notre équipe est là pour rendre votre expérience inoubliable.",
+    "methods": {
+      "call": "Appelez-nous",
+      "callDesc": "Parlez directement à notre équipe",
+      "email": "Envoyez-nous un email",
+      "emailDesc": "Réponse sous 24 heures",
+      "whatsapp": "WhatsApp",
+      "whatsappDesc": "Discutez avec nous instantanément"
+    },
+    "form": {
+      "title": "Envoyer un message",
+      "subtitle": "Nous répondrons sous 24 heures",
+      "success": "Message envoyé avec succès !",
+      "successDesc": "Merci de nous avoir contactés. Nous vous répondrons dans les 24 heures.",
+      "error": "Échec de l'envoi du message",
+      "name": "Votre nom",
+      "email": "Adresse email",
+      "phone": "Numéro de téléphone",
+      "subject": "Sujet",
+      "subjectPlaceholder": "Sélectionnez un sujet",
+      "subjectOptions": {
+        "reservation": "Demande de réservation",
+        "event": "Événement privé",
+        "feedback": "Commentaires",
+        "partnership": "Partenariat",
+        "other": "Autre"
+      },
+      "message": "Message",
+      "sending": "Envoi en cours...",
+      "send": "Envoyer le message",
+      "required": "*"
+    },
+    "location": {
+      "badge": "Emplacement en forêt tropicale",
+      "title": "Notre emplacement",
+      "restaurant": "Restaurant Three Monkeys",
+      "address": "À l'intérieur de Hanuman World",
+      "addressLine2": "105 Moo 4, Muang Chao Fa Rd.",
+      "addressLine3": "Wichit, Mueang Phuket, Phuket 83000",
+      "country": "Thaïlande",
+      "directions": "Itinéraire"
+    },
+    "hours": {
+      "title": "Horaires d'ouverture",
+      "days": "Lundi - Dimanche",
+      "time": "10h – 01h",
+      "lastOrder": "Dernière commande",
+      "lastOrderTime": "00h",
+      "note": "Réservation recommandée pour le service du dîner"
+    },
+    "cta": {
+      "title": "Prêt à dîner dans la forêt tropicale ?",
+      "description": "Évitez l'attente et réservez votre table en ligne. Découvrez la cuisine thaïlandaise authentique dans un cadre magique au cœur de la jungle.",
+      "reserve": "Réserver votre table"
+    }
+  },
   "booking": {
     "step_package": "Choisissez votre forfait",
     "step_date": "Date et heure",
