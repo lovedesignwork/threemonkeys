@@ -6,6 +6,7 @@ import { Globe, X, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter, usePathname } from '@/i18n/navigation';
 import { LOCALES, type Locale } from '@/i18n/routing';
+import { Flag } from './Flag';
 
 const STORAGE_KEY = 'tm_locale_banner_dismissed_v1';
 
@@ -116,7 +117,7 @@ export function LocaleSuggestionBanner({ currentLocale }: { currentLocale: strin
                 onClick={switchLocale}
                 className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-[#b1b94c] hover:bg-[#c4cc5a] text-black text-sm font-semibold py-2.5 px-3 transition-colors"
               >
-                <span className="text-base mr-1">{meta.flag}</span>
+                <Flag locale={meta.code} className="h-3.5 w-5 rounded-sm overflow-hidden ring-1 ring-black/20" />
                 {t('switch_cta')}
                 <ArrowRight className="h-4 w-4" />
               </button>

@@ -22,7 +22,9 @@
     "reserveNow": "立即预订",
     "sendMessage": "发送消息",
     "backToHome": "返回首页",
-    "loading": "加载中…"
+    "loading": "加载中…",
+    "previous": "上一个",
+    "next": "下一个"
   },
   "switcher": {
     "label": "语言",
@@ -41,5 +43,57 @@
     "visit_us": "前来用餐",
     "open_daily": "每日营业 {hours}",
     "rights_reserved": "© {year} Three Monkeys 餐厅。版权所有。"
+  },
+  "home": {
+    "hero": {
+      "badge": "Three Monkeys 普吉岛",
+      "headline_a": "异域风情餐厅与酒吧",
+      "headline_b": "热带雨林之中",
+      "description": "完美融入 Hanuman World 自然环境的餐厅,普吉岛顶级户外景点,被茂密的丛林绿意与壮丽景色环绕。",
+      "slide_aria": "转到幻灯片 {n}"
+    },
+    "menu": {
+      "eyebrow": "品味雨林",
+      "title": "我们的菜单",
+      "description": "穿越泰国南部丰富风味的美食之旅 —— 每一道菜都融合了西式、日式与巴厘风情。",
+      "tag_signature": "招牌",
+      "tag_kitchen": "厨房精选"
+    },
+    "location": {
+      "eyebrow": "前来用餐",
+      "title_a": "在雨林中",
+      "title_b": "用餐",
+      "description": "餐厅坐落于 Hanuman World 之中,提供独特的用餐体验,被普吉岛古老的热带雨林环绕。",
+      "stat_trees": "百年古树",
+      "stat_sea": "海拔",
+      "stat_temp": "平均气温",
+      "label_location": "位置",
+      "value_location": "Hanuman World 内",
+      "label_reservations": "预订",
+      "detail_reservations": "致电预订",
+      "label_email": "电子邮件",
+      "detail_email": "24 小时内回复",
+      "label_hours": "营业时间",
+      "value_hours": "10:00 – 01:00",
+      "detail_hours": "每日营业"
+    }
+  },
+  "booking": {
+    "step_package": "选择您的套餐",
+    "step_date": "日期与时间",
+    "step_guests": "客人信息",
+    "step_review": "确认与付款",
+    "field_name": "您的姓名",
+    "field_email": "电子邮件",
+    "field_phone": "电话号码",
+    "field_guests": "用餐人数",
+    "field_date": "预订日期",
+    "field_time": "预订时间",
+    "field_notes": "特别要求",
+    "addons_title": "添加体验",
+    "summary_title": "您的预订",
+    "total": "总押金",
+    "continue_pay": "继续付款",
+    "terms_agree": "我同意条款与隐私政策。"
   }
 }

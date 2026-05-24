@@ -22,7 +22,9 @@
     "reserveNow": "จองเลย",
     "sendMessage": "ส่งข้อความ",
     "backToHome": "กลับหน้าแรก",
-    "loading": "กำลังโหลด…"
+    "loading": "กำลังโหลด…",
+    "previous": "ก่อนหน้า",
+    "next": "ถัดไป"
   },
   "switcher": {
     "label": "ภาษา",
@@ -41,5 +43,57 @@
     "visit_us": "มาหาเรา",
     "open_daily": "เปิดทุกวัน {hours}",
     "rights_reserved": "© {year} ร้านอาหาร Three Monkeys สงวนลิขสิทธิ์"
+  },
+  "home": {
+    "hero": {
+      "badge": "Three Monkeys, ภูเก็ต",
+      "headline_a": "ร้านอาหารและบาร์สุดเอ็กโซติก",
+      "headline_b": "กลางป่าฝน",
+      "description": "ผสานเป็นหนึ่งเดียวกับธรรมชาติภายใน Hanuman World แหล่งท่องเที่ยวกลางแจ้งชั้นนำของภูเก็ต ท่ามกลางป่าเขียวขจีและทัศนียภาพอันงดงาม",
+      "slide_aria": "ไปยังสไลด์ที่ {n}"
+    },
+    "menu": {
+      "eyebrow": "ลิ้มรสป่าฝน",
+      "title": "เมนูของเรา",
+      "description": "การเดินทางทางอาหารผ่านรสชาติอันหลากหลายของภาคใต้ ผสานเมนูตะวันตก ญี่ปุ่น และฟิวชั่นบาหลีในทุกจาน",
+      "tag_signature": "เมนูเด่น",
+      "tag_kitchen": "จากครัวของเรา"
+    },
+    "location": {
+      "eyebrow": "ที่ตั้งของเรา",
+      "title_a": "ดินเนอร์",
+      "title_b": "กลางป่าฝน",
+      "description": "ตั้งอยู่ภายใน Hanuman World ร้านอาหารของเราเสิร์ฟประสบการณ์อันเป็นเอกลักษณ์ท่ามกลางป่าฝนโบราณของภูเก็ต",
+      "stat_trees": "ต้นไม้อายุกว่า 100 ปี",
+      "stat_sea": "เหนือระดับน้ำทะเล",
+      "stat_temp": "อุณหภูมิเฉลี่ย",
+      "label_location": "ที่ตั้ง",
+      "value_location": "ภายใน Hanuman World",
+      "label_reservations": "การจอง",
+      "detail_reservations": "โทรเพื่อจอง",
+      "label_email": "อีเมล",
+      "detail_email": "ตอบกลับภายใน 24 ชม.",
+      "label_hours": "เวลาเปิด",
+      "value_hours": "10:00 – 01:00",
+      "detail_hours": "เปิดทุกวัน"
+    }
+  },
+  "booking": {
+    "step_package": "เลือกแพ็กเกจของคุณ",
+    "step_date": "วันที่และเวลา",
+    "step_guests": "ข้อมูลผู้จอง",
+    "step_review": "ตรวจสอบและชำระเงิน",
+    "field_name": "ชื่อ-นามสกุล",
+    "field_email": "อีเมล",
+    "field_phone": "เบอร์โทรศัพท์",
+    "field_guests": "จำนวนผู้ใหญ่",
+    "field_date": "วันที่จอง",
+    "field_time": "เวลาที่จอง",
+    "field_notes": "ความต้องการพิเศษ",
+    "addons_title": "เพิ่มประสบการณ์",
+    "summary_title": "การจองของคุณ",
+    "total": "ยอดมัดจำรวม",
+    "continue_pay": "ไปยังการชำระเงิน",
+    "terms_agree": "ฉันยอมรับข้อกำหนดและนโยบายความเป็นส่วนตัว"
   }
 }

@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { ArrowRight, Utensils } from 'lucide-react';
 
@@ -32,6 +33,8 @@ const menuImages: MenuImage[] = [
 ];
 
 export function MenuShowcase() {
+  const t = useTranslations('home.menu');
+  const tActions = useTranslations('actions');
   // Duplicate the list so the marquee can loop seamlessly.
   const duplicated = [...menuImages, ...menuImages];
 
@@ -73,7 +76,7 @@ export function MenuShowcase() {
             transition={{ delay: 0.05 }}
             className="text-[10px] sm:text-xs uppercase tracking-[0.4em] text-[#b1b94c] mb-4"
           >
-            Taste the Rainforest
+            {t('eyebrow')}
           </motion.p>
 
           <motion.h2
@@ -83,7 +86,7 @@ export function MenuShowcase() {
             transition={{ delay: 0.1 }}
             className="text-4xl sm:text-5xl lg:text-6xl font-[family-name:var(--font-krona)] text-white normal-case leading-[1.05] mb-6"
           >
-            Our Menu
+            {t('title')}
           </motion.h2>
 
           <motion.p
@@ -93,8 +96,7 @@ export function MenuShowcase() {
             transition={{ delay: 0.15 }}
             className="text-white/55 text-base sm:text-lg max-w-2xl mx-auto font-[family-name:var(--font-inter)]"
           >
-            A culinary journey through Southern Thailand&apos;s rich flavors —
-            with Western, Japanese and Bali fusion crossing every plate.
+            {t('description')}
           </motion.p>
         </div>
 
@@ -117,7 +119,7 @@ export function MenuShowcase() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-3 sm:p-4">
                   <p className="text-[10px] uppercase tracking-[0.2em] text-[#b1b94c]/80 mb-0.5">
-                    Signature
+                    {t('tag_signature')}
                   </p>
                   <p className="text-white text-sm sm:text-base font-[family-name:var(--font-krona)] leading-tight truncate">
                     {image.alt}
@@ -147,7 +149,7 @@ export function MenuShowcase() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-3 sm:p-4">
                   <p className="text-[10px] uppercase tracking-[0.2em] text-[#b1b94c]/80 mb-0.5">
-                    From the kitchen
+                    {t('tag_kitchen')}
                   </p>
                   <p className="text-white text-sm sm:text-base font-[family-name:var(--font-krona)] leading-tight truncate">
                     {image.alt}
@@ -169,7 +171,7 @@ export function MenuShowcase() {
             href="/menu"
             className="group inline-flex items-center gap-3 px-8 py-4 bg-[#b1b94c] hover:bg-[#c4cc5a] text-black font-[family-name:var(--font-krona)] rounded-full transition-all text-sm sm:text-base tracking-wide"
           >
-            <span>Explore Full Menu</span>
+            <span>{tActions('exploreMenu')}</span>
             <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
           </Link>
         </motion.div>

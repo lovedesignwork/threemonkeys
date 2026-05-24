@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { ArrowRight, MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -14,6 +15,9 @@ const heroImages = [
 ];
 
 export function HeroSlideshow() {
+  const t = useTranslations('home.hero');
+  const tActions = useTranslations('actions');
+  const tNav = useTranslations('nav');
   const [currentImage, setCurrentImage] = useState(0);
 
   useEffect(() => {
@@ -61,7 +65,7 @@ export function HeroSlideshow() {
       <button
         type="button"
         onClick={goPrev}
-        aria-label="Previous slide"
+        aria-label={tActions('previous')}
         className="hidden sm:flex absolute left-6 top-1/2 -translate-y-1/2 z-30 h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-black/30 text-white backdrop-blur-md transition-all hover:bg-[#b1b94c] hover:text-black hover:border-[#b1b94c]"
       >
         <ChevronLeft className="h-6 w-6" />
@@ -69,7 +73,7 @@ export function HeroSlideshow() {
       <button
         type="button"
         onClick={goNext}
-        aria-label="Next slide"
+        aria-label={tActions('next')}
         className="hidden sm:flex absolute right-6 top-1/2 -translate-y-1/2 z-30 h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-black/30 text-white backdrop-blur-md transition-all hover:bg-[#b1b94c] hover:text-black hover:border-[#b1b94c]"
       >
         <ChevronRight className="h-6 w-6" />
@@ -90,19 +94,19 @@ export function HeroSlideshow() {
               <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/20 px-4 py-1.5 backdrop-blur-md">
                 <MapPin className="h-4 w-4 text-[#b1b94c]" />
                 <span className="font-[family-name:var(--font-krona)] text-[12px] font-semibold uppercase tracking-widest text-white">
-                  Three Monkeys, Phuket
+                  {t('badge')}
                 </span>
               </div>
-              
+
               <h1 className="normal-case font-[family-name:var(--font-krona)] text-3xl font-bold leading-[1.1] tracking-tight text-white sm:text-4xl lg:text-5xl">
-                Exotic Restaurant &amp; Bar <br />
-                <span className="text-[#b1b94c]">in the Rainforest</span>
+                {t('headline_a')} <br />
+                <span className="text-[#b1b94c]">{t('headline_b')}</span>
               </h1>
 
               {/* Description hidden on mobile to keep the hero clean —
                   appears from sm: up. */}
               <p className="mt-6 max-w-lg font-[family-name:var(--font-inter)] text-base font-light leading-relaxed text-white/80 sm:text-lg hidden sm:block">
-                Seamlessly blending with its natural surroundings within the island&apos;s top outdoor attraction, Hanuman World. Set amongst the backdrop of lush jungle greenery and stunning views.
+                {t('description')}
               </p>
             </motion.div>
 
@@ -119,7 +123,7 @@ export function HeroSlideshow() {
                   href="/booking"
                   className="group flex items-center gap-3 rounded-full bg-white px-8 py-4 font-[family-name:var(--font-krona)] text-sm font-bold uppercase tracking-wider text-black transition-all hover:bg-[#b1b94c]"
                 >
-                  RESERVE A TABLE
+                  {tNav('reserveTable')}
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </Link>
               </div>
@@ -132,7 +136,7 @@ export function HeroSlideshow() {
                 <button
                   type="button"
                   onClick={goPrev}
-                  aria-label="Previous slide"
+                  aria-label={tActions('previous')}
                   className="flex sm:hidden h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-[#b1b94c] hover:text-black"
                 >
                   <ChevronLeft className="h-4 w-4" />
@@ -148,7 +152,7 @@ export function HeroSlideshow() {
                     <button
                       key={idx}
                       onClick={() => setCurrentImage(idx)}
-                      aria-label={`Go to slide ${idx + 1}`}
+                      aria-label={t('slide_aria', { n: idx + 1 })}
                       className="group relative h-1.5 w-6 sm:w-12 overflow-hidden rounded-full bg-white/20 transition-colors hover:bg-white/40"
                     >
                       {currentImage === idx && (
@@ -170,7 +174,7 @@ export function HeroSlideshow() {
                 <button
                   type="button"
                   onClick={goNext}
-                  aria-label="Next slide"
+                  aria-label={tActions('next')}
                   className="flex sm:hidden h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-[#b1b94c] hover:text-black"
                 >
                   <ChevronRight className="h-4 w-4" />

@@ -27,22 +27,20 @@ export interface LocaleMeta {
   english: string;
   /** Native name shown in the switcher dropdown */
   native: string;
-  /** Optional ISO flag emoji for visual scan-ability */
-  flag: string;
   /** Set true for languages that read right-to-left. */
   rtl?: boolean;
 }
 
 export const LOCALES: readonly LocaleMeta[] = [
-  { code: 'en', english: 'English',  native: 'English',    flag: '🇬🇧' },
-  { code: 'th', english: 'Thai',     native: 'ภาษาไทย',     flag: '🇹🇭' },
-  { code: 'cn', english: 'Chinese',  native: '中文',         flag: '🇨🇳' },
-  { code: 'ja', english: 'Japanese', native: '日本語',       flag: '🇯🇵' },
-  { code: 'ko', english: 'Korean',   native: '한국어',        flag: '🇰🇷' },
-  { code: 'ru', english: 'Russian',  native: 'Русский',     flag: '🇷🇺' },
-  { code: 'fr', english: 'French',   native: 'Français',    flag: '🇫🇷' },
-  { code: 'es', english: 'Spanish',  native: 'Español',     flag: '🇪🇸' },
-  { code: 'ar', english: 'Arabic',   native: 'العربية',     flag: '🇸🇦', rtl: true },
+  { code: 'en', english: 'English',  native: 'English'   },
+  { code: 'th', english: 'Thai',     native: 'ภาษาไทย'    },
+  { code: 'cn', english: 'Chinese',  native: '中文'        },
+  { code: 'ja', english: 'Japanese', native: '日本語'      },
+  { code: 'ko', english: 'Korean',   native: '한국어'       },
+  { code: 'ru', english: 'Russian',  native: 'Русский'    },
+  { code: 'fr', english: 'French',   native: 'Français'   },
+  { code: 'es', english: 'Spanish',  native: 'Español'    },
+  { code: 'ar', english: 'Arabic',   native: 'العربية',    rtl: true },
 ] as const;
 
 export function getLocaleMeta(code: string): LocaleMeta | undefined {

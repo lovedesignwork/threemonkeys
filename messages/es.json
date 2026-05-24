@@ -22,7 +22,9 @@
     "reserveNow": "Reservar",
     "sendMessage": "Enviar mensaje",
     "backToHome": "Volver al inicio",
-    "loading": "Cargando…"
+    "loading": "Cargando…",
+    "previous": "Anterior",
+    "next": "Siguiente"
   },
   "switcher": {
     "label": "Idioma",
@@ -41,5 +43,57 @@
     "visit_us": "Visítanos",
     "open_daily": "Abierto todos los días {hours}",
     "rights_reserved": "© {year} Three Monkeys Restaurant. Todos los derechos reservados."
+  },
+  "home": {
+    "hero": {
+      "badge": "Three Monkeys, Phuket",
+      "headline_a": "Restaurante y Bar Exótico",
+      "headline_b": "en la Selva Tropical",
+      "description": "Integrado en la naturaleza de Hanuman World, la atracción al aire libre más destacada de la isla. Entre la vegetación exuberante de la selva y vistas espectaculares.",
+      "slide_aria": "Ir a la diapositiva {n}"
+    },
+    "menu": {
+      "eyebrow": "Sabores de la selva",
+      "title": "Nuestro Menú",
+      "description": "Un viaje culinario por los ricos sabores del sur de Tailandia — con toques occidentales, japoneses y de fusión balinesa en cada plato.",
+      "tag_signature": "Signature",
+      "tag_kitchen": "De la cocina"
+    },
+    "location": {
+      "eyebrow": "Encuéntranos",
+      "title_a": "Cena en la",
+      "title_b": "Selva Tropical",
+      "description": "Situado dentro de Hanuman World, nuestro restaurante ofrece una experiencia única bajo el dosel de la antigua selva tropical de Phuket.",
+      "stat_trees": "Árboles centenarios",
+      "stat_sea": "Sobre el nivel del mar",
+      "stat_temp": "Temperatura media",
+      "label_location": "Ubicación",
+      "value_location": "Dentro de Hanuman World",
+      "label_reservations": "Reservas",
+      "detail_reservations": "Llama para reservar",
+      "label_email": "Correo",
+      "detail_email": "Respondemos en 24 h",
+      "label_hours": "Horario",
+      "value_hours": "10:00 – 01:00",
+      "detail_hours": "Abierto todos los días"
+    }
+  },
+  "booking": {
+    "step_package": "Elige tu paquete",
+    "step_date": "Fecha y hora",
+    "step_guests": "Datos del cliente",
+    "step_review": "Revisar y pagar",
+    "field_name": "Tu nombre",
+    "field_email": "Correo electrónico",
+    "field_phone": "Teléfono",
+    "field_guests": "Número de comensales",
+    "field_date": "Fecha de reserva",
+    "field_time": "Hora de reserva",
+    "field_notes": "Peticiones especiales",
+    "addons_title": "Añadir una experiencia",
+    "summary_title": "Tu reserva",
+    "total": "Depósito total",
+    "continue_pay": "Continuar al pago",
+    "terms_agree": "Acepto los Términos y la Política de privacidad."
   }
 }

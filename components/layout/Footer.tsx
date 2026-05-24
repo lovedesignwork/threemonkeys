@@ -3,23 +3,9 @@
 import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
 import { usePathname } from '@/i18n/navigation';
+import { useTranslations } from 'next-intl';
 import { Facebook, Instagram, Youtube, ArrowUpRight, MapPin, Phone, Mail, Clock, MessageCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
-
-const navLinks = [
-  { name: 'Home', href: '/' },
-  { name: 'Our Seats', href: '/seats' },
-  { name: 'About', href: '/about' },
-  { name: 'Blog', href: '/blog' },
-  { name: 'FAQ', href: '/faq' },
-  { name: 'Contact', href: '/contact' },
-];
-
-const legalLinks = [
-  { name: 'Privacy', href: '/privacy' },
-  { name: 'Terms', href: '/terms' },
-  { name: 'Refund', href: '/refund' },
-];
 
 const socialLinks = [
   { name: 'Facebook', icon: Facebook, href: 'https://facebook.com/threemonkeys' },
@@ -28,10 +14,29 @@ const socialLinks = [
 ];
 
 export function Footer() {
+  const tNav = useTranslations('nav');
+  const tFooter = useTranslations('footer');
+  const tActions = useTranslations('actions');
+  const tLocation = useTranslations('home.location');
   const currentYear = new Date().getFullYear();
   const pathname = usePathname();
-  
+
   const isBookingOrCheckout = pathname === '/booking' || pathname === '/checkout';
+
+  // Built per-render so the labels read from the active locale.
+  const navLinks: { key: 'home' | 'seats' | 'about' | 'blog' | 'faq' | 'contact'; href: string }[] = [
+    { key: 'home',    href: '/' },
+    { key: 'seats',   href: '/seats' },
+    { key: 'about',   href: '/about' },
+    { key: 'blog',    href: '/blog' },
+    { key: 'faq',     href: '/faq' },
+    { key: 'contact', href: '/contact' },
+  ];
+  const legalLinks: { label: string; href: string }[] = [
+    { label: 'Privacy', href: '/privacy' },
+    { label: 'Terms',   href: '/terms' },
+    { label: 'Refund',  href: '/refund' },
+  ];
 
   return (
     <footer className="relative bg-[#0a0a0a]">
@@ -94,7 +99,7 @@ export function Footer() {
                   whileTap={{ scale: 0.98 }}
                   className="flex items-center gap-3 px-8 py-4 bg-[#b1b94c] text-black font-[family-name:var(--font-krona)] rounded-full hover:bg-[#c4cc5a] transition-all"
                 >
-                  RESERVE A TABLE
+                  {tNav('reserveTable')}
                   <ArrowUpRight className="w-5 h-5" />
                 </motion.button>
               </Link>
@@ -120,8 +125,7 @@ export function Footer() {
                 />
               </Link>
               <p className="text-white/40 text-sm leading-relaxed mb-6 max-w-xs font-[family-name:var(--font-inter)]">
-                Authentic Southern Thai cuisine nestled in Phuket&apos;s rainforest. 
-                A dining experience unlike any other.
+                {tFooter('brand_tagline')}
               </p>
               
               {/* Social Links */}
@@ -144,16 +148,16 @@ export function Footer() {
             {/* Quick Links */}
             <div className="lg:col-span-2">
               <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-5">
-                Explore
+                {tFooter('explore')}
               </h4>
               <ul className="space-y-3">
                 {navLinks.map((link) => (
-                  <li key={link.name}>
+                  <li key={link.key}>
                     <Link
                       href={link.href}
                       className="text-white/40 hover:text-[#b1b94c] transition-colors text-sm font-[family-name:var(--font-inter)]"
                     >
-                      {link.name}
+                      {tNav(link.key)}
                     </Link>
                   </li>
                 ))}
@@ -163,16 +167,16 @@ export function Footer() {
             {/* Legal Links */}
             <div className="lg:col-span-2">
               <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-5">
-                Legal
+                {tFooter('legal')}
               </h4>
               <ul className="space-y-3">
                 {legalLinks.map((link) => (
-                  <li key={link.name}>
+                  <li key={link.label}>
                     <Link
                       href={link.href}
                       className="text-white/40 hover:text-[#b1b94c] transition-colors text-sm font-[family-name:var(--font-inter)]"
                     >
-                      {link.name}
+                      {link.label}
                     </Link>
                   </li>
                 ))}
@@ -182,7 +186,7 @@ export function Footer() {
             {/* Contact Info */}
             <div className="lg:col-span-4">
               <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-5">
-                Visit Us
+                {tFooter('visit_us')}
               </h4>
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
@@ -207,7 +211,7 @@ export function Footer() {
                 <div className="flex items-center gap-3">
                   <Clock className="w-4 h-4 text-[#b1b94c] flex-shrink-0" />
                   <p className="text-white/70 text-sm font-[family-name:var(--font-inter)]">
-                    Open Daily 10AM – 1AM
+                    {tFooter('open_daily', { hours: tLocation('value_hours') })}
                   </p>
                 </div>
               </div>
@@ -221,7 +225,7 @@ export function Footer() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-white/30 text-xs font-[family-name:var(--font-inter)]">
-              © {currentYear} Three Monkeys Restaurant. All rights reserved.
+              {tFooter('rights_reserved', { year: currentYear })}
             </p>
             <p className="text-white/30 text-xs font-[family-name:var(--font-inter)]">
               Powered by{' '}

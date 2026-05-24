@@ -22,7 +22,9 @@
     "reserveNow": "지금 예약",
     "sendMessage": "메시지 보내기",
     "backToHome": "홈으로",
-    "loading": "로딩 중…"
+    "loading": "로딩 중…",
+    "previous": "이전",
+    "next": "다음"
   },
   "switcher": {
     "label": "언어",
@@ -41,5 +43,57 @@
     "visit_us": "방문",
     "open_daily": "매일 영업 {hours}",
     "rights_reserved": "© {year} Three Monkeys Restaurant. All rights reserved."
+  },
+  "home": {
+    "hero": {
+      "badge": "Three Monkeys, 푸켓",
+      "headline_a": "이국적인 레스토랑 & 바",
+      "headline_b": "열대우림 속에서",
+      "description": "푸켓 최고의 야외 명소 Hanuman World 안에서 자연과 어우러진 레스토랑. 무성한 정글과 아름다운 풍경이 펼쳐진 특별한 공간입니다.",
+      "slide_aria": "{n}번 슬라이드로 이동"
+    },
+    "menu": {
+      "eyebrow": "우림의 맛",
+      "title": "메뉴",
+      "description": "남부 태국의 풍부한 풍미를 따라가는 미식 여정 — 모든 접시에 서양, 일식, 발리 퓨전이 어우러집니다.",
+      "tag_signature": "시그니처",
+      "tag_kitchen": "주방에서"
+    },
+    "location": {
+      "eyebrow": "오시는 길",
+      "title_a": "열대우림에서",
+      "title_b": "식사하세요",
+      "description": "Hanuman World 안에 자리 잡은 저희 레스토랑은 푸켓의 오래된 우림에 둘러싸인 독특한 다이닝 경험을 제공합니다.",
+      "stat_trees": "수령 100년+ 나무",
+      "stat_sea": "해발 고도",
+      "stat_temp": "평균 기온",
+      "label_location": "위치",
+      "value_location": "Hanuman World 내",
+      "label_reservations": "예약",
+      "detail_reservations": "전화로 예약",
+      "label_email": "이메일",
+      "detail_email": "24시간 이내 회신",
+      "label_hours": "영업 시간",
+      "value_hours": "10:00 – 01:00",
+      "detail_hours": "매일 영업"
+    }
+  },
+  "booking": {
+    "step_package": "패키지 선택",
+    "step_date": "날짜 및 시간",
+    "step_guests": "방문객 정보",
+    "step_review": "확인 및 결제",
+    "field_name": "이름",
+    "field_email": "이메일",
+    "field_phone": "전화번호",
+    "field_guests": "인원 수",
+    "field_date": "예약 날짜",
+    "field_time": "예약 시간",
+    "field_notes": "특별 요청 사항",
+    "addons_title": "경험 추가",
+    "summary_title": "예약 내역",
+    "total": "총 보증금",
+    "continue_pay": "결제로 진행",
+    "terms_agree": "이용약관 및 개인정보 보호정책에 동의합니다."
   }
 }

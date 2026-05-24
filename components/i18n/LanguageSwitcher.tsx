@@ -5,7 +5,8 @@ import { useLocale, useTranslations } from 'next-intl';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Globe, Check, ChevronDown } from 'lucide-react';
 import { useRouter, usePathname } from '@/i18n/navigation';
-import { LOCALES } from '@/i18n/routing';
+import { LOCALES, type Locale } from '@/i18n/routing';
+import { Flag } from './Flag';
 
 interface LanguageSwitcherProps {
   /** Visual variant — compact for mobile menus, default for desktop header. */
@@ -63,7 +64,7 @@ export function LanguageSwitcher({ variant = 'default' }: LanguageSwitcherProps)
           <Globe className="h-5 w-5" />
         ) : (
           <>
-            <span className="text-base leading-none">{current.flag}</span>
+            <Flag locale={current.code} className="h-3 w-[18px] rounded-[2px] overflow-hidden ring-1 ring-black/20" />
             <span className="font-[family-name:var(--font-krona)]">{current.code.toUpperCase()}</span>
             <ChevronDown className={`h-3 w-3 transition-transform ${open ? 'rotate-180' : ''}`} />
           </>
@@ -96,7 +97,7 @@ export function LanguageSwitcher({ variant = 'default' }: LanguageSwitcherProps)
                         : 'text-white/80 hover:bg-white/5'
                     }`}
                   >
-                    <span className="text-base leading-none w-5 text-center">{l.flag}</span>
+                    <Flag locale={l.code} className="h-3.5 w-5 rounded-sm overflow-hidden ring-1 ring-black/20 flex-shrink-0" />
                     <span className="flex-1 min-w-0">
                       <span className="block leading-tight">{l.native}</span>
                       <span className="block text-[10px] uppercase tracking-widest text-white/35">

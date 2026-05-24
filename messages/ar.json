@@ -22,7 +22,9 @@
     "reserveNow": "احجز الآن",
     "sendMessage": "إرسال الرسالة",
     "backToHome": "العودة للرئيسية",
-    "loading": "جارٍ التحميل…"
+    "loading": "جارٍ التحميل…",
+    "previous": "السابق",
+    "next": "التالي"
   },
   "switcher": {
     "label": "اللغة",
@@ -41,5 +43,57 @@
     "visit_us": "زرنا",
     "open_daily": "مفتوح يوميًا {hours}",
     "rights_reserved": "© {year} مطعم ثري مونكيز. جميع الحقوق محفوظة."
+  },
+  "home": {
+    "hero": {
+      "badge": "ثري مونكيز، بوكيت",
+      "headline_a": "مطعم وبار استثنائي",
+      "headline_b": "في الغابة المطيرة",
+      "description": "يندمج المطعم مع الطبيعة داخل Hanuman World، أبرز معالم بوكيت في الهواء الطلق. تحيط بك الأدغال الخضراء والمناظر الخلابة.",
+      "slide_aria": "الانتقال إلى الشريحة {n}"
+    },
+    "menu": {
+      "eyebrow": "نكهات الغابة المطيرة",
+      "title": "قائمتنا",
+      "description": "رحلة طهوية عبر نكهات جنوب تايلاند الغنية — بلمسات غربية ويابانية وفيوجن بالي في كل طبق.",
+      "tag_signature": "المميز",
+      "tag_kitchen": "من المطبخ"
+    },
+    "location": {
+      "eyebrow": "موقعنا",
+      "title_a": "تناول الطعام في",
+      "title_b": "الغابة المطيرة",
+      "description": "يقع مطعمنا داخل Hanuman World ويقدم تجربة طعام فريدة وسط غابات بوكيت القديمة.",
+      "stat_trees": "أشجار عمرها +100 عام",
+      "stat_sea": "فوق مستوى البحر",
+      "stat_temp": "متوسط درجة الحرارة",
+      "label_location": "الموقع",
+      "value_location": "داخل Hanuman World",
+      "label_reservations": "الحجوزات",
+      "detail_reservations": "اتصل للحجز",
+      "label_email": "البريد",
+      "detail_email": "نرد خلال 24 ساعة",
+      "label_hours": "ساعات العمل",
+      "value_hours": "10:00 – 01:00",
+      "detail_hours": "مفتوح يوميًا"
+    }
+  },
+  "booking": {
+    "step_package": "اختر باقتك",
+    "step_date": "التاريخ والوقت",
+    "step_guests": "بيانات الضيف",
+    "step_review": "المراجعة والدفع",
+    "field_name": "اسمك",
+    "field_email": "البريد الإلكتروني",
+    "field_phone": "رقم الهاتف",
+    "field_guests": "عدد الأشخاص",
+    "field_date": "تاريخ الحجز",
+    "field_time": "وقت الحجز",
+    "field_notes": "طلبات خاصة",
+    "addons_title": "أضف تجربة",
+    "summary_title": "حجزك",
+    "total": "إجمالي العربون",
+    "continue_pay": "المتابعة للدفع",
+    "terms_agree": "أوافق على الشروط وسياسة الخصوصية."
   }
 }

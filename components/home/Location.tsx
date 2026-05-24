@@ -1,38 +1,11 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { MapPin, Phone, Mail, Clock, Navigation, ArrowUpRight } from 'lucide-react';
 
-const contactDetails = [
-  {
-    icon: MapPin,
-    label: 'Location',
-    value: 'Inside Hanuman World',
-    detail: 'Wichit, Phuket 83000',
-    href: 'https://maps.app.goo.gl/hk5Z7PQUHnmz6tVB6',
-  },
-  {
-    icon: Phone,
-    label: 'Reservations',
-    value: '+66 98-010-8838',
-    detail: 'Call for bookings',
-    href: 'tel:+66980108838',
-  },
-  {
-    icon: Mail,
-    label: 'Email',
-    value: 'enjoy@threemonkeysphuket.com',
-    detail: 'We reply within 24h',
-    href: 'mailto:enjoy@threemonkeysphuket.com',
-  },
-  {
-    icon: Clock,
-    label: 'Open Hours',
-    value: '10AM – 1AM',
-    detail: 'Open Daily',
-  },
-];
-
+// Travel times are place names — left untranslated by design (they're
+// proper nouns on every map the visitor will use).
 const travelTimes = [
   { location: 'Patong Beach', time: '25', unit: 'min' },
   { location: 'Phuket Town', time: '20', unit: 'min' },
@@ -41,6 +14,42 @@ const travelTimes = [
 ];
 
 export function Location() {
+  const t = useTranslations('home.location');
+  const tActions = useTranslations('actions');
+
+  // Built inside the component so labels/values pull from the active locale.
+  // Phone, email and physical address themselves stay as-is — they're
+  // identifiers, not translatable copy.
+  const contactDetails = [
+    {
+      icon: MapPin,
+      label: t('label_location'),
+      value: t('value_location'),
+      detail: 'Wichit, Phuket 83000',
+      href: 'https://maps.app.goo.gl/hk5Z7PQUHnmz6tVB6',
+    },
+    {
+      icon: Phone,
+      label: t('label_reservations'),
+      value: '+66 98-010-8838',
+      detail: t('detail_reservations'),
+      href: 'tel:+66980108838',
+    },
+    {
+      icon: Mail,
+      label: t('label_email'),
+      value: 'enjoy@threemonkeysphuket.com',
+      detail: t('detail_email'),
+      href: 'mailto:enjoy@threemonkeysphuket.com',
+    },
+    {
+      icon: Clock,
+      label: t('label_hours'),
+      value: t('value_hours'),
+      detail: t('detail_hours'),
+    },
+  ];
+
   return (
     <section className="relative py-24 lg:py-32 bg-[#0f0f0f] overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -56,34 +65,33 @@ export function Location() {
             <div className="flex items-center gap-3 mb-6">
               <div className="w-12 h-[2px] bg-[#b1b94c]" />
               <span className="text-[#b1b94c] text-sm font-medium uppercase tracking-[0.3em]">
-                Find Us
+                {t('eyebrow')}
               </span>
             </div>
-            
+
             <h2 className="text-5xl md:text-6xl lg:text-7xl font-[family-name:var(--font-krona)] text-white leading-[1.1] mb-8 normal-case">
-              Dine in the
+              {t('title_a')}
               <br />
-              <span className="text-[#b1b94c]">Rainforest</span>
+              <span className="text-[#b1b94c]">{t('title_b')}</span>
             </h2>
-            
+
             <p className="text-white/60 text-lg leading-relaxed mb-10 max-w-md font-[family-name:var(--font-inter)]">
-              Nestled within Hanuman World, our restaurant offers a unique dining 
-              experience surrounded by Phuket&apos;s ancient rainforest canopy.
+              {t('description')}
             </p>
 
             {/* Quick Stats */}
             <div className="flex gap-8">
               <div>
                 <div className="text-4xl font-[family-name:var(--font-krona)] text-[#b1b94c]">100+</div>
-                <div className="text-white/40 text-sm mt-1">Year Old Trees</div>
+                <div className="text-white/40 text-sm mt-1">{t('stat_trees')}</div>
               </div>
               <div>
                 <div className="text-4xl font-[family-name:var(--font-krona)] text-[#b1b94c]">80m</div>
-                <div className="text-white/40 text-sm mt-1">Above Sea Level</div>
+                <div className="text-white/40 text-sm mt-1">{t('stat_sea')}</div>
               </div>
               <div>
                 <div className="text-4xl font-[family-name:var(--font-krona)] text-[#b1b94c]">25°</div>
-                <div className="text-white/40 text-sm mt-1">Avg Temperature</div>
+                <div className="text-white/40 text-sm mt-1">{t('stat_temp')}</div>
               </div>
             </div>
           </motion.div>
@@ -126,7 +134,7 @@ export function Location() {
 
               <div className="absolute inset-x-4 bottom-4 sm:inset-x-6 sm:bottom-6">
                 <div className="text-white text-xs uppercase tracking-[0.3em] mb-2 opacity-80">
-                  Inside Hanuman World
+                  {t('value_location')}
                 </div>
                 <div className="flex items-center justify-between gap-4">
                   <div className="min-w-0">
@@ -143,7 +151,7 @@ export function Location() {
                 </div>
 
                 <div className="mt-3 flex items-center justify-center gap-2 rounded-full bg-[#b1b94c] py-3 text-black font-[family-name:var(--font-krona)] text-sm tracking-wide">
-                  <span>Get Directions</span>
+                  <span>{tActions('directions')}</span>
                   <ArrowUpRight className="w-4 h-4" />
                 </div>
               </div>
@@ -175,8 +183,8 @@ export function Location() {
                 <Navigation className="w-7 h-7 text-black" />
               </div>
               <div>
-                <div className="text-black font-[family-name:var(--font-krona)] text-lg">Get Directions</div>
-                <div className="text-black/60 text-sm">Open in Google Maps</div>
+                <div className="text-black font-[family-name:var(--font-krona)] text-lg">{tActions('directions')}</div>
+                <div className="text-black/60 text-sm">Google Maps</div>
               </div>
               <ArrowUpRight className="w-5 h-5 text-black/60 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
             </motion.a>

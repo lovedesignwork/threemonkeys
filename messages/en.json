@@ -22,7 +22,9 @@
     "reserveNow": "Reserve Now",
     "sendMessage": "Send Message",
     "backToHome": "Back to Home",
-    "loading": "Loading…"
+    "loading": "Loading…",
+    "previous": "Previous",
+    "next": "Next"
   },
   "switcher": {
     "label": "Language",
@@ -41,5 +43,57 @@
     "visit_us": "Visit Us",
     "open_daily": "Open Daily {hours}",
     "rights_reserved": "© {year} Three Monkeys Restaurant. All rights reserved."
+  },
+  "home": {
+    "hero": {
+      "badge": "Three Monkeys, Phuket",
+      "headline_a": "Exotic Restaurant & Bar",
+      "headline_b": "in the Rainforest",
+      "description": "Seamlessly blending with its natural surroundings within the island's top outdoor attraction, Hanuman World. Set amongst the backdrop of lush jungle greenery and stunning views.",
+      "slide_aria": "Go to slide {n}"
+    },
+    "menu": {
+      "eyebrow": "Taste the Rainforest",
+      "title": "Our Menu",
+      "description": "A culinary journey through Southern Thailand's rich flavors — with Western, Japanese and Bali fusion crossing every plate.",
+      "tag_signature": "Signature",
+      "tag_kitchen": "From the kitchen"
+    },
+    "location": {
+      "eyebrow": "Find Us",
+      "title_a": "Dine in the",
+      "title_b": "Rainforest",
+      "description": "Nestled within Hanuman World, our restaurant offers a unique dining experience surrounded by Phuket's ancient rainforest canopy.",
+      "stat_trees": "Year Old Trees",
+      "stat_sea": "Above Sea Level",
+      "stat_temp": "Avg Temperature",
+      "label_location": "Location",
+      "value_location": "Inside Hanuman World",
+      "label_reservations": "Reservations",
+      "detail_reservations": "Call for bookings",
+      "label_email": "Email",
+      "detail_email": "We reply within 24h",
+      "label_hours": "Open Hours",
+      "value_hours": "10AM – 1AM",
+      "detail_hours": "Open Daily"
+    }
+  },
+  "booking": {
+    "step_package": "Choose your package",
+    "step_date": "Date & Time",
+    "step_guests": "Guest details",
+    "step_review": "Review & Pay",
+    "field_name": "Your Name",
+    "field_email": "Email Address",
+    "field_phone": "Phone Number",
+    "field_guests": "Number of Guests",
+    "field_date": "Reservation Date",
+    "field_time": "Reservation Time",
+    "field_notes": "Special Requests",
+    "addons_title": "Add an experience",
+    "summary_title": "Your Reservation",
+    "total": "Total Deposit",
+    "continue_pay": "Continue to Payment",
+    "terms_agree": "I agree to the Terms & Conditions and Privacy Policy."
   }
 }

@@ -22,7 +22,9 @@
     "reserveNow": "Забронировать",
     "sendMessage": "Отправить",
     "backToHome": "На главную",
-    "loading": "Загрузка…"
+    "loading": "Загрузка…",
+    "previous": "Назад",
+    "next": "Далее"
   },
   "switcher": {
     "label": "Язык",
@@ -41,5 +43,57 @@
     "visit_us": "Адрес",
     "open_daily": "Открыто ежедневно {hours}",
     "rights_reserved": "© {year} Three Monkeys Restaurant. Все права защищены."
+  },
+  "home": {
+    "hero": {
+      "badge": "Three Monkeys, Пхукет",
+      "headline_a": "Экзотический ресторан и бар",
+      "headline_b": "в тропическом лесу",
+      "description": "Ресторан, гармонично вписанный в природу парка Hanuman World — главной открытой достопримечательности Пхукета. Зелень джунглей и потрясающие виды вокруг.",
+      "slide_aria": "Перейти к слайду {n}"
+    },
+    "menu": {
+      "eyebrow": "Вкус тропического леса",
+      "title": "Наше меню",
+      "description": "Гастрономическое путешествие по богатым вкусам южного Таиланда — с европейскими, японскими и балийскими акцентами в каждом блюде.",
+      "tag_signature": "Фирменное",
+      "tag_kitchen": "Из кухни"
+    },
+    "location": {
+      "eyebrow": "Как нас найти",
+      "title_a": "Ужин",
+      "title_b": "в тропическом лесу",
+      "description": "Расположенный в Hanuman World, наш ресторан предлагает уникальный опыт под пологом древнего тропического леса Пхукета.",
+      "stat_trees": "Вековых деревьев",
+      "stat_sea": "Над уровнем моря",
+      "stat_temp": "Средняя температура",
+      "label_location": "Адрес",
+      "value_location": "На территории Hanuman World",
+      "label_reservations": "Бронирование",
+      "detail_reservations": "Звоните для бронирования",
+      "label_email": "Email",
+      "detail_email": "Ответим в течение 24 ч",
+      "label_hours": "Часы работы",
+      "value_hours": "10:00 – 01:00",
+      "detail_hours": "Открыто ежедневно"
+    }
+  },
+  "booking": {
+    "step_package": "Выберите пакет",
+    "step_date": "Дата и время",
+    "step_guests": "Данные гостя",
+    "step_review": "Проверка и оплата",
+    "field_name": "Ваше имя",
+    "field_email": "Email",
+    "field_phone": "Телефон",
+    "field_guests": "Количество гостей",
+    "field_date": "Дата бронирования",
+    "field_time": "Время бронирования",
+    "field_notes": "Особые пожелания",
+    "addons_title": "Добавить опыт",
+    "summary_title": "Ваше бронирование",
+    "total": "Сумма депозита",
+    "continue_pay": "Перейти к оплате",
+    "terms_agree": "Я согласен с Условиями и Политикой конфиденциальности."
   }
 }

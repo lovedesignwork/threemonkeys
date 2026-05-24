@@ -22,7 +22,9 @@
     "reserveNow": "Réserver",
     "sendMessage": "Envoyer",
     "backToHome": "Retour à l'accueil",
-    "loading": "Chargement…"
+    "loading": "Chargement…",
+    "previous": "Précédent",
+    "next": "Suivant"
   },
   "switcher": {
     "label": "Langue",
@@ -41,5 +43,57 @@
     "visit_us": "Nous trouver",
     "open_daily": "Ouvert tous les jours {hours}",
     "rights_reserved": "© {year} Three Monkeys Restaurant. Tous droits réservés."
+  },
+  "home": {
+    "hero": {
+      "badge": "Three Monkeys, Phuket",
+      "headline_a": "Restaurant & Bar Exotique",
+      "headline_b": "dans la Forêt Tropicale",
+      "description": "Au cœur de Hanuman World, principale attraction en plein air de l'île, notre restaurant se fond dans la nature, niché dans une jungle luxuriante avec des vues à couper le souffle.",
+      "slide_aria": "Aller à la diapositive {n}"
+    },
+    "menu": {
+      "eyebrow": "Saveurs de la forêt",
+      "title": "Notre Menu",
+      "description": "Un voyage culinaire à travers les saveurs riches du sud de la Thaïlande — avec des touches occidentales, japonaises et balinaises à chaque plat.",
+      "tag_signature": "Signature",
+      "tag_kitchen": "Côté cuisine"
+    },
+    "location": {
+      "eyebrow": "Nous trouver",
+      "title_a": "Dîner dans la",
+      "title_b": "Forêt Tropicale",
+      "description": "Niché au sein de Hanuman World, notre restaurant offre une expérience culinaire unique sous la canopée ancienne de la forêt tropicale de Phuket.",
+      "stat_trees": "Arbres centenaires",
+      "stat_sea": "Au-dessus du niveau de la mer",
+      "stat_temp": "Température moyenne",
+      "label_location": "Adresse",
+      "value_location": "À l'intérieur de Hanuman World",
+      "label_reservations": "Réservations",
+      "detail_reservations": "Appelez pour réserver",
+      "label_email": "Email",
+      "detail_email": "Réponse sous 24 h",
+      "label_hours": "Horaires",
+      "value_hours": "10h – 01h",
+      "detail_hours": "Ouvert tous les jours"
+    }
+  },
+  "booking": {
+    "step_package": "Choisissez votre forfait",
+    "step_date": "Date et heure",
+    "step_guests": "Coordonnées",
+    "step_review": "Vérifier et payer",
+    "field_name": "Votre nom",
+    "field_email": "Email",
+    "field_phone": "Téléphone",
+    "field_guests": "Nombre de convives",
+    "field_date": "Date de réservation",
+    "field_time": "Heure de réservation",
+    "field_notes": "Demandes spéciales",
+    "addons_title": "Ajouter une expérience",
+    "summary_title": "Votre réservation",
+    "total": "Acompte total",
+    "continue_pay": "Procéder au paiement",
+    "terms_agree": "J'accepte les Conditions d'utilisation et la Politique de confidentialité."
   }
 }

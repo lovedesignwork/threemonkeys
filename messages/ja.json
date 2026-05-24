@@ -22,7 +22,9 @@
     "reserveNow": "今すぐ予約",
     "sendMessage": "メッセージを送る",
     "backToHome": "ホームに戻る",
-    "loading": "読み込み中…"
+    "loading": "読み込み中…",
+    "previous": "前へ",
+    "next": "次へ"
   },
   "switcher": {
     "label": "言語",
@@ -41,5 +43,57 @@
     "visit_us": "ご来店",
     "open_daily": "毎日営業 {hours}",
     "rights_reserved": "© {year} Three Monkeys Restaurant. All rights reserved."
+  },
+  "home": {
+    "hero": {
+      "badge": "Three Monkeys, プーケット",
+      "headline_a": "エキゾチックなレストラン & バー",
+      "headline_b": "熱帯雨林の中で",
+      "description": "プーケット屈指のアウトドアアトラクション「Hanuman World」の自然と一体化したレストラン。緑豊かなジャングルと美しい景色に囲まれた特別な空間です。",
+      "slide_aria": "スライド {n} に移動"
+    },
+    "menu": {
+      "eyebrow": "熱帯雨林の味",
+      "title": "メニュー",
+      "description": "タイ南部の豊かな風味を巡る料理の旅 — 一皿ごとに西洋、日本、バリ風のフュージョンが交差します。",
+      "tag_signature": "シグネチャー",
+      "tag_kitchen": "キッチンから"
+    },
+    "location": {
+      "eyebrow": "アクセス",
+      "title_a": "熱帯雨林で",
+      "title_b": "お食事を",
+      "description": "Hanuman World の中にある当レストランは、プーケットの古代熱帯雨林に囲まれた独特のダイニング体験を提供します。",
+      "stat_trees": "樹齢百年以上の木",
+      "stat_sea": "海抜",
+      "stat_temp": "平均気温",
+      "label_location": "所在地",
+      "value_location": "Hanuman World 内",
+      "label_reservations": "ご予約",
+      "detail_reservations": "お電話でご予約",
+      "label_email": "メール",
+      "detail_email": "24時間以内に返信",
+      "label_hours": "営業時間",
+      "value_hours": "10:00 – 01:00",
+      "detail_hours": "毎日営業"
+    }
+  },
+  "booking": {
+    "step_package": "パッケージを選択",
+    "step_date": "日付と時間",
+    "step_guests": "ゲスト情報",
+    "step_review": "確認とお支払い",
+    "field_name": "お名前",
+    "field_email": "メールアドレス",
+    "field_phone": "電話番号",
+    "field_guests": "人数",
+    "field_date": "予約日",
+    "field_time": "予約時間",
+    "field_notes": "特別なご要望",
+    "addons_title": "体験を追加",
+    "summary_title": "ご予約内容",
+    "total": "デポジット合計",
+    "continue_pay": "お支払いへ進む",
+    "terms_agree": "利用規約とプライバシーポリシーに同意します。"
   }
 }
