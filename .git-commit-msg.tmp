@@ -1,0 +1,35 @@
+i18n Phase 1: locale routing + UI chrome for 9 languages
+
+Adds next-intl-backed locale routing so URLs like /th, /cn, /ja, /ko,
+/ru, /fr, /es, /ar serve localised UI chrome alongside the default
+English experience at /. Page bodies remain in English for now — full
+content translation is Phase 2/3.
+
+Infrastructure
+- i18n/{routing,request,navigation}.ts: locale list, request-scoped
+  message loader, locale-aware Link/useRouter wrappers
+- messages/{en,th,cn,ja,ko,ru,fr,es,ar}.json: nav, action, footer, and
+  language-switcher strings
+- middleware.ts: composes maintenance gate + next-intl middleware,
+  bypasses /admin and /api
+- next.config.ts: wires createNextIntlPlugin, removes the legacy /th -> /
+  redirect that now collides with the real Thai locale
+- app/[locale]/layout.tsx: sets request locale, hydrates
+  NextIntlClientProvider, generates static params for every locale
+- components/i18n/HtmlLangSync.tsx: syncs <html lang/dir> with the
+  active locale (incl. RTL for Arabic)
+
+User-facing
+- components/i18n/LanguageSwitcher.tsx: flag + native-name dropdown,
+  desktop pill / compact mobile variants, ESC + outside-click close
+- components/i18n/LocaleSuggestionBanner.tsx: "We noticed you speak X.
+  Switch to <native>?" prompt driven by navigator.languages with a
+  permanent localStorage dismissal flag
+- components/layout/Header.tsx: translated nav labels + Reserve CTA,
+  language switcher in desktop header and inside mobile drawer
+- Bulk-swapped next/link -> @/i18n/navigation across all (public)
+  pages and shared home/layout/checkout/seo components so internal
+  navigation preserves the active locale prefix
+
+Routes moved
+- app/(public)/ -> app/[locale]/(public)/ (git rename, history preserved)

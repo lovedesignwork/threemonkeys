@@ -1,0 +1,45 @@
+{
+  "nav": {
+    "home": "Home",
+    "menu": "Menu",
+    "seats": "Our Seats",
+    "specialPackages": "Special Packages",
+    "about": "About",
+    "blog": "Blog",
+    "faq": "FAQ",
+    "contact": "Contact",
+    "reserve": "Reserve",
+    "reserveTable": "Reserve a Table"
+  },
+  "actions": {
+    "call": "Call",
+    "whatsapp": "WhatsApp",
+    "email": "Email",
+    "directions": "Get Directions",
+    "viewAll": "View All",
+    "exploreMenu": "Explore Full Menu",
+    "bookNow": "Book Now",
+    "reserveNow": "Reserve Now",
+    "sendMessage": "Send Message",
+    "backToHome": "Back to Home",
+    "loading": "Loading…"
+  },
+  "switcher": {
+    "label": "Language",
+    "aria": "Select language"
+  },
+  "localeBanner": {
+    "we_noticed": "We noticed you speak {language}.",
+    "switch_to": "Switch to {native}?",
+    "switch_cta": "Switch",
+    "dismiss": "Keep English"
+  },
+  "footer": {
+    "brand_tagline": "Phuket's rainforest dining experience",
+    "explore": "Explore",
+    "legal": "Legal",
+    "visit_us": "Visit Us",
+    "open_daily": "Open Daily {hours}",
+    "rights_reserved": "© {year} Three Monkeys Restaurant. All rights reserved."
+  }
+}

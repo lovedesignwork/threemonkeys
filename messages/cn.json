@@ -1,0 +1,45 @@
+{
+  "nav": {
+    "home": "首页",
+    "menu": "菜单",
+    "seats": "座位",
+    "specialPackages": "特别套餐",
+    "about": "关于我们",
+    "blog": "博客",
+    "faq": "常见问题",
+    "contact": "联系我们",
+    "reserve": "预订",
+    "reserveTable": "预订餐桌"
+  },
+  "actions": {
+    "call": "致电",
+    "whatsapp": "WhatsApp",
+    "email": "电子邮件",
+    "directions": "查看路线",
+    "viewAll": "查看全部",
+    "exploreMenu": "查看完整菜单",
+    "bookNow": "立即预订",
+    "reserveNow": "立即预订",
+    "sendMessage": "发送消息",
+    "backToHome": "返回首页",
+    "loading": "加载中…"
+  },
+  "switcher": {
+    "label": "语言",
+    "aria": "选择语言"
+  },
+  "localeBanner": {
+    "we_noticed": "我们注意到您讲{language}。",
+    "switch_to": "切换到{native}吗？",
+    "switch_cta": "切换",
+    "dismiss": "保持英文"
+  },
+  "footer": {
+    "brand_tagline": "普吉岛雨林中的用餐体验",
+    "explore": "探索",
+    "legal": "法律条款",
+    "visit_us": "前来用餐",
+    "open_daily": "每日营业 {hours}",
+    "rights_reserved": "© {year} Three Monkeys 餐厅。版权所有。"
+  }
+}

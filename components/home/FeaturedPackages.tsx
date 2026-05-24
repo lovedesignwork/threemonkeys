@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
 import { ArrowRight, Star, Sparkles, Heart } from 'lucide-react';
 import { getSeatPackages } from '@/lib/data/packages';

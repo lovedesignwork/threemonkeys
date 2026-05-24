@@ -3,7 +3,7 @@
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { ArrowRight, CalendarClock } from 'lucide-react';
 import { getSpecialPackages } from '@/lib/data/packages';
 import { formatPrice } from '@/lib/utils';

@@ -1,0 +1,45 @@
+{
+  "nav": {
+    "home": "หน้าแรก",
+    "menu": "เมนู",
+    "seats": "ที่นั่งของเรา",
+    "specialPackages": "แพ็กเกจพิเศษ",
+    "about": "เกี่ยวกับเรา",
+    "blog": "บล็อก",
+    "faq": "คำถามที่พบบ่อย",
+    "contact": "ติดต่อเรา",
+    "reserve": "จอง",
+    "reserveTable": "จองโต๊ะ"
+  },
+  "actions": {
+    "call": "โทร",
+    "whatsapp": "WhatsApp",
+    "email": "อีเมล",
+    "directions": "ดูเส้นทาง",
+    "viewAll": "ดูทั้งหมด",
+    "exploreMenu": "ดูเมนูทั้งหมด",
+    "bookNow": "จองเลย",
+    "reserveNow": "จองเลย",
+    "sendMessage": "ส่งข้อความ",
+    "backToHome": "กลับหน้าแรก",
+    "loading": "กำลังโหลด…"
+  },
+  "switcher": {
+    "label": "ภาษา",
+    "aria": "เลือกภาษา"
+  },
+  "localeBanner": {
+    "we_noticed": "เราเห็นว่าคุณใช้ภาษา {language}",
+    "switch_to": "เปลี่ยนเป็น {native}?",
+    "switch_cta": "เปลี่ยน",
+    "dismiss": "ใช้ภาษาอังกฤษ"
+  },
+  "footer": {
+    "brand_tagline": "ประสบการณ์การรับประทานอาหารกลางป่าฝนของภูเก็ต",
+    "explore": "สำรวจ",
+    "legal": "ข้อกฎหมาย",
+    "visit_us": "มาหาเรา",
+    "open_daily": "เปิดทุกวัน {hours}",
+    "rights_reserved": "© {year} ร้านอาหาร Three Monkeys สงวนลิขสิทธิ์"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "menu": "Menu",
+    "seats": "Nos tables",
+    "specialPackages": "Forfaits spéciaux",
+    "about": "À propos",
+    "blog": "Blog",
+    "faq": "FAQ",
+    "contact": "Contact",
+    "reserve": "Réserver",
+    "reserveTable": "Réserver une table"
+  },
+  "actions": {
+    "call": "Appeler",
+    "whatsapp": "WhatsApp",
+    "email": "Email",
+    "directions": "Itinéraire",
+    "viewAll": "Tout voir",
+    "exploreMenu": "Voir le menu",
+    "bookNow": "Réserver",
+    "reserveNow": "Réserver",
+    "sendMessage": "Envoyer",
+    "backToHome": "Retour à l'accueil",
+    "loading": "Chargement…"
+  },
+  "switcher": {
+    "label": "Langue",
+    "aria": "Choisir la langue"
+  },
+  "localeBanner": {
+    "we_noticed": "Nous avons remarqué que vous parlez {language}.",
+    "switch_to": "Passer à {native} ?",
+    "switch_cta": "Changer",
+    "dismiss": "Garder l'anglais"
+  },
+  "footer": {
+    "brand_tagline": "Restaurant dans la forêt tropicale de Phuket",
+    "explore": "Explorer",
+    "legal": "Mentions légales",
+    "visit_us": "Nous trouver",
+    "open_daily": "Ouvert tous les jours {hours}",
+    "rights_reserved": "© {year} Three Monkeys Restaurant. Tous droits réservés."
+  }
+}

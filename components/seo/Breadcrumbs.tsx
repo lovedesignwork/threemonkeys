@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { ChevronRight, Home } from 'lucide-react';
 import { BreadcrumbSchema } from '@/lib/seo/structured-data';
 import { siteConfig } from '@/lib/seo/config';

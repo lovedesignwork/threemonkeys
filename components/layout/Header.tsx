@@ -1,10 +1,11 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { usePathname } from 'next/navigation';
-import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslations } from 'next-intl';
+import { Link, usePathname } from '@/i18n/navigation';
+import { LanguageSwitcher } from '@/components/i18n/LanguageSwitcher';
 import {
   Menu,
   X,
@@ -23,29 +24,33 @@ import {
 } from 'lucide-react';
 
 interface NavItem {
-  name: string;
+  /** translation key under `nav.*` */
+  key: 'home' | 'menu' | 'seats' | 'specialPackages' | 'about' | 'blog' | 'faq' | 'contact';
   href: string;
-  lines: string[];
   icon: React.ComponentType<{ className?: string }>;
   hidden?: boolean;
 }
 
 const navigation: NavItem[] = [
-  { name: 'Home',             href: '/',                 lines: ['Home'],                  icon: Home },
-  { name: 'Menu',             href: '/menu',             lines: ['Menu'],                  icon: UtensilsCrossed },
-  { name: 'Our Seats',        href: '/seats',            lines: ['Our', 'Seats'],          icon: Armchair },
-  { name: 'Special Packages', href: '/special-packages', lines: ['Special', 'Packages'],   icon: Sparkles },
-  { name: 'About',            href: '/about',            lines: ['About'],                 icon: Info },
-  { name: 'Blog',             href: '/blog',             lines: ['Blog'],                  icon: AtSign, hidden: true },
-  { name: 'FAQ',              href: '/faq',              lines: ['FAQ'],                   icon: HelpCircle },
-  { name: 'Contact',          href: '/contact',          lines: ['Contact'],               icon: Mail },
+  { key: 'home',            href: '/',                 icon: Home },
+  { key: 'menu',            href: '/menu',             icon: UtensilsCrossed },
+  { key: 'seats',           href: '/seats',            icon: Armchair },
+  { key: 'specialPackages', href: '/special-packages', icon: Sparkles },
+  { key: 'about',           href: '/about',            icon: Info },
+  { key: 'blog',            href: '/blog',             icon: AtSign, hidden: true },
+  { key: 'faq',             href: '/faq',              icon: HelpCircle },
+  { key: 'contact',         href: '/contact',          icon: Mail },
 ];
 
 export function Header() {
+  const tNav = useTranslations('nav');
+  const tActions = useTranslations('actions');
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  // `usePathname` from next-intl returns the path WITHOUT the locale
+  // prefix, so '/booking' matches across every locale.
   const isStaticHeader = pathname?.startsWith('/booking') || pathname?.startsWith('/checkout');
 
   useEffect(() => {
@@ -103,7 +108,7 @@ export function Header() {
             <nav className="hidden lg:flex items-center gap-5">
               {visibleNav.map((item) => (
                 <Link
-                  key={item.name}
+                  key={item.key}
                   href={item.href}
                   className={`flex flex-col items-center justify-center py-2 font-[family-name:var(--font-krona)] text-xs font-medium uppercase tracking-widest transition-colors leading-tight text-center ${
                     pathname === item.href
@@ -111,18 +116,20 @@ export function Header() {
                       : 'text-white/80 hover:text-white'
                   }`}
                 >
-                  {item.lines.map((line, idx) => (
-                    <span key={idx}>{line}</span>
-                  ))}
+                  <span>{tNav(item.key)}</span>
                 </Link>
               ))}
             </nav>
 
-            {/* Right CTA & Mobile Toggle */}
-            <div className="relative z-10 flex items-center gap-3 sm:gap-6">
+            {/* Right CTA, Language Switcher, Mobile Toggle */}
+            <div className="relative z-10 flex items-center gap-2 sm:gap-3">
+              <div className="hidden lg:block">
+                <LanguageSwitcher variant="default" />
+              </div>
+
               <Link href="/booking" className="hidden sm:block">
-                <button className="group relative overflow-hidden rounded-full border border-[#b1b94c] bg-transparent px-6 sm:px-8 py-2 sm:py-2.5 font-[family-name:var(--font-krona)] text-xs sm:text-sm font-semibold uppercase tracking-widest text-[#b1b94c] transition-all hover:bg-[#b1b94c] hover:text-black">
-                  <span className="relative z-10">Reserve</span>
+                <button className="group relative overflow-hidden rounded-full border border-[#b1b94c] bg-transparent px-5 sm:px-7 py-2 sm:py-2.5 font-[family-name:var(--font-krona)] text-xs sm:text-sm font-semibold uppercase tracking-widest text-[#b1b94c] transition-all hover:bg-[#b1b94c] hover:text-black">
+                  <span className="relative z-10">{tNav('reserve')}</span>
                 </button>
               </Link>
 
@@ -222,7 +229,7 @@ export function Header() {
                     const Icon = item.icon;
                     return (
                       <motion.li
-                        key={item.name}
+                        key={item.key}
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.08 + idx * 0.04, duration: 0.35, ease: 'easeOut' }}
@@ -247,7 +254,7 @@ export function Header() {
                               <Icon className="h-4 w-4" />
                             </span>
                             <span className="font-[family-name:var(--font-krona)] text-xs tracking-[0.15em] uppercase">
-                              {item.name}
+                              {tNav(item.key)}
                             </span>
                           </div>
                           <ArrowUpRight
@@ -262,6 +269,11 @@ export function Header() {
                     );
                   })}
                 </ul>
+
+                {/* Language switcher inside the mobile drawer */}
+                <div className="mt-6 px-3">
+                  <LanguageSwitcher variant="default" />
+                </div>
               </nav>
 
               {/* Bottom action panel */}
@@ -278,7 +290,7 @@ export function Header() {
                   className="flex w-full items-center justify-center gap-3 rounded-2xl bg-[#b1b94c] px-6 py-4 font-[family-name:var(--font-krona)] text-base font-bold uppercase tracking-widest text-black shadow-[0_10px_30px_rgba(177,185,76,0.25)] transition-all hover:bg-[#c4cc5a] active:scale-[0.98]"
                 >
                   <CalendarHeart className="h-5 w-5" />
-                  Reserve a Table
+                  {tNav('reserveTable')}
                 </Link>
 
                 {/* Quick contact row */}
@@ -288,7 +300,7 @@ export function Header() {
                     className="flex flex-col items-center justify-center gap-1.5 rounded-2xl border border-white/10 bg-white/5 px-2 py-3 text-white/80 transition-all hover:border-[#b1b94c]/40 hover:bg-white/10 hover:text-[#b1b94c]"
                   >
                     <Phone className="h-5 w-5 text-[#b1b94c]" />
-                    <span className="text-[10px] font-medium uppercase tracking-wider">Call</span>
+                    <span className="text-[10px] font-medium uppercase tracking-wider">{tActions('call')}</span>
                   </a>
                   <a
                     href="https://wa.me/66980108838"
@@ -298,7 +310,7 @@ export function Header() {
                   >
                     <MessageCircle className="h-5 w-5 text-emerald-400" />
                     <span className="text-[10px] font-medium uppercase tracking-wider">
-                      WhatsApp
+                      {tActions('whatsapp')}
                     </span>
                   </a>
                   <a
@@ -306,7 +318,7 @@ export function Header() {
                     className="flex flex-col items-center justify-center gap-1.5 rounded-2xl border border-white/10 bg-white/5 px-2 py-3 text-white/80 transition-all hover:border-blue-500/40 hover:bg-white/10 hover:text-blue-400"
                   >
                     <Mail className="h-5 w-5 text-blue-400" />
-                    <span className="text-[10px] font-medium uppercase tracking-wider">Email</span>
+                    <span className="text-[10px] font-medium uppercase tracking-wider">{tActions('email')}</span>
                   </a>
                 </div>
               </motion.div>

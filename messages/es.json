@@ -1,0 +1,45 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "menu": "Menú",
+    "seats": "Nuestras mesas",
+    "specialPackages": "Paquetes especiales",
+    "about": "Sobre nosotros",
+    "blog": "Blog",
+    "faq": "Preguntas",
+    "contact": "Contacto",
+    "reserve": "Reservar",
+    "reserveTable": "Reservar mesa"
+  },
+  "actions": {
+    "call": "Llamar",
+    "whatsapp": "WhatsApp",
+    "email": "Correo",
+    "directions": "Cómo llegar",
+    "viewAll": "Ver todo",
+    "exploreMenu": "Ver el menú",
+    "bookNow": "Reservar",
+    "reserveNow": "Reservar",
+    "sendMessage": "Enviar mensaje",
+    "backToHome": "Volver al inicio",
+    "loading": "Cargando…"
+  },
+  "switcher": {
+    "label": "Idioma",
+    "aria": "Seleccionar idioma"
+  },
+  "localeBanner": {
+    "we_noticed": "Detectamos que hablas {language}.",
+    "switch_to": "¿Cambiar a {native}?",
+    "switch_cta": "Cambiar",
+    "dismiss": "Seguir en inglés"
+  },
+  "footer": {
+    "brand_tagline": "Cena en la selva tropical de Phuket",
+    "explore": "Explorar",
+    "legal": "Legal",
+    "visit_us": "Visítanos",
+    "open_daily": "Abierto todos los días {hours}",
+    "rights_reserved": "© {year} Three Monkeys Restaurant. Todos los derechos reservados."
+  }
+}

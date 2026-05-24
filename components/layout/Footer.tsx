@@ -1,8 +1,8 @@
 'use client';
 
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { usePathname } from '@/i18n/navigation';
 import { Facebook, Instagram, Youtube, ArrowUpRight, MapPin, Phone, Mail, Clock, MessageCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 

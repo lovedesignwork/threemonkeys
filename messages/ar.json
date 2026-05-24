@@ -1,0 +1,45 @@
+{
+  "nav": {
+    "home": "الرئيسية",
+    "menu": "القائمة",
+    "seats": "مقاعدنا",
+    "specialPackages": "عروض خاصة",
+    "about": "من نحن",
+    "blog": "المدونة",
+    "faq": "الأسئلة الشائعة",
+    "contact": "تواصل معنا",
+    "reserve": "احجز",
+    "reserveTable": "احجز طاولة"
+  },
+  "actions": {
+    "call": "اتصل",
+    "whatsapp": "واتساب",
+    "email": "البريد",
+    "directions": "الاتجاهات",
+    "viewAll": "عرض الكل",
+    "exploreMenu": "تصفح القائمة",
+    "bookNow": "احجز الآن",
+    "reserveNow": "احجز الآن",
+    "sendMessage": "إرسال الرسالة",
+    "backToHome": "العودة للرئيسية",
+    "loading": "جارٍ التحميل…"
+  },
+  "switcher": {
+    "label": "اللغة",
+    "aria": "اختر اللغة"
+  },
+  "localeBanner": {
+    "we_noticed": "لاحظنا أنك تتحدث {language}.",
+    "switch_to": "هل تريد التبديل إلى {native}؟",
+    "switch_cta": "تبديل",
+    "dismiss": "الاستمرار بالإنجليزية"
+  },
+  "footer": {
+    "brand_tagline": "تجربة طعام في غابات بوكيت المطيرة",
+    "explore": "استكشف",
+    "legal": "قانوني",
+    "visit_us": "زرنا",
+    "open_daily": "مفتوح يوميًا {hours}",
+    "rights_reserved": "© {year} مطعم ثري مونكيز. جميع الحقوق محفوظة."
+  }
+}

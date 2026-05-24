@@ -1,0 +1,45 @@
+{
+  "nav": {
+    "home": "홈",
+    "menu": "메뉴",
+    "seats": "좌석",
+    "specialPackages": "스페셜 패키지",
+    "about": "소개",
+    "blog": "블로그",
+    "faq": "자주 묻는 질문",
+    "contact": "문의하기",
+    "reserve": "예약",
+    "reserveTable": "테이블 예약"
+  },
+  "actions": {
+    "call": "전화",
+    "whatsapp": "WhatsApp",
+    "email": "이메일",
+    "directions": "길찾기",
+    "viewAll": "전체 보기",
+    "exploreMenu": "전체 메뉴 보기",
+    "bookNow": "지금 예약",
+    "reserveNow": "지금 예약",
+    "sendMessage": "메시지 보내기",
+    "backToHome": "홈으로",
+    "loading": "로딩 중…"
+  },
+  "switcher": {
+    "label": "언어",
+    "aria": "언어 선택"
+  },
+  "localeBanner": {
+    "we_noticed": "{language}를 사용하시는군요.",
+    "switch_to": "{native}로 전환할까요?",
+    "switch_cta": "전환",
+    "dismiss": "영어로 유지"
+  },
+  "footer": {
+    "brand_tagline": "푸켓 우림 속의 다이닝",
+    "explore": "탐색",
+    "legal": "법적 고지",
+    "visit_us": "방문",
+    "open_daily": "매일 영업 {hours}",
+    "rights_reserved": "© {year} Three Monkeys Restaurant. All rights reserved."
+  }
+}

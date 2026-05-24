@@ -1,0 +1,45 @@
+{
+  "nav": {
+    "home": "Главная",
+    "menu": "Меню",
+    "seats": "Наши столы",
+    "specialPackages": "Спецпакеты",
+    "about": "О нас",
+    "blog": "Блог",
+    "faq": "Вопросы",
+    "contact": "Контакты",
+    "reserve": "Бронировать",
+    "reserveTable": "Забронировать столик"
+  },
+  "actions": {
+    "call": "Позвонить",
+    "whatsapp": "WhatsApp",
+    "email": "Email",
+    "directions": "Маршрут",
+    "viewAll": "Показать всё",
+    "exploreMenu": "Открыть меню",
+    "bookNow": "Забронировать",
+    "reserveNow": "Забронировать",
+    "sendMessage": "Отправить",
+    "backToHome": "На главную",
+    "loading": "Загрузка…"
+  },
+  "switcher": {
+    "label": "Язык",
+    "aria": "Выберите язык"
+  },
+  "localeBanner": {
+    "we_noticed": "Похоже, вы говорите на {language}.",
+    "switch_to": "Перейти на {native}?",
+    "switch_cta": "Перейти",
+    "dismiss": "Остаться на английском"
+  },
+  "footer": {
+    "brand_tagline": "Ресторан в тропическом лесу Пхукета",
+    "explore": "Меню",
+    "legal": "Правовая информация",
+    "visit_us": "Адрес",
+    "open_daily": "Открыто ежедневно {hours}",
+    "rights_reserved": "© {year} Three Monkeys Restaurant. Все права защищены."
+  }
+}

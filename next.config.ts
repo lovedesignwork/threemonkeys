@@ -1,4 +1,7 @@
 import type { NextConfig } from 'next';
+import createNextIntlPlugin from 'next-intl/plugin';
+
+const withNextIntl = createNextIntlPlugin('./i18n/request.ts');
 
 const nextConfig: NextConfig = {
   images: {
@@ -10,27 +13,9 @@ const nextConfig: NextConfig = {
     ],
   },
 
-  /**
-   * URL redirects.
-   *
-   * - `/th` and `/th/*` go back to the English site root. We don't yet
-   *   serve a Thai locale, so anyone landing on a /th link from a
-   *   share/QR/legacy source still ends up on a working page.
-   */
-  async redirects() {
-    return [
-      {
-        source: '/th',
-        destination: '/',
-        permanent: false,
-      },
-      {
-        source: '/th/:path*',
-        destination: '/',
-        permanent: false,
-      },
-    ];
-  },
+  // NOTE: The `/th` → `/` redirect previously defined here was removed
+  // when Thai became a real locale. The next-intl middleware now owns
+  // every `/<locale>` route.
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);
