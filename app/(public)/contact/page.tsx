@@ -185,9 +185,9 @@ export default function ContactPage() {
       </section>
 
       {/* Main Content Grid */}
-      <section className="py-16">
+      <section className="py-10 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-5 gap-12">
+          <div className="grid lg:grid-cols-5 gap-8 lg:gap-12">
             {/* Contact Form - Takes 3 columns */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
@@ -195,16 +195,16 @@ export default function ContactPage() {
               transition={{ duration: 0.5 }}
               className="lg:col-span-3"
             >
-              <div className="bg-[#111] rounded-3xl p-8 md:p-10 border border-white/10">
-                <div className="flex items-center gap-3 mb-8">
-                  <div className="w-12 h-12 bg-[#b1b94c]/10 rounded-xl flex items-center justify-center">
-                    <Send className="w-6 h-6 text-[#b1b94c]" />
+              <div className="bg-[#111] rounded-2xl sm:rounded-3xl p-5 sm:p-8 md:p-10 border border-white/10">
+                <div className="flex items-center gap-3 mb-6 sm:mb-8">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#b1b94c]/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <Send className="w-5 h-5 sm:w-6 sm:h-6 text-[#b1b94c]" />
                   </div>
-                  <div>
-                    <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white normal-case">
+                  <div className="min-w-0">
+                    <h2 className="text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white normal-case">
                       Send a Message
                     </h2>
-                    <p className="text-white/40 text-sm">We&apos;ll respond within 24 hours</p>
+                    <p className="text-white/40 text-xs sm:text-sm">We&apos;ll respond within 24 hours</p>
                   </div>
                 </div>
 
@@ -242,8 +242,8 @@ export default function ContactPage() {
                   </motion.div>
                 )}
 
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-6">
+                <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
+                  <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
                     <div>
                       <label className="block text-sm font-medium text-white/70 mb-2 font-[family-name:var(--font-inter)]">
                         Your Name *
@@ -254,7 +254,7 @@ export default function ContactPage() {
                         value={formData.name}
                         onChange={handleChange}
                         required
-                        className="w-full px-5 py-4 bg-[#0a0a0a] border border-white/10 rounded-xl focus:outline-none focus:border-[#b1b94c]/50 focus:bg-[#0a0a0a] transition-all text-white placeholder:text-white/30 font-[family-name:var(--font-inter)]"
+                        className="w-full px-4 sm:px-5 py-3 sm:py-4 bg-[#0a0a0a] border border-white/10 rounded-xl focus:outline-none focus:border-[#b1b94c]/50 focus:bg-[#0a0a0a] transition-all text-white placeholder:text-white/30 font-[family-name:var(--font-inter)] text-base"
                         placeholder="John Doe"
                       />
                     </div>
@@ -268,19 +268,19 @@ export default function ContactPage() {
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        className="w-full px-5 py-4 bg-[#0a0a0a] border border-white/10 rounded-xl focus:outline-none focus:border-[#b1b94c]/50 focus:bg-[#0a0a0a] transition-all text-white placeholder:text-white/30 font-[family-name:var(--font-inter)]"
+                        className="w-full px-4 sm:px-5 py-3 sm:py-4 bg-[#0a0a0a] border border-white/10 rounded-xl focus:outline-none focus:border-[#b1b94c]/50 focus:bg-[#0a0a0a] transition-all text-white placeholder:text-white/30 font-[family-name:var(--font-inter)] text-base"
                         placeholder="john@example.com"
                       />
                     </div>
                   </div>
 
-                  <div className="grid md:grid-cols-2 gap-6">
+                  <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
                     <div>
                       <label className="block text-sm font-medium text-white/70 mb-2 font-[family-name:var(--font-inter)]">
                         Phone Number
                       </label>
                       <div className="flex gap-2">
-                        <div className="w-[100px] flex-shrink-0">
+                        <div className="w-[92px] flex-shrink-0">
                           <CountryCodeSelect
                             value={countryCode}
                             onChange={setCountryCode}
@@ -292,7 +292,7 @@ export default function ContactPage() {
                           name="phone"
                           value={formData.phone}
                           onChange={handleChange}
-                          className="min-w-0 flex-1 px-4 py-4 bg-[#0a0a0a] border border-white/10 rounded-xl focus:outline-none focus:border-[#b1b94c]/50 focus:bg-[#0a0a0a] transition-all text-white placeholder:text-white/30 font-[family-name:var(--font-inter)]"
+                          className="min-w-0 flex-1 px-3 sm:px-4 py-3 sm:py-4 bg-[#0a0a0a] border border-white/10 rounded-xl focus:outline-none focus:border-[#b1b94c]/50 focus:bg-[#0a0a0a] transition-all text-white placeholder:text-white/30 font-[family-name:var(--font-inter)] text-base"
                           placeholder="98 010 8838"
                         />
                       </div>
@@ -329,7 +329,7 @@ export default function ContactPage() {
                       onChange={handleChange}
                       required
                       rows={5}
-                      className="w-full px-5 py-4 bg-[#0a0a0a] border border-white/10 rounded-xl focus:outline-none focus:border-[#b1b94c]/50 focus:bg-[#0a0a0a] transition-all resize-none text-white placeholder:text-white/30 font-[family-name:var(--font-inter)]"
+                      className="w-full px-4 sm:px-5 py-3 sm:py-4 bg-[#0a0a0a] border border-white/10 rounded-xl focus:outline-none focus:border-[#b1b94c]/50 focus:bg-[#0a0a0a] transition-all resize-none text-white placeholder:text-white/30 font-[family-name:var(--font-inter)] text-base"
                       placeholder="Tell us how we can help you..."
                     />
                   </div>
@@ -337,7 +337,7 @@ export default function ContactPage() {
                   <button
                     type="submit"
                     disabled={sending}
-                    className="w-full flex items-center justify-center gap-3 px-8 py-5 bg-[#b1b94c] hover:bg-[#c4cc5a] text-black font-[family-name:var(--font-krona)] rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full flex items-center justify-center gap-3 px-6 sm:px-8 py-4 sm:py-5 bg-[#b1b94c] hover:bg-[#c4cc5a] text-black font-[family-name:var(--font-krona)] rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {sending ? (
                       <>

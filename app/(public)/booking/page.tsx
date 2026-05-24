@@ -547,30 +547,30 @@ function BookingContent() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-[#0a0a0a]" />
         </div>
 
-        <div className="relative z-10 max-w-4xl mx-auto px-4 pt-32 pb-12 text-center">
+        <div className="relative z-10 max-w-4xl mx-auto px-4 pt-24 sm:pt-32 pb-10 sm:pb-12 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-[#b1b94c]/10 border border-[#b1b94c]/30 rounded-full mb-6"
+            className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-[#b1b94c]/10 border border-[#b1b94c]/30 rounded-full mb-4 sm:mb-6"
           >
-            <CalendarDays className="w-4 h-4 text-[#b1b94c]" />
-            <span className="text-[#b1b94c] text-sm font-medium">Reserve Your Experience</span>
+            <CalendarDays className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#b1b94c]" />
+            <span className="text-[#b1b94c] text-xs sm:text-sm font-medium">Reserve Your Experience</span>
           </motion.div>
-          
+
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-[family-name:var(--font-krona)] text-white mb-4 normal-case"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-[family-name:var(--font-krona)] text-white mb-3 sm:mb-4 normal-case"
           >
             Book Your Table
           </motion.h1>
-          
+
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-white/60 text-lg font-[family-name:var(--font-inter)]"
+            className="text-white/60 text-sm sm:text-lg font-[family-name:var(--font-inter)] px-4"
           >
             Select your dining zone and complete your reservation
           </motion.p>
@@ -578,30 +578,30 @@ function BookingContent() {
       </section>
 
       {/* Booking Content */}
-      <section className="py-16 -mt-20 relative z-10">
+      <section className="py-10 sm:py-16 -mt-10 sm:-mt-20 relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-3 gap-8">
+          <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
             {/* Left Column - Package Selection */}
-            <div className="lg:col-span-2 space-y-6">
+            <div className="lg:col-span-2 space-y-5 sm:space-y-6">
               {/* Package Selector */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-[#111] rounded-3xl border border-white/10"
+                className="bg-[#111] rounded-2xl sm:rounded-3xl border border-white/10"
               >
-                <div className="p-6 border-b border-white/10">
+                <div className="p-5 sm:p-6 border-b border-white/10">
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="w-8 h-8 bg-[#b1b94c] rounded-lg flex items-center justify-center text-black font-bold text-sm">
+                    <div className="w-8 h-8 bg-[#b1b94c] rounded-lg flex items-center justify-center text-black font-bold text-sm flex-shrink-0">
                       1
                     </div>
-                    <h2 className="text-xl font-[family-name:var(--font-krona)] text-white normal-case">
+                    <h2 className="text-lg sm:text-xl font-[family-name:var(--font-krona)] text-white normal-case">
                       Select Your Seat or Package
                     </h2>
                   </div>
-                  <p className="text-white/50 text-sm ml-11">Choose from our dining zones or special packages</p>
+                  <p className="text-white/50 text-xs sm:text-sm ml-11">Choose from our dining zones or special packages</p>
                 </div>
 
-                <div className="p-6">
+                <div className="p-4 sm:p-6">
                   {/* Selected Package Display */}
                   <div className="relative">
                     <button
@@ -613,8 +613,8 @@ function BookingContent() {
                       }`}
                     >
                       {selectedPackage ? (
-                        <div className="flex items-center gap-4">
-                          <div className="relative w-20 h-20 rounded-xl overflow-hidden flex-shrink-0">
+                        <div className="flex items-center gap-3 sm:gap-4">
+                          <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden flex-shrink-0">
                             <Image
                               src={selectedPackage.image}
                               alt={selectedPackage.name}
@@ -626,16 +626,16 @@ function BookingContent() {
                           <div className="flex-grow min-w-0">
                             <div className="flex items-center gap-2 mb-1">
                               {selectedPackage.popular && (
-                                <span className="px-2 py-0.5 bg-[#b1b94c] text-black text-xs font-medium rounded-full flex items-center gap-1">
+                                <span className="px-2 py-0.5 bg-[#b1b94c] text-black text-[10px] sm:text-xs font-medium rounded-full flex items-center gap-1">
                                   <Star className="w-3 h-3" />
                                   Popular
                                 </span>
                               )}
                             </div>
-                            <h3 className="text-lg font-[family-name:var(--font-krona)] text-white normal-case line-clamp-1">
+                            <h3 className="text-base sm:text-lg font-[family-name:var(--font-krona)] text-white normal-case line-clamp-1">
                               {selectedPackage.name}
                             </h3>
-                            <p className="text-white/50 text-sm line-clamp-1">
+                            <p className="text-white/50 text-xs sm:text-sm line-clamp-1">
                               {selectedPackage.shortDescription}
                             </p>
                           </div>
@@ -917,18 +917,18 @@ function BookingContent() {
                   >
                     <div className="p-6 border-b border-white/10">
                       <div className="flex items-center gap-3 mb-2">
-                        <div className="w-8 h-8 bg-[#b1b94c] rounded-lg flex items-center justify-center text-black font-bold text-sm">
+                        <div className="w-8 h-8 bg-[#b1b94c] rounded-lg flex items-center justify-center text-black font-bold text-sm flex-shrink-0">
                           2
                         </div>
-                        <h2 className="text-xl font-[family-name:var(--font-krona)] text-white normal-case">
+                        <h2 className="text-lg sm:text-xl font-[family-name:var(--font-krona)] text-white normal-case">
                           Choose Date & Time
                         </h2>
                       </div>
-                      <p className="text-white/50 text-sm ml-11">Select your preferred dining schedule</p>
+                      <p className="text-white/50 text-xs sm:text-sm ml-11">Select your preferred dining schedule</p>
                     </div>
 
-                    <div className="p-6">
-                      <div className="grid md:grid-cols-2 gap-6 items-stretch">
+                    <div className="p-4 sm:p-6">
+                      <div className="grid md:grid-cols-2 gap-5 sm:gap-6 items-stretch">
                         {/* Date Picker */}
                         <div className="relative z-30">
                           <label className="block text-sm font-medium text-white/70 mb-3 flex items-center gap-2">
@@ -999,9 +999,37 @@ function BookingContent() {
 
                         {/* Number of Persons */}
                         <div>
-                          <label className="block text-sm font-medium text-white/70 mb-3 flex items-center gap-2">
-                            <Users className="w-4 h-4 text-[#b1b94c]" />
-                            Number of Persons {isPerTablePackage(selectedPackageId) && <span className="text-white/40 text-xs">(Max 4 per table)</span>}{selectedPackageId === 'bamboo-pavilion' && <span className="text-white/40 text-xs">(Max 4 persons)</span>}{selectedPackageId === 'exclusive-romantic-zone-7' && <span className="text-white/40 text-xs">(Max 4 persons)</span>}{selectedPackageId === 'zone-7' && <span className="text-white/40 text-xs">(Up to 50 persons)</span>}{selectedPackageId === 'zone-6' && <span className="text-white/40 text-xs">(Up to 50 persons)</span>}{selectedPackageId === 'rooftop-romantic' && <span className="text-white/40 text-xs">(Up to 40 persons)</span>}{selectedPackageId === 'monkey-hilltop' && <span className="text-white/40 text-xs">(2-4 persons)</span>}{(selectedPackageId === 'indoor-seat' || selectedPackageId === 'outdoor-seat') && <span className="text-white/40 text-xs">(open seating)</span>}{isSpecialPackage(selectedPackageId) && <span className="text-white/40 text-xs">(Max 10 persons)</span>}
+                          <label className="block text-sm font-medium text-white/70 mb-3">
+                            <span className="flex items-center gap-2 flex-wrap">
+                              <span className="flex items-center gap-2">
+                                <Users className="w-4 h-4 text-[#b1b94c] flex-shrink-0" />
+                                Number of Persons
+                              </span>
+                              {(() => {
+                                const hint = isPerTablePackage(selectedPackageId)
+                                  ? 'Max 4 per table'
+                                  : selectedPackageId === 'bamboo-pavilion'
+                                  ? 'Max 4 persons'
+                                  : selectedPackageId === 'exclusive-romantic-zone-7'
+                                  ? 'Max 4 persons'
+                                  : selectedPackageId === 'zone-7'
+                                  ? 'Up to 50 persons'
+                                  : selectedPackageId === 'zone-6'
+                                  ? 'Up to 50 persons'
+                                  : selectedPackageId === 'rooftop-romantic'
+                                  ? 'Up to 40 persons'
+                                  : selectedPackageId === 'monkey-hilltop'
+                                  ? '2-4 persons'
+                                  : selectedPackageId === 'indoor-seat' || selectedPackageId === 'outdoor-seat'
+                                  ? 'Open seating'
+                                  : isSpecialPackage(selectedPackageId)
+                                  ? 'Max 10 persons'
+                                  : '';
+                                return hint ? (
+                                  <span className="text-white/40 text-xs">({hint})</span>
+                                ) : null;
+                              })()}
+                            </span>
                           </label>
                           <div className="flex items-center gap-3">
                             <button
