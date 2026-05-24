@@ -15,7 +15,7 @@
  * See docs/ALLOTMENT_SPEC.md
  */
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   AlertCircle,
   Calendar,
@@ -138,6 +138,7 @@ export default function AllotmentPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [modal, setModal] = useState<ModalMode>({ kind: 'closed' });
+  const dateInputRef = useRef<HTMLInputElement>(null);
   const [showBlockMenu, setShowBlockMenu] = useState(false);
 
   // ── Data fetch ────────────────────────────────────────────────────────
@@ -252,17 +253,20 @@ export default function AllotmentPage() {
         </button>
         <div className="flex items-center gap-3 flex-1 justify-center">
           <Calendar className="w-5 h-5 text-[#b1b94c]" />
-          <div className="relative">
-            <div className="px-4 py-2 border border-slate-200 rounded-lg bg-white text-slate-800 font-medium cursor-pointer hover:border-[#b1b94c] transition-colors pointer-events-none">
-              {formatDateDisplay(day)}
-            </div>
+          <button
+            type="button"
+            onClick={() => dateInputRef.current?.showPicker()}
+            className="relative px-4 py-2 border border-slate-200 rounded-lg bg-white text-slate-800 font-medium cursor-pointer hover:border-[#b1b94c] transition-colors"
+          >
+            {formatDateDisplay(day)}
             <input
+              ref={dateInputRef}
               type="date"
               value={day}
               onChange={(e) => setDay(e.target.value)}
-              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+              className="absolute inset-0 w-full h-full opacity-0 pointer-events-none"
             />
-          </div>
+          </button>
           <button
             onClick={() => setDay(todayIsoBangkok())}
             className="text-sm text-[#1a237e] underline hover:no-underline"
