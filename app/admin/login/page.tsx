@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Lock, Mail, Eye, EyeOff, Loader2, AlertCircle } from 'lucide-react';
 import { signIn } from '@/lib/supabase/auth';
@@ -76,8 +77,16 @@ export default function AdminLoginPage() {
         <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
           {/* Header */}
           <div className="bg-[#b1b94c] px-8 py-6 text-center">
-            <div className="w-16 h-16 bg-black rounded-2xl flex items-center justify-center mx-auto mb-4">
-              <span className="text-[#b1b94c] font-bold text-2xl">TM</span>
+            <div className="w-24 h-24 bg-black rounded-2xl flex items-center justify-center mx-auto mb-4 p-3">
+              <Image
+                src="/images/threemonkeyslogo.png"
+                alt="Three Monkeys Restaurant"
+                width={96}
+                height={96}
+                className="w-full h-full object-contain"
+                priority
+                unoptimized
+              />
             </div>
             <h1 className="text-2xl font-bold text-black">Admin Login</h1>
             <p className="text-black/70 text-sm mt-1">Three Monkeys Restaurant</p>
@@ -159,7 +168,7 @@ export default function AdminLoginPage() {
           {/* Footer */}
           <div className="px-8 pb-6 text-center">
             <p className="text-xs text-slate-400">
-              SKY WORLD ADVENTURES Co., Ltd. - Protected area.
+              © {new Date().getFullYear()} Three Monkeys Restaurant Phuket
             </p>
           </div>
         </div>

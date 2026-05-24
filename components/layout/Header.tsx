@@ -186,52 +186,36 @@ export function Header() {
                 <Link
                   href="/"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center gap-3"
+                  className="flex items-center gap-3 min-w-0"
                 >
                   <Image
                     src="/images/3M logo.png"
-                    alt="Three Monkeys"
+                    alt="Three Monkeys Restaurant"
                     width={56}
                     height={56}
-                    className="h-12 w-auto"
+                    className="h-12 w-auto flex-shrink-0"
                     priority
                   />
-                  <div className="leading-tight">
-                    <p className="font-[family-name:var(--font-krona)] text-white text-sm">
-                      Three Monkeys
+                  <div className="leading-tight min-w-0">
+                    <p className="font-[family-name:var(--font-krona)] text-white text-xs sm:text-sm tracking-wide truncate">
+                      THREE MONKEYS RESTAURANT
                     </p>
                     <p className="text-[10px] text-[#b1b94c] uppercase tracking-[0.25em]">
-                      Rainforest Dining
+                      Phuket — Thailand
                     </p>
                   </div>
                 </Link>
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition-all hover:bg-white/10 hover:border-[#b1b94c]/50"
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition-all hover:bg-white/10 hover:border-[#b1b94c]/50 flex-shrink-0 ml-3"
                   aria-label="Close menu"
                 >
                   <X className="h-5 w-5" />
                 </button>
               </div>
 
-              {/* Eyebrow */}
-              <motion.div
-                initial={{ opacity: 0, y: -8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.15, duration: 0.4 }}
-                className="relative px-6 pt-7 pb-3"
-              >
-                <p className="text-[10px] uppercase tracking-[0.35em] text-white/40 mb-1">
-                  Welcome to
-                </p>
-                <h2 className="text-3xl font-[family-name:var(--font-krona)] text-white leading-tight">
-                  Explore the<br />
-                  <span className="text-[#b1b94c]">rainforest menu</span>
-                </h2>
-              </motion.div>
-
               {/* Navigation list */}
-              <nav className="relative flex-1 overflow-y-auto px-3 py-4">
+              <nav className="relative flex-1 overflow-y-auto px-3 py-5">
                 <ul className="space-y-1">
                   {visibleNav.map((item, idx) => {
                     const isActive = pathname === item.href;
@@ -241,33 +225,33 @@ export function Header() {
                         key={item.name}
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.18 + idx * 0.04, duration: 0.35, ease: 'easeOut' }}
+                        transition={{ delay: 0.08 + idx * 0.04, duration: 0.35, ease: 'easeOut' }}
                       >
                         <Link
                           href={item.href}
                           onClick={() => setIsMobileMenuOpen(false)}
-                          className={`group flex items-center justify-between px-4 py-3.5 rounded-2xl transition-all duration-200 ${
+                          className={`group flex items-center justify-between px-4 py-3 rounded-2xl transition-all duration-200 ${
                             isActive
                               ? 'bg-[#b1b94c] text-black'
                               : 'text-white hover:bg-white/5 active:bg-white/10'
                           }`}
                         >
-                          <div className="flex items-center gap-4">
+                          <div className="flex items-center gap-3">
                             <span
-                              className={`flex h-10 w-10 items-center justify-center rounded-xl transition-all ${
+                              className={`flex h-9 w-9 items-center justify-center rounded-xl transition-all ${
                                 isActive
                                   ? 'bg-black/15 text-black'
                                   : 'bg-white/5 text-[#b1b94c] group-hover:bg-[#b1b94c]/15'
                               }`}
                             >
-                              <Icon className="h-5 w-5" />
+                              <Icon className="h-4 w-4" />
                             </span>
-                            <span className="font-[family-name:var(--font-krona)] text-lg">
+                            <span className="font-[family-name:var(--font-krona)] text-xs tracking-[0.15em] uppercase">
                               {item.name}
                             </span>
                           </div>
                           <ArrowUpRight
-                            className={`h-5 w-5 transition-all ${
+                            className={`h-4 w-4 transition-all ${
                               isActive
                                 ? 'text-black/70 translate-x-0'
                                 : 'text-white/30 -translate-x-1 opacity-0 group-hover:translate-x-0 group-hover:opacity-100'
@@ -325,10 +309,6 @@ export function Header() {
                     <span className="text-[10px] font-medium uppercase tracking-wider">Email</span>
                   </a>
                 </div>
-
-                <p className="text-center text-[10px] text-white/30 tracking-wider">
-                  Inside Hanuman World · Kathu, Phuket
-                </p>
               </motion.div>
             </motion.div>
           </motion.div>
