@@ -26,7 +26,11 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-[#0f0f0f]">
+    // overflow-x-clip prevents the hero slideshow scale-up animation
+    // (initial { scale: 1.05 }) from briefly extending past the viewport
+    // on mobile, which was nudging the fixed header — and the hamburger
+    // button — slightly off the right edge.
+    <main className="min-h-screen bg-[#0f0f0f] overflow-x-clip">
       <HeroSlideshow />
       <FeaturedPackages />
       <SpecialPackages />

@@ -7,7 +7,7 @@ import { ArrowRight, Phone, MessageCircle } from 'lucide-react';
 
 export function CTABanner() {
   return (
-    <section className="relative py-24">
+    <section className="relative py-24 overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image

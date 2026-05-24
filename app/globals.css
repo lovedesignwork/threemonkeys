@@ -27,12 +27,19 @@
 
 html {
   scroll-behavior: smooth;
+  /* Defensive: clip stray horizontal overflow from animations/marquees
+     without breaking position: sticky inside descendants. */
+  overflow-x: clip;
 }
 
 body {
   font-family: var(--font-body);
   background-color: var(--background-dark);
   color: var(--foreground);
+  /* Same defensive clip at the body level — protects mobile when a
+     single element briefly animates wider than the viewport (e.g. the
+     hero slideshow scale-up that was nudging the hamburger off-screen). */
+  overflow-x: clip;
 }
 
 h1, h2, h3, h4, h5, h6 {
