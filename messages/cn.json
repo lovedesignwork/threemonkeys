@@ -626,6 +626,8 @@
     },
     "requirements": {
       "deposit4000": "每桌押金4,000泰铢（最多4位客人）",
+      "deposit5000": "每桌押金5,000泰铢",
+      "max6guests": "每桌最多6位客人",
       "redeemableNoRefund": "可抵扣消费；未使用余额不退款",
       "twoHourSeating": "2小时用餐时间（连续预订）",
       "cancellation24hr": "取消/变更需提前24小时通知（视情况而定）"

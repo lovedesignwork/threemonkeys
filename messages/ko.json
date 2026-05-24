@@ -626,6 +626,8 @@
     },
     "requirements": {
       "deposit4000": "테이블당 4,000 바트 보증금 (최대 4명)",
+      "deposit5000": "테이블당 5,000 바트 보증금",
+      "max6guests": "테이블당 최대 6명",
       "redeemableNoRefund": "사용 가능, 미사용 잔액 환불 불가",
       "twoHourSeating": "2시간 좌석 (연속 예약의 경우)",
       "cancellation24hr": "취소/변경 시 24시간 전 통보 필요 (가용성에 따라)"

@@ -626,6 +626,8 @@
     },
     "requirements": {
       "deposit4000": "Acompte de 4 000 THB par table (max 4 invités)",
+      "deposit5000": "Acompte de 5 000 THB par table",
+      "max6guests": "Maximum 6 invités par table",
       "redeemableNoRefund": "Utilisable ; pas de remboursement sur le solde non utilisé",
       "twoHourSeating": "Place de 2 heures (pour les réservations consécutives)",
       "cancellation24hr": "Préavis de 24 heures pour annulation/modification (sous réserve de disponibilité)"

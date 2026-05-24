@@ -48,7 +48,7 @@ export const packages: Package[] = [
     name: 'MONKEY NEST',
     description: 'Our signature must-see corner featuring unique elevated seating surrounded by nature. An unforgettable dining experience!',
     shortDescription: 'Must-See Spot, Signature Corner (2-6 Persons)',
-    price: 4000,
+    price: 5000,
     duration: '1-2 hours',
     category: 'combined',
     type: 'seat',
@@ -62,8 +62,7 @@ export const packages: Package[] = [
     features: ['Signature Corner', 'Elevated Seating', 'Nature Surroundings', 'Unique Experience'],
     included: ['Reserved zone seating', 'Fully redeemable', 'Ambient lighting', 'Priority service'],
     requirements: [
-      '1-4 guests THB 4,000 per table',
-      '5-6 guests THB 6,000 per table',
+      '5,000 THB deposit per table',
       'Maximum 6 guests per table',
       'Redeemable; no refund on unused balance',
       '2-hour seating (for consecutive bookings)',

@@ -626,6 +626,8 @@
     },
     "requirements": {
       "deposit4000": "4,000 THB deposit per table (max 4 guests)",
+      "deposit5000": "5,000 THB deposit per table",
+      "max6guests": "Maximum 6 guests per table",
       "redeemableNoRefund": "Redeemable; no refund on unused balance",
       "twoHourSeating": "2-hour seating (for consecutive bookings)",
       "cancellation24hr": "24-hour notice for cancellation/amendment (subject to availability)"

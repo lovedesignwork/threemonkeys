@@ -541,6 +541,13 @@ export default function PackagePage() {
                           req === '2-hour seating (for consecutive bookings)' ? t('requirements.twoHourSeating') :
                           req === '24-hour notice for cancellation/amendment (subject to availability)' ? t('requirements.cancellation24hr') :
                           req
+                        ) : pkg.id === 'monkey-nest' ? (
+                          req === '5,000 THB deposit per table' ? t('requirements.deposit5000') :
+                          req === 'Maximum 6 guests per table' ? t('requirements.max6guests') :
+                          req === 'Redeemable; no refund on unused balance' ? t('requirements.redeemableNoRefund') :
+                          req === '2-hour seating (for consecutive bookings)' ? t('requirements.twoHourSeating') :
+                          req === '24-hour notice for cancellation/amendment (subject to availability)' ? t('requirements.cancellation24hr') :
+                          req
                         ) : req}
                       </li>
                     ))}

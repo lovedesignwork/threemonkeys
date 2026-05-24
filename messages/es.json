@@ -626,6 +626,8 @@
     },
     "requirements": {
       "deposit4000": "Depósito de 4.000 THB por mesa (máx. 4 personas)",
+      "deposit5000": "Depósito de 5.000 THB por mesa",
+      "max6guests": "Máximo 6 personas por mesa",
       "redeemableNoRefund": "Canjeable; sin reembolso del saldo no utilizado",
       "twoHourSeating": "2 horas de asiento (para reservas consecutivas)",
       "cancellation24hr": "Aviso de 24 horas para cancelación/modificación (sujeto a disponibilidad)"
