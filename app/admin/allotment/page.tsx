@@ -253,15 +253,15 @@ export default function AllotmentPage() {
         <div className="flex items-center gap-3 flex-1 justify-center">
           <Calendar className="w-5 h-5 text-[#b1b94c]" />
           <div className="relative">
+            <div className="px-4 py-2 border border-slate-200 rounded-lg bg-white text-slate-800 font-medium cursor-pointer hover:border-[#b1b94c] transition-colors pointer-events-none">
+              {formatDateDisplay(day)}
+            </div>
             <input
               type="date"
               value={day}
               onChange={(e) => setDay(e.target.value)}
               className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
             />
-            <div className="px-4 py-2 border border-slate-200 rounded-lg bg-white text-slate-800 font-medium cursor-pointer hover:border-[#b1b94c] transition-colors">
-              {formatDateDisplay(day)}
-            </div>
           </div>
           <button
             onClick={() => setDay(todayIsoBangkok())}
