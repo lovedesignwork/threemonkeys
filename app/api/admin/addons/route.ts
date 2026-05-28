@@ -86,11 +86,21 @@ export async function POST(request: Request) {
         onConflict: 'key'
       });
 
-    if (error) throw error;
+    if (error) {
+      console.error('Supabase upsert error:', error);
+      return NextResponse.json({ 
+        error: `Database error: ${error.message}`,
+        code: error.code,
+        details: error.details
+      }, { status: 500 });
+    }
 
     return NextResponse.json({ success: true, disabledAddons });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error updating disabled addons:', error);
-    return NextResponse.json({ error: 'Failed to update disabled addons' }, { status: 500 });
+    return NextResponse.json({ 
+      error: error.message || 'Failed to update disabled addons',
+      details: error.toString()
+    }, { status: 500 });
   }
 }

@@ -22,8 +22,12 @@ import { allAddons, type Addon } from '@/lib/data/addons';
 
 async function adminGet(url: string) {
   const res = await fetch(url, { credentials: 'include' });
-  if (!res.ok) throw new Error('Failed to fetch');
-  return res.json();
+  const data = await res.json();
+  // Check for error in response body (API might return 200 with error field)
+  if (!res.ok && !data.disabledAddons) {
+    throw new Error(data.error || 'Failed to fetch');
+  }
+  return data;
 }
 
 async function adminPost(url: string, data: unknown) {
@@ -33,8 +37,11 @@ async function adminPost(url: string, data: unknown) {
     credentials: 'include',
     body: JSON.stringify(data),
   });
-  if (!res.ok) throw new Error('Failed to update');
-  return res.json();
+  const result = await res.json();
+  if (!res.ok) {
+    throw new Error(result.error || result.details || 'Failed to update');
+  }
+  return result;
 }
 
 const iconMap: Record<string, React.ElementType> = {
@@ -58,11 +65,15 @@ export default function AddonsPage() {
     try {
       setLoading(true);
       const data = await adminGet('/api/admin/addons');
+      // Successfully loaded - even if empty array, that's valid
       setDisabledAddons(data.disabledAddons || []);
       setOriginalDisabled(data.disabledAddons || []);
     } catch (error) {
       console.error('Error fetching disabled addons:', error);
-      setNotification({ type: 'error', message: 'Failed to load add-ons settings' });
+      // Only show error notification, but still default to empty array so page works
+      setDisabledAddons([]);
+      setOriginalDisabled([]);
+      setNotification({ type: 'error', message: 'Failed to load settings from database. Using defaults.' });
     } finally {
       setLoading(false);
     }
@@ -94,9 +105,9 @@ export default function AddonsPage() {
       setOriginalDisabled([...disabledAddons]);
       setHasChanges(false);
       setNotification({ type: 'success', message: 'Add-ons settings saved successfully' });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error saving:', error);
-      setNotification({ type: 'error', message: 'Failed to save settings' });
+      setNotification({ type: 'error', message: error.message || 'Failed to save settings' });
     } finally {
       setSaving(false);
     }
