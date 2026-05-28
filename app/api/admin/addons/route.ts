@@ -1,15 +1,11 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
-import { cookies } from 'next/headers';
+import { requireAdmin, isAuthError } from '@/lib/auth/api-auth';
 
 // GET - Fetch disabled addons list
-export async function GET(request: Request) {
-  const cookieStore = await cookies();
-  const sessionCookie = cookieStore.get('admin_session');
-  
-  if (!sessionCookie?.value) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
+export async function GET(request: NextRequest) {
+  const auth = await requireAdmin(request);
+  if (isAuthError(auth)) return auth;
 
   // Check if Supabase is configured
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -48,13 +44,9 @@ export async function GET(request: Request) {
 }
 
 // POST - Update disabled addons list
-export async function POST(request: Request) {
-  const cookieStore = await cookies();
-  const sessionCookie = cookieStore.get('admin_session');
-  
-  if (!sessionCookie?.value) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
+export async function POST(request: NextRequest) {
+  const auth = await requireAdmin(request);
+  if (isAuthError(auth)) return auth;
 
   // Check if Supabase is configured
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
