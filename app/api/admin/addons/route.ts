@@ -1,112 +1,72 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { supabaseAdmin } from '@/lib/supabase/server';
-import { requireAdmin, isAuthError } from '@/lib/auth/api-auth';
+import { NextResponse } from 'next/server';
+import { createClient } from '@supabase/supabase-js';
+import { cookies } from 'next/headers';
 
-export async function GET(request: NextRequest) {
-  const auth = await requireAdmin(request);
-  if (isAuthError(auth)) return auth;
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
+
+// GET - Fetch disabled addons list
+export async function GET(request: Request) {
+  const cookieStore = await cookies();
+  const sessionCookie = cookieStore.get('admin_session');
+  
+  if (!sessionCookie?.value) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
 
   try {
-    const { data, error } = await supabaseAdmin
-      .from('promo_addons')
-      .select('*')
-      .order('price', { ascending: false });
+    const { data, error } = await supabase
+      .from('site_settings')
+      .select('value')
+      .eq('key', 'disabled_addons')
+      .single();
 
-    if (error) {
-      console.error('Error fetching addons:', error);
-      return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error && error.code !== 'PGRST116') {
+      throw error;
     }
 
-    return NextResponse.json({ data });
+    const disabledAddons: string[] = data?.value || [];
+    return NextResponse.json({ disabledAddons });
   } catch (error) {
-    console.error('Error in admin addons API:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    console.error('Error fetching disabled addons:', error);
+    return NextResponse.json({ error: 'Failed to fetch disabled addons' }, { status: 500 });
   }
 }
 
-export async function POST(request: NextRequest) {
-  const auth = await requireAdmin(request);
-  if (isAuthError(auth)) return auth;
-
-  try {
-    const body = await request.json();
-    const { id, name, price, original_price, description, is_active, image_url } = body;
-
-    const { error } = await supabaseAdmin.from('promo_addons').insert({
-      id,
-      name,
-      price,
-      original_price: original_price || price,
-      description: description || null,
-      is_active: is_active !== false,
-      image_url: image_url || null,
-    });
-
-    if (error) {
-      console.error('Error adding addon:', error);
-      return NextResponse.json({ error: error.message }, { status: 500 });
-    }
-
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error('Error in admin addons POST:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+// POST - Update disabled addons list
+export async function POST(request: Request) {
+  const cookieStore = await cookies();
+  const sessionCookie = cookieStore.get('admin_session');
+  
+  if (!sessionCookie?.value) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
-}
-
-export async function PUT(request: NextRequest) {
-  const auth = await requireAdmin(request);
-  if (isAuthError(auth)) return auth;
 
   try {
     const body = await request.json();
-    const { id, name, price, original_price, description, is_active, image_url } = body;
+    const { disabledAddons } = body;
 
-    const { error } = await supabaseAdmin
-      .from('promo_addons')
-      .update({
-        name,
-        price,
-        original_price,
-        description,
-        is_active,
-        image_url,
-      })
-      .eq('id', id);
-
-    if (error) {
-      console.error('Error updating addon:', error);
-      return NextResponse.json({ error: error.message }, { status: 500 });
+    if (!Array.isArray(disabledAddons)) {
+      return NextResponse.json({ error: 'Invalid data format' }, { status: 400 });
     }
 
-    return NextResponse.json({ success: true });
+    const { error } = await supabase
+      .from('site_settings')
+      .upsert({
+        key: 'disabled_addons',
+        value: disabledAddons,
+        updated_at: new Date().toISOString()
+      }, {
+        onConflict: 'key'
+      });
+
+    if (error) throw error;
+
+    return NextResponse.json({ success: true, disabledAddons });
   } catch (error) {
-    console.error('Error in admin addons PUT:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
-  }
-}
-
-export async function PATCH(request: NextRequest) {
-  const auth = await requireAdmin(request);
-  if (isAuthError(auth)) return auth;
-
-  try {
-    const body = await request.json();
-    const { id, is_active } = body;
-
-    const { error } = await supabaseAdmin
-      .from('promo_addons')
-      .update({ is_active })
-      .eq('id', id);
-
-    if (error) {
-      console.error('Error toggling addon:', error);
-      return NextResponse.json({ error: error.message }, { status: 500 });
-    }
-
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error('Error in admin addons PATCH:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    console.error('Error updating disabled addons:', error);
+    return NextResponse.json({ error: 'Failed to update disabled addons' }, { status: 500 });
   }
 }

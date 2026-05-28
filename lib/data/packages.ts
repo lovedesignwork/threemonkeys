@@ -505,7 +505,7 @@ export const packages: Package[] = [
     name: 'WILL YOU MARRY ME? at Three Monkeys',
     description: 'Make your proposal unforgettable! Our proposal package includes beautiful decorations, romantic setup, and special touches.',
     shortDescription: 'Proposal Package (2 Persons)',
-    price: 4900,
+    price: 5900,
     duration: 'Full Evening',
     category: 'combined',
     type: 'special',
