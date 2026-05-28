@@ -69,3 +69,23 @@ export const allAddons: Addon[] = [
 export function getAddonById(id: string): Addon | undefined {
   return allAddons.find(addon => addon.id === id);
 }
+
+// Special package IDs (require 1 day advance booking)
+const SPECIAL_PACKAGE_IDS = ['ultimate-dinner', 'ultimate-birthday', 'will-you-marry-me'];
+
+// Helper to check if a package is a special package
+export function isSpecialPackage(packageId: string | null): boolean {
+  if (!packageId) return false;
+  return SPECIAL_PACKAGE_IDS.includes(packageId);
+}
+
+// Per-table packages (fixed price regardless of guest count)
+export function isPerTablePackage(pkgId: string | null): boolean {
+  return pkgId === 'monkey-dome' || pkgId === 'monkey-nest';
+}
+
+// Fixed price packages (special packages + per-table packages)
+// These have fixed prices that don't change with guest count
+export function isFixedPricePackage(pkgId: string | null): boolean {
+  return isPerTablePackage(pkgId) || isSpecialPackage(pkgId);
+}
