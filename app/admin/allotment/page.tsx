@@ -18,6 +18,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   AlertCircle,
+  AlertTriangle,
   Calendar,
   ChevronDown,
   ChevronLeft,
@@ -35,6 +36,8 @@ import {
   StickyNote,
   Trash2,
   Users,
+  Wine,
+  WineOff,
   Wrench,
   X,
 } from 'lucide-react';
@@ -140,6 +143,39 @@ export default function AllotmentPage() {
   const [modal, setModal] = useState<ModalMode>({ kind: 'closed' });
   const dateInputRef = useRef<HTMLInputElement>(null);
   const [showBlockMenu, setShowBlockMenu] = useState(false);
+  const [alcoholRestrictedDates, setAlcoholRestrictedDates] = useState<string[]>([]);
+  const [alcoholLoading, setAlcoholLoading] = useState(false);
+
+  // ── Alcohol restriction check ─────────────────────────────────────────
+  const isAlcoholRestricted = useMemo(() => alcoholRestrictedDates.includes(day), [alcoholRestrictedDates, day]);
+
+  const fetchAlcoholRestrictions = useCallback(async () => {
+    try {
+      const res = await adminGet('/api/admin/alcohol-restrictions');
+      const json = await res.json();
+      if (res.ok) {
+        setAlcoholRestrictedDates(json.dates || []);
+      }
+    } catch (err) {
+      console.error('Failed to fetch alcohol restrictions:', err);
+    }
+  }, []);
+
+  const toggleAlcoholRestriction = useCallback(async () => {
+    setAlcoholLoading(true);
+    try {
+      const action = isAlcoholRestricted ? 'remove' : 'add';
+      const res = await adminPost('/api/admin/alcohol-restrictions', { date: day, action });
+      const json = await res.json();
+      if (res.ok) {
+        setAlcoholRestrictedDates(json.dates || []);
+      }
+    } catch (err) {
+      console.error('Failed to toggle alcohol restriction:', err);
+    } finally {
+      setAlcoholLoading(false);
+    }
+  }, [day, isAlcoholRestricted]);
 
   // ── Data fetch ────────────────────────────────────────────────────────
   const fetchDay = useCallback(async (selectedDay: string) => {
@@ -166,8 +202,11 @@ export default function AllotmentPage() {
   }, []);
 
   useEffect(() => {
-    if (!authLoading) fetchDay(day);
-  }, [authLoading, day, fetchDay]);
+    if (!authLoading) {
+      fetchDay(day);
+      fetchAlcoholRestrictions();
+    }
+  }, [authLoading, day, fetchDay, fetchAlcoholRestrictions]);
 
   const refresh = useCallback(() => fetchDay(day), [day, fetchDay]);
 
@@ -192,6 +231,26 @@ export default function AllotmentPage() {
           <p className="text-slate-500">Every table for the day, hour by hour. Click <kbd className="px-1.5 py-0.5 rounded bg-slate-200 text-xs font-mono">+</kbd> on a free slot to block it, or click any booking to edit/move/cancel.</p>
         </div>
         <div className="flex items-center gap-3">
+          {/* Alcohol Restriction Toggle */}
+          <button
+            onClick={toggleAlcoholRestriction}
+            disabled={alcoholLoading}
+            className={`flex items-center gap-2 px-4 py-2 font-medium rounded-xl transition-colors ${
+              isAlcoholRestricted
+                ? 'bg-amber-100 border border-amber-300 text-amber-800 hover:bg-amber-200'
+                : 'border border-slate-200 text-slate-600 hover:bg-slate-50'
+            }`}
+            title={isAlcoholRestricted ? 'Remove alcohol restriction' : 'Mark as alcohol restricted date'}
+          >
+            {alcoholLoading ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : isAlcoholRestricted ? (
+              <WineOff className="w-4 h-4" />
+            ) : (
+              <Wine className="w-4 h-4" />
+            )}
+            {isAlcoholRestricted ? 'Alcohol Restricted' : 'No Restriction'}
+          </button>
           {/* Bulk Cancel Button */}
           {allotments.length > 0 && (
             <button
@@ -282,6 +341,31 @@ export default function AllotmentPage() {
           <ChevronRight className="w-5 h-5 text-slate-700" />
         </button>
       </div>
+
+      {/* Alcohol Restriction Banner */}
+      {isAlcoholRestricted && (
+        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-4 flex items-start gap-4">
+          <div className="flex-shrink-0 w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center">
+            <AlertTriangle className="w-5 h-5 text-amber-600" />
+          </div>
+          <div className="flex-1">
+            <h3 className="font-semibold text-amber-800 mb-1">Alcohol Sale Notice</h3>
+            <p className="text-sm text-amber-700 mb-2">
+              Alcoholic beverages will not be sold on this date due to local regulations / public holiday.
+            </p>
+            <p className="text-xs text-amber-600">
+              If your package includes sparkling wine or alcohol, it will be replaced with a non-alcoholic option from the restaurant&apos;s selected menu only.
+            </p>
+          </div>
+          <button
+            onClick={toggleAlcoholRestriction}
+            disabled={alcoholLoading}
+            className="flex-shrink-0 px-3 py-1.5 text-sm font-medium text-amber-700 hover:text-amber-900 hover:bg-amber-100 rounded-lg transition-colors"
+          >
+            Remove
+          </button>
+        </div>
+      )}
 
       {/* Compact zone summary pills */}
       {!loading && zoneStats.length > 0 && (

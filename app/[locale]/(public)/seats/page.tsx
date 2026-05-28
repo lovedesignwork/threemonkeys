@@ -193,11 +193,11 @@ export default function SeatsPage() {
                           <span className="text-white/40 text-xs uppercase tracking-wider block mb-1">{t('deposit')}</span>
                           <div className="flex items-baseline gap-1">
                             <span className="text-3xl font-bold text-[#b1b94c] font-[family-name:var(--font-krona)]">
-                              ฿4,000
+                              ฿{pkg.price.toLocaleString()}
                             </span>
                             <span className="text-white/40 text-sm">{t('perTable')}</span>
                           </div>
-                          <span className="text-white/30 text-xs">{t('upTo', { n: 4 })}</span>
+                          <span className="text-white/30 text-xs">{pkg.id === 'monkey-nest' ? t('upTo', { n: 6 }) : t('upTo', { n: 4 })}</span>
                         </div>
                         
                         {/* Reserve Button */}

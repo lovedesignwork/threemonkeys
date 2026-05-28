@@ -369,6 +369,33 @@ function BookingContent() {
   // Track which addon descriptions are expanded
   const [expandedAddons, setExpandedAddons] = useState<Record<string, boolean>>({});
 
+  // Alcohol restriction dates
+  const [alcoholRestrictedDates, setAlcoholRestrictedDates] = useState<string[]>([]);
+
+  // Fetch alcohol restriction dates on mount
+  useEffect(() => {
+    const fetchAlcoholRestrictions = async () => {
+      try {
+        const res = await fetch('/api/alcohol-restrictions');
+        const json = await res.json();
+        if (res.ok) {
+          setAlcoholRestrictedDates(json.dates || []);
+        }
+      } catch (err) {
+        console.error('Failed to fetch alcohol restrictions:', err);
+      }
+    };
+    fetchAlcoholRestrictions();
+  }, []);
+
+  // Check if selected date is alcohol restricted
+  const isSelectedDateAlcoholRestricted = useMemo(() => {
+    if (!selectedDate) return false;
+    // Convert selected date to ISO format (YYYY-MM-DD) for comparison
+    const dateStr = new Date(selectedDate).toISOString().split('T')[0];
+    return alcoholRestrictedDates.includes(dateStr);
+  }, [selectedDate, alcoholRestrictedDates]);
+
   const toggleAddonExpanded = (addonId: string, e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent triggering the parent onClick (addon selection)
     setExpandedAddons(prev => ({ ...prev, [addonId]: !prev[addonId] }));
@@ -439,14 +466,14 @@ function BookingContent() {
     
     // Deposit calculation:
     // Monkey Dome: 4,000 THB fixed
-    // Monkey Nest: 4,000 THB (1-4 guests), 5,000 THB (5-6 guests)
+    // Monkey Nest: 5,000 THB fixed (all guests)
     // Other fixed price packages: Full package price as deposit
     // Others: THB 500 per person
     let deposit: number;
     if (selectedPackageId === 'monkey-dome') {
       deposit = 4000;
     } else if (selectedPackageId === 'monkey-nest') {
-      deposit = guestCount <= 4 ? 4000 : 5000;
+      deposit = 5000;
     } else if (isFixedPricePackage(selectedPackageId)) {
       deposit = selectedPackage.price;
     } else {
@@ -689,8 +716,8 @@ function BookingContent() {
                                   </>
                                 ) : selectedPackage.id === 'monkey-nest' ? (
                                   <>
-                                    <div className="text-xl font-bold text-[#b1b94c]">฿{guestCount <= 4 ? '4,000' : '5,000'}</div>
-                                    <div className="text-xs text-white/40">/ table ({guestCount <= 4 ? '1-4' : '5-6'} guests)</div>
+                                    <div className="text-xl font-bold text-[#b1b94c]">฿5,000</div>
+                                    <div className="text-xs text-white/40">/ table (max 6)</div>
                                   </>
                                 ) : selectedPackage.id === 'bamboo-pavilion' ? (
                                   <>
@@ -827,7 +854,7 @@ function BookingContent() {
                                       </>
                                     ) : pkg.id === 'monkey-nest' ? (
                                       <>
-                                        <span className="text-base font-bold text-[#b1b94c]">฿4,000-5,000</span>
+                                        <span className="text-base font-bold text-[#b1b94c]">฿5,000</span>
                                         <span className="text-white/30 text-[9px] block">/ table (max 6)</span>
                                       </>
                                     ) : pkg.id === 'bamboo-pavilion' ? (
@@ -988,6 +1015,7 @@ function BookingContent() {
                             value={selectedDate}
                             onChange={setSelectedDate}
                             minDate={minBookingDate}
+                            restrictedDates={alcoholRestrictedDates}
                           />
                           {isSpecialPackage(selectedPackageId) && (
                             <p className="text-amber-400/70 text-xs mt-2 flex items-center gap-1.5">
@@ -1045,7 +1073,30 @@ function BookingContent() {
                             </p>
                           )}
                         </div>
+                      </div>
 
+                      {/* Alcohol Restriction Notice */}
+                      {isSelectedDateAlcoholRestricted && (
+                        <div className="mt-4 bg-amber-500/10 border border-amber-500/30 rounded-xl p-4">
+                          <div className="flex items-start gap-3">
+                            <div className="flex-shrink-0 w-8 h-8 bg-amber-500/20 rounded-lg flex items-center justify-center">
+                              <Info className="w-4 h-4 text-amber-400" />
+                            </div>
+                            <div>
+                              <h4 className="text-amber-400 font-semibold text-sm mb-1">Alcohol Sale Notice</h4>
+                              <p className="text-white/70 text-xs leading-relaxed">
+                                Alcoholic beverages will not be sold on this date due to local regulations / public holiday.
+                              </p>
+                              <p className="text-white/50 text-xs mt-2 leading-relaxed">
+                                If your package includes sparkling wine or alcohol, it will be replaced with a non-alcoholic option from the restaurant&apos;s selected menu only.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    <div className="p-4 sm:p-6 pt-0">
+                      <div className="grid md:grid-cols-2 gap-5 sm:gap-6 items-stretch">
                         {/* Number of Persons */}
                         <div>
                           <label className="block text-sm font-medium text-white/70 mb-3">
@@ -1123,7 +1174,7 @@ function BookingContent() {
                                     {selectedPackageId === 'monkey-dome' 
                                       ? 'Fixed rate (max 4 guests)'
                                       : selectedPackageId === 'monkey-nest'
-                                      ? guestCount <= 4 ? '1-4 guests: ฿4,000' : '5-6 guests: ฿5,000'
+                                      ? 'Fixed rate (max 6 guests)'
                                       : isFixedPricePackage(selectedPackageId) 
                                       ? 'Fixed rate package' 
                                       : `฿${DEPOSIT_PER_PERSON} × ${guestCount} ${guestCount === 1 ? 'person' : 'persons'}`}
@@ -1521,6 +1572,14 @@ function BookingContent() {
                               <Info className="w-4 h-4" />
                               Couldn&apos;t check availability — please retry
                             </>)}
+                          </div>
+                        )}
+
+                        {/* Alcohol restriction badge */}
+                        {isSelectedDateAlcoholRestricted && (
+                          <div className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium border bg-amber-500/10 border-amber-500/40 text-amber-300">
+                            <Info className="w-4 h-4" />
+                            Selected date: alcohol restricted
                           </div>
                         )}
 
