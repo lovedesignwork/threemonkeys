@@ -2,11 +2,6 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { cookies } from 'next/headers';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
-
 // GET - Fetch disabled addons list
 export async function GET(request: Request) {
   const cookieStore = await cookies();
@@ -16,14 +11,30 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
+  // Check if Supabase is configured
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!supabaseUrl || !supabaseKey) {
+    console.warn('Supabase not configured, returning empty disabled addons list');
+    return NextResponse.json({ disabledAddons: [] });
+  }
+
   try {
+    const supabase = createClient(supabaseUrl, supabaseKey);
+    
     const { data, error } = await supabase
       .from('site_settings')
       .select('value')
       .eq('key', 'disabled_addons')
       .single();
 
-    if (error && error.code !== 'PGRST116') {
+    // PGRST116 = no rows returned (which is fine - means no addons disabled yet)
+    // 42P01 = table doesn't exist (also fine - just return empty array)
+    if (error) {
+      if (error.code === 'PGRST116' || error.code === '42P01' || error.message?.includes('does not exist')) {
+        return NextResponse.json({ disabledAddons: [] });
+      }
       throw error;
     }
 
@@ -31,7 +42,8 @@ export async function GET(request: Request) {
     return NextResponse.json({ disabledAddons });
   } catch (error) {
     console.error('Error fetching disabled addons:', error);
-    return NextResponse.json({ error: 'Failed to fetch disabled addons' }, { status: 500 });
+    // Return empty array on error so the page still loads
+    return NextResponse.json({ disabledAddons: [] });
   }
 }
 
@@ -44,6 +56,16 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
+  // Check if Supabase is configured
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!supabaseUrl || !supabaseKey) {
+    return NextResponse.json({ 
+      error: 'Database not configured. Please set up Supabase environment variables.' 
+    }, { status: 503 });
+  }
+
   try {
     const body = await request.json();
     const { disabledAddons } = body;
@@ -51,6 +73,8 @@ export async function POST(request: Request) {
     if (!Array.isArray(disabledAddons)) {
       return NextResponse.json({ error: 'Invalid data format' }, { status: 400 });
     }
+
+    const supabase = createClient(supabaseUrl, supabaseKey);
 
     const { error } = await supabase
       .from('site_settings')
