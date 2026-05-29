@@ -302,7 +302,7 @@ export default function SeatsPage() {
                           <div>
                             <span className="text-white/40 text-[10px] uppercase tracking-wider block">{t('deposit')}</span>
                             <span className="text-xl font-bold text-[#b1b94c] font-[family-name:var(--font-krona)]">
-                              ฿500
+                              ฿1,000
                             </span>
                             <span className="text-white/30 text-[10px] ml-1">{t('perPerson')}</span>
                           </div>
@@ -381,7 +381,7 @@ export default function SeatsPage() {
                           <span className="text-white/40 text-xs uppercase tracking-wider block mb-1">{t('deposit')}</span>
                           <div className="flex items-baseline gap-1">
                             <span className="text-3xl font-bold text-[#b1b94c] font-[family-name:var(--font-krona)]">
-                              ฿500
+                              ฿1,000
                             </span>
                             <span className="text-white/40 text-sm">{t('perPerson')}</span>
                           </div>

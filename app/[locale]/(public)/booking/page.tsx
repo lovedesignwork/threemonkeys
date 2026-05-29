@@ -177,10 +177,10 @@ function QuickSelectGrid({ onSelect }: { onSelect: (id: string) => void }) {
                 <h4 className="text-xs font-medium text-white group-hover:text-[#b1b94c] transition-colors line-clamp-1">
                   {pkg.name}
                 </h4>
-                <div className="flex items-center gap-1">
-                  <span className="text-[10px] font-semibold text-[#b1b94c]">฿500</span>
-                  <span className="text-[10px] text-white/40">deposit / person</span>
-                </div>
+                                <div className="flex items-center gap-1">
+                                  <span className="text-[10px] font-semibold text-[#b1b94c]">฿1,000</span>
+                                  <span className="text-[10px] text-white/40">deposit / person</span>
+                                </div>
               </div>
               <ChevronDown className="w-3.5 h-3.5 text-white/30 -rotate-90 group-hover:text-[#b1b94c] transition-colors flex-shrink-0" />
             </div>
@@ -407,7 +407,7 @@ function BookingContent() {
   };
 
   const maxGuestsForPackage = getMaxGuestsForPackage(selectedPackageId);
-  const DEPOSIT_PER_PERSON = 500;
+  const DEPOSIT_PER_PERSON = 1000;
 
   const handleSelectPackage = (pkgId: string) => {
     setSelectedPackageId(pkgId);
@@ -687,42 +687,42 @@ function BookingContent() {
                                   </>
                                 ) : selectedPackage.id === 'bamboo-pavilion' ? (
                                   <>
-                                    <div className="text-xl font-bold text-[#b1b94c]">฿500</div>
+                                    <div className="text-xl font-bold text-[#b1b94c]">฿1,000</div>
                                     <div className="text-xs text-white/40">/ person (max 4)</div>
                                   </>
                                 ) : selectedPackage.id === 'exclusive-romantic-zone-7' ? (
                                   <>
-                                    <div className="text-xl font-bold text-[#b1b94c]">฿500</div>
+                                    <div className="text-xl font-bold text-[#b1b94c]">฿1,000</div>
                                     <div className="text-xs text-white/40">/ person (max 4)</div>
                                   </>
                                 ) : selectedPackage.id === 'zone-7' ? (
                                   <>
-                                    <div className="text-xl font-bold text-[#b1b94c]">฿500</div>
+                                    <div className="text-xl font-bold text-[#b1b94c]">฿1,000</div>
                                     <div className="text-xs text-white/40">/ person (up to 50)</div>
                                   </>
                                 ) : selectedPackage.id === 'zone-6' ? (
                                   <>
-                                    <div className="text-xl font-bold text-[#b1b94c]">฿500</div>
+                                    <div className="text-xl font-bold text-[#b1b94c]">฿1,000</div>
                                     <div className="text-xs text-white/40">/ person (up to 50)</div>
                                   </>
                                 ) : selectedPackage.id === 'rooftop-romantic' ? (
                                   <>
-                                    <div className="text-xl font-bold text-[#b1b94c]">฿500</div>
+                                    <div className="text-xl font-bold text-[#b1b94c]">฿1,000</div>
                                     <div className="text-xs text-white/40">/ person (up to 40)</div>
                                   </>
                                 ) : selectedPackage.id === 'monkey-hilltop' ? (
                                   <>
-                                    <div className="text-xl font-bold text-[#b1b94c]">฿500</div>
+                                    <div className="text-xl font-bold text-[#b1b94c]">฿1,000</div>
                                     <div className="text-xs text-white/40">/ person (2-4)</div>
                                   </>
                                 ) : selectedPackage.id === 'indoor-seat' || selectedPackage.id === 'outdoor-seat' ? (
                                   <>
-                                    <div className="text-xl font-bold text-[#b1b94c]">฿500</div>
+                                    <div className="text-xl font-bold text-[#b1b94c]">฿1,000</div>
                                     <div className="text-xs text-white/40">/ person (open)</div>
                                   </>
                                 ) : (
                                   <>
-                                    <div className="text-xl font-bold text-[#b1b94c]">฿500</div>
+                                    <div className="text-xl font-bold text-[#b1b94c]">฿1,000</div>
                                     <div className="text-xs text-white/40">/ person</div>
                                   </>
                                 )}
@@ -825,42 +825,42 @@ function BookingContent() {
                                       </>
                                     ) : pkg.id === 'bamboo-pavilion' ? (
                                       <>
-                                        <span className="text-base font-bold text-[#b1b94c]">฿500</span>
+                                        <span className="text-base font-bold text-[#b1b94c]">฿1,000</span>
                                         <span className="text-white/30 text-[9px] block">/ person (max 4)</span>
                                       </>
                                     ) : pkg.id === 'exclusive-romantic-zone-7' ? (
                                       <>
-                                        <span className="text-base font-bold text-[#b1b94c]">฿500</span>
+                                        <span className="text-base font-bold text-[#b1b94c]">฿1,000</span>
                                         <span className="text-white/30 text-[9px] block">/ person (max 4)</span>
                                       </>
                                     ) : pkg.id === 'zone-7' ? (
                                       <>
-                                        <span className="text-base font-bold text-[#b1b94c]">฿500</span>
+                                        <span className="text-base font-bold text-[#b1b94c]">฿1,000</span>
                                         <span className="text-white/30 text-[9px] block">/ person (up to 50)</span>
                                       </>
                                     ) : pkg.id === 'zone-6' ? (
                                       <>
-                                        <span className="text-base font-bold text-[#b1b94c]">฿500</span>
+                                        <span className="text-base font-bold text-[#b1b94c]">฿1,000</span>
                                         <span className="text-white/30 text-[9px] block">/ person (up to 50)</span>
                                       </>
                                     ) : pkg.id === 'rooftop-romantic' ? (
                                       <>
-                                        <span className="text-base font-bold text-[#b1b94c]">฿500</span>
+                                        <span className="text-base font-bold text-[#b1b94c]">฿1,000</span>
                                         <span className="text-white/30 text-[9px] block">/ person (up to 40)</span>
                                       </>
                                     ) : pkg.id === 'monkey-hilltop' ? (
                                       <>
-                                        <span className="text-base font-bold text-[#b1b94c]">฿500</span>
+                                        <span className="text-base font-bold text-[#b1b94c]">฿1,000</span>
                                         <span className="text-white/30 text-[9px] block">/ person (2-4)</span>
                                       </>
                                     ) : pkg.id === 'indoor-seat' || pkg.id === 'outdoor-seat' ? (
                                       <>
-                                        <span className="text-base font-bold text-[#b1b94c]">฿500</span>
+                                        <span className="text-base font-bold text-[#b1b94c]">฿1,000</span>
                                         <span className="text-white/30 text-[9px] block">/ person (open)</span>
                                       </>
                                     ) : (
                                       <>
-                                        <span className="text-base font-bold text-[#b1b94c]">฿500</span>
+                                        <span className="text-base font-bold text-[#b1b94c]">฿1,000</span>
                                         <span className="text-white/30 text-[9px] block">/ person</span>
                                       </>
                                     )}
