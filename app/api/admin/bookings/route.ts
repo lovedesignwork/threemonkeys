@@ -33,7 +33,7 @@ interface ManualAllotmentRow {
 // Normalize a manual allotment into the same shape the bookings list expects.
 function allotmentToBooking(a: ManualAllotmentRow) {
   const { date, time } = bkkParts(a.start_at);
-  const guests = a.guest_count ?? ((a.adult_count || 0) + (a.child_count || 0)) ?? 0;
+  const guests = a.guest_count ?? ((a.adult_count || 0) + (a.child_count || 0));
   return {
     id: a.id,
     booking_ref: a.booking_ref || `TM-${a.id.slice(0, 8).toUpperCase()}`,
