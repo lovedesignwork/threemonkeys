@@ -24,6 +24,7 @@ export function middleware(req: NextRequest) {
   const isAdminOrApi =
     pathname.startsWith('/admin') ||
     pathname.startsWith('/api') ||
+    pathname.startsWith('/reservation') ||
     pathname === '/maintenance';
 
   // ────────────────────────────────────────────────

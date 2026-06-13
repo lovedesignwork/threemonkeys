@@ -36,6 +36,9 @@ import {
   Users,
   Globe,
   CreditCard,
+  Copy,
+  Check,
+  Link2,
 } from 'lucide-react';
 import { adminGet, adminFetch } from '@/lib/auth/api-client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -85,6 +88,8 @@ interface Booking {
   source?: string | null;
   adult_count?: number | null;
   child_count?: number | null;
+  public_token?: string | null;
+  reservation_seq?: string | null;
 }
 
 // Friendly label + emoji for manual booking sources.
@@ -117,6 +122,66 @@ const ZONE_NAMES: Record<string, string> = {
   'romantic-rooftop-luge': 'Romantic Rooftop',
 };
 const zoneName = (id: string | null | undefined) => (id ? ZONE_NAMES[id] ?? id : null);
+
+// Public site base for the customer e-ticket link. Falls back to the
+// production domain, then to the current admin origin.
+function reservationBaseUrl(): string {
+  const env = process.env.NEXT_PUBLIC_SITE_URL;
+  if (env) return env.replace(/\/$/, '');
+  if (typeof window !== 'undefined' && window.location.hostname.includes('threemonkeys')) {
+    return window.location.origin;
+  }
+  return 'https://threemonkeysphuket.com';
+}
+
+// "Copy ticket link" button shown for manual bookings. Copies the unique,
+// unguessable reservation URL to the clipboard and gives quick visual feedback.
+function CopyLinkButton({ token, seq }: { token: string; seq: string }) {
+  const [copied, setCopied] = useState(false);
+  const url = `${reservationBaseUrl()}/reservation/${token}${seq ? `/${seq}` : ''}`;
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(url);
+    } catch {
+      // Fallback for non-secure contexts
+      const ta = document.createElement('textarea');
+      ta.value = url;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+    }
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1800);
+  };
+
+  return (
+    <div className="flex items-center justify-center gap-1">
+      <button
+        onClick={copy}
+        title={`Copy ticket link\n${url}`}
+        className={`inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[11px] font-medium transition-colors ${
+          copied
+            ? 'bg-green-100 text-green-700'
+            : 'bg-[#1a237e]/10 text-[#1a237e] hover:bg-[#1a237e]/20'
+        }`}
+      >
+        {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+        {copied ? 'Copied' : 'Copy'}
+      </button>
+      <a
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        title="Open ticket in new tab"
+        className="p-1.5 text-slate-400 hover:text-[#1a237e] hover:bg-[#1a237e]/10 rounded-lg transition-colors"
+      >
+        <Link2 className="w-3.5 h-3.5" />
+      </a>
+    </div>
+  );
+}
 
 export default function BookingsPage() {
   const { loading: authLoading } = useAuth();
@@ -431,6 +496,7 @@ export default function BookingsPage() {
                       <div className="flex items-center gap-1">Deposit<SortIcon field="total_amount" /></div>
                     </th>
                     <th className="px-3 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Notes</th>
+                    <th className="px-3 py-3 text-center text-xs font-medium text-slate-500 uppercase tracking-wider">Ticket</th>
                     <th className="px-3 py-3 text-center text-xs font-medium text-slate-500 uppercase tracking-wider">Origin</th>
                     <th className="px-3 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider w-28"></th>
                   </tr>
@@ -559,6 +625,17 @@ export default function BookingsPage() {
                             </div>
                           ) : (
                             <span className="text-xs text-slate-400">-</span>
+                          )}
+                        </td>
+                        {/* Ticket (public e-ticket copy link — manual bookings only) */}
+                        <td className="px-3 py-3 whitespace-nowrap text-center">
+                          {booking.is_manual && booking.public_token ? (
+                            <CopyLinkButton
+                              token={booking.public_token}
+                              seq={booking.reservation_seq || ''}
+                            />
+                          ) : (
+                            <span className="text-xs text-slate-300">-</span>
                           )}
                         </td>
                         {/* Origin (booking + payment) */}

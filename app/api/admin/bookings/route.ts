@@ -27,7 +27,16 @@ interface ManualAllotmentRow {
   notes: string | null;
   deposit_amount: number | null;
   booking_ref: string | null;
+  public_token: string | null;
   created_at: string;
+}
+
+// Extract the trailing running number from a manual booking ref
+// (e.g. "3M-S-000236" -> "000236"). Falls back to empty string.
+function refSeq(ref: string | null): string {
+  if (!ref) return '';
+  const m = ref.match(/(\d+)\s*$/);
+  return m ? m[1] : '';
 }
 
 // Normalize a manual allotment into the same shape the bookings list expects.
@@ -71,6 +80,8 @@ function allotmentToBooking(a: ManualAllotmentRow) {
     source: a.source,
     adult_count: a.adult_count,
     child_count: a.child_count,
+    public_token: a.public_token,
+    reservation_seq: refSeq(a.booking_ref),
   };
 }
 
@@ -137,7 +148,7 @@ export async function GET(request: NextRequest) {
     if (status === 'all' || status === 'confirmed') {
       let allotQuery = supabaseAdmin
         .from('tm_allotments')
-        .select('id, zone_id, table_code, start_at, source, booking_id, customer_name, guest_count, adult_count, child_count, customer_phone, customer_email, notes, deposit_amount, booking_ref, created_at')
+        .select('id, zone_id, table_code, start_at, source, booking_id, customer_name, guest_count, adult_count, child_count, customer_phone, customer_email, notes, deposit_amount, booking_ref, public_token, created_at')
         .is('booking_id', null);
 
       if (dateFrom || dateTo) {

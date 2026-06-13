@@ -178,6 +178,39 @@ export async function getAllotmentById(id: string): Promise<TmAllotment | null> 
 }
 
 /**
+ * Public e-ticket lookup. Fetches a MANUAL booking by its unguessable
+ * public_token and enriches it with the human-readable zone name.
+ * Returns null if not found. Only manual rows (booking_id IS NULL) are
+ * exposed through this path.
+ */
+export async function getManualBookingByPublicToken(
+  token: string
+): Promise<(TmAllotment & { zone_name: string | null }) | null> {
+  const { data, error } = await supabaseAdmin
+    .from('tm_allotments')
+    .select('*')
+    .eq('public_token', token)
+    .is('booking_id', null)
+    .maybeSingle();
+  if (error) {
+    if (error.code === 'PGRST116') return null;
+    throw error;
+  }
+  if (!data) return null;
+  const allotment = data as TmAllotment;
+  let zoneName: string | null = null;
+  if (allotment.zone_id) {
+    const { data: zone } = await supabaseAdmin
+      .from('tm_zones')
+      .select('name')
+      .eq('id', allotment.zone_id)
+      .maybeSingle();
+    zoneName = (zone as { name?: string } | null)?.name ?? null;
+  }
+  return { ...allotment, zone_name: zoneName };
+}
+
+/**
  * Delete an allotment by id. Returns true if a row was removed.
  */
 export async function deleteAllotment(id: string): Promise<boolean> {

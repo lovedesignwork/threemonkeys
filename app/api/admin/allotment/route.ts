@@ -172,7 +172,11 @@ export async function POST(request: NextRequest) {
       console.error(`[admin/allotment POST] OneBooking sync error:`, err);
     });
 
-    return NextResponse.json({ id: allotmentId, booking_ref: created?.booking_ref ?? null }, { status: 201 });
+    return NextResponse.json({
+      id: allotmentId,
+      booking_ref: created?.booking_ref ?? null,
+      public_token: created?.public_token ?? null,
+    }, { status: 201 });
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unknown error';
     if (message.includes('TM_ALLOTMENT_FULL')) {

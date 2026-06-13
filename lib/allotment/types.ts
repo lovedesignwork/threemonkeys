@@ -41,6 +41,7 @@ export interface TmAllotment {
   customer_email: string | null;   // Optional email for manual bookings
   adult_count: number | null;      // Number of adult guests
   child_count: number | null;      // Number of child guests
+  public_token: string | null;     // Unguessable token for the public e-ticket URL
   created_at: string;
   updated_at: string;
 }
