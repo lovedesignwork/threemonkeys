@@ -3,7 +3,7 @@
  * See docs/ALLOTMENT_SPEC.md
  */
 
-export type AllotmentSource = 'website' | 'phone' | 'email' | 'walk_in' | 'admin' | 'other';
+export type AllotmentSource = 'website' | 'phone' | 'email' | 'walk_in' | 'admin' | 'other' | 'live_chat';
 
 export interface TmZone {
   id: string;
@@ -37,6 +37,10 @@ export interface TmAllotment {
   created_by: string | null;
   deposit_amount: number | null;   // THB the customer paid (cash or Stripe)
   booking_ref: string | null;      // e.g. "3M-00001" — only for website bookings
+  customer_phone: string | null;   // Optional phone for manual bookings
+  customer_email: string | null;   // Optional email for manual bookings
+  adult_count: number | null;      // Number of adult guests
+  child_count: number | null;      // Number of child guests
   created_at: string;
   updated_at: string;
 }

@@ -150,7 +150,13 @@ export async function syncBookingToOneBooking(
       statusText: response.statusText,
       data,
     });
-    throw new Error(data.error || data.message || 'Sync failed');
+    const err = new Error(data.error || data.message || 'Sync failed') as Error & {
+      status?: number;
+      code?: string;
+    };
+    err.status = response.status;
+    err.code = data.code;
+    throw err;
   }
 
   return data as SyncResponse;
@@ -161,7 +167,8 @@ export async function syncBookingToOneBooking(
  */
 export async function syncWithRetry(
   payload: BookingSyncPayload,
-  attempt = 0
+  attempt = 0,
+  switchedToUpdate = false
 ): Promise<SyncResponse> {
   try {
     const result = await syncBookingToOneBooking(payload);
@@ -173,6 +180,8 @@ export async function syncWithRetry(
     return result;
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    const status = (error as { status?: number }).status;
+    const code = (error as { code?: string }).code;
     
     // Skip retry if not configured
     if (errorMessage === 'OneBooking integration not configured') {
@@ -183,12 +192,27 @@ export async function syncWithRetry(
       };
     }
     
+    // Duplicate booking: the record already exists on OneBooking.
+    // Switch from booking.created -> booking.updated and retry immediately
+    // (only once, to avoid loops).
+    if (
+      status === 409 &&
+      code === 'DUPLICATE_BOOKING' &&
+      payload.event === 'booking.created' &&
+      !switchedToUpdate
+    ) {
+      console.log(
+        `[OneBooking Sync] ${payload.booking_ref} already exists — retrying as booking.updated`
+      );
+      return syncWithRetry({ ...payload, event: 'booking.updated' }, attempt, true);
+    }
+    
     if (attempt < RETRY_DELAYS.length) {
       console.log(
         `[OneBooking Sync] Retry ${attempt + 1}/${RETRY_DELAYS.length} for ${payload.booking_ref} in ${RETRY_DELAYS[attempt]}ms`
       );
       await sleep(RETRY_DELAYS[attempt]);
-      return syncWithRetry(payload, attempt + 1);
+      return syncWithRetry(payload, attempt + 1, switchedToUpdate);
     }
     
     console.error(`[OneBooking Sync] Failed after ${RETRY_DELAYS.length} retries:`, errorMessage);
@@ -306,6 +330,98 @@ export async function pushBookingToOneBooking(
   // forward explicitly on the final payload.
   payload.booking_origin = bookingData.booking_origin ?? null;
   payload.payment_origin = bookingData.payment_origin ?? null;
+
+  return syncWithRetry(payload);
+}
+
+/**
+ * Sync a manual allotment/booking to OneBooking Central
+ * Used for admin-created bookings via the allotment system
+ */
+export async function pushManualAllotmentToOneBooking(
+  event: BookingSyncEvent,
+  allotment: {
+    id: string;
+    booking_ref?: string | null;
+    zone_id: string;
+    zone_name?: string | null;
+    table_code: string;
+    start_at: string; // ISO timestamp
+    source: string;
+    customer_name?: string | null;
+    customer_phone?: string | null;
+    customer_email?: string | null;
+    guest_count?: number | null;
+    adult_count?: number | null;
+    child_count?: number | null;
+    notes?: string | null;
+    deposit_amount?: number | null;
+    created_at: string;
+  }
+): Promise<SyncResponse> {
+  // For manual allotments, email is optional but we need something to identify
+  // If no email, we can still sync but mark it clearly
+  const customerEmail = allotment.customer_email || `manual-${allotment.id}@threemonkeysrestaurant.local`;
+  
+  // Calculate total guest count
+  const adultChildSum = (allotment.adult_count || 0) + (allotment.child_count || 0);
+  const totalGuests = allotment.guest_count ?? (adultChildSum > 0 ? adultChildSum : 1);
+
+  // Extract date and time from start_at
+  const startDate = new Date(allotment.start_at);
+  const activityDate = startDate.toISOString().split('T')[0];
+  const timeSlot = startDate.toLocaleTimeString('en-US', { 
+    hour: '2-digit', 
+    minute: '2-digit', 
+    hour12: false,
+    timeZone: 'Asia/Bangkok'
+  });
+
+  const customer: CustomerData = {
+    name: allotment.customer_name || 'Walk-in Guest',
+    email: customerEmail,
+    phone: allotment.customer_phone || null,
+    country_code: null,
+    special_requests: allotment.notes || null,
+  };
+
+  const transport: TransportData = {
+    type: null,
+    hotel_name: null,
+    room_number: null,
+    non_players: 0,
+    private_passengers: 0,
+    cost: 0,
+  };
+
+  const payload: BookingSyncPayload = {
+    event,
+    source_booking_id: allotment.id,
+    booking_ref: allotment.booking_ref || `TM-${allotment.id.slice(0, 8).toUpperCase()}`,
+    package_name: `Manual Booking (${allotment.source})`,
+    package_price: allotment.deposit_amount || 0,
+    activity_date: activityDate,
+    time_slot: timeSlot,
+    guest_count: totalGuests,
+    total_amount: allotment.deposit_amount || 0,
+    discount_amount: 0,
+    currency: 'THB',
+    status: 'confirmed',
+    customer,
+    transport,
+    addons: [],
+    stripe_payment_intent_id: null,
+    created_at: allotment.created_at,
+    notes: allotment.notes || null,
+    zone_id: allotment.zone_id,
+    zone_name: allotment.zone_name || null,
+    table_code: allotment.table_code,
+    booking_origin: null,
+    payment_origin: null,
+    // Manual bookings: carry the channel/source so OneBooking can show it
+    // as the booking origin (e.g. "Live Chat", "Phone") instead of a flag.
+    booking_source: allotment.source || null,
+  };
 
   return syncWithRetry(payload);
 }

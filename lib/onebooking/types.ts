@@ -68,6 +68,13 @@ export interface BookingSyncPayload {
   zone_id?: string | null;
   zone_name?: string | null;
   table_code?: string | null;
+  /**
+   * For manual/admin bookings: the channel the booking came through
+   * (e.g. 'live_chat', 'phone', 'email', 'walk_in', 'admin', 'other').
+   * Online bookings leave this null. OneBooking can display this as the
+   * booking "origin" instead of a country flag.
+   */
+  booking_source?: string | null;
   // Origin tracking (matches Baboon's shape)
   booking_origin?: BookingOrigin | null;
   payment_origin?: PaymentOrigin | null;

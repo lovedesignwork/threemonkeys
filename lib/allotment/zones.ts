@@ -53,4 +53,4 @@ export function buildBangkokTimestamp(date: string, timeHHMM: string): string {
   return `${date}T${timeHHMM}:00+07:00`;
 }
 
-export const ALL_ALLOTMENT_SOURCES = ['website', 'phone', 'email', 'walk_in', 'admin', 'other'] as const;
+export const ALL_ALLOTMENT_SOURCES = ['live_chat', 'phone', 'email', 'walk_in', 'admin', 'other'] as const;

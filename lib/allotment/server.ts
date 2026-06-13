@@ -98,6 +98,10 @@ export async function createManualBlock(opts: {
   notes?: string | null;
   createdBy?: string | null;
   depositAmount?: number | null;
+  customerPhone?: string | null;
+  customerEmail?: string | null;
+  adultCount?: number | null;
+  childCount?: number | null;
 }): Promise<string> {
   const { data, error } = await supabaseAdmin.rpc('tm_block_table_manual', {
     p_zone_id: opts.zoneId,
@@ -109,6 +113,10 @@ export async function createManualBlock(opts: {
     p_notes: opts.notes ?? null,
     p_created_by: opts.createdBy ?? null,
     p_deposit_amount: opts.depositAmount ?? null,
+    p_customer_phone: opts.customerPhone ?? null,
+    p_customer_email: opts.customerEmail ?? null,
+    p_adult_count: opts.adultCount ?? null,
+    p_child_count: opts.childCount ?? null,
   });
   if (error) throw error;
   return String(data);
@@ -154,6 +162,22 @@ export async function listAllotments(opts: {
 }
 
 /**
+ * Get a single allotment by id.
+ */
+export async function getAllotmentById(id: string): Promise<TmAllotment | null> {
+  const { data, error } = await supabaseAdmin
+    .from('tm_allotments')
+    .select('*')
+    .eq('id', id)
+    .single();
+  if (error) {
+    if (error.code === 'PGRST116') return null; // Not found
+    throw error;
+  }
+  return data as TmAllotment;
+}
+
+/**
  * Delete an allotment by id. Returns true if a row was removed.
  */
 export async function deleteAllotment(id: string): Promise<boolean> {
@@ -167,7 +191,7 @@ export async function deleteAllotment(id: string): Promise<boolean> {
 
 /**
  * Update mutable metadata on an allotment (does NOT move it).
- * Only `source`, `customer_name`, `guest_count`, `notes` are mutable.
+ * Only `source`, `customer_name`, `guest_count`, `notes`, contact info, and guest breakdown are mutable.
  */
 export async function updateAllotmentMeta(
   id: string,
@@ -177,6 +201,10 @@ export async function updateAllotmentMeta(
     guest_count?: number | null;
     notes?: string | null;
     deposit_amount?: number | null;
+    customer_phone?: string | null;
+    customer_email?: string | null;
+    adult_count?: number | null;
+    child_count?: number | null;
   }
 ): Promise<TmAllotment | null> {
   const update: Record<string, unknown> = {};
@@ -185,6 +213,10 @@ export async function updateAllotmentMeta(
   if (patch.guest_count !== undefined)    update.guest_count = patch.guest_count;
   if (patch.notes !== undefined)          update.notes = patch.notes;
   if (patch.deposit_amount !== undefined) update.deposit_amount = patch.deposit_amount;
+  if (patch.customer_phone !== undefined) update.customer_phone = patch.customer_phone;
+  if (patch.customer_email !== undefined) update.customer_email = patch.customer_email;
+  if (patch.adult_count !== undefined)    update.adult_count = patch.adult_count;
+  if (patch.child_count !== undefined)    update.child_count = patch.child_count;
   if (Object.keys(update).length === 0) return null;
   const { data, error } = await supabaseAdmin
     .from('tm_allotments')

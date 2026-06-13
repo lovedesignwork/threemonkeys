@@ -2,12 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin, isAuthError } from '@/lib/auth/api-auth';
 import {
   createManualBlock,
+  getAllotmentById,
   getZoneDayAvailability,
   getZonesWithTables,
   listAllotments,
 } from '@/lib/allotment/server';
 import type { AllotmentSource } from '@/lib/allotment/types';
 import { ALL_ALLOTMENT_SOURCES } from '@/lib/allotment/zones';
+import { pushManualAllotmentToOneBooking } from '@/lib/onebooking/sync';
 
 /**
  * GET /api/admin/allotment
@@ -88,6 +90,10 @@ export async function POST(request: NextRequest) {
       guest_count,
       notes,
       deposit_amount,
+      customer_phone,
+      customer_email,
+      adult_count,
+      child_count,
     } = body ?? {};
 
     if (!zone_id || !date || !time || !source) {
@@ -108,19 +114,65 @@ export async function POST(request: NextRequest) {
 
     const startAtIso = `${date}T${time}:00+07:00`;  // Asia/Bangkok
 
+    // Calculate total guest count from adult + child if provided
+    let finalGuestCount: number | null = null;
+    if (typeof adult_count === 'number' || typeof child_count === 'number') {
+      finalGuestCount = (adult_count || 0) + (child_count || 0);
+    } else if (typeof guest_count === 'number') {
+      finalGuestCount = guest_count;
+    }
+
     const allotmentId = await createManualBlock({
       zoneId: zone_id,
       tableCode: table_code || null,
       startAtIso,
       source: source as AllotmentSource,
       customerName: customer_name || null,
-      guestCount: typeof guest_count === 'number' ? guest_count : null,
+      guestCount: finalGuestCount,
       notes: notes || null,
       createdBy: auth.user?.id ?? null,
       depositAmount: typeof deposit_amount === 'number' ? deposit_amount : null,
+      customerPhone: customer_phone || null,
+      customerEmail: customer_email || null,
+      adultCount: typeof adult_count === 'number' ? adult_count : null,
+      childCount: typeof child_count === 'number' ? child_count : null,
     });
 
-    return NextResponse.json({ id: allotmentId }, { status: 201 });
+    // Read back the created row so we have the trigger-assigned booking_ref
+    // (e.g. "3M-S-000002") and the actual table_code chosen on auto-pick.
+    const created = await getAllotmentById(allotmentId);
+
+    // Sync to OneBooking in the background (don't block the response)
+    const zones = await getZonesWithTables();
+    const zone = zones.find(z => z.id === zone_id);
+    pushManualAllotmentToOneBooking('booking.created', {
+      id: allotmentId,
+      booking_ref: created?.booking_ref ?? null,
+      zone_id,
+      zone_name: zone?.name || null,
+      table_code: created?.table_code || table_code || 'AUTO',
+      start_at: startAtIso,
+      source: source as AllotmentSource,
+      customer_name: customer_name || null,
+      customer_phone: customer_phone || null,
+      customer_email: customer_email || null,
+      guest_count: finalGuestCount,
+      adult_count: typeof adult_count === 'number' ? adult_count : null,
+      child_count: typeof child_count === 'number' ? child_count : null,
+      notes: notes || null,
+      deposit_amount: typeof deposit_amount === 'number' ? deposit_amount : null,
+      created_at: new Date().toISOString(),
+    }).then(result => {
+      if (result.success) {
+        console.log(`[admin/allotment POST] Synced to OneBooking: ${allotmentId}`);
+      } else {
+        console.warn(`[admin/allotment POST] OneBooking sync failed: ${result.error}`);
+      }
+    }).catch(err => {
+      console.error(`[admin/allotment POST] OneBooking sync error:`, err);
+    });
+
+    return NextResponse.json({ id: allotmentId, booking_ref: created?.booking_ref ?? null }, { status: 201 });
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unknown error';
     if (message.includes('TM_ALLOTMENT_FULL')) {

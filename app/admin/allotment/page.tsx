@@ -20,6 +20,7 @@ import {
   AlertCircle,
   AlertTriangle,
   Calendar,
+  Check,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
@@ -29,6 +30,7 @@ import {
   Layers,
   Loader2,
   Mail,
+  MessageCircle,
   Move,
   Pencil,
   Phone,
@@ -54,22 +56,23 @@ interface ZoneWithTables {
   tables: string[];
 }
 
-const SOURCES: { value: AllotmentSource; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
-  { value: 'website', label: 'Website', icon: Globe },
-  { value: 'phone',   label: 'Phone',   icon: Phone },
-  { value: 'email',   label: 'Email',   icon: Mail },
-  { value: 'walk_in', label: 'Walk-in', icon: Footprints },
-  { value: 'admin',   label: 'Admin',   icon: Wrench },
-  { value: 'other',   label: 'Other',   icon: HelpCircle },
+const SOURCES: { value: AllotmentSource; label: string; emoji: string; icon: React.ComponentType<{ className?: string }> }[] = [
+  { value: 'live_chat', label: 'Live Chat', emoji: '💬', icon: MessageCircle },
+  { value: 'phone',     label: 'Phone',     emoji: '📞', icon: Phone },
+  { value: 'email',     label: 'Email',     emoji: '📧', icon: Mail },
+  { value: 'walk_in',   label: 'Walk-in',   emoji: '🚶', icon: Footprints },
+  { value: 'admin',     label: 'Admin',     emoji: '🔧', icon: Wrench },
+  { value: 'other',     label: 'Other',     emoji: '❓', icon: HelpCircle },
 ];
 
 const SOURCE_STYLE: Record<AllotmentSource, { bg: string; border: string; text: string; pill: string }> = {
-  website: { bg: 'bg-blue-100',    border: 'border-l-blue-500',    text: 'text-blue-900',    pill: 'bg-blue-200 text-blue-900' },
-  phone:   { bg: 'bg-emerald-100', border: 'border-l-emerald-500', text: 'text-emerald-900', pill: 'bg-emerald-200 text-emerald-900' },
-  email:   { bg: 'bg-purple-100',  border: 'border-l-purple-500',  text: 'text-purple-900',  pill: 'bg-purple-200 text-purple-900' },
-  walk_in: { bg: 'bg-amber-100',   border: 'border-l-amber-500',   text: 'text-amber-900',   pill: 'bg-amber-200 text-amber-900' },
-  admin:   { bg: 'bg-slate-200',   border: 'border-l-slate-500',   text: 'text-slate-900',   pill: 'bg-slate-300 text-slate-900' },
-  other:   { bg: 'bg-pink-100',    border: 'border-l-pink-500',    text: 'text-pink-900',    pill: 'bg-pink-200 text-pink-900' },
+  website:   { bg: 'bg-blue-100',    border: 'border-l-blue-500',    text: 'text-blue-900',    pill: 'bg-blue-200 text-blue-900' },
+  live_chat: { bg: 'bg-cyan-100',    border: 'border-l-cyan-500',    text: 'text-cyan-900',    pill: 'bg-cyan-200 text-cyan-900' },
+  phone:     { bg: 'bg-emerald-100', border: 'border-l-emerald-500', text: 'text-emerald-900', pill: 'bg-emerald-200 text-emerald-900' },
+  email:     { bg: 'bg-purple-100',  border: 'border-l-purple-500',  text: 'text-purple-900',  pill: 'bg-purple-200 text-purple-900' },
+  walk_in:   { bg: 'bg-amber-100',   border: 'border-l-amber-500',   text: 'text-amber-900',   pill: 'bg-amber-200 text-amber-900' },
+  admin:     { bg: 'bg-slate-200',   border: 'border-l-slate-500',   text: 'text-slate-900',   pill: 'bg-slate-300 text-slate-900' },
+  other:     { bg: 'bg-pink-100',    border: 'border-l-pink-500',    text: 'text-pink-900',    pill: 'bg-pink-200 text-pink-900' },
 };
 
 const HOURS = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22];
@@ -696,6 +699,99 @@ type BlockModalProps = {
   | { mode: 'manage'; allotment: TmAllotment }
 );
 
+/**
+ * Fully custom-styled dropdown (no native <select> chrome).
+ * Renders a styled trigger button + an absolutely-positioned options panel
+ * with hover/selected states, emoji labels and a click-outside handler.
+ */
+function StyledSelect({
+  value,
+  onChange,
+  options,
+  placeholder = 'Select…',
+  disabled = false,
+}: {
+  value: string;
+  onChange: (value: string) => void;
+  options: { value: string; label: string }[];
+  placeholder?: string;
+  disabled?: boolean;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const handleClick = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false);
+    };
+    document.addEventListener('mousedown', handleClick);
+    document.addEventListener('keydown', handleKey);
+    return () => {
+      document.removeEventListener('mousedown', handleClick);
+      document.removeEventListener('keydown', handleKey);
+    };
+  }, [open]);
+
+  const selected = options.find(o => o.value === value);
+
+  return (
+    <div className="relative" ref={ref}>
+      <button
+        type="button"
+        disabled={disabled}
+        onClick={() => setOpen(o => !o)}
+        className={`w-full flex items-center justify-between gap-2 px-4 py-3 border rounded-xl text-left text-base font-medium transition-all focus:outline-none focus:ring-2 focus:ring-[#1a237e]/10 ${
+          disabled
+            ? 'bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed'
+            : open
+              ? 'bg-white border-[#1a237e] ring-2 ring-[#1a237e]/10 text-slate-800'
+              : 'bg-white border-slate-200 text-slate-800 hover:border-slate-300'
+        }`}
+      >
+        <span className={selected ? 'truncate' : 'truncate text-slate-400'}>
+          {selected ? selected.label : placeholder}
+        </span>
+        <ChevronDown
+          className={`w-5 h-5 text-slate-400 shrink-0 transition-transform ${open ? 'rotate-180' : ''}`}
+        />
+      </button>
+
+      {open && !disabled && (
+        <div className="absolute z-[60] mt-2 w-full bg-white border border-slate-200 rounded-xl shadow-xl overflow-hidden max-h-64 overflow-y-auto py-1">
+          {options.length === 0 && (
+            <div className="px-4 py-2.5 text-sm text-slate-400">No options</div>
+          )}
+          {options.map(o => {
+            const isSel = o.value === value;
+            return (
+              <button
+                key={o.value}
+                type="button"
+                onClick={() => {
+                  onChange(o.value);
+                  setOpen(false);
+                }}
+                className={`w-full text-left px-4 py-2.5 text-base flex items-center justify-between gap-2 transition-colors ${
+                  isSel
+                    ? 'bg-[#1a237e]/10 text-[#1a237e] font-semibold'
+                    : 'text-slate-700 hover:bg-slate-50'
+                }`}
+              >
+                <span className="truncate">{o.label}</span>
+                {isSel && <Check className="w-4 h-4 shrink-0" />}
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function BlockModal(props: BlockModalProps) {
   const { zones, allotments, onClose, onSuccess } = props;
   const isManage = props.mode === 'manage';
@@ -709,7 +805,10 @@ function BlockModal(props: BlockModalProps) {
         time: `${pad2(bkkHourOf(props.allotment.start_at))}:00`,
         source: props.allotment.source as AllotmentSource,
         customer_name: props.allotment.customer_name ?? '',
-        guest_count: props.allotment.guest_count?.toString() ?? '',
+        adult_count: props.allotment.adult_count?.toString() ?? '',
+        child_count: props.allotment.child_count?.toString() ?? '',
+        customer_phone: props.allotment.customer_phone ?? '',
+        customer_email: props.allotment.customer_email ?? '',
         notes: props.allotment.notes ?? '',
         deposit_amount: props.allotment.deposit_amount?.toString() ?? '',
       };
@@ -719,9 +818,12 @@ function BlockModal(props: BlockModalProps) {
       table_code: props.initialTableCode ?? '',
       date: props.initialDate,
       time: props.initialTime ?? '',
-      source: 'phone' as AllotmentSource,
+      source: 'live_chat' as AllotmentSource,
       customer_name: '',
-      guest_count: '',
+      adult_count: '',
+      child_count: '',
+      customer_phone: '',
+      customer_email: '',
       notes: '',
       deposit_amount: '',
     };
@@ -733,7 +835,18 @@ function BlockModal(props: BlockModalProps) {
   const [submitError, setSubmitError] = useState<string | null>(null);
 
   const zoneObj = zones.find(z => z.id === form.zone_id);
-  const timeOptions = zoneObj?.time_slots ?? [];
+
+  // 30-minute interval slots across operating hours (10:00, 10:30, … 22:00)
+  const timeOptions = useMemo(() => {
+    const opts: string[] = [];
+    const first = HOURS[0];
+    const last = HOURS[HOURS.length - 1];
+    for (let h = first; h <= last; h++) {
+      opts.push(`${pad2(h)}:00`);
+      if (h < last) opts.push(`${pad2(h)}:30`);
+    }
+    return opts;
+  }, []);
 
   const availableTables = useMemo(() => {
     if (!form.zone_id || !form.time || !form.date || !zoneObj) return null;
@@ -770,12 +883,19 @@ function BlockModal(props: BlockModalProps) {
     }
     setSubmitting(true);
     try {
+      const adultNum = form.adult_count ? Number(form.adult_count) : null;
+      const childNum = form.child_count ? Number(form.child_count) : null;
+
       if (isManage) {
         const allotment = (props as { allotment: TmAllotment }).allotment;
         const body: Record<string, unknown> = {
           source: form.source,
           customer_name: form.customer_name || null,
-          guest_count: form.guest_count ? Number(form.guest_count) : null,
+          adult_count: adultNum,
+          child_count: childNum,
+          guest_count: (adultNum || 0) + (childNum || 0) || null,
+          customer_phone: form.customer_phone || null,
+          customer_email: form.customer_email || null,
           notes: form.notes || null,
           deposit_amount: form.deposit_amount ? Number(form.deposit_amount) : null,
         };
@@ -799,7 +919,10 @@ function BlockModal(props: BlockModalProps) {
           table_code: form.table_code || null,
           source: form.source,
           customer_name: form.customer_name || null,
-          guest_count: form.guest_count ? Number(form.guest_count) : null,
+          adult_count: adultNum,
+          child_count: childNum,
+          customer_phone: form.customer_phone || null,
+          customer_email: form.customer_email || null,
           notes: form.notes || null,
           deposit_amount: form.deposit_amount ? Number(form.deposit_amount) : null,
         });
@@ -844,7 +967,7 @@ function BlockModal(props: BlockModalProps) {
         <div className="p-5 border-b border-slate-100 flex items-center justify-between">
           <div>
             <h3 className="text-lg font-semibold text-slate-800">
-              {isManage ? 'Manage Block' : 'Add Manual Block'}
+              {isManage ? 'Manage Block' : 'Manual Booking'}
             </h3>
             {isManage && <p className="text-xs text-slate-500 mt-0.5">{manageTitle}</p>}
           </div>
@@ -857,42 +980,37 @@ function BlockModal(props: BlockModalProps) {
           {/* Zone */}
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1.5">Zone <span className="text-red-500">*</span></label>
-            <select
+            <StyledSelect
               value={form.zone_id}
-              onChange={(e) => setForm(f => ({ ...f, zone_id: e.target.value, table_code: '', time: '' }))}
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:border-[#1a237e] bg-white"
-            >
-              <option value="">Choose zone…</option>
-              {zones.map(z => (
-                <option key={z.id} value={z.id}>{z.name} ({z.tables.length} tables)</option>
-              ))}
-            </select>
+              onChange={(value) => setForm(f => ({ ...f, zone_id: value, table_code: '', time: '' }))}
+              placeholder="🏠  Choose zone…"
+              options={zones.map(z => ({ value: z.id, label: `📍  ${z.name} (${z.tables.length} tables)` }))}
+            />
           </div>
 
           {/* Date + Time */}
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1.5">Date <span className="text-red-500">*</span></label>
-              <input
-                type="date"
-                value={form.date}
-                onChange={(e) => setForm(f => ({ ...f, date: e.target.value }))}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:border-[#1a237e]"
-              />
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-lg pointer-events-none">📅</span>
+                <input
+                  type="date"
+                  value={form.date}
+                  onChange={(e) => setForm(f => ({ ...f, date: e.target.value }))}
+                  className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:border-[#1a237e] focus:ring-2 focus:ring-[#1a237e]/10 text-base font-medium transition-all cursor-pointer"
+                />
+              </div>
             </div>
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1.5">Time <span className="text-red-500">*</span></label>
-              <select
+              <StyledSelect
                 value={form.time}
-                onChange={(e) => setForm(f => ({ ...f, time: e.target.value, table_code: '' }))}
+                onChange={(value) => setForm(f => ({ ...f, time: value, table_code: '' }))}
                 disabled={!form.zone_id}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:border-[#1a237e] bg-white disabled:bg-slate-100 disabled:text-slate-400"
-              >
-                <option value="">{form.zone_id ? 'Choose time…' : 'Pick zone first'}</option>
-                {timeOptions.map(t => (
-                  <option key={t} value={t}>{t}</option>
-                ))}
-              </select>
+                placeholder={form.zone_id ? '🕐  Choose time…' : '⏳  Pick zone first'}
+                options={timeOptions.map(t => ({ value: t, label: `🕐  ${t}` }))}
+              />
             </div>
           </div>
 
@@ -945,62 +1063,86 @@ function BlockModal(props: BlockModalProps) {
           {/* Source */}
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1.5">Source <span className="text-red-500">*</span></label>
-            <div className="grid grid-cols-3 gap-2">
-              {SOURCES.map(s => {
-                const Icon = s.icon;
-                const selected = form.source === s.value;
-                return (
-                  <button
-                    key={s.value}
-                    type="button"
-                    onClick={() => setForm(f => ({ ...f, source: s.value }))}
-                    className={`px-3 py-2 rounded-lg border flex items-center gap-1.5 text-sm transition-colors ${
-                      selected
-                        ? 'border-[#b1b94c] bg-[#b1b94c]/10 text-slate-800 font-medium'
-                        : 'border-slate-200 text-slate-600 hover:bg-slate-50'
-                    }`}
-                  >
-                    <Icon className="w-4 h-4" />
-                    {s.label}
-                  </button>
-                );
-              })}
-            </div>
+            <StyledSelect
+              value={form.source}
+              onChange={(value) => setForm(f => ({ ...f, source: value as AllotmentSource }))}
+              placeholder="Choose source…"
+              options={SOURCES.map(s => ({ value: s.value, label: `${s.emoji}  ${s.label}` }))}
+            />
           </div>
 
-          {/* Customer + guests */}
-          <div className="grid grid-cols-2 gap-3">
-            <div>
+          {/* Customer name + Adult + Child in one row */}
+          <div className="flex gap-3">
+            <div className="w-1/2">
               <label className="block text-sm font-medium text-slate-700 mb-1.5">Customer name</label>
               <input
                 type="text"
                 value={form.customer_name}
                 onChange={(e) => setForm(f => ({ ...f, customer_name: e.target.value }))}
                 placeholder="(optional)"
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:border-[#1a237e]"
+                className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:border-[#1a237e] focus:ring-2 focus:ring-[#1a237e]/10 text-base transition-all"
               />
             </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">Guest count</label>
+            <div className="w-1/4">
+              <label className="block text-sm font-medium text-slate-700 mb-1.5 text-center">👨 Adult</label>
               <input
                 type="number"
-                min={1}
-                value={form.guest_count}
-                onChange={(e) => setForm(f => ({ ...f, guest_count: e.target.value }))}
-                placeholder="(optional)"
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:border-[#1a237e]"
+                min={0}
+                value={form.adult_count}
+                onChange={(e) => setForm(f => ({ ...f, adult_count: e.target.value }))}
+                placeholder="0"
+                className="w-full px-2 py-3 border-2 border-slate-200 rounded-xl focus:outline-none focus:border-[#1a237e] focus:ring-2 focus:ring-[#1a237e]/10 text-2xl font-bold text-center bg-slate-50 transition-all h-14"
+              />
+            </div>
+            <div className="w-1/4">
+              <label className="block text-sm font-medium text-slate-700 mb-1.5 text-center">👶 Child</label>
+              <input
+                type="number"
+                min={0}
+                value={form.child_count}
+                onChange={(e) => setForm(f => ({ ...f, child_count: e.target.value }))}
+                placeholder="0"
+                className="w-full px-2 py-3 border-2 border-slate-200 rounded-xl focus:outline-none focus:border-[#1a237e] focus:ring-2 focus:ring-[#1a237e]/10 text-2xl font-bold text-center bg-slate-50 transition-all h-14"
               />
             </div>
           </div>
 
-          {/* Deposit + Booking REF (REF is read-only — set automatically for website bookings) */}
+          {/* Phone + Email */}
           <div className="grid grid-cols-2 gap-3">
             <div>
+              <label className="block text-sm font-medium text-slate-700 mb-1.5">📞 Phone</label>
+              <div className="relative">
+                <input
+                  type="tel"
+                  value={form.customer_phone}
+                  onChange={(e) => setForm(f => ({ ...f, customer_phone: e.target.value }))}
+                  placeholder="(optional)"
+                  className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:border-[#1a237e] focus:ring-2 focus:ring-[#1a237e]/10 text-base transition-all"
+                />
+              </div>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-1.5">📧 Email</label>
+              <div className="relative">
+                <input
+                  type="email"
+                  value={form.customer_email}
+                  onChange={(e) => setForm(f => ({ ...f, customer_email: e.target.value }))}
+                  placeholder="(optional)"
+                  className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:border-[#1a237e] focus:ring-2 focus:ring-[#1a237e]/10 text-base transition-all"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Deposit (+ Booking REF only in manage mode) */}
+          <div className={isManage ? "grid grid-cols-2 gap-3" : ""}>
+            <div>
               <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                Deposit amount <span className="text-slate-400 font-normal">(THB)</span>
+                💰 Deposit amount <span className="text-slate-400 font-normal">(THB)</span>
               </label>
               <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">฿</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-base font-medium">฿</span>
                 <input
                   type="number"
                   min={0}
@@ -1008,33 +1150,35 @@ function BlockModal(props: BlockModalProps) {
                   value={form.deposit_amount}
                   onChange={(e) => setForm(f => ({ ...f, deposit_amount: e.target.value }))}
                   placeholder="0"
-                  className="w-full pl-7 pr-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:border-[#1a237e]"
+                  className="w-full pl-9 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:border-[#1a237e] focus:ring-2 focus:ring-[#1a237e]/10 text-base transition-all"
                 />
               </div>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                Booking REF <span className="text-slate-400 font-normal">(read-only)</span>
-              </label>
-              <input
-                type="text"
-                value={isManage ? ((props as { allotment: TmAllotment }).allotment.booking_ref ?? '—') : '—'}
-                readOnly
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg bg-slate-50 text-slate-500 cursor-default"
-                title="Set automatically when a customer books via the website"
-              />
-            </div>
+            {isManage && (
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1.5">
+                  🔖 Booking REF <span className="text-slate-400 font-normal">(read-only)</span>
+                </label>
+                <input
+                  type="text"
+                  value={(props as { allotment: TmAllotment }).allotment.booking_ref ?? '—'}
+                  readOnly
+                  className="w-full px-4 py-3 border border-slate-200 rounded-xl bg-slate-50 text-slate-500 cursor-default"
+                  title="Set automatically when a customer books via the website"
+                />
+              </div>
+            )}
           </div>
 
           {/* Notes */}
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1.5">Notes</label>
+            <label className="block text-sm font-medium text-slate-700 mb-1.5">📝 Notes</label>
             <textarea
               rows={2}
               value={form.notes}
               onChange={(e) => setForm(f => ({ ...f, notes: e.target.value }))}
-              placeholder="(optional) Phone number, special requests, etc."
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:border-[#1a237e] resize-none"
+              placeholder="(optional) Special requests, etc."
+              className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:border-[#1a237e] focus:ring-2 focus:ring-[#1a237e]/10 text-base transition-all resize-none"
             />
           </div>
 
@@ -1094,7 +1238,7 @@ function BlockModal(props: BlockModalProps) {
               className="px-4 py-2 bg-[#b1b94c] text-black font-medium rounded-lg hover:bg-[#9da53f] disabled:opacity-50 flex items-center gap-2"
             >
               {submitting && <Loader2 className="w-4 h-4 animate-spin" />}
-              {isManage ? (hasMovedFields ? <><Move className="w-4 h-4" /> Move &amp; Save</> : <><Pencil className="w-4 h-4" /> Save Changes</>) : 'Block Table'}
+              {isManage ? (hasMovedFields ? <><Move className="w-4 h-4" /> Move &amp; Save</> : <><Pencil className="w-4 h-4" /> Save Changes</>) : 'Book Table'}
             </button>
           </div>
         </div>

@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin, isAuthError } from '@/lib/auth/api-auth';
-import { deleteAllotment, moveAllotment, updateAllotmentMeta } from '@/lib/allotment/server';
+import { deleteAllotment, moveAllotment, updateAllotmentMeta, getAllotmentById, getZonesWithTables } from '@/lib/allotment/server';
 import type { AllotmentSource } from '@/lib/allotment/types';
 import { ALL_ALLOTMENT_SOURCES } from '@/lib/allotment/zones';
+import { pushManualAllotmentToOneBooking } from '@/lib/onebooking/sync';
 
 /**
  * DELETE /api/admin/allotment/[id]
@@ -20,10 +21,47 @@ export async function DELETE(
 
   try {
     const { id } = await params;
+    
+    // Fetch allotment details before deletion for OneBooking sync
+    const allotment = await getAllotmentById(id);
+    
     const deleted = await deleteAllotment(id);
     if (!deleted) {
       return NextResponse.json({ error: 'Allotment not found' }, { status: 404 });
     }
+    
+    // Sync cancellation to OneBooking in the background
+    if (allotment) {
+      const zones = await getZonesWithTables();
+      const zone = zones.find(z => z.id === allotment.zone_id);
+      pushManualAllotmentToOneBooking('booking.cancelled', {
+        id: allotment.id,
+        booking_ref: allotment.booking_ref,
+        zone_id: allotment.zone_id,
+        zone_name: zone?.name || null,
+        table_code: allotment.table_code,
+        start_at: allotment.start_at,
+        source: allotment.source,
+        customer_name: allotment.customer_name,
+        customer_phone: allotment.customer_phone,
+        customer_email: allotment.customer_email,
+        guest_count: allotment.guest_count,
+        adult_count: allotment.adult_count,
+        child_count: allotment.child_count,
+        notes: allotment.notes,
+        deposit_amount: allotment.deposit_amount,
+        created_at: allotment.created_at,
+      }).then(result => {
+        if (result.success) {
+          console.log(`[admin/allotment DELETE] Synced cancellation to OneBooking: ${id}`);
+        } else {
+          console.warn(`[admin/allotment DELETE] OneBooking sync failed: ${result.error}`);
+        }
+      }).catch(err => {
+        console.error(`[admin/allotment DELETE] OneBooking sync error:`, err);
+      });
+    }
+    
     return NextResponse.json({ success: true });
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unknown error';
@@ -81,15 +119,29 @@ export async function PATCH(
         movedTableCode = result.table_code;
         // After move, the row id changed — patch should target the NEW id
         // for any metadata updates.
-        if (body.source || body.customer_name !== undefined || body.guest_count !== undefined || body.notes !== undefined || body.deposit_amount !== undefined) {
+        const hasMetaChanges = body.source || body.customer_name !== undefined || body.guest_count !== undefined || 
+          body.adult_count !== undefined || body.child_count !== undefined ||
+          body.customer_phone !== undefined || body.customer_email !== undefined ||
+          body.notes !== undefined || body.deposit_amount !== undefined;
+        
+        if (hasMetaChanges) {
           const src = body.source;
           if (src && !(ALL_ALLOTMENT_SOURCES as readonly string[]).includes(src)) {
             return NextResponse.json({ error: `Invalid source: ${src}` }, { status: 400 });
           }
+          // Calculate total guest count from adult + child if provided
+          let guestCount = body.guest_count;
+          if (body.adult_count !== undefined || body.child_count !== undefined) {
+            guestCount = (body.adult_count || 0) + (body.child_count || 0);
+          }
           await updateAllotmentMeta(result.allotment_id, {
             source: src as AllotmentSource | undefined,
             customer_name: body.customer_name,
-            guest_count: body.guest_count,
+            guest_count: guestCount,
+            adult_count: body.adult_count,
+            child_count: body.child_count,
+            customer_phone: body.customer_phone,
+            customer_email: body.customer_email,
             notes: body.notes,
             deposit_amount: body.deposit_amount,
           });
@@ -126,16 +178,59 @@ export async function PATCH(
     if (body.source && !(ALL_ALLOTMENT_SOURCES as readonly string[]).includes(body.source)) {
       return NextResponse.json({ error: `Invalid source: ${body.source}` }, { status: 400 });
     }
+    // Calculate total guest count from adult + child if provided
+    let guestCount = body.guest_count;
+    if (body.adult_count !== undefined || body.child_count !== undefined) {
+      guestCount = (body.adult_count || 0) + (body.child_count || 0);
+    }
     const updated = await updateAllotmentMeta(id, {
       source: body.source,
       customer_name: body.customer_name,
-      guest_count: body.guest_count,
+      guest_count: guestCount,
+      adult_count: body.adult_count,
+      child_count: body.child_count,
+      customer_phone: body.customer_phone,
+      customer_email: body.customer_email,
       notes: body.notes,
       deposit_amount: body.deposit_amount,
     });
     if (!updated) {
       return NextResponse.json({ error: 'No fields to update' }, { status: 400 });
     }
+
+    // Sync update to OneBooking in the background
+    const allotment = await getAllotmentById(id);
+    if (allotment) {
+      const zones = await getZonesWithTables();
+      const zone = zones.find(z => z.id === allotment.zone_id);
+      pushManualAllotmentToOneBooking('booking.updated', {
+        id: allotment.id,
+        booking_ref: allotment.booking_ref,
+        zone_id: allotment.zone_id,
+        zone_name: zone?.name || null,
+        table_code: allotment.table_code,
+        start_at: allotment.start_at,
+        source: allotment.source,
+        customer_name: allotment.customer_name,
+        customer_phone: allotment.customer_phone,
+        customer_email: allotment.customer_email,
+        guest_count: allotment.guest_count,
+        adult_count: allotment.adult_count,
+        child_count: allotment.child_count,
+        notes: allotment.notes,
+        deposit_amount: allotment.deposit_amount,
+        created_at: allotment.created_at,
+      }).then(result => {
+        if (result.success) {
+          console.log(`[admin/allotment PATCH] Synced to OneBooking: ${id}`);
+        } else {
+          console.warn(`[admin/allotment PATCH] OneBooking sync failed: ${result.error}`);
+        }
+      }).catch(err => {
+        console.error(`[admin/allotment PATCH] OneBooking sync error:`, err);
+      });
+    }
+
     return NextResponse.json({ success: true, allotment: updated });
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unknown error';

@@ -80,7 +80,25 @@ interface Booking {
   booking_origin_country_name?: string | null;
   payment_origin_country_code?: string | null;
   payment_origin_country_name?: string | null;
+  // Manual booking markers (set for rows sourced from tm_allotments)
+  is_manual?: boolean;
+  source?: string | null;
+  adult_count?: number | null;
+  child_count?: number | null;
 }
+
+// Friendly label + emoji for manual booking sources.
+const SOURCE_LABELS: Record<string, string> = {
+  live_chat: '💬 Live Chat',
+  phone: '📞 Phone',
+  email: '📧 Email',
+  walk_in: '🚶 Walk-in',
+  admin: '🔧 Admin',
+  other: '❓ Other',
+  website: '🌐 Website',
+};
+const sourceLabel = (s: string | null | undefined) =>
+  s ? (SOURCE_LABELS[s] ?? s) : 'Manual';
 
 type SortField = 'booking_ref' | 'activity_date' | 'guest_count' | 'total_amount' | 'status' | 'created_at';
 type SortDirection = 'asc' | 'desc';
@@ -545,6 +563,16 @@ export default function BookingsPage() {
                         </td>
                         {/* Origin (booking + payment) */}
                         <td className="px-3 py-3 whitespace-nowrap">
+                          {booking.is_manual ? (
+                            <div className="flex justify-center">
+                              <span
+                                className="inline-flex items-center px-2 py-1 rounded-full text-[11px] font-medium bg-cyan-100 text-cyan-800 whitespace-nowrap"
+                                title={`Manual booking via ${sourceLabel(booking.source)}`}
+                              >
+                                {sourceLabel(booking.source)}
+                              </span>
+                            </div>
+                          ) : (
                           <div className="flex flex-col gap-0.5 items-center text-[10px] text-slate-500">
                             {booking.booking_origin_country_code && (
                               <span
@@ -570,6 +598,7 @@ export default function BookingsPage() {
                               <span className="text-slate-400">-</span>
                             )}
                           </div>
+                          )}
                         </td>
                         {/* Status + Action */}
                         <td className="px-3 py-3 whitespace-nowrap">
