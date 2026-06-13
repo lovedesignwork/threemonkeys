@@ -10,6 +10,7 @@ import {
 import type { AllotmentSource } from '@/lib/allotment/types';
 import { ALL_ALLOTMENT_SOURCES } from '@/lib/allotment/zones';
 import { pushManualAllotmentToOneBooking } from '@/lib/onebooking/sync';
+import { waitUntil } from '@vercel/functions';
 
 /**
  * GET /api/admin/allotment
@@ -142,35 +143,40 @@ export async function POST(request: NextRequest) {
     // (e.g. "3M-S-000002") and the actual table_code chosen on auto-pick.
     const created = await getAllotmentById(allotmentId);
 
-    // Sync to OneBooking in the background (don't block the response)
+    // Sync to OneBooking in the background. Wrap in waitUntil so the Vercel
+    // serverless function stays alive until the sync (incl. retries / 409 ->
+    // booking.updated) completes — a bare fire-and-forget promise is killed the
+    // moment we return the response.
     const zones = await getZonesWithTables();
     const zone = zones.find(z => z.id === zone_id);
-    pushManualAllotmentToOneBooking('booking.created', {
-      id: allotmentId,
-      booking_ref: created?.booking_ref ?? null,
-      zone_id,
-      zone_name: zone?.name || null,
-      table_code: created?.table_code || table_code || 'AUTO',
-      start_at: startAtIso,
-      source: source as AllotmentSource,
-      customer_name: customer_name || null,
-      customer_phone: customer_phone || null,
-      customer_email: customer_email || null,
-      guest_count: finalGuestCount,
-      adult_count: typeof adult_count === 'number' ? adult_count : null,
-      child_count: typeof child_count === 'number' ? child_count : null,
-      notes: notes || null,
-      deposit_amount: typeof deposit_amount === 'number' ? deposit_amount : null,
-      created_at: new Date().toISOString(),
-    }).then(result => {
-      if (result.success) {
-        console.log(`[admin/allotment POST] Synced to OneBooking: ${allotmentId}`);
-      } else {
-        console.warn(`[admin/allotment POST] OneBooking sync failed: ${result.error}`);
-      }
-    }).catch(err => {
-      console.error(`[admin/allotment POST] OneBooking sync error:`, err);
-    });
+    waitUntil(
+      pushManualAllotmentToOneBooking('booking.created', {
+        id: allotmentId,
+        booking_ref: created?.booking_ref ?? null,
+        zone_id,
+        zone_name: zone?.name || null,
+        table_code: created?.table_code || table_code || 'AUTO',
+        start_at: startAtIso,
+        source: source as AllotmentSource,
+        customer_name: customer_name || null,
+        customer_phone: customer_phone || null,
+        customer_email: customer_email || null,
+        guest_count: finalGuestCount,
+        adult_count: typeof adult_count === 'number' ? adult_count : null,
+        child_count: typeof child_count === 'number' ? child_count : null,
+        notes: notes || null,
+        deposit_amount: typeof deposit_amount === 'number' ? deposit_amount : null,
+        created_at: new Date().toISOString(),
+      }).then(result => {
+        if (result.success) {
+          console.log(`[admin/allotment POST] Synced to OneBooking: ${allotmentId}`);
+        } else {
+          console.warn(`[admin/allotment POST] OneBooking sync failed: ${result.error}`);
+        }
+      }).catch(err => {
+        console.error(`[admin/allotment POST] OneBooking sync error:`, err);
+      })
+    );
 
     return NextResponse.json({
       id: allotmentId,
