@@ -4,6 +4,7 @@ import './globals.css';
 import { defaultMetadata } from '@/lib/seo/config';
 import { OrganizationSchema, WebsiteSchema, LocalBusinessSchema, RestaurantSchema, SpeakableSchema, HowToBookSchema } from '@/lib/seo/structured-data';
 import { TrackingScriptsHead, TrackingScriptsBody } from '@/components/TrackingScripts';
+import LiveChat from '@/components/LiveChat';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -56,6 +57,7 @@ export default function RootLayout({
       <body className="antialiased font-[family-name:var(--font-inter)]">
         <TrackingScriptsBody />
         {children}
+        <LiveChat />
         <TrackingScriptsHead />
       </body>
     </html>

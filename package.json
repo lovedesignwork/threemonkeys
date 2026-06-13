@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
+    "@livechat/widget-react": "^1.4.0",
     "@react-email/components": "^1.0.8",
     "@react-email/render": "^2.0.8",
     "@stripe/react-stripe-js": "^5.6.0",
