@@ -241,6 +241,7 @@ export default function ProductsPage() {
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">Category</label>
               <CustomSelect
+                variant="light"
                 value={newPackage.category || ''}
                 onChange={(value) => setNewPackage({ ...newPackage, category: value })}
                 options={CATEGORIES.map((cat) => ({ value: cat.value, label: cat.label }))}
@@ -340,6 +341,7 @@ export default function ProductsPage() {
                     </td>
                     <td className="px-6 py-4">
                       <CustomSelect
+                        variant="light"
                         value={editForm.category || ''}
                         onChange={(value) => setEditForm({ ...editForm, category: value })}
                         options={CATEGORIES.map((cat) => ({ value: cat.value, label: cat.label }))}
@@ -369,6 +371,7 @@ export default function ProductsPage() {
                     </td>
                     <td className="px-6 py-4">
                       <CustomSelect
+                        variant="light"
                         value={editForm.is_active ? 'active' : 'inactive'}
                         onChange={(value) => setEditForm({ ...editForm, is_active: value === 'active' })}
                         options={[

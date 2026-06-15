@@ -18,6 +18,11 @@ interface CustomSelectProps {
   className?: string;
   /** Visual density. `"sm"` makes the trigger button shorter and tighter. */
   size?: 'sm' | 'md';
+  /**
+   * Color theme. `"dark"` (default) suits dark backgrounds (public site).
+   * `"light"` suits white containers (admin panels) so the text stays visible.
+   */
+  variant?: 'dark' | 'light';
 }
 
 export function CustomSelect({ 
@@ -27,8 +32,10 @@ export function CustomSelect({
   placeholder = 'Select...', 
   className = '',
   size = 'md',
+  variant = 'dark',
 }: CustomSelectProps) {
   const triggerSize = size === 'sm' ? 'h-9 px-3 pr-9 text-xs' : 'h-12 px-4 pr-10 text-sm';
+  const isLight = variant === 'light';
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -51,19 +58,19 @@ export function CustomSelect({
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         className={`
-          w-full ${triggerSize} bg-white/5 border-2 rounded-xl text-left
+          w-full ${triggerSize} border-2 rounded-xl text-left
           transition-all duration-200 cursor-pointer
-          ${isOpen 
-            ? 'border-[#b1b94c] bg-white/10' 
-            : 'border-white/10 hover:border-white/20'
+          ${isLight
+            ? `bg-white ${isOpen ? 'border-[#b1b94c] bg-slate-50' : 'border-slate-200 hover:border-slate-300'} ${selectedOption ? 'text-slate-900' : 'text-slate-400'}`
+            : `bg-white/5 ${isOpen ? 'border-[#b1b94c] bg-white/10' : 'border-white/10 hover:border-white/20'} ${selectedOption ? 'text-white' : 'text-white/50'}`
           }
-          ${selectedOption ? 'text-white' : 'text-white/50'}
         `}
       >
         {selectedOption ? selectedOption.label : placeholder}
         <ChevronDown 
           className={`
-            absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40
+            absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4
+            ${isLight ? 'text-slate-400' : 'text-white/40'}
             transition-transform duration-200
             ${isOpen ? 'rotate-180' : ''}
           `}
@@ -78,7 +85,11 @@ export function CustomSelect({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.96 }}
             transition={{ duration: 0.15, ease: 'easeOut' }}
-            className="absolute z-50 mt-2 w-full bg-[#1a1a1a] border-2 border-[#b1b94c]/40 rounded-xl shadow-2xl overflow-hidden"
+            className={`absolute z-50 mt-2 w-full border-2 rounded-xl shadow-2xl overflow-hidden ${
+              isLight
+                ? 'bg-white border-slate-200'
+                : 'bg-[#1a1a1a] border-[#b1b94c]/40'
+            }`}
           >
             <div className="max-h-[240px] overflow-y-auto custom-scrollbar py-1">
               {options.map((option) => {
@@ -98,17 +109,23 @@ export function CustomSelect({
                     className={`
                       w-full px-4 py-2.5 text-sm text-left flex items-center justify-between
                       transition-colors duration-150
-                      ${isDisabled 
-                        ? 'text-white/30 cursor-not-allowed bg-white/5' 
-                        : isSelected 
-                          ? 'bg-[#b1b94c]/20 text-[#b1b94c]' 
-                          : 'text-white/70 hover:bg-white/10 hover:text-white'
+                      ${isLight
+                        ? (isDisabled
+                            ? 'text-slate-300 cursor-not-allowed bg-slate-50'
+                            : isSelected
+                              ? 'bg-[#b1b94c]/15 text-[#6f7717]'
+                              : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900')
+                        : (isDisabled
+                            ? 'text-white/30 cursor-not-allowed bg-white/5'
+                            : isSelected
+                              ? 'bg-[#b1b94c]/20 text-[#b1b94c]'
+                              : 'text-white/70 hover:bg-white/10 hover:text-white')
                       }
                     `}
                   >
                     <span>{option.label}</span>
                     {isSelected && !isDisabled && (
-                      <Check className="w-4 h-4 text-[#b1b94c]" />
+                      <Check className={`w-4 h-4 ${isLight ? 'text-[#6f7717]' : 'text-[#b1b94c]'}`} />
                     )}
                   </button>
                 );

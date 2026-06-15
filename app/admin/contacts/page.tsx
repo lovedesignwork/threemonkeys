@@ -166,6 +166,7 @@ export default function ContactsPage() {
               />
             </div>
             <CustomSelect
+              variant="light"
               value={statusFilter}
               onChange={(value) => {
                 setStatusFilter(value);

@@ -177,6 +177,7 @@ export default function SettingsPage() {
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">Timezone</label>
               <CustomSelect
+                variant="light"
                 value={general.timezone}
                 onChange={(value) => setGeneral({ ...general, timezone: value })}
                 options={[
@@ -189,6 +190,7 @@ export default function SettingsPage() {
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">Currency</label>
               <CustomSelect
+                variant="light"
                 value={general.currency}
                 onChange={(value) => setGeneral({ ...general, currency: value })}
                 options={[

@@ -234,6 +234,7 @@ export default function PromoCodesPage() {
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">Discount Type</label>
               <CustomSelect
+                variant="light"
                 value={formData.discount_type}
                 onChange={(value) => setFormData({ ...formData, discount_type: value as 'percentage' | 'fixed' })}
                 options={[

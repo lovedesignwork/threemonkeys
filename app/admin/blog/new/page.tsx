@@ -360,6 +360,7 @@ export default function NewBlogPostPage() {
                 Category
               </label>
               <CustomSelect
+                variant="light"
                 value={category}
                 onChange={setCategory}
                 placeholder="Select category"

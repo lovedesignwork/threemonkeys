@@ -196,6 +196,7 @@ export default function BlogListPage() {
             </div>
             <div className="flex gap-3">
               <CustomSelect
+                variant="light"
                 value={statusFilter}
                 onChange={setStatusFilter}
                 options={[
@@ -207,6 +208,7 @@ export default function BlogListPage() {
                 className="w-40"
               />
               <CustomSelect
+                variant="light"
                 value={categoryFilter}
                 onChange={setCategoryFilter}
                 options={[

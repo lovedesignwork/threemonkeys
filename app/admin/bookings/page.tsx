@@ -189,6 +189,7 @@ export default function BookingsPage() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [sourceFilter, setSourceFilter] = useState<'all' | 'manual' | 'direct'>('manual');
   const [dateFilterType, setDateFilterType] = useState<'booking' | 'play'>('play');
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
@@ -207,7 +208,7 @@ export default function BookingsPage() {
       fetchBookings();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authLoading, page, pageSize, statusFilter, dateFilterType, dateFrom, dateTo, sortField, sortDirection]);
+  }, [authLoading, page, pageSize, statusFilter, sourceFilter, dateFilterType, dateFrom, dateTo, sortField, sortDirection]);
 
   const fetchBookings = async () => {
     setLoading(true);
@@ -216,6 +217,7 @@ export default function BookingsPage() {
         page: page.toString(),
         pageSize: pageSize.toString(),
         status: statusFilter,
+        source: sourceFilter,
         sortField,
         sortDirection,
         dateFilterType,
@@ -406,6 +408,7 @@ export default function BookingsPage() {
                 />
               </div>
               <CustomSelect
+                variant="light"
                 value={statusFilter}
                 onChange={(value) => { setStatusFilter(value); setPage(1); }}
                 options={STATUS_OPTIONS.map((status) => ({
@@ -414,6 +417,21 @@ export default function BookingsPage() {
                 }))}
                 className="w-40"
               />
+              {/* Source Filter */}
+              <div className="flex rounded-lg border border-slate-200 overflow-hidden">
+                <button
+                  onClick={() => { setSourceFilter('manual'); setPage(1); }}
+                  className={`px-3 py-1.5 text-sm font-medium transition-colors ${sourceFilter === 'manual' ? 'bg-[#1a237e] text-white' : 'bg-white text-slate-600 hover:bg-slate-50'}`}
+                >Manual</button>
+                <button
+                  onClick={() => { setSourceFilter('direct'); setPage(1); }}
+                  className={`px-3 py-1.5 text-sm font-medium transition-colors ${sourceFilter === 'direct' ? 'bg-[#1a237e] text-white' : 'bg-white text-slate-600 hover:bg-slate-50'}`}
+                >Direct</button>
+                <button
+                  onClick={() => { setSourceFilter('all'); setPage(1); }}
+                  className={`px-3 py-1.5 text-sm font-medium transition-colors ${sourceFilter === 'all' ? 'bg-[#1a237e] text-white' : 'bg-white text-slate-600 hover:bg-slate-50'}`}
+                >All</button>
+              </div>
             </div>
 
             {/* Row 2: Date Range Filter */}
@@ -707,6 +725,7 @@ export default function BookingsPage() {
                 <div className="flex items-center gap-2">
                   <span className="text-sm text-slate-500">Show:</span>
                   <CustomSelect
+                    variant="light"
                     value={String(pageSize)}
                     onChange={(value) => { setPageSize(Number(value)); setPage(1); }}
                     options={PAGE_SIZE_OPTIONS.map((size) => ({ value: String(size), label: String(size) }))}

@@ -510,6 +510,7 @@ export default function EditBlogPostPage({ params }: { params: Promise<{ id: str
                 Category
               </label>
               <CustomSelect
+                variant="light"
                 value={category}
                 onChange={setCategory}
                 placeholder="Select category"

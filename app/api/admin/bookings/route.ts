@@ -94,58 +94,64 @@ export async function GET(request: NextRequest) {
     const page = parseInt(searchParams.get('page') || '1');
     const pageSize = parseInt(searchParams.get('pageSize') || '10');
     const status = searchParams.get('status') || 'all';
+    const source = searchParams.get('source') || 'manual'; // 'all' | 'manual' | 'direct'
     const sortField = searchParams.get('sortField') || 'created_at';
     const sortDirection = searchParams.get('sortDirection') || 'desc';
     const dateFilterType = searchParams.get('dateFilterType') || 'play';
     const dateFrom = searchParams.get('dateFrom') || '';
     const dateTo = searchParams.get('dateTo') || '';
 
-    // ---- Online bookings (no DB-level pagination: we merge with manual bookings) ----
-    let query = supabaseAdmin
-      .from('bookings')
-      .select(`
-        *,
-        packages (name),
-        promo_codes (code, discount_type, discount_value),
-        booking_customers (first_name, last_name, email, phone, country_code, special_requests),
-        booking_transport (id, transport_type, hotel_name, room_number, private_passengers, non_players),
-        booking_addons (quantity, unit_price, promo_addons (name))
-      `);
+    // ---- Online bookings (direct website bookings from bookings table) ----
+    // Only fetch if source filter includes direct bookings
+    let bookingsData: unknown[] = [];
+    if (source === 'all' || source === 'direct') {
+      let query = supabaseAdmin
+        .from('bookings')
+        .select(`
+          *,
+          packages (name),
+          promo_codes (code, discount_type, discount_value),
+          booking_customers (first_name, last_name, email, phone, country_code, special_requests),
+          booking_transport (id, transport_type, hotel_name, room_number, private_passengers, non_players),
+          booking_addons (quantity, unit_price, promo_addons (name))
+        `);
 
-    if (status !== 'all') {
-      query = query.eq('status', status);
-    }
-
-    if (dateFrom || dateTo) {
-      const dateField = dateFilterType === 'booking' ? 'created_at' : 'activity_date';
-      if (dateFrom && dateTo) {
-        if (dateFilterType === 'booking') {
-          query = query.gte(dateField, `${dateFrom}T00:00:00`).lte(dateField, `${dateTo}T23:59:59`);
-        } else {
-          query = query.gte(dateField, dateFrom).lte(dateField, dateTo);
-        }
-      } else if (dateFrom) {
-        query = dateFilterType === 'booking'
-          ? query.gte(dateField, `${dateFrom}T00:00:00`)
-          : query.gte(dateField, dateFrom);
-      } else if (dateTo) {
-        query = dateFilterType === 'booking'
-          ? query.lte(dateField, `${dateTo}T23:59:59`)
-          : query.lte(dateField, dateTo);
+      if (status !== 'all') {
+        query = query.eq('status', status);
       }
-    }
 
-    const { data: bookingsData, error } = await query;
+      if (dateFrom || dateTo) {
+        const dateField = dateFilterType === 'booking' ? 'created_at' : 'activity_date';
+        if (dateFrom && dateTo) {
+          if (dateFilterType === 'booking') {
+            query = query.gte(dateField, `${dateFrom}T00:00:00`).lte(dateField, `${dateTo}T23:59:59`);
+          } else {
+            query = query.gte(dateField, dateFrom).lte(dateField, dateTo);
+          }
+        } else if (dateFrom) {
+          query = dateFilterType === 'booking'
+            ? query.gte(dateField, `${dateFrom}T00:00:00`)
+            : query.gte(dateField, dateFrom);
+        } else if (dateTo) {
+          query = dateFilterType === 'booking'
+            ? query.lte(dateField, `${dateTo}T23:59:59`)
+            : query.lte(dateField, dateTo);
+        }
+      }
 
-    if (error) {
-      console.error('Error fetching bookings:', error);
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      const { data, error } = await query;
+
+      if (error) {
+        console.error('Error fetching bookings:', error);
+        return NextResponse.json({ error: error.message }, { status: 500 });
+      }
+      bookingsData = data || [];
     }
 
     // ---- Manual bookings (genuine manual allotments only: booking_id IS NULL) ----
-    // Only included when the status filter allows confirmed records.
+    // Only fetch if source filter includes manual bookings and status allows confirmed
     let manualBookings: ReturnType<typeof allotmentToBooking>[] = [];
-    if (status === 'all' || status === 'confirmed') {
+    if ((source === 'all' || source === 'manual') && (status === 'all' || status === 'confirmed')) {
       let allotQuery = supabaseAdmin
         .from('tm_allotments')
         .select('id, zone_id, table_code, start_at, source, booking_id, customer_name, guest_count, adult_count, child_count, customer_phone, customer_email, notes, deposit_amount, booking_ref, public_token, created_at')
@@ -167,7 +173,7 @@ export async function GET(request: NextRequest) {
     }
 
     // ---- Merge, sort, paginate in memory ----
-    const merged = [...(bookingsData || []), ...manualBookings];
+    const merged = [...bookingsData, ...manualBookings];
 
     const dir = sortDirection === 'asc' ? 1 : -1;
     merged.sort((a, b) => {
