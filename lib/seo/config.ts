@@ -38,7 +38,24 @@ export const siteConfig = {
     latitude: 7.9285,
     longitude: 98.3185,
   },
+  locales: ['en', 'th', 'cn', 'ja', 'ko', 'ru', 'fr', 'es', 'ar'] as const,
+  defaultLocale: 'en' as const,
 };
+
+export type SupportedLocale = (typeof siteConfig.locales)[number];
+
+export function getLanguageAlternates(path: string = ''): Record<string, string> {
+  const alternates: Record<string, string> = {};
+  
+  for (const locale of siteConfig.locales) {
+    const localePath = locale === siteConfig.defaultLocale ? path : `/${locale}${path}`;
+    alternates[locale] = `${siteConfig.url}${localePath}`;
+  }
+  
+  alternates['x-default'] = `${siteConfig.url}${path}`;
+  
+  return alternates;
+}
 
 export const defaultMetadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -47,6 +64,7 @@ export const defaultMetadata: Metadata = {
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
+  applicationName: siteConfig.name,
   keywords: siteConfig.keywords,
   authors: [{ name: siteConfig.creator }],
   creator: siteConfig.creator,
@@ -71,7 +89,7 @@ export const defaultMetadata: Metadata = {
     description: siteConfig.description,
     images: [
       {
-        url: siteConfig.ogImage,
+        url: '/opengraph-image',
         width: 1200,
         height: 630,
         alt: siteConfig.name,
@@ -82,11 +100,12 @@ export const defaultMetadata: Metadata = {
     card: 'summary_large_image',
     title: `${siteConfig.name} - Authentic Southern Thai Cuisine`,
     description: siteConfig.description,
-    images: [siteConfig.ogImage],
+    images: ['/twitter-image'],
     creator: '@threemonkeysphuket',
   },
   alternates: {
     canonical: siteConfig.url,
+    languages: getLanguageAlternates('/'),
   },
   verification: {
     google: 'your-google-verification-code',
@@ -101,13 +120,14 @@ export function generatePageMetadata(
   image?: string
 ): Metadata {
   const url = `${siteConfig.url}${path}`;
-  const ogImage = image || siteConfig.ogImage;
+  const ogImage = image || '/opengraph-image';
 
   return {
     title,
     description,
     alternates: {
       canonical: url,
+      languages: getLanguageAlternates(path),
     },
     openGraph: {
       title: `${title} | ${siteConfig.name}`,
