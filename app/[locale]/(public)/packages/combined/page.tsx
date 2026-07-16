@@ -18,7 +18,7 @@ const statLabels: Record<string, string> = {
 };
 
 export default function CombinedPackagesPage() {
-  const packages = allPackages.filter(pkg => pkg.category !== 'transfer');
+  const packages = allPackages.filter(pkg => pkg.category !== 'transfer' && !pkg.suspended);
 
   return (
     <main className="min-h-screen">

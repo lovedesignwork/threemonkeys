@@ -66,6 +66,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Package not found' }, { status: 404 });
     }
 
+    // Block booking for suspended zones/packages (temporarily closed for sale).
+    if (packageData.suspended) {
+      console.warn('Attempt to book suspended package:', packageId);
+      return NextResponse.json(
+        { error: 'This zone is currently unavailable for booking.' },
+        { status: 409 }
+      );
+    }
+
     // Resolve addon details from the shared local catalog (kept in sync with
     // the checkout UI in lib/data/addons.ts).
     const requestedAddons = Object.entries(promoAddons)

@@ -27,6 +27,13 @@ export interface Package {
   requirements: string[];
   featured: boolean;
   popular: boolean;
+  /**
+   * When true, the zone/package is suspended: hidden from all public listings
+   * and detail pages, and blocked from booking/checkout. Data is preserved so
+   * it can be re-opened for sale later by setting this back to false (or
+   * removing the field).
+   */
+  suspended?: boolean;
   stats?: PackageStats;
   includesMeal?: boolean;
   includesTransfer?: boolean;

@@ -93,9 +93,9 @@ const isTimeSlotBookable = (timeSlot: string, selectedDate: string): boolean => 
   return slotDate > minBookingTime;
 };
 
-const allBookablePackages = packages.filter(pkg => pkg.type === 'seat' || pkg.type === 'special');
-const seatPackages = packages.filter(pkg => pkg.type === 'seat');
-const specialPackages = packages.filter(pkg => pkg.type === 'special');
+const allBookablePackages = packages.filter(pkg => (pkg.type === 'seat' || pkg.type === 'special') && !pkg.suspended);
+const seatPackages = packages.filter(pkg => pkg.type === 'seat' && !pkg.suspended);
+const specialPackages = packages.filter(pkg => pkg.type === 'special' && !pkg.suspended);
 
 const VVIP_TRANSFER_PRICE = 2500;
 
@@ -244,7 +244,7 @@ function BookingContent() {
   useEffect(() => {
     const packageParam = searchParams.get('package');
     if (packageParam) {
-      const foundPackage = packages.find(p => p.id === packageParam || p.slug === packageParam);
+      const foundPackage = packages.find(p => (p.id === packageParam || p.slug === packageParam) && !p.suspended);
       if (foundPackage) {
         setSelectedPackageId(foundPackage.id);
       }

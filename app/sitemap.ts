@@ -58,7 +58,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   const packagePages: MetadataRoute.Sitemap = [];
-  const publishedPackages = packages.filter(pkg => pkg.slug && pkg.category !== 'transfer');
+  const publishedPackages = packages.filter(pkg => pkg.slug && pkg.category !== 'transfer' && !pkg.suspended);
 
   for (const pkg of publishedPackages) {
     for (const locale of locales) {

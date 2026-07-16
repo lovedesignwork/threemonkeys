@@ -230,6 +230,9 @@ export const packages: Package[] = [
   {
     id: 'rooftop-romantic',
     slug: 'rooftop-romantic',
+    // Suspended: hidden from listings & blocked from booking. Set back to
+    // false (or remove this line) to re-open this zone for sale.
+    suspended: true,
     name: 'Three Monkeys Roof Top Romantic Zone',
     description: 'Our stunning rooftop romantic zone with spectacular views. Perfect for couples and romantic evenings.',
     shortDescription: 'Romantic Rooftop Zone (up to 40 Persons)',
@@ -560,18 +563,34 @@ export function getPackageBySlug(slug: string): Package | undefined {
   return packages.find(pkg => pkg.slug === slug);
 }
 
+/**
+ * Returns true when a package/zone is currently suspended (hidden from sale).
+ * Use this to gate detail pages and booking/checkout for a specific package.
+ */
+export function isPackageSuspended(id: string): boolean {
+  return getPackageById(id)?.suspended === true;
+}
+
+/**
+ * All packages that are currently open for sale (not suspended). This is the
+ * canonical list every public listing surface should build on.
+ */
+export function getActivePackages(): Package[] {
+  return packages.filter(pkg => !pkg.suspended);
+}
+
 export function getPackagesByCategory(category: Package['category']): Package[] {
-  return packages.filter(pkg => pkg.category === category);
+  return packages.filter(pkg => pkg.category === category && !pkg.suspended);
 }
 
 export function getFeaturedPackages(): Package[] {
-  return packages.filter(pkg => pkg.featured);
+  return packages.filter(pkg => pkg.featured && !pkg.suspended);
 }
 
 export function getSeatPackages(): Package[] {
-  return packages.filter(pkg => pkg.type === 'seat');
+  return packages.filter(pkg => pkg.type === 'seat' && !pkg.suspended);
 }
 
 export function getSpecialPackages(): Package[] {
-  return packages.filter(pkg => pkg.type === 'special');
+  return packages.filter(pkg => pkg.type === 'special' && !pkg.suspended);
 }

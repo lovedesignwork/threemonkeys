@@ -70,11 +70,11 @@ export default function PackagePage() {
   const [activeImage, setActiveImage] = useState(0);
   const t = useTranslations('packageDetailPage');
 
-  if (!pkg) {
+  if (!pkg || pkg.suspended) {
     notFound();
   }
 
-  const otherPackages = packages.filter(p => p.id !== pkg.id && p.category !== 'transfer').slice(0, 3);
+  const otherPackages = packages.filter(p => p.id !== pkg.id && p.category !== 'transfer' && !p.suspended).slice(0, 3);
   
   // Gallery images (use package gallery if available, otherwise default images)
   const galleryImages = pkg.gallery && pkg.gallery.length > 0 
