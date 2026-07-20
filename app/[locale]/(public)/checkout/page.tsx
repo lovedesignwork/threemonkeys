@@ -436,7 +436,7 @@ function CheckoutContent() {
                       <div className="min-w-0">
                         <p className="text-[10px] text-white/40 uppercase tracking-wider">Transfer</p>
                         <p className="text-sm text-white font-medium truncate">
-                          {transfer ? 'VVIP Transfer' : 'Self Arrange'}
+                          {transfer ? 'Private Transfer' : 'Self Arrange'}
                         </p>
                       </div>
                     </div>
@@ -653,8 +653,8 @@ function CheckoutContent() {
                               <Car className="w-4 h-4 text-white/60" />
                             </div>
                             <div>
-                              <p className="text-white text-sm">VVIP Transfer</p>
-                              <p className="text-white/40 text-xs">Luxury pickup service</p>
+                              <p className="text-white text-sm">Private Transfer Round Trip</p>
+                              <p className="text-white/40 text-xs">Round-trip by commuter van (max 10 pax)</p>
                             </div>
                           </div>
                           <span className="text-white font-medium">+{formatPrice(prices.transfer)}</span>

@@ -1178,6 +1178,87 @@ function BookingContent() {
                           />
                         </div>
                       </div>
+
+                      {/* Private Transfer Round Trip — optional paid add-on.
+                          Toggling this flows through checkout -> booking_transport
+                          (transport_type 'private') and syncs to OneBooking. */}
+                      <div className="mt-5 sm:mt-6">
+                        <div
+                          className={`relative rounded-2xl border transition-all duration-300 ${
+                            needTransfer
+                              ? 'border-[#b1b94c]/60 bg-[#b1b94c]/5'
+                              : 'border-white/10 bg-white/5 hover:border-white/20'
+                          }`}
+                        >
+                          <div className="flex items-start gap-3 p-4">
+                            <div
+                              className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors ${
+                                needTransfer ? 'bg-[#b1b94c]/20' : 'bg-white/5'
+                              }`}
+                            >
+                              <Car className={`w-5 h-5 ${needTransfer ? 'text-[#b1b94c]' : 'text-white/60'}`} />
+                            </div>
+                            <div className="flex-grow min-w-0">
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <h4 className="text-sm font-semibold text-white">Private Transfer Round Trip</h4>
+                                <span className="px-1.5 py-0.5 bg-[#b1b94c] text-black text-[9px] font-bold rounded uppercase tracking-wide">
+                                  New
+                                </span>
+                              </div>
+                              <p className="text-xs text-white/50 mt-0.5">by Commuter Van (Max 10 Pax)</p>
+                              <p className="text-[11px] text-white/40 mt-0.5">
+                                Available in Phuket area only (Excluding Phuket Airport)
+                              </p>
+                            </div>
+                            <div className="flex flex-col items-end gap-2 flex-shrink-0">
+                              <span className="text-sm font-bold text-[#b1b94c] whitespace-nowrap">
+                                +{formatPrice(VVIP_TRANSFER_PRICE)}
+                              </span>
+                              <button
+                                type="button"
+                                role="switch"
+                                aria-checked={needTransfer}
+                                aria-label="Add Private Transfer Round Trip"
+                                onClick={() => setNeedTransfer((v) => !v)}
+                                className={`relative w-12 h-6 rounded-full transition-colors duration-300 ${
+                                  needTransfer ? 'bg-[#b1b94c]' : 'bg-white/20'
+                                }`}
+                              >
+                                <span
+                                  className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform duration-300 ${
+                                    needTransfer ? 'translate-x-6' : 'translate-x-0'
+                                  }`}
+                                />
+                              </button>
+                            </div>
+                          </div>
+
+                          <AnimatePresence>
+                            {needTransfer && (
+                              <motion.div
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: 'auto' }}
+                                exit={{ opacity: 0, height: 0 }}
+                                className="overflow-hidden"
+                              >
+                                <div className="px-4 pb-4">
+                                  <label className="text-xs font-medium text-white/60 mb-2 flex items-center gap-1.5">
+                                    <MapPin className="w-3.5 h-3.5 text-[#b1b94c]" />
+                                    Hotel / Pickup Address
+                                  </label>
+                                  <input
+                                    type="text"
+                                    value={hotelName}
+                                    onChange={(e) => setHotelName(e.target.value)}
+                                    placeholder="e.g. Hilton Phuket, Patong Beach..."
+                                    className="w-full px-4 py-2.5 bg-white/5 border-2 border-white/10 rounded-xl text-white placeholder:text-white/30 focus:outline-none focus:border-[#b1b94c] hover:border-white/20 transition-all text-sm"
+                                  />
+                                </div>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
+                      </div>
                     </div>
                   </motion.div>
                 )}
@@ -1441,7 +1522,7 @@ function BookingContent() {
                         {needTransfer && (
                           <div className="flex items-center gap-3 text-sm">
                             <Car className="w-4 h-4 text-[#b1b94c]" />
-                            <span className="text-white">VVIP Transfer</span>
+                            <span className="text-white">Private Transfer Round Trip</span>
                           </div>
                         )}
 
@@ -1501,7 +1582,7 @@ function BookingContent() {
                           
                           {needTransfer && (
                             <div className="flex justify-between text-sm">
-                              <span className="text-white/60">VVIP Transfer</span>
+                              <span className="text-white/60">Private Transfer Round Trip</span>
                               <span className="text-white">+{formatPrice(prices.transfer)}</span>
                             </div>
                           )}
