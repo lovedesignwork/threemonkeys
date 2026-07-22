@@ -298,6 +298,16 @@ function BookingContent() {
   const [needTransfer, setNeedTransfer] = useState(() => searchParams.get('transfer') === 'true');
   const [hotelName, setHotelName] = useState(() => searchParams.get('hotel') || '');
   const [specialRequests, setSpecialRequests] = useState(() => searchParams.get('requests') || '');
+
+  // The private transfer add-on is only offered for advance (next-day+)
+  // bookings on non-special packages (special packages already include a
+  // private transfer). Clear any stale selection when it no longer applies so
+  // the price and checkout payload stay correct.
+  useEffect(() => {
+    if (needTransfer && (isSpecialPackage(selectedPackageId) || !isAdvanceBooking(selectedDate))) {
+      setNeedTransfer(false);
+    }
+  }, [selectedPackageId, selectedDate, needTransfer]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedAddons, setSelectedAddons] = useState<Record<string, number>>(() => {
     // URL format: "addonId:qty,addonId:qty"
@@ -1180,8 +1190,12 @@ function BookingContent() {
                       </div>
 
                       {/* Private Transfer Round Trip — optional paid add-on.
-                          Toggling this flows through checkout -> booking_transport
+                          Requires at least 1 day advance booking (hidden for
+                          same-day) and hidden for special packages, which
+                          already include a private transfer. Toggling this
+                          flows through checkout -> booking_transport
                           (transport_type 'private') and syncs to OneBooking. */}
+                      {!isSpecialPackage(selectedPackageId) && selectedDate && isAdvanceBooking(selectedDate) && (
                       <div className="mt-5 sm:mt-6">
                         <div
                           className={`relative rounded-2xl border transition-all duration-300 ${
@@ -1201,9 +1215,6 @@ function BookingContent() {
                             <div className="flex-grow min-w-0">
                               <div className="flex items-center gap-2 flex-wrap">
                                 <h4 className="text-sm font-semibold text-white">Private Transfer Round Trip</h4>
-                                <span className="px-1.5 py-0.5 bg-[#b1b94c] text-black text-[9px] font-bold rounded uppercase tracking-wide">
-                                  New
-                                </span>
                               </div>
                               <p className="text-xs text-white/50 mt-0.5">by Commuter Van (Max 10 Pax)</p>
                               <p className="text-[11px] text-white/40 mt-0.5">
@@ -1259,6 +1270,7 @@ function BookingContent() {
                           </AnimatePresence>
                         </div>
                       </div>
+                      )}
                     </div>
                   </motion.div>
                 )}
