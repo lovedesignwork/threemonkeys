@@ -9,6 +9,7 @@ import { getSeatPackages } from '@/lib/data/packages';
 import { Package } from '@/types';
 import { useTranslations } from 'next-intl';
 import { useTranslatedPackage } from '@/hooks/useTranslatedPackage';
+import { usePackageControls } from '@/hooks/usePackageControls';
 
 const heroImages = [
   '/images/new/threemonkeys048.jpg',
@@ -24,12 +25,13 @@ const isRomanticZone = (pkg: Package) => {
 export default function SeatsPage() {
   const t = useTranslations('seatsPage');
   const { getTranslatedPackage } = useTranslatedPackage();
+  const { priceOf, isDisabled } = usePackageControls();
   const [currentImage, setCurrentImage] = useState(0);
   
   const seatPackages = useMemo(() => {
-    const packages = getSeatPackages();
+    const packages = getSeatPackages().filter(pkg => !isDisabled(pkg.id));
     return packages.map(pkg => getTranslatedPackage(pkg));
-  }, [getTranslatedPackage]);
+  }, [getTranslatedPackage, isDisabled]);
   
   // Scroll to top on page mount
   useEffect(() => {
@@ -193,7 +195,7 @@ export default function SeatsPage() {
                           <span className="text-white/40 text-xs uppercase tracking-wider block mb-1">{t('deposit')}</span>
                           <div className="flex items-baseline gap-1">
                             <span className="text-3xl font-bold text-[#b1b94c] font-[family-name:var(--font-krona)]">
-                              ฿{pkg.price.toLocaleString()}
+                              ฿{priceOf(pkg).toLocaleString()}
                             </span>
                             <span className="text-white/40 text-sm">{t('perTable')}</span>
                           </div>

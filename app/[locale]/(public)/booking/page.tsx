@@ -14,6 +14,8 @@ import { CalendarPicker, CustomSelect } from '@/components/ui';
 import { packages } from '@/lib/data/packages';
 import { formatPrice } from '@/lib/utils';
 import { buildBangkokTimestamp, getZoneForPackage } from '@/lib/allotment/zones';
+import { usePackageControls } from '@/hooks/usePackageControls';
+import type { Package } from '@/types';
 
 import { type Addon } from '@/lib/data/addons';
 
@@ -92,9 +94,8 @@ const isTimeSlotBookable = (timeSlot: string, selectedDate: string): boolean => 
   return slotDate > minBookingTime;
 };
 
-const allBookablePackages = packages.filter(pkg => (pkg.type === 'seat' || pkg.type === 'special') && !pkg.suspended);
-const seatPackages = packages.filter(pkg => pkg.type === 'seat' && !pkg.suspended);
-const specialPackages = packages.filter(pkg => pkg.type === 'special' && !pkg.suspended);
+const allSeatPackages = packages.filter(pkg => pkg.type === 'seat' && !pkg.suspended);
+const allSpecialPackages = packages.filter(pkg => pkg.type === 'special' && !pkg.suspended);
 
 const VVIP_TRANSFER_PRICE = 2500;
 
@@ -103,8 +104,35 @@ const isPerTablePkg = (pkgId: string) => {
   return pkgId === 'monkey-dome' || pkgId === 'monkey-nest';
 };
 
+// Per-seat deposit unit label shown next to the price
+const seatUnitLabel = (pkgId: string): string => {
+  switch (pkgId) {
+    case 'monkey-dome': return '/ table (max 4)';
+    case 'monkey-nest': return '/ table (max 6)';
+    case 'bamboo-pavilion': return '/ person (max 4)';
+    case 'exclusive-romantic-zone-7': return '/ person (max 4)';
+    case 'zone-7': return '/ person (up to 50)';
+    case 'zone-6': return '/ person (up to 50)';
+    case 'rooftop-romantic': return '/ person (up to 40)';
+    case 'monkey-hilltop': return '/ person (2-4)';
+    case 'indoor-seat': return '/ person (open)';
+    case 'outdoor-seat': return '/ person (open)';
+    default: return '/ person';
+  }
+};
+
 // Quick Select Grid Component
-function QuickSelectGrid({ onSelect }: { onSelect: (id: string) => void }) {
+function QuickSelectGrid({
+  onSelect,
+  seatPackages,
+  specialPackages,
+  priceOf,
+}: {
+  onSelect: (id: string) => void;
+  seatPackages: Package[];
+  specialPackages: Package[];
+  priceOf: (pkg: Pick<Package, 'id' | 'price'>) => number;
+}) {
   // Premium seats (Monkey Dome & Nest) first, then others
   const premiumSeats = seatPackages.filter(pkg => isPerTablePkg(pkg.id));
   const regularSeats = seatPackages.filter(pkg => !isPerTablePkg(pkg.id));
@@ -139,7 +167,7 @@ function QuickSelectGrid({ onSelect }: { onSelect: (id: string) => void }) {
                 </h4>
                 <p className="text-[10px] text-white/50 line-clamp-1 mb-1">{pkg.shortDescription}</p>
                 <div className="flex items-center gap-1">
-                  <span className="text-xs font-bold text-[#b1b94c]">{formatPrice(pkg.price)}</span>
+                  <span className="text-xs font-bold text-[#b1b94c]">{formatPrice(priceOf(pkg))}</span>
                   <span className="text-[10px] text-white/40">/ table (up to 4)</span>
                 </div>
               </div>
@@ -177,7 +205,7 @@ function QuickSelectGrid({ onSelect }: { onSelect: (id: string) => void }) {
                   {pkg.name}
                 </h4>
                                 <div className="flex items-center gap-1">
-                                  <span className="text-[10px] font-semibold text-[#b1b94c]">฿1,000</span>
+                                  <span className="text-[10px] font-semibold text-[#b1b94c]">{formatPrice(priceOf(pkg))}</span>
                                   <span className="text-[10px] text-white/40">deposit / person</span>
                                 </div>
               </div>
@@ -216,7 +244,7 @@ function QuickSelectGrid({ onSelect }: { onSelect: (id: string) => void }) {
                 </h4>
                 <p className="text-[10px] text-white/50 line-clamp-1 mb-1">{pkg.shortDescription}</p>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-bold text-amber-400">{formatPrice(pkg.price)}</span>
+                  <span className="text-xs font-bold text-amber-400">{formatPrice(priceOf(pkg))}</span>
                   <span className="text-[10px] text-white/40">total package</span>
                 </div>
               </div>
@@ -232,7 +260,20 @@ function QuickSelectGrid({ onSelect }: { onSelect: (id: string) => void }) {
 function BookingContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  
+
+  // Admin-controlled availability + pricing (disabled packages, blocked
+  // dates, price overrides) loaded from the dashboard settings.
+  const { loaded: controlsLoaded, priceOf, isDisabled, isDateBlocked, blockedDatesFor } = usePackageControls();
+
+  const seatPackages = useMemo(
+    () => allSeatPackages.filter(pkg => !isDisabled(pkg.id)),
+    [isDisabled]
+  );
+  const specialPackages = useMemo(
+    () => allSpecialPackages.filter(pkg => !isDisabled(pkg.id)),
+    [isDisabled]
+  );
+
   const [selectedPackageId, setSelectedPackageId] = useState<string | null>(null);
   const selectedPackage = packages.find(p => p.id === selectedPackageId);
 
@@ -249,6 +290,14 @@ function BookingContent() {
       }
     }
   }, [searchParams]);
+
+  // If the admin disabled the currently selected package (e.g. it came from
+  // a URL param or was disabled while the customer was on the page), drop it.
+  useEffect(() => {
+    if (controlsLoaded && selectedPackageId && isDisabled(selectedPackageId)) {
+      setSelectedPackageId(null);
+    }
+  }, [controlsLoaded, selectedPackageId, isDisabled]);
 
   // Initialize date/time/guests/transfer/hotel/requests/addons from URL
   // params so the "Edit" link on the checkout page restores the
@@ -283,6 +332,19 @@ function BookingContent() {
       }
     }
   }, [selectedPackageId, selectedDate, minBookingDate]);
+
+  // Dates the admin has blocked for the currently selected package
+  const blockedDatesForSelected = useMemo(
+    () => blockedDatesFor(selectedPackageId),
+    [blockedDatesFor, selectedPackageId]
+  );
+
+  // Clear a selected date that is blocked for this package
+  useEffect(() => {
+    if (selectedDate && isDateBlocked(selectedPackageId, selectedDate)) {
+      setSelectedDate('');
+    }
+  }, [selectedPackageId, selectedDate, isDateBlocked]);
   
   // Reset selected time when package changes and current time is not available
   useEffect(() => {
@@ -416,7 +478,6 @@ function BookingContent() {
   };
 
   const maxGuestsForPackage = getMaxGuestsForPackage(selectedPackageId);
-  const DEPOSIT_PER_PERSON = 1000;
 
   const handleSelectPackage = (pkgId: string) => {
     setSelectedPackageId(pkgId);
@@ -430,30 +491,24 @@ function BookingContent() {
 
   const prices = useMemo(() => {
     if (!selectedPackage) return { base: 0, addons: 0, transfer: 0, total: 0, deposit: 0 };
-    
+
+    // Effective price = admin price override when set, catalog price otherwise
+    const packagePrice = priceOf(selectedPackage);
+
     // For fixed price packages (Monkey Dome/Nest + Special packages): price is fixed
     // For other packages: price is per person
-    const base = isFixedPricePackage(selectedPackageId) 
-      ? selectedPackage.price // Fixed price for the package
-      : selectedPackage.price * guestCount;
+    const base = isFixedPricePackage(selectedPackageId)
+      ? packagePrice // Fixed price for the package
+      : packagePrice * guestCount;
     
     const transfer = needTransfer ? VVIP_TRANSFER_PRICE : 0;
     
     // Deposit calculation:
-    // Monkey Dome: 4,000 THB fixed
-    // Monkey Nest: 5,000 THB fixed (all guests)
-    // Other fixed price packages: Full package price as deposit
-    // Others: THB 500 per person
-    let deposit: number;
-    if (selectedPackageId === 'monkey-dome') {
-      deposit = 4000;
-    } else if (selectedPackageId === 'monkey-nest') {
-      deposit = 5000;
-    } else if (isFixedPricePackage(selectedPackageId)) {
-      deposit = selectedPackage.price;
-    } else {
-      deposit = DEPOSIT_PER_PERSON * guestCount;
-    }
+    // Fixed price packages (Monkey Dome/Nest + specials): full package price
+    // Others: per-person deposit (the package price is the per-person deposit)
+    const deposit = isFixedPricePackage(selectedPackageId)
+      ? packagePrice
+      : packagePrice * guestCount;
     
     let addons = 0;
     Object.entries(selectedAddons).forEach(([addonId, qty]) => {
@@ -472,7 +527,7 @@ function BookingContent() {
       total: base + addons + transfer,
       deposit
     };
-  }, [selectedPackage, selectedPackageId, guestCount, needTransfer, selectedAddons]);
+  }, [selectedPackage, selectedPackageId, guestCount, needTransfer, selectedAddons, priceOf, promotionalAddons]);
 
   // ── Allotment availability check ──
   // Whenever the customer chooses a package + date + time, hit the public
@@ -544,7 +599,13 @@ function BookingContent() {
     };
   }, [selectedPackageId, selectedDate, selectedTime]);
 
-  const isFormValid = selectedPackageId && selectedDate && selectedTime && availabilityState !== 'full';
+  const isFormValid =
+    selectedPackageId &&
+    selectedDate &&
+    selectedTime &&
+    availabilityState !== 'full' &&
+    !isDisabled(selectedPackageId) &&
+    !isDateBlocked(selectedPackageId, selectedDate);
 
   const handleProceedToCheckout = () => {
     if (!isFormValid) return;
@@ -684,62 +745,13 @@ function BookingContent() {
                             {selectedPackage.type === 'seat' ? (
                               <>
                                 <div className="text-[10px] text-white/40 uppercase tracking-wider">Deposit</div>
-                                {selectedPackage.id === 'monkey-dome' ? (
-                                  <>
-                                    <div className="text-xl font-bold text-[#b1b94c]">฿4,000</div>
-                                    <div className="text-xs text-white/40">/ table (max 4)</div>
-                                  </>
-                                ) : selectedPackage.id === 'monkey-nest' ? (
-                                  <>
-                                    <div className="text-xl font-bold text-[#b1b94c]">฿5,000</div>
-                                    <div className="text-xs text-white/40">/ table (max 6)</div>
-                                  </>
-                                ) : selectedPackage.id === 'bamboo-pavilion' ? (
-                                  <>
-                                    <div className="text-xl font-bold text-[#b1b94c]">฿1,000</div>
-                                    <div className="text-xs text-white/40">/ person (max 4)</div>
-                                  </>
-                                ) : selectedPackage.id === 'exclusive-romantic-zone-7' ? (
-                                  <>
-                                    <div className="text-xl font-bold text-[#b1b94c]">฿1,000</div>
-                                    <div className="text-xs text-white/40">/ person (max 4)</div>
-                                  </>
-                                ) : selectedPackage.id === 'zone-7' ? (
-                                  <>
-                                    <div className="text-xl font-bold text-[#b1b94c]">฿1,000</div>
-                                    <div className="text-xs text-white/40">/ person (up to 50)</div>
-                                  </>
-                                ) : selectedPackage.id === 'zone-6' ? (
-                                  <>
-                                    <div className="text-xl font-bold text-[#b1b94c]">฿1,000</div>
-                                    <div className="text-xs text-white/40">/ person (up to 50)</div>
-                                  </>
-                                ) : selectedPackage.id === 'rooftop-romantic' ? (
-                                  <>
-                                    <div className="text-xl font-bold text-[#b1b94c]">฿1,000</div>
-                                    <div className="text-xs text-white/40">/ person (up to 40)</div>
-                                  </>
-                                ) : selectedPackage.id === 'monkey-hilltop' ? (
-                                  <>
-                                    <div className="text-xl font-bold text-[#b1b94c]">฿1,000</div>
-                                    <div className="text-xs text-white/40">/ person (2-4)</div>
-                                  </>
-                                ) : selectedPackage.id === 'indoor-seat' || selectedPackage.id === 'outdoor-seat' ? (
-                                  <>
-                                    <div className="text-xl font-bold text-[#b1b94c]">฿1,000</div>
-                                    <div className="text-xs text-white/40">/ person (open)</div>
-                                  </>
-                                ) : (
-                                  <>
-                                    <div className="text-xl font-bold text-[#b1b94c]">฿1,000</div>
-                                    <div className="text-xs text-white/40">/ person</div>
-                                  </>
-                                )}
+                                <div className="text-xl font-bold text-[#b1b94c]">{formatPrice(priceOf(selectedPackage))}</div>
+                                <div className="text-xs text-white/40">{seatUnitLabel(selectedPackage.id)}</div>
                               </>
                             ) : (
                               <>
                                 <div className="text-[10px] text-white/40 uppercase tracking-wider">Package</div>
-                                <div className="text-xl font-bold text-[#b1b94c]">{formatPrice(selectedPackage.price)}</div>
+                                <div className="text-xl font-bold text-[#b1b94c]">{formatPrice(priceOf(selectedPackage))}</div>
                                 <div className="text-xs text-white/40">total</div>
                               </>
                             )}
@@ -822,57 +834,8 @@ function BookingContent() {
                                   )}
                                   <div className="text-right mt-auto">
                                     <span className="text-[10px] text-white/40 uppercase tracking-wider block">Deposit</span>
-                                    {pkg.id === 'monkey-dome' ? (
-                                      <>
-                                        <span className="text-base font-bold text-[#b1b94c]">฿4,000</span>
-                                        <span className="text-white/30 text-[9px] block">/ table (max 4)</span>
-                                      </>
-                                    ) : pkg.id === 'monkey-nest' ? (
-                                      <>
-                                        <span className="text-base font-bold text-[#b1b94c]">฿5,000</span>
-                                        <span className="text-white/30 text-[9px] block">/ table (max 6)</span>
-                                      </>
-                                    ) : pkg.id === 'bamboo-pavilion' ? (
-                                      <>
-                                        <span className="text-base font-bold text-[#b1b94c]">฿1,000</span>
-                                        <span className="text-white/30 text-[9px] block">/ person (max 4)</span>
-                                      </>
-                                    ) : pkg.id === 'exclusive-romantic-zone-7' ? (
-                                      <>
-                                        <span className="text-base font-bold text-[#b1b94c]">฿1,000</span>
-                                        <span className="text-white/30 text-[9px] block">/ person (max 4)</span>
-                                      </>
-                                    ) : pkg.id === 'zone-7' ? (
-                                      <>
-                                        <span className="text-base font-bold text-[#b1b94c]">฿1,000</span>
-                                        <span className="text-white/30 text-[9px] block">/ person (up to 50)</span>
-                                      </>
-                                    ) : pkg.id === 'zone-6' ? (
-                                      <>
-                                        <span className="text-base font-bold text-[#b1b94c]">฿1,000</span>
-                                        <span className="text-white/30 text-[9px] block">/ person (up to 50)</span>
-                                      </>
-                                    ) : pkg.id === 'rooftop-romantic' ? (
-                                      <>
-                                        <span className="text-base font-bold text-[#b1b94c]">฿1,000</span>
-                                        <span className="text-white/30 text-[9px] block">/ person (up to 40)</span>
-                                      </>
-                                    ) : pkg.id === 'monkey-hilltop' ? (
-                                      <>
-                                        <span className="text-base font-bold text-[#b1b94c]">฿1,000</span>
-                                        <span className="text-white/30 text-[9px] block">/ person (2-4)</span>
-                                      </>
-                                    ) : pkg.id === 'indoor-seat' || pkg.id === 'outdoor-seat' ? (
-                                      <>
-                                        <span className="text-base font-bold text-[#b1b94c]">฿1,000</span>
-                                        <span className="text-white/30 text-[9px] block">/ person (open)</span>
-                                      </>
-                                    ) : (
-                                      <>
-                                        <span className="text-base font-bold text-[#b1b94c]">฿1,000</span>
-                                        <span className="text-white/30 text-[9px] block">/ person</span>
-                                      </>
-                                    )}
+                                    <span className="text-base font-bold text-[#b1b94c]">{formatPrice(priceOf(pkg))}</span>
+                                    <span className="text-white/30 text-[9px] block">{seatUnitLabel(pkg.id)}</span>
                                   </div>
                                 </div>
                               </div>
@@ -938,7 +901,7 @@ function BookingContent() {
                                   )}
                                   <div className="text-right mt-auto">
                                     <span className="text-[10px] text-white/40 uppercase tracking-wider block">Package</span>
-                                    <span className="text-base font-bold text-amber-400">{formatPrice(pkg.price)}</span>
+                                    <span className="text-base font-bold text-amber-400">{formatPrice(priceOf(pkg))}</span>
                                     <span className="text-white/30 text-[9px] block">total</span>
                                   </div>
                                 </div>
@@ -952,7 +915,12 @@ function BookingContent() {
 
                   {/* Quick Select Grid */}
                   {!selectedPackage && (
-                    <QuickSelectGrid onSelect={handleSelectPackage} />
+                    <QuickSelectGrid
+                      onSelect={handleSelectPackage}
+                      seatPackages={seatPackages}
+                      specialPackages={specialPackages}
+                      priceOf={priceOf}
+                    />
                   )}
                 </div>
               </motion.div>
@@ -991,6 +959,7 @@ function BookingContent() {
                             onChange={setSelectedDate}
                             minDate={minBookingDate}
                             restrictedDates={alcoholRestrictedDates}
+                            blockedDates={blockedDatesForSelected}
                           />
                           {isSpecialPackage(selectedPackageId) && (
                             <p className="text-amber-400/70 text-xs mt-2 flex items-center gap-1.5">
@@ -1152,7 +1121,7 @@ function BookingContent() {
                                       ? 'Fixed rate (max 6 guests)'
                                       : isFixedPricePackage(selectedPackageId) 
                                       ? 'Fixed rate package' 
-                                      : `฿${DEPOSIT_PER_PERSON} × ${guestCount} ${guestCount === 1 ? 'person' : 'persons'}`}
+                                      : `฿${priceOf(selectedPackage).toLocaleString()} × ${guestCount} ${guestCount === 1 ? 'person' : 'persons'}`}
                                   </p>
                                 </div>
                               </div>

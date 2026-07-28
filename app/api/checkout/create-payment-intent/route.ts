@@ -5,6 +5,12 @@ import { getZoneForPackage } from '@/lib/allotment/zones';
 import { getClientIP, getGeoFromIP } from '@/lib/geo/ip-lookup';
 import { getPackageById } from '@/lib/data/packages';
 import { getAddonById, isFixedPricePackage } from '@/lib/data/addons';
+import { fetchPackageControls } from '@/lib/data/package-controls-server';
+import {
+  isPackageDisabled,
+  isPackageDateBlocked,
+  getEffectivePrice,
+} from '@/lib/data/package-controls';
 
 interface BookingData {
   packageId: string;
@@ -75,6 +81,32 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Admin dashboard controls: disabled packages, per-date blocks, and
+    // price overrides (see Admin -> Packages & Pricing). Enforced server-side
+    // so a stale client can never book a disabled package or pay an old price.
+    const packageControls = await fetchPackageControls();
+
+    if (isPackageDisabled(packageId, packageControls)) {
+      console.warn('Attempt to book admin-disabled package:', packageId);
+      return NextResponse.json(
+        { error: 'This package is currently unavailable for booking.' },
+        { status: 409 }
+      );
+    }
+
+    if (isPackageDateBlocked(packageId, date, packageControls)) {
+      console.warn('Attempt to book package on blocked date:', packageId, date);
+      return NextResponse.json(
+        { error: 'This package is not available on the selected date. Please choose another date.' },
+        { status: 409 }
+      );
+    }
+
+    // Current sale price (admin override or catalog default). This is
+    // snapshotted into bookings.total_amount below — existing bookings are
+    // never affected by later price changes.
+    const packagePrice = getEffectivePrice(packageId, packageData.price, packageControls);
+
     // Resolve addon details from the shared local catalog (kept in sync with
     // the checkout UI in lib/data/addons.ts).
     const requestedAddons = Object.entries(promoAddons)
@@ -90,8 +122,8 @@ export async function POST(request: NextRequest) {
     // priced per guest. This mirrors the booking/checkout UI logic so the
     // server-side amount matches what the customer was quoted.
     let totalAmount = isFixedPricePackage(packageId)
-      ? packageData.price
-      : packageData.price * guests;
+      ? packagePrice
+      : packagePrice * guests;
 
     // Add addons cost
     for (const addon of requestedAddons) {

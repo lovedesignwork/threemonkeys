@@ -14,6 +14,7 @@ import { Link } from '@/i18n/navigation';
 import CountryPhoneSelector from '@/components/ui/CountryPhoneSelector';
 import { packages } from '@/lib/data/packages';
 import { formatPrice } from '@/lib/utils';
+import { usePackageControls } from '@/hooks/usePackageControls';
 import StripeCardProvider from '@/components/checkout/StripeCardProvider';
 import EmbeddedCardForm from '@/components/checkout/EmbeddedCardForm';
 
@@ -45,7 +46,10 @@ const VVIP_TRANSFER_PRICE = 2500;
 
 function CheckoutContent() {
   const searchParams = useSearchParams();
-  
+
+  // Admin-controlled availability + price overrides
+  const { loaded: controlsLoaded, priceOf, isDisabled, isDateBlocked } = usePackageControls();
+
   // Parse booking data from URL params
   const packageId = searchParams.get('package');
   const date = searchParams.get('date');
@@ -116,11 +120,14 @@ function CheckoutContent() {
   // Price calculations - Fixed price for special packages
   const prices = useMemo(() => {
     if (!selectedPackage) return { base: 0, addons: 0, transfer: 0, discount: 0, subtotal: 0, total: 0 };
-    
+
+    // Effective price = admin override when set, catalog price otherwise
+    const packagePrice = priceOf(selectedPackage);
+
     // Fixed price for special and per-table packages
-    const base = isFixedPricePackage(selectedPackage.id) 
-      ? selectedPackage.price 
-      : selectedPackage.price * guests;
+    const base = isFixedPricePackage(selectedPackage.id)
+      ? packagePrice
+      : packagePrice * guests;
 
     let addonsTotal = 0;
     Object.entries(addonQuantities).forEach(([addonId, qty]) => {
@@ -143,7 +150,7 @@ function CheckoutContent() {
       subtotal,
       total: Math.max(0, subtotal - discountAmount)
     };
-  }, [selectedPackage, guests, addonQuantities, transfer, discountAmount]);
+  }, [selectedPackage, guests, addonQuantities, transfer, discountAmount, priceOf]);
 
   // Format date for display
   const formatDisplayDate = (dateString: string) => {
@@ -302,6 +309,35 @@ function CheckoutContent() {
           <Link href="/booking">
             <button className="px-8 py-4 bg-[#b1b94c] hover:bg-[#c4cc5a] text-black font-[family-name:var(--font-krona)] rounded-xl transition-colors">
               Go to Booking
+            </button>
+          </Link>
+        </div>
+      </main>
+    );
+  }
+
+  // Package disabled by admin, or the chosen date is blocked for this
+  // package. The server rejects these bookings anyway; this just gives the
+  // customer a clear message instead of a payment failure.
+  if (controlsLoaded && (isDisabled(selectedPackage.id) || isDateBlocked(selectedPackage.id, date))) {
+    const dateBlocked = !isDisabled(selectedPackage.id);
+    return (
+      <main className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
+        <div className="max-w-lg mx-auto text-center px-4">
+          <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6">
+            <AlertCircle className="w-10 h-10 text-amber-400" />
+          </div>
+          <h1 className="text-2xl font-[family-name:var(--font-krona)] text-white mb-4 normal-case">
+            {dateBlocked ? 'Not Available on This Date' : 'Package Unavailable'}
+          </h1>
+          <p className="text-white/60 mb-8">
+            {dateBlocked
+              ? `${selectedPackage.name} is not available on the selected date. Please choose a different date.`
+              : `${selectedPackage.name} is currently unavailable for booking. Please choose another package.`}
+          </p>
+          <Link href="/booking">
+            <button className="px-8 py-4 bg-[#b1b94c] hover:bg-[#c4cc5a] text-black font-[family-name:var(--font-krona)] rounded-xl transition-colors">
+              Back to Booking
             </button>
           </Link>
         </div>
@@ -615,7 +651,7 @@ function CheckoutContent() {
                           <p className="text-white/40 text-xs">
                             {isFixedPricePackage(selectedPackage.id) 
                               ? `Package Price (${guests} ${guests === 1 ? 'guest' : 'guests'})`
-                              : `${guests} ${guests === 1 ? 'guest' : 'guests'} × ${formatPrice(selectedPackage.price)}`
+                              : `${guests} ${guests === 1 ? 'guest' : 'guests'} × ${formatPrice(priceOf(selectedPackage))}`
                             }
                           </p>
                         </div>

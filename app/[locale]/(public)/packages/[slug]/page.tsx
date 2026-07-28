@@ -62,6 +62,7 @@ const getIconForInclusion = (text: string, index: number): LucideIcon => {
 import { formatPrice } from '@/lib/utils';
 import { notFound } from 'next/navigation';
 import { useState } from 'react';
+import { usePackageControls } from '@/hooks/usePackageControls';
 
 export default function PackagePage() {
   const params = useParams();
@@ -69,12 +70,15 @@ export default function PackagePage() {
   const pkg = getPackageBySlug(slug);
   const [activeImage, setActiveImage] = useState(0);
   const t = useTranslations('packageDetailPage');
+  const { priceOf, isDisabled } = usePackageControls();
 
   if (!pkg || pkg.suspended) {
     notFound();
   }
 
-  const otherPackages = packages.filter(p => p.id !== pkg.id && p.category !== 'transfer' && !p.suspended).slice(0, 3);
+  const otherPackages = packages
+    .filter(p => p.id !== pkg.id && p.category !== 'transfer' && !p.suspended && !isDisabled(p.id))
+    .slice(0, 3);
   
   // Gallery images (use package gallery if available, otherwise default images)
   const galleryImages = pkg.gallery && pkg.gallery.length > 0 
@@ -657,7 +661,7 @@ export default function PackagePage() {
                     <span className="text-black/60 text-sm">{t('startingFrom')}</span>
                     <div className="flex items-baseline gap-2">
                       <span className="text-4xl font-[family-name:var(--font-krona)] text-black">
-                        {formatPrice(pkg.price)}
+                        {formatPrice(priceOf(pkg))}
                       </span>
                       <span className="text-black/60">
                         {pkg.priceType === 'per-person' ? t('perPerson') : t('perTable')}
@@ -805,7 +809,7 @@ export default function PackagePage() {
                         {otherPkg.name}
                       </h3>
                       <div className="flex items-center justify-between mt-2">
-                        <span className="text-[#b1b94c] font-bold">{formatPrice(otherPkg.price)}</span>
+                        <span className="text-[#b1b94c] font-bold">{formatPrice(priceOf(otherPkg))}</span>
                         <span className="text-white/60 text-sm">{otherPkg.duration}</span>
                       </div>
                     </div>

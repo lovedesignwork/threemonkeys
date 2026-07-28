@@ -9,14 +9,16 @@ import { getSpecialPackages } from '@/lib/data/packages';
 import { formatPrice } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
 import { useTranslatedPackage } from '@/hooks/useTranslatedPackage';
+import { usePackageControls } from '@/hooks/usePackageControls';
 
 export default function SpecialPackagesPage() {
   const t = useTranslations('specialPackagesPage');
   const { getTranslatedPackage } = useTranslatedPackage();
+  const { priceOf, isDisabled } = usePackageControls();
   const specialPackages = useMemo(() => {
-    const packages = getSpecialPackages();
+    const packages = getSpecialPackages().filter(pkg => !isDisabled(pkg.id));
     return packages.map(pkg => getTranslatedPackage(pkg));
-  }, [getTranslatedPackage]);
+  }, [getTranslatedPackage, isDisabled]);
   
   // Scroll to top on page mount
   useEffect(() => {
@@ -138,7 +140,7 @@ export default function SpecialPackagesPage() {
                         <span className="text-white/40 text-xs uppercase tracking-wider block mb-1">{t('packagePrice')}</span>
                         <div className="flex items-baseline gap-1">
                           <span className="text-3xl font-bold text-[#b1b94c] font-[family-name:var(--font-krona)]">
-                            {formatPrice(pkg.price)}
+                            {formatPrice(priceOf(pkg))}
                           </span>
                           <span className="text-white/40 text-sm">{t('total')}</span>
                         </div>

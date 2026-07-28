@@ -7,6 +7,7 @@ import { Utensils, Bus, Clock, Users, ArrowRight, Star, Check } from 'lucide-rea
 import { Container, Section } from '@/components/ui';
 import { packages as allPackages } from '@/lib/data/packages';
 import { formatPrice } from '@/lib/utils';
+import { usePackageControls } from '@/hooks/usePackageControls';
 
 const statLabels: Record<string, string> = {
   courses: 'Courses',
@@ -18,7 +19,8 @@ const statLabels: Record<string, string> = {
 };
 
 export default function CombinedPackagesPage() {
-  const packages = allPackages.filter(pkg => pkg.category !== 'transfer' && !pkg.suspended);
+  const { priceOf, isDisabled } = usePackageControls();
+  const packages = allPackages.filter(pkg => pkg.category !== 'transfer' && !pkg.suspended && !isDisabled(pkg.id));
 
   return (
     <main className="min-h-screen">
@@ -142,7 +144,7 @@ Explore our complete range of dining packages. From tasting menus to cooking cla
                         <div>
                           <span className="text-white/60 text-sm">Starting from</span>
                           <div className="text-3xl font-bold text-[#b1b94c]">
-                            {formatPrice(pkg.price)}
+                            {formatPrice(priceOf(pkg))}
                             <span className="text-lg text-white/60 font-normal"> / person</span>
                           </div>
                         </div>

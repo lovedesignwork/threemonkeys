@@ -1,13 +1,15 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Calendar, AlertTriangle } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Calendar, AlertTriangle, Ban } from 'lucide-react';
 
 interface CalendarPickerProps {
   value: string;
   onChange: (date: string) => void;
   minDate?: string;
   restrictedDates?: string[];
+  /** Dates ('YYYY-MM-DD') that cannot be selected at all (fully booked / admin blocked). */
+  blockedDates?: string[];
 }
 
 const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -16,7 +18,7 @@ const MONTHS = [
   'July', 'August', 'September', 'October', 'November', 'December'
 ];
 
-export function CalendarPicker({ value, onChange, minDate, restrictedDates = [] }: CalendarPickerProps) {
+export function CalendarPicker({ value, onChange, minDate, restrictedDates = [], blockedDates = [] }: CalendarPickerProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(() => {
     if (value) {
@@ -83,16 +85,23 @@ export function CalendarPicker({ value, onChange, minDate, restrictedDates = [] 
     );
   };
 
-  const isDateRestricted = (day: number) => {
+  const toDateString = (day: number) => {
     const year = currentMonth.getFullYear();
     const month = String(currentMonth.getMonth() + 1).padStart(2, '0');
     const dayStr = String(day).padStart(2, '0');
-    const dateString = `${year}-${month}-${dayStr}`;
-    return restrictedDates.includes(dateString);
+    return `${year}-${month}-${dayStr}`;
+  };
+
+  const isDateRestricted = (day: number) => {
+    return restrictedDates.includes(toDateString(day));
+  };
+
+  const isDateBlocked = (day: number) => {
+    return blockedDates.includes(toDateString(day));
   };
 
   const handleDateSelect = (day: number) => {
-    if (isDateDisabled(day)) return;
+    if (isDateDisabled(day) || isDateBlocked(day)) return;
     const year = currentMonth.getFullYear();
     const month = String(currentMonth.getMonth() + 1).padStart(2, '0');
     const dayStr = String(day).padStart(2, '0');
@@ -170,7 +179,8 @@ export function CalendarPicker({ value, onChange, minDate, restrictedDates = [] 
             {/* Day buttons */}
             {Array.from({ length: daysInMonth }).map((_, i) => {
               const day = i + 1;
-              const disabled = isDateDisabled(day);
+              const blocked = isDateBlocked(day);
+              const disabled = isDateDisabled(day) || blocked;
               const selected = isDateSelected(day);
               const todayDate = isToday(day);
               const restricted = isDateRestricted(day);
@@ -187,19 +197,24 @@ export function CalendarPicker({ value, onChange, minDate, restrictedDates = [] 
                         ? restricted
                           ? 'bg-amber-500 text-black font-semibold'
                           : 'bg-[#b1b94c] text-black font-semibold' 
-                        : disabled 
-                          ? 'text-white/20 cursor-not-allowed' 
-                          : restricted
-                            ? 'text-amber-400 hover:bg-amber-500/20 hover:text-amber-300 cursor-pointer'
-                            : 'text-white/70 hover:bg-[#b1b94c]/20 hover:text-[#b1b94c] cursor-pointer'
+                        : blocked
+                          ? 'text-red-400/40 line-through cursor-not-allowed'
+                          : disabled 
+                            ? 'text-white/20 cursor-not-allowed' 
+                            : restricted
+                              ? 'text-amber-400 hover:bg-amber-500/20 hover:text-amber-300 cursor-pointer'
+                              : 'text-white/70 hover:bg-[#b1b94c]/20 hover:text-[#b1b94c] cursor-pointer'
                       }
                       ${todayDate && !selected ? 'ring-2 ring-[#b1b94c]/50' : ''}
                     `}
-                    title={restricted ? 'Alcohol restricted date' : undefined}
+                    title={blocked ? 'Not available on this date' : restricted ? 'Alcohol restricted date' : undefined}
                   >
                     {day}
                   </button>
-                  {restricted && !disabled && (
+                  {blocked && (
+                    <Ban className="absolute -top-0.5 -right-0.5 w-3 h-3 text-red-400" />
+                  )}
+                  {restricted && !disabled && !blocked && (
                     <AlertTriangle className="absolute -top-0.5 -right-0.5 w-3 h-3 text-amber-400" />
                   )}
                 </div>
@@ -221,6 +236,12 @@ export function CalendarPicker({ value, onChange, minDate, restrictedDates = [] 
               <div className="flex items-center gap-2">
                 <AlertTriangle className="h-3 w-3 text-amber-400" />
                 <span className="text-white/50">Alcohol Restricted</span>
+              </div>
+            )}
+            {blockedDates.length > 0 && (
+              <div className="flex items-center gap-2">
+                <Ban className="h-3 w-3 text-red-400" />
+                <span className="text-white/50">Unavailable</span>
               </div>
             )}
           </div>

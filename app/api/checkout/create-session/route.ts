@@ -2,6 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { stripe, PRIVATE_TRANSFER_PRICE, NON_PLAYER_PRICE } from '@/lib/stripe/client';
 import { supabaseAdmin } from '@/lib/supabase/server';
 import Stripe from 'stripe';
+import { fetchPackageControls } from '@/lib/data/package-controls-server';
+import {
+  isPackageDisabled,
+  isPackageDateBlocked,
+  getEffectivePrice,
+} from '@/lib/data/package-controls';
 
 interface BookingData {
   packageId: string;
@@ -54,12 +60,31 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Package not found' }, { status: 404 });
     }
 
+    // Enforce admin availability + pricing controls (same as create-payment-intent).
+    const packageControls = await fetchPackageControls();
+
+    if (isPackageDisabled(packageId, packageControls)) {
+      return NextResponse.json(
+        { error: 'This package is currently unavailable for booking.' },
+        { status: 409 }
+      );
+    }
+
+    if (isPackageDateBlocked(packageId, date, packageControls)) {
+      return NextResponse.json(
+        { error: 'This package is not available on the selected date. Please choose another date.' },
+        { status: 409 }
+      );
+    }
+
+    const packagePrice = getEffectivePrice(packageId, packageData.price, packageControls);
+
     const { data: addonsData } = await supabaseAdmin
       .from('promo_addons')
       .select('*')
       .in('id', Object.keys(promoAddons));
 
-    let totalAmount = packageData.price * guests;
+    let totalAmount = packagePrice * guests;
 
     const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = [
       {
@@ -69,7 +94,7 @@ export async function POST(request: NextRequest) {
             name: packageData.name,
             description: `${packageData.duration} - ${date} at ${time}`,
           },
-          unit_amount: packageData.price * 100,
+          unit_amount: packagePrice * 100,
         },
         quantity: guests,
       },

@@ -9,11 +9,16 @@ import { getSpecialPackages } from '@/lib/data/packages';
 import { formatPrice } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
 import { useTranslatedPackage } from '@/hooks/useTranslatedPackage';
+import { usePackageControls } from '@/hooks/usePackageControls';
 
 export function SpecialPackages() {
   const t = useTranslations('home.packages');
   const { getTranslatedPackage } = useTranslatedPackage();
-  const specialPackages = useMemo(() => getSpecialPackages().map(getTranslatedPackage), [getTranslatedPackage]);
+  const { priceOf, isDisabled } = usePackageControls();
+  const specialPackages = useMemo(
+    () => getSpecialPackages().filter(pkg => !isDisabled(pkg.id)).map(getTranslatedPackage),
+    [getTranslatedPackage, isDisabled]
+  );
 
   return (
     <section className="relative py-24 bg-[#0f0f0f] overflow-hidden">
@@ -109,7 +114,7 @@ export function SpecialPackages() {
                       <span className="text-white/40 text-xs uppercase tracking-wider block mb-1">{t('packagePrice')}</span>
                       <div className="flex items-baseline gap-1">
                         <span className="text-3xl font-bold text-[#b1b94c] font-[family-name:var(--font-krona)]">
-                          {formatPrice(pkg.price)}
+                          {formatPrice(priceOf(pkg))}
                         </span>
                         <span className="text-white/40 text-sm">{t('total')}</span>
                       </div>

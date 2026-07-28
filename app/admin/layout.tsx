@@ -24,6 +24,7 @@ import {
   PanelLeftClose,
   PanelLeft,
   Grid3x3,
+  Sparkles,
 } from 'lucide-react';
 import { AuthProvider, useAuth } from '@/contexts/AuthContext';
 import { setAdminFlagCookie } from '@/lib/supabase/auth';
@@ -46,6 +47,7 @@ const navItems: NavItem[] = [
   { href: '/admin/bookings', label: 'Bookings', icon: CalendarCheck },
   { href: '/admin/allotment', label: 'Allotment', icon: Grid3x3 },
   { href: '/admin/products', label: 'Products', icon: Package },
+  { href: '/admin/packages', label: 'Packages & Pricing', icon: Sparkles },
   { href: '/admin/addons', label: 'Add-ons', icon: Gift },
   { href: '/admin/promo-codes', label: 'Promo Codes', icon: Tag },
   { href: '/admin/blog', label: 'Blog', icon: FileText, writerAllowed: true },
