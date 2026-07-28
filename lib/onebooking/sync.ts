@@ -27,6 +27,38 @@ function sleep(ms: number): Promise<void> {
 }
 
 /**
+ * The paid "Private Transfer Round Trip" upsell lives in booking_transport
+ * (transport_type 'private'), not booking_addons, so it never appeared in
+ * OneBooking's add-on list. Mirror it there as a synthetic line so ops can
+ * see the purchase and the pickup address; the pickup goes in `name`
+ * because AddonData has no detail field. `transport` still carries the
+ * same values, so this is additive and intentionally duplicated.
+ */
+export function buildPrivateTransferAddon(transport: TransportData): AddonData | null {
+  if (transport.type !== 'private') return null;
+
+  const parts = ['Private Transfer Round Trip (Commuter Van, Max 10 Pax)'];
+
+  if (transport.private_passengers > 0) {
+    parts.push(`${transport.private_passengers} pax`);
+  }
+
+  const hotel = transport.hotel_name?.trim();
+  const room = transport.room_number?.trim();
+  if (hotel) {
+    parts.push(`Pickup: ${hotel}${room ? ` (Room ${room})` : ''}`);
+  } else {
+    parts.push('Pickup: not provided — confirm with guest');
+  }
+
+  return {
+    name: parts.join(' — '),
+    quantity: 1,
+    unit_price: transport.cost,
+  };
+}
+
+/**
  * Build the sync payload from booking data
  */
 export function buildSyncPayload(
@@ -316,6 +348,11 @@ export async function pushBookingToOneBooking(
     quantity: addon.quantity,
     unit_price: addon.unit_price,
   }));
+
+  const privateTransferAddon = buildPrivateTransferAddon(transport);
+  if (privateTransferAddon) {
+    addons.unshift(privateTransferAddon);
+  }
 
   const payload = buildSyncPayload(
     event,
