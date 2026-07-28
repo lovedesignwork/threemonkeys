@@ -22,7 +22,9 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY,
 );
 
-// Mirror of PROMOTIONAL_ADDONS in lib/data/addons.ts. Keep these in sync.
+// Mirror of allAddons in lib/data/addons.ts. Keep these in sync. This only
+// upserts, so the retired `private-transfer` row stays in place on existing
+// databases (it is no longer selectable anywhere).
 const addons = [
   {
     id: 'violin-dinner',
@@ -55,12 +57,6 @@ const addons = [
     description:
       'Brownies Cake 1 Piece | 1 Set of Balloons Pole. Make your birthday extra special at Three Monkeys.',
     price: 1200,
-  },
-  {
-    id: 'private-transfer',
-    name: 'Private Round-Trip Transfer',
-    description: 'Private round-trip transfer to and from Three Monkeys.',
-    price: 2000,
   },
 ];
 

@@ -15,8 +15,7 @@ import {
   Music,
   Flame,
   Heart,
-  Gift,
-  Car
+  Gift
 } from 'lucide-react';
 import { allAddons, type Addon } from '@/lib/data/addons';
 import { adminGet as fetchGet, adminPost as fetchPost } from '@/lib/auth/api-client';
@@ -27,7 +26,6 @@ const iconMap: Record<string, React.ElementType> = {
   'spark-fountain': Flame,
   'honeymoon-anniversary': Heart,
   'birthday-mini': Gift,
-  'private-transfer': Car,
 };
 
 export default function AddonsPage() {

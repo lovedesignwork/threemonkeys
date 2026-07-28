@@ -24,7 +24,6 @@ const addonIconMap: Record<string, React.ElementType> = {
   'spark-fountain': Flame,
   'honeymoon-anniversary': Heart,
   'birthday-mini': Gift,
-  'private-transfer': Car,
 };
 
 // Time slot configurations based on seat type

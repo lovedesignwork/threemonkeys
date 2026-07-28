@@ -39,7 +39,6 @@ const promotionalAddons = [
   { id: 'spark-fountain', name: 'Spark Fountain & Smoke Machine', price: 2500, icon: Flame },
   { id: 'honeymoon-anniversary', name: 'Honeymoon Anniversary', price: 1999, icon: Heart },
   { id: 'birthday-mini', name: 'Birthday Mini', price: 1200, icon: Gift },
-  { id: 'private-transfer', name: 'Private Round-Trip Transfer', price: 2000, icon: Car },
 ];
 
 const VVIP_TRANSFER_PRICE = 2500;

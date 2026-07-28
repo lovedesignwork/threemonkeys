@@ -9,6 +9,10 @@ export interface Addon {
   image: string;
 }
 
+// Private transfer is deliberately absent: it is sold through the Private
+// Transfer Round Trip toggle on the booking page (VVIP_TRANSFER_PRICE, stored
+// in booking_transport), so a catalog entry here would let guests buy it twice
+// at a stale price.
 export const allAddons: Addon[] = [
   {
     id: 'violin-dinner',
@@ -54,15 +58,6 @@ export const allAddons: Addon[] = [
     originalPrice: null,
     discount: null,
     image: '/images/by_slide/slide_07/threemonkeys_addon2.jpg',
-  },
-  {
-    id: 'private-transfer',
-    name: 'Private Round-Trip Transfer',
-    description: 'Maximum 10 Passengers / Van. *Note: Service applied in Phuket Area except for pick up from Phuket International Airport.',
-    price: 2000,
-    originalPrice: null,
-    discount: null,
-    image: '/images/by_slide/slide_07/threemonkeys_addon5.jpg',
   },
 ];
 
