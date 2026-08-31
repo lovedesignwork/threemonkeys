@@ -54,30 +54,30 @@ const foodCategories: MenuCategory[] = [
       { name: 'Fish And Chips', nameThai: 'ฟิชแอนด์ชิปส์', price: 390 },
       { name: 'Fish Fingers Served With Potato Wedges', nameThai: 'ฟิชฟิงเกอร์เสิร์ฟคู่มันฝรั่งทอด', price: 190 },
       { name: 'French Fries', nameThai: 'เฟรนช์ฟรายส์', price: 90 },
+      { name: 'Mashed Potato', nameThai: 'มันบดเนื้อครีม', price: 90 },
+      { name: 'Potato Wedges', nameThai: 'เวดจ์มันฝรั่ง', price: 90 },
       { name: 'Tuna Steak Served With Mango Salad', nameThai: 'สเต็กทูน่าเสิร์ฟคู่กับมะม่วงสลัด', price: 490 },
-      { name: 'Australian Tenderloin Steak With Grilled Vegetables And Potatoes', nameThai: 'สเต็กเนื้อ เสิร์ฟคู่กับผักย่างและมันฝรั่งทอด', price: 890 },
+      { name: 'Australian Tenderloin Steak With Grilled Vegetables And Potatoes, Served With Pepper Sauce', nameThai: 'สเต็กเนื้อ เสิร์ฟคู่กับผักย่างและมันฝรั่งทอด', price: 890, image: 'Australian Tenderloin Steak With Grilled Vegetables And Potatoes' },
       { name: 'Norwegian Salmon Steak Served With Pomelo Salad', nameThai: 'สเต็กปลาแซลมอนเสิร์ฟคู่กับยำส้มโอ', price: 390 },
       { name: 'Spaghetti Seafood In Tomato Sauce', nameThai: 'สปาเก็ตตี้ซีฟู้ด', price: 490 },
       { name: 'Spaghetti Beef Bolognese', nameThai: 'สปาเก็ตตี้โบโลเนส', price: 390 },
       { name: 'Grilled Australian Beef Tenderloin With Spicy Chili Paste', nameThai: 'เสือร้องไห้', price: 890 },
-      { name: 'Tom Yum Gung Seafood Spicy Sour Soup', nameThai: 'ต้มยำกุ้ง-ซีฟู้ด', price: 290 },
+      { name: 'Chicken Burger Served With Potato Wedges', nameThai: 'เบอร์เกอร์ไก่เสิร์ฟคู่มันฝรั่งทอด', price: 320 },
+      { name: 'Crispy Shrimp Burger Served With Potato Wedges', nameThai: 'เบอร์เกอร์คริปปี้กุ้งเสิร์ฟคู่มันฝรั่งทอด', price: 350 },
+      { name: 'Beef Burger Served With French Fries', nameThai: 'เบอร์เกอร์เนื้อเสิร์ฟคู่เฟรนซ์ฟรายส์', price: 390 },
+      { name: 'Tom Yum Gung / Seafood Spicy Sour Soup With Prawns / Seafood', nameThai: 'ต้มยำกุ้ง-ซีฟู้ด', price: 290, image: 'Tom Yum Gung Seafood Spicy Sour Soup' },
       { name: 'Calamari', nameThai: 'คาลามารี', price: 220 },
       { name: 'Soft Prawn Taco', nameThai: 'ทาโก้กุ้ง', price: 350 },
       { name: 'Soft Beef Taco', nameThai: 'ทาโก้เนื้อ', price: 450 },
-      { name: 'Wanon BBQ Half Chicken', nameThai: 'ไก่ย่างวานร', price: 350 },
+      { name: 'Deep Fried Vegetables Spring Rolls', nameThai: 'ปอเปี๊ยะไส้ผัก', price: 150 },
+      { name: 'Chicken Fingers Served With French Fries', nameThai: 'ชิคเก้นฟิงเกอร์เสิร์ฟคู่เฟรนช์ฟรายส์', price: 190 },
+      { name: 'Corn On The Cob', nameThai: 'ข้าวโพดย่าง', price: 90 },
+      { name: 'Tom Yum Fried Rice With Prawns', nameThai: 'ข้าวผัดต้มยำกุ้ง', price: 190 },
+      { name: '"Wanon" BBQ Half Chicken', nameThai: 'ไก่ย่างวานร', price: 350, image: 'Wanon BBQ Half Chicken' },
       { name: 'Caesar Salad', nameThai: 'ซีซ่าสลัด', price: 290 },
       { name: 'Whole Chicken Stuffed With Chestnut And Rice', nameThai: 'ไก่ชูชก', price: 590 },
       { name: 'The Notorious Beef Short Ribs', nameThai: 'เนื้อซี่โครงวัวผัดเครื่องแกงสไตล์บาหลี', price: 550 },
       { name: 'Inspired Braised Lamb Shank', nameThai: 'ขาแกะเคี่ยวซอสสไตล์กีลีมานุก', price: 450 },
-      { name: 'Chicken Burger Served With Potato Wedges', nameThai: 'เบอร์เกอร์ไก่เสิร์ฟคู่มันฝรั่งทอด', price: 320 },
-      { name: 'Beef Burger Served With French Fries', nameThai: 'เบอร์เกอร์เนื้อเสิร์ฟคู่เฟรนซ์ฟรายส์', price: 390 },
-      { name: 'Crispy Shrimp Burger Served With Potato Wedges', nameThai: 'เบอร์เกอร์คริปปี้กุ้งเสิร์ฟคู่มันฝรั่งทอด', price: 350 },
-      { name: 'Chicken Fingers Served With French Fries', nameThai: 'ชิคเก้นฟิงเกอร์เสิร์ฟคู่เฟรนช์ฟรายส์', price: 190 },
-      { name: 'Tom Yum Fried Rice With Prawns', nameThai: 'ข้าวผัดต้มยำกุ้ง', price: 190 },
-      { name: 'Corn On The Cob', nameThai: 'ข้าวโพดย่าง', price: 90 },
-      { name: 'Potato Wedges', nameThai: 'เวดจ์มันฝรั่ง', price: 90 },
-      { name: 'Mashed Potato', nameThai: 'มันบดเนื้อครีม', price: 90 },
-      { name: 'Deep Fried Vegetables Spring Rolls', nameThai: 'ปอเปี๊ยะไส้ผัก', price: 150 },
     ]
   },
   {
@@ -89,54 +89,56 @@ const foodCategories: MenuCategory[] = [
       { name: 'Grilled Australian Beef Tenderloin With Spicy Chili Paste', nameThai: 'เสือร้องไห้', price: 890 },
       { name: 'Whole Chicken Stuffed With Chestnut And Rice', nameThai: 'ไก่ชูชก', price: 590 },
       { name: 'Baked Fish With Herbs In Bamboo', nameThai: 'ข้าวหมกปลาในกระบอกไม้ไผ่', price: 390 },
-      { name: 'Coconut Milk Soup With Prawns Served With Minced Shrimps Dip Paste', nameThai: 'หนุมานประสานกาย', price: 350 },
-      { name: 'Wanon BBQ Half Chicken', nameThai: 'ไก่ย่างวานร', price: 350 },
+      { name: 'Coconut Milk Soup With Prawns, Served With Minced Shrimps Dip Paste', nameThai: 'หนุมานประสานกาย', price: 350, image: 'Coconut Milk Soup With Prawns Served With Minced Shrimps Dip Paste' },
+      { name: '"Wanon" BBQ Half Chicken', nameThai: 'ไก่ย่างวานร', price: 350, image: 'Wanon BBQ Half Chicken' },
       { name: 'Steamed Sweet Pork Belly In Black Soy Sauce', nameThai: 'หมูอบอาณาจักร', price: 290 },
       { name: 'Prawns Salad With Tom Yum Paste', nameThai: 'กุ้งลงกา (กุ้งต้มยำแห้ง)', price: 290 },
-      { name: 'Stir Fried Minced Pork or Chicken With Yellow Curry Paste', nameThai: 'หนุมานคลุกฝุ่นหมู / ไก่', price: 250 },
+      { name: 'Stir Fried Minced Pork / Chicken With Yellow Curry Paste', nameThai: 'หนุมานคลุกฝุ่นหมู / ไก่', price: 250, image: 'Stir Fried Minced Pork or Chicken With Yellow Curry Paste' },
       { name: 'Wanon Green Papaya Salad With Banana Blossom', nameThai: 'ส้มตำวานร', price: 190 },
       { name: 'Steamed Mushrooms In Bamboo Thai Style', nameThai: 'เห็ดหมก', price: 190 },
       { name: 'Roasted Spicy Pork Ribs', nameThai: 'กระดูกหมูอ่อนคั่ว', price: 190 },
       { name: 'Deep Fried Prawns Cake', nameThai: 'ทอดมันกุ้ง', price: 250 },
-      { name: 'Mixed Beans And Nuts With Dried Shrimps', nameThai: 'ยำถั่วรวม', price: 150 },
+      { name: 'Mixed Beans & Nuts With Dried Shrimps', nameThai: 'ยำถั่วรวม', price: 150, image: 'Mixed Beans And Nuts With Dried Shrimps' },
       { name: 'Deep Fried Vegetables Spring Rolls', nameThai: 'ปอเปี๊ยะไส้ผัก', price: 150 },
-      { name: 'Sour And Spicy Fresh Salmon And Lemongrass Salad', nameThai: 'พล่าแซลมอน', price: 290 },
+      { name: 'Sour & Spicy Fresh Salmon And Lemongrass Salad', nameThai: 'พล่าแซลมอน', price: 290, image: 'Sour And Spicy Fresh Salmon And Lemongrass Salad' },
       { name: 'Spicy Crispy Banana Blossom Salad With Prawns', nameThai: 'ยำทรีมังกี้ส์ (ยำหัวปลีกรอบ)', price: 290 },
-      { name: 'Local Vegetables Platter With Mackerel Chili Dip Paste', nameThai: 'น้ำพริกปลาทู', price: 220 },
-      { name: 'Local Vegetables Platter With Dried Crispy Shrimps Dip Paste', nameThai: 'น้ำพริกกุ้งเสียบ', price: 220 },
-      { name: 'Tom Yum Gung Seafood Spicy Sour Soup', nameThai: 'ต้มยำกุ้ง - ซีฟู้ด', price: 290 },
-      { name: 'Green Curry With Chicken Prawns Seafood', nameThai: 'แกงเขียวหวานไก่ / กุ้ง / ซีฟู้ด', price: '250 / 290' },
+      { name: 'A Mix Of Local Vegetables Platter, Served With Mackerel Chili Dip Paste And Deep Fried Mackerel', nameThai: 'น้ำพริกปลาทู', price: 220, image: 'Local Vegetables Platter With Mackerel Chili Dip Paste' },
+      { name: 'A Mix Of Local Vegetables Platter, Served With Dried Crispy Shrimps Dip Paste', nameThai: 'น้ำพริกกุ้งเสียบ', price: 220, image: 'Local Vegetables Platter With Dried Crispy Shrimps Dip Paste' },
+      { name: 'Crispy Fish With Mango Salad', nameThai: 'ยำปลากรอบ', price: 190 },
+      { name: 'Spicy Seafood With Glass Noodles Salad', nameThai: 'ยำวุ้นเส้นซีฟู้ด', price: 250 },
+      { name: 'Spicy Dried Crispy Shrimps With Mango Salad', nameThai: 'ยำมะม่วง', price: 190 },
+      { name: 'Mixed Fruits Salad', nameThai: 'ยำผลไม้รวม', price: 290 },
+      { name: 'Deep Fried Pork Knuckle Served With Spicy Dipping Sauce', nameThai: 'ขาหมูเยอรมันเสิร์ฟคู่น้ำจิ้มแจ่ว', price: 590 },
+      { name: 'Baked Chicken With Herbs', nameThai: 'หลามไก่สมุนไพร', price: 350 },
+      { name: 'Roasted Pork Belly With Shrimp Paste', nameThai: 'หมูสามชั้นคั่วกะปิกระเทียมโทน', price: 220 },
+      { name: 'Stir Fried Bitter Green Beans With Glass Noodles', nameThai: 'ผัดผักสามลิง', price: 290 },
+      { name: 'Stir Fried Broccoli With Prawns', nameThai: 'ผัดบล็อคโคลี่กุ้งสด', price: 220 },
+      { name: 'Stir Fried Asparagus With Prawns', nameThai: 'หน่อไม้ฝรั่งผัดน้ำมันหอยกุ้งสด', price: 250 },
+      { name: 'Stir Fried Local Green Vegetables With Egg / Dried Shrimps', nameThai: 'ผักเหมียงไข่ / กุ้งเสียบ', price: '190 / 220', image: 'Stir Fried Local Green Vegetables With Egg or Dried Shrimps' },
+      { name: 'Stir Fried Hongkong Kale With Oyster Sauce', nameThai: 'คะน้าฮ่องกงผัดน้ำมันหอย', price: 190 },
+      { name: 'Stir Fried Mixed Vegetables With Oyster Sauce', nameThai: 'ผัดผักรวม', price: 190 },
+      { name: 'Stir Fried Vegetables With Crispy Pork', nameThai: 'คะน้าหมูกรอบ', price: 220 },
+      { name: 'Stir Fried Chicken / Prawns With Cashew Nuts', nameThai: 'ผัดเม็ดมะม่วงไก่ / กุ้ง', price: '220 / 250', image: 'Stir Fried Chicken or Prawns With Cashew Nuts' },
+      { name: 'Stir Fried Sweet And Sour Chicken / Prawns', nameThai: 'ผัดเปรี้ยวหวานไก่ / กุ้ง', price: '220 / 250', image: 'Stir Fried Sweet And Sour Chicken or Prawns' },
+      { name: 'Coconut Galanga Soup With Chicken / Prawns / Seafood', nameThai: 'ต้มข่าไก่ / กุ้ง / ซีฟู้ด', price: '250 / 290', image: 'Coconut Galanga Soup With Chicken Prawns Seafood' },
+      { name: 'Green Curry With Chicken / Prawns / Seafood', nameThai: 'แกงเขียวหวานไก่ / กุ้ง / ซีฟู้ด', price: '250 / 290', image: 'Green Curry With Chicken Prawns Seafood' },
       { name: 'Massaman Curry With Chicken', nameThai: 'มัสมั่นไก่', price: 250 },
+      { name: 'Tom Yum Gung / Seafood Spicy Sour Soup With Prawns / Seafood', nameThai: 'ต้มยำกุ้ง - ซีฟู้ด', price: 290, image: 'Tom Yum Gung Seafood Spicy Sour Soup' },
+      { name: 'Coconut Milk Soup With Prawns And Local Vegetables', nameThai: 'ต้มกะทิใบเหลียงกุ้งสด', price: 290 },
+      { name: 'Sour Curry With Fish And Coconut Shoots', nameThai: 'แกงส้มปลากับยอดมะพร้าว', price: 290 },
+      { name: 'Herbal Sour Clear Soup With Sea Bass Belly', nameThai: 'ต้มเปรตราวท้องปลากะพง', price: 290 },
+      { name: 'Pineapple Red Curry With Pork / Prawns', nameThai: 'แกงคั่วสับปะรดหมู / กุ้ง', price: '250 / 290', image: 'Pineapple Red Curry With Pork or Prawns' },
+      { name: 'Coconut Milk Soup With Prawns, Bitter Green Beans And Coconut Shoots', nameThai: 'ต้มกะทิยอดมะพร้าวกุ้งสดใส่สะตอ', price: 290, image: 'Coconut Milk Soup With Prawns Bitter Green Beans And Coconut Shoots' },
       { name: 'Steamed White Snapper With Chili Lime Sauce', nameThai: 'ปลากะพงนึ่งมะนาว', price: 690 },
       { name: 'Deep Fried White Snapper With Garlic', nameThai: 'ปลากะพงทอดกระเทียม', price: 590 },
       { name: 'Deep Fried White Snapper Topped With Spicy Herbs Salad', nameThai: 'ปลาลุยสวน', price: 490 },
+      { name: 'Steamed Squids With Chili Lime Sauce', nameThai: 'หมึกนึ่งมะนาว', price: 450 },
+      { name: 'Stir Fried Pork / Prawns With Bitter Green Beans In Shrimp Paste', nameThai: 'หมู / กุ้ง ผัดกะปิสะตอปักษ์ใต้', price: '270 / 290', image: 'Stir Fried Pork or Prawns With Bitter Green Beans In Shrimp Paste' },
+      { name: 'Stir Fried Pork / Prawns With Bitter Green Beans In Red Curry', nameThai: 'หมู / กุ้งผัดเผ็ดสะตอปักษ์ใต้', price: '270 / 290', image: 'Stir Fried Pork or Prawns With Bitter Green Beans In Red Curry' },
       { name: 'Tom Yum Fried Rice With Prawns', nameThai: 'ข้าวผัดต้มยำกุ้ง', price: 190 },
-      { name: 'Thai Southern Rice With Sweet Pork Chili Mix Green Herbs', nameThai: 'ข้าวคลุกกะปิ', price: 220 },
-      { name: 'Steamed Jasmine Rice Plate', nameThai: 'ข้าวสวย (จาน)', price: 30 },
-      { name: 'Steamed Jasmine Rice Bowl', nameThai: 'ข้าวสวย (โถ)', price: 90 },
-      { name: 'Baked Chicken With Herbs', nameThai: 'ไก่อบสมุนไพร', price: 350 },
-      { name: 'Coconut Galanga Soup With Chicken Prawns Seafood', nameThai: 'ต้มข่าไก่/กุ้ง/ซีฟู้ด', price: '250/290' },
-      { name: 'Coconut Milk Soup With Prawns Bitter Green Beans And Coconut Shoots', nameThai: 'แกงเผ็ดกุ้ง', price: 290 },
-      { name: 'Coconut Milk Soup With Prawns And Local Vegetables', nameThai: 'แกงคั่วกุ้งผักรวม', price: 290 },
-      { name: 'Pineapple Red Curry With Pork or Prawns', nameThai: 'แกงคั่วสับปะรดหมู/กุ้ง', price: '250/290' },
-      { name: 'Sour Curry With Fish And Coconut Shoots', nameThai: 'แกงส้มปลา', price: 290 },
-      { name: 'Herbal Sour Clear Soup With Sea Bass Belly', nameThai: 'ต้มแซ่บพุงปลากะพง', price: 390 },
-      { name: 'Steamed Squids With Chili Lime Sauce', nameThai: 'ปลาหมึกนึ่งมะนาว', price: 290 },
-      { name: 'Spicy Dried Crispy Shrimps With Mango Salad', nameThai: 'ยำกุ้งแห้งมะม่วง', price: 250 },
-      { name: 'Spicy Seafood With Glass Noodles Salad', nameThai: 'ยำวุ้นเส้นทะเล', price: 290 },
-      { name: 'Mixed Fruits Salad', nameThai: 'ยำผลไม้รวม', price: 190 },
-      { name: 'Crispy Fish With Mango Salad', nameThai: 'ยำปลาดุกฟู', price: 250 },
-      { name: 'Roasted Pork Belly With Shrimp Paste', nameThai: 'หมูสามชั้นทอด', price: 250 },
-      { name: 'Stir Fried Pork or Prawns With Bitter Green Beans In Shrimp Paste', nameThai: 'ผัดพริกแกงถั่วฝักยาว', price: '190/250' },
-      { name: 'Stir Fried Pork or Prawns With Bitter Green Beans In Red Curry', nameThai: 'ผัดเผ็ดถั่วฝักยาว', price: '190/250' },
-      { name: 'Stir Fried Mixed Vegetables With Oyster Sauce', nameThai: 'ผัดผักรวม', price: 190 },
-      { name: 'Stir Fried Chicken or Prawns With Cashew Nuts', nameThai: 'ไก่/กุ้งผัดเม็ดมะม่วงหิมพานต์', price: '220/290' },
-      { name: 'Stir Fried Bitter Green Beans With Glass Noodles', nameThai: 'ผัดวุ้นเส้นถั่วฝักยาว', price: 190 },
-      { name: 'Stir Fried Vegetables With Crispy Pork', nameThai: 'ผัดผักหมูกรอบ', price: 220 },
-      { name: 'Stir Fried Sweet And Sour Chicken or Prawns', nameThai: 'ผัดเปรี้ยวหวานไก่/กุ้ง', price: '220/290' },
-      { name: 'Stir Fried Local Green Vegetables With Egg or Dried Shrimps', nameThai: 'ผัดผักพื้นบ้านไข่/กุ้งแห้ง', price: '150/190' },
-      { name: 'Stir Fried Broccoli With Prawns', nameThai: 'บร็อคโคลี่ผัดกุ้ง', price: 290 },
-      { name: 'Stir Fried Hongkong Kale With Oyster Sauce', nameThai: 'ผัดคะน้าฮ่องกง', price: 190 },
+      { name: 'Thai Southern Rice With Sweet Pork, Chili, Mix Green Herbs', nameThai: 'ข้าวคลุกกะปิ', price: 220, image: 'Thai Southern Rice With Sweet Pork Chili Mix Green Herbs' },
+      { name: 'Steamed Jasmine Rice (Plate)', nameThai: 'ข้าวสวย (จาน)', price: 30, image: 'Steamed Jasmine Rice Plate' },
+      { name: 'Steamed Jasmine Rice (Bowl)', nameThai: 'ข้าวสวย (โถ)', price: 90, image: 'Steamed Jasmine Rice Bowl' },
     ]
   },
   {
@@ -166,13 +168,13 @@ const foodCategories: MenuCategory[] = [
       { name: 'Spaghetti With Squid Ink Sauce', nameThai: 'สปาเก็ตตี้หมึกดำ', price: 390 },
       { name: 'Spaghetti Carbonara With Crispy Bacon', nameThai: 'สปาเก็ตตี้คาโบนาร่า', price: 350 },
       { name: 'Spaghetti Beef Bolognese', nameThai: 'สปาเก็ตตี้โบโลเนส', price: 390 },
-      { name: 'Angel Hair Pasta With Crispy Bacon Garlic Chili', nameThai: 'พาสต้าแองเกิลแฮร์', price: 350 },
+      { name: 'Angel Hair Pasta With Crispy Bacon, Garlic, Chili', nameThai: 'พาสต้าแองเกิลแฮร์', price: 350, image: 'Angel Hair Pasta With Crispy Bacon Garlic Chili' },
       { name: 'Norwegian Salmon Steak Served With Pomelo Salad', nameThai: 'สเต็กปลาแซลมอนเสิร์ฟคู่กับยำส้มโอ', price: 390 },
       { name: 'Tuna Steak Served With Mango Salad', nameThai: 'สเต็กทูน่าเสิร์ฟคู่กับมะม่วงสลัด', price: 490 },
       { name: 'Fish And Chips', nameThai: 'ฟิชแอนด์ชิปส์', price: 390 },
-      { name: 'Australian Tenderloin Steak With Grilled Vegetables And Potatoes', nameThai: 'สเต็กเนื้อ เสิร์ฟคู่กับผักย่างและมันฝรั่งทอด', price: 890 },
+      { name: 'Australian Tenderloin Steak With Grilled Vegetables And Potatoes, Served With Pepper Sauce', nameThai: 'สเต็กเนื้อ เสิร์ฟคู่กับผักย่างและมันฝรั่งทอด', price: 890, image: 'Australian Tenderloin Steak With Grilled Vegetables And Potatoes' },
       { name: 'Australian Sirloin Steak Braised In Konbu Seaweed With Buttered Mash', nameThai: 'พายเนื้อวัว / Umami Konbu Beef Pie', price: 450 },
-      { name: 'Pork Chop With Grilled Vegetables Served With Pepper Sauce', nameThai: 'พอร์คชอป เสิร์ฟคู่กับผักย่าง', price: 590 },
+      { name: 'Pork Chop With Grilled Vegetables, Served With Pepper Sauce', nameThai: 'พอร์คชอป เสิร์ฟคู่กับผักย่าง', price: 590, image: 'Pork Chop With Grilled Vegetables Served With Pepper Sauce' },
     ]
   },
   {
@@ -195,12 +197,52 @@ const foodCategories: MenuCategory[] = [
     folderName: 'Japanese',
     icon: Utensils,
     items: [
-      { name: 'Salmon Sashimi', nameThai: 'ซาชิมิแซลมอน', price: 390 },
-      { name: 'Tuna Sashimi', nameThai: 'ซาชิมิทูน่า', price: 450 },
-      { name: 'Mixed Sashimi Platter', nameThai: 'จานซาชิมิรวม', price: 590 },
-      { name: 'California Roll', nameThai: 'แคลิฟอร์เนียโรล', price: 290 },
-      { name: 'Dragon Roll', nameThai: 'ดราก้อนโรล', price: 390 },
-      { name: 'Tempura Prawns', nameThai: 'กุ้งเทมปุระ', price: 290 },
+      { name: 'Spicy Norwegian Salmon Salad', nameThai: 'ยำปลาแซลมอน', price: 290 },
+      { name: 'Spicy Tuna Salad', nameThai: 'ยำปลาทูน่า', price: 290 },
+      { name: 'Spicy Crab Stick Salad', nameThai: 'ยำปูอัด', price: 190 },
+      { name: 'Chuka Wakame', nameThai: 'ยำสาหร่ายเย็น', price: 150 },
+      { name: 'Edamame', nameThai: 'ถั่วแระญี่ปุ่น', price: 150 },
+      { name: 'Tamagoyaki', nameThai: 'ทามาโกะยากิ', price: 150 },
+      { name: 'Prawns Tempura', nameThai: 'กุ้งเทมปุระ', price: 270 },
+      { name: 'Enoki Tempura', nameThai: 'เห็ดเข็มทองเทมปุระ', price: 190 },
+      { name: 'Trio Sashimi Salad', nameThai: 'สลัดปลาสามอย่าง', price: 390 },
+      { name: 'Tuna Salad', nameThai: 'ทูน่าสลัด', price: 350 },
+      { name: 'Norwegian Salmon Salad', nameThai: 'แซลมอนสลัด', price: 350 },
+      { name: 'Sashimi Trio Set', nameThai: 'ซาชิมิทริโอ้เซ็ต', price: 390 },
+      { name: 'Tamagoyaki Sashimi', nameThai: 'ทามาโกะซาชิมิ', price: 190 },
+      { name: 'Kani Sashimi', nameThai: 'คานิซาชิมิ', price: 190 },
+      { name: 'Norwegian Salmon Sashimi', nameThai: 'แซลมอนซาชิมิ', price: 350 },
+      { name: 'Tuna Sashimi', nameThai: 'ทูน่าซาชิมิ', price: 350 },
+      { name: 'Hamachi Sashimi', nameThai: 'ฮามาจิซาชิมิ', price: 420 },
+      { name: 'Nigiri Premium Set', nameThai: 'นิกิริพรีเมี่ยมเซ็ต', price: 1100 },
+      { name: 'Nigiri Mini Set', nameThai: 'นิกิริมินิเซ็ต', price: 590 },
+      { name: 'Hamachi (Sushi)', nameThai: 'ฮามาจิ', price: 220, image: 'Hamachi Sushi' },
+      { name: 'Tuna (Sushi)', nameThai: 'ทูน่า', price: 220, image: 'Tuna Sushi' },
+      { name: 'Ikura Salmon (Sushi)', nameThai: 'อิคุระแซลมอน', price: 220, image: 'Ikura Salmon Sushi' },
+      { name: 'Norwegian Salmon (Sushi)', nameThai: 'แซลมอน', price: 220, image: 'Norwegian Salmon Sushi' },
+      { name: 'Ebi (Sushi)', nameThai: 'อิบิ', price: 190, image: 'Ebi Sushi' },
+      { name: 'Tobiko (Sushi)', nameThai: 'ไข่กุ้ง', price: 190, image: 'Tobiko Sushi' },
+      { name: 'Tamagoyaki (Sushi)', nameThai: 'ทามาโกะยากิ', price: 150, image: 'Tamagoyaki Sushi' },
+      { name: 'Chuka Wakame (Sushi)', nameThai: 'สาหร่าย', price: 150, image: 'Chuka Wakame Sushi' },
+      { name: 'Mixed Sushi Balls Two Pieces Each Of Hamachi, Tuna, Avocado, Norwegian Salmon', nameThai: 'มิ๊กซูซิบอล', price: 390, image: 'Mixed Sushi Balls' },
+      { name: 'Spicy Tuna Roll Minced Tuna Roll With Cucumber', nameThai: 'สไปซี่ทูน่าโรล', price: 290, image: 'Spicy Tuna Roll' },
+      { name: 'Spicy Salmon Roll Minced Salmon Roll With Cucumber', nameThai: 'สไปซี่แซลมอนโรล', price: 290, image: 'Spicy Salmon Roll' },
+      { name: 'Three Monkeys Tropical Maki Homemade Grains With Norwegian Salmon', nameThai: 'ทรีมังกี้ส์โทปิโคมากิ', price: 320, image: 'Three Monkeys Tropical Maki With Norwegian Salmon' },
+      { name: 'Spider Roll Deep Fried Crab Roll With Sesame', nameThai: 'สไปเดอร์โรล', price: 290 },
+      { name: 'Fish Trio Rolls', nameThai: 'ฟิชทรีโอโรล', price: 350 },
+      { name: 'Ebi Rolls', nameThai: 'อิบิโรล', price: 350 },
+      { name: 'Norwegian Salmon Tempura Rolls', nameThai: 'ข้าวห่อกุ้งเทมปุระ และ ปลาแซลมอน', price: 350 },
+      { name: 'Ebi Tempura Roll', nameThai: 'อิบิเทมปุระโรล', price: 320 },
+      { name: 'Norwegian Salmon Roll', nameThai: 'แซลมอนโรล', price: 320 },
+      { name: 'California Roll', nameThai: 'แคลิฟอร์เนียโรล', price: 320 },
+      { name: 'Norwegian Salmon Chirashi', nameThai: 'ซิราซิแซลมอน', price: 350 },
+      { name: 'Tuna Chirashi', nameThai: 'ซิราซิทูน่า', price: 350 },
+      { name: 'Hamachi Chirashi', nameThai: 'ซิราซิฮามาจิ', price: 420 },
+      { name: 'Mix Chirashi', nameThai: 'ซิราซิรวม', price: 390 },
+      { name: 'Miso Soup', nameThai: 'ซุปเต้าเจี้ยวญี่ปุ่น', price: 90 },
+      { name: 'Japanese Steamed Rice', nameThai: 'ข้าวสวยญี่ปุ่น', price: 50 },
+      { name: 'Garlic Fried Rice', nameThai: 'ข้าวผัดกระเทียม', price: 90 },
+      { name: 'Salmon Fried Rice Served With Fried Egg', nameThai: 'ข้าวผัดปลาแซลมอน เสิร์ฟพร้อมไข่ดาว', price: 220 },
     ]
   },
   {
@@ -209,12 +251,12 @@ const foodCategories: MenuCategory[] = [
     folderName: 'Vegetarian',
     icon: Leaf,
     items: [
-      { name: 'Mixed Salad', nameThai: 'สลัดผักรวม', price: 250 },
+      { name: 'Corn On The Cob', nameThai: 'ข้าวโพดย่าง', price: 90 },
       { name: 'Deep Fried Vegetables Spring Rolls', nameThai: 'ปอเปี๊ยะไส้ผัก', price: 150 },
       { name: 'Stir Fried Mixed Vegetables With Oyster Sauce', nameThai: 'ผัดผักรวม', price: 190 },
-      { name: 'Corn On The Cob', nameThai: 'ข้าวโพดย่าง', price: 90 },
-      { name: 'Enoki Mushroom And Potato Stir Fried In Butter', nameThai: 'เห็ดเข็มทองผัดเนย', price: 150 },
-      { name: 'Spicy Crispy Banana Blossom Salad', nameThai: 'ยำหัวปลีกรอบ', price: 190 },
+      { name: 'Mixed Fruits Salad', nameThai: 'ยำผลไม้รวม', price: 290 },
+      { name: 'Enoki Tempura', nameThai: 'เห็ดเข็มทองทอด', price: 190 },
+      { name: 'Spicy Crispy Banana Blossom Salad', nameThai: 'ยำทรีมังกี้ส์ (ยำหัวปลีกรอบ)', price: 290 },
     ]
   },
   {
@@ -223,11 +265,11 @@ const foodCategories: MenuCategory[] = [
     folderName: 'Kids',
     icon: Baby,
     items: [
+      { name: 'Spaghetti With Chicken Sausage, Served With French Fries And Boiled Vegetables', nameThai: 'สปาเกตตี้ไส้กรอกไก่', price: 190, image: 'Spaghetti With Chicken Sausage Served With French Fries And Boiled Vegetables' },
+      { name: 'Pork / Chicken Teriyaki Sauce, Served With Grilled Mixed Vegetables On Rice', nameThai: 'ข้าวหน้าหมู / ไก่ซอสเทอริยากิ ผักรวมย่าง', price: 190, image: 'Pork or Chicken Teriyaki Sauce With Grilled Mixed Vegetables On Rice' },
+      { name: 'Minced Prawns Scramble Egg, Served With Boiled Mixed Vegetables On Rice', nameThai: 'ข้าวหน้าไข่ข้นกุ้งสับผักต้ม', price: 190, image: 'Minced Prawns Scramble Egg Served With Boiled Mixed Vegetables On Rice' },
       { name: 'Chicken Fingers Served With French Fries', nameThai: 'ชิคเก้นฟิงเกอร์เสิร์ฟคู่เฟรนช์ฟรายส์', price: 190 },
       { name: 'Fish Fingers Served With Potato Wedges', nameThai: 'ฟิชฟิงเกอร์เสิร์ฟคู่มันฝรั่งทอด', price: 190 },
-      { name: 'Spaghetti Beef Bolognese', nameThai: 'สปาเก็ตตี้โบโลเนส', price: 390 },
-      { name: 'French Fries', nameThai: 'เฟรนช์ฟรายส์', price: 90 },
-      { name: 'Chicken Burger Served With Potato Wedges', nameThai: 'เบอร์เกอร์ไก่เสิร์ฟคู่มันฝรั่งทอด', price: 320 },
     ]
   },
   {
@@ -236,24 +278,24 @@ const foodCategories: MenuCategory[] = [
     folderName: 'Desserts',
     icon: IceCream,
     items: [
-      { name: 'Poached Banana In Syrup Served With Coconut Ice Cream', nameThai: 'กล้วยไข่เชื่อมเสิร์ฟกับไอศกรีมกะทิ', price: 190 },
-      { name: 'Monkeys Banana Balls Served With Vanilla Ice Cream', nameThai: 'กล้วยซ่อนรูป', price: 250 },
+      { name: 'Poached Banana In Syrup, Served With Coconut Ice Cream', nameThai: 'กล้วยไข่เชื่อมเสิร์ฟกับไอศกรีมกะทิ', price: 190, image: 'Poached Banana In Syrup Served With Coconut Ice Cream' },
+      { name: 'Monkeys Banana Balls, Served With Vanilla Ice Cream', nameThai: 'กล้วยซ่อนรูป', price: 250, image: 'Monkeys Banana Balls Served With Vanilla Ice Cream' },
       { name: 'Homemade Poached Banana In Sweet Coconut Milk', nameThai: 'กล้วยบวดชีมะพร้าวอ่อน', price: 80 },
-      { name: 'Thai Traditional Sticky Rice With Fresh Mango Served With Coconut Milk', nameThai: 'ข้าวเหนียวมะม่วง', price: 190 },
+      { name: 'Thai Traditional Sticky Rice With Fresh Mango, Served With Coconut Milk', nameThai: 'ข้าวเหนียวมะม่วง', price: 190, image: 'Thai Traditional Sticky Rice With Fresh Mango' },
       { name: 'Creme Brulee Served In A Coconut', nameThai: 'ครีมบลูเล่ในลูกมะพร้าว', price: 250 },
-      { name: 'Chocolate Fondant Served With Vanilla Ice Cream', nameThai: 'ช็อกโกแลตฟองดอง', price: 270 },
+      { name: 'Chocolate Fondant, Served With Vanilla Ice Cream', nameThai: 'ช็อกโกแลตฟองดอง', price: 270, image: 'Chocolate Fondant Served With Vanilla Ice Cream' },
       { name: 'Mix Taros In Sweet Coconut Milk', nameThai: 'บัวลอยเผือก', price: 80 },
-      { name: 'Mix Fruit Seasonal', nameThai: 'ผลไม้รวม', price: 170 },
-      { name: 'Coconut Ice Cream Served In Fresh Coconut', nameThai: 'ไอศกรีมกะทิเสิร์ฟในลูกมะพร้าว', price: 190 },
+      { name: 'Mix Fruit (Seasonal)', nameThai: 'ผลไม้รวม', price: 170, image: 'Mix Fruit Seasonal' },
+      { name: 'Coconut Ice Cream, Served In Fresh Coconut', nameThai: 'ไอศกรีมกะทิเสิร์ฟในลูกมะพร้าว', price: 190, image: 'Coconut Ice Cream Served In Fresh Coconut' },
       { name: 'Banana Split', nameThai: 'บานานาสปลิต', price: 230 },
       { name: 'Chocolate Sundae', nameThai: 'ช็อกโกแลตซันเดย์', price: 230 },
       { name: 'Strawberry Sundae', nameThai: 'สตรอว์เบอร์รี่ซันเดย์', price: 230 },
       { name: 'Vanilla Sundae', nameThai: 'วนิลาซันเดย์', price: 230 },
-      { name: 'Brownie Nutella Served With One Scoop Of Vanilla Ice Cream', nameThai: 'บราวนี่นูเทลล่า', price: 280 },
-      { name: 'Honey Toast Served With One Scoop Of Vanilla Ice Cream', nameThai: 'ฮันนี่โทสต์', price: 250 },
-      { name: 'Caramel Honey Toast Served With One Scoop Of Caramel Ice Cream', nameThai: 'คาราเมลฮันนี่โทสต์', price: 280 },
-      { name: 'Strawberry Honey Toast Served With One Scoop Of Strawberry Ice Cream', nameThai: 'สตรอว์เบอร์รี่ฮันนี่โทสต์', price: 280 },
-      { name: 'Chocolate Honey Toast Served With One Scoop Of Chocolate Ice Cream', nameThai: 'ช็อกโกแลตฮันนี่โทสต์', price: 280 },
+      { name: 'Brownie Nutella, Served With One Scoop Of Vanilla Ice Cream', nameThai: 'บราวนี่นูเทลล่า', price: 280, image: 'Brownie Nutella Served With Vanilla Ice Cream' },
+      { name: 'Honey Toast, Served With One Scoop Of Vanilla Ice Cream', nameThai: 'ฮันนี่โทสต์', price: 250, image: 'Honey Toast Served With Vanilla Ice Cream' },
+      { name: 'Caramel Honey Toast, Served With One Scoop Of Caramel Ice Cream', nameThai: 'คาราเมลฮันนี่โทสต์', price: 280, image: 'Caramel Honey Toast Served With Caramel Ice Cream' },
+      { name: 'Strawberry Honey Toast, Served With One Scoop Of Strawberry Ice Cream', nameThai: 'สตรอว์เบอร์รี่ฮันนี่โทสต์', price: 280, image: 'Strawberry Honey Toast Served With Strawberry Ice Cream' },
+      { name: 'Chocolate Honey Toast, Served With One Scoop Of Chocolate Ice Cream', nameThai: 'ช็อกโกแลตฮันนี่โทสต์', price: 280, image: 'Chocolate Honey Toast Served With Chocolate Ice Cream' },
     ]
   },
 ];
@@ -273,8 +315,11 @@ const drinkCategories: MenuCategory[] = [
     icon: Leaf,
     items: [
       { name: 'Cascara Cinnamon', nameThai: 'ชาเปลือกกาแฟอบเชย', price: 150 },
-      { name: 'Ginger', nameThai: 'ชาขิง', price: 150 },
+      { name: 'Cascara Ginger', nameThai: 'ชาเปลือกกาแฟขิง', price: 150 },
       { name: 'Coffee Blossom', nameThai: 'ชาดอกกาแฟ', price: 150 },
+      { name: 'Ginger', nameThai: 'ชาขิง', price: 150 },
+      { name: 'Oolong', nameThai: 'ชาอู่หลง', price: 150 },
+      { name: 'Rose Premium', nameThai: 'ชากุหลาบ', price: 250 },
       { name: 'Rose', nameThai: 'ชากุหลาบ', price: 150 },
     ]
   },
@@ -284,14 +329,16 @@ const drinkCategories: MenuCategory[] = [
     folderName: 'Signature Coffee',
     icon: Coffee,
     items: [
-      { name: 'Drip Coffee', nameThai: 'ดริปกาแฟ', price: 120 },
-      { name: 'Cold Brew', nameThai: 'โคลด์บรูว์', price: 140 },
-      { name: 'Espresso Coconut', nameThai: 'เอสเพรสโซ่มะพร้าว', price: 160 },
-      { name: 'Espresso Ginger', nameThai: 'เอสเพรสโซ่ขิง', price: 150 },
-      { name: 'Coconut Smoothie Coffee', nameThai: 'กาแฟปั่นมะพร้าว', price: 170 },
-      { name: 'Banana Coldbrew', nameThai: 'โคลด์บรูว์กล้วย', price: 160 },
-      { name: 'Three Monkeys Affogato', nameThai: 'อโฟกาโต้', price: 180 },
-      { name: 'Three Monkeys Frappe', nameThai: 'ปั่นกาแฟ', price: 170 },
+      { name: 'Banana Coldbrew', nameThai: 'เอสเพรสโซ่ปั่นกับกล้วยหอม', price: 180 },
+      { name: 'Coconut Smoothie Coffee', nameThai: 'มะพร้าวผสมเอสเพรสโซ่อาราบิก้า', price: 180 },
+      { name: 'Cold Brew', nameThai: 'โคลด์บริว', price: 180 },
+      { name: 'Drip Coffee', nameThai: 'กาแฟดริป', price: 180 },
+      { name: 'Espresso Coconut', nameThai: 'เอสเพรสโซ่ในลูกมะพร้าว', price: 180 },
+      { name: 'Espresso Ginger', nameThai: 'กาแฟผสมกับจิงเจอร์ไซรัป', price: 180 },
+      { name: 'Espresso Lemon Tonic', nameThai: 'เอสเพรสโซ่ เลม่อน โทนิค', price: 180 },
+      { name: 'Three Monkeys Affogato', nameThai: 'ช็อตเอสเพรสในไอศกรีม', price: 180 },
+      { name: 'Three Monkeys Frappe', nameThai: 'กาแฟผสมน้ำผึ้ง,คาราเมล', price: 180 },
+      { name: 'Wild Civet Coffee', nameThai: 'กาแฟขี้ชะมด', price: 600 },
     ]
   },
   {
@@ -300,11 +347,12 @@ const drinkCategories: MenuCategory[] = [
     folderName: 'Classic Coffee',
     icon: Coffee,
     items: [
-      { name: 'Espresso', nameThai: 'เอสเพรสโซ่', price: 90 },
-      { name: 'Americano', nameThai: 'อเมริกาโน่', price: 100 },
-      { name: 'Cappuccino', nameThai: 'คาปูชิโน่', price: 120 },
-      { name: 'Latte', nameThai: 'ลาเต้', price: 130 },
-      { name: 'Mocha', nameThai: 'มอคค่า', price: 140 },
+      { name: 'Caramel Macchiato', nameThai: 'คาราเมลมัคคิอาโต้', price: '120 / 150' },
+      { name: 'Espresso', nameThai: 'เอสเพรสโซ่', price: '90 / 100' },
+      { name: 'Americano', nameThai: 'อเมริกาโน่', price: '90 / 100' },
+      { name: 'Cappuccino', nameThai: 'คาปูชิโน่', price: '100 / 120' },
+      { name: 'Latte', nameThai: 'ลาเต้', price: '100 / 120' },
+      { name: 'Mocha', nameThai: 'มอคค่า', price: '120 / 150' },
     ]
   },
   {
@@ -313,10 +361,12 @@ const drinkCategories: MenuCategory[] = [
     folderName: 'Fun Flavoured Coffee',
     icon: Coffee,
     items: [
-      { name: 'Lime Cold Brew', nameThai: 'โคลด์บรูว์มะนาว', price: 150 },
-      { name: 'Pineapple Espresso', nameThai: 'เอสเพรสโซ่สับปะรด', price: 150 },
-      { name: 'Lychee Coffee', nameThai: 'กาแฟลิ้นจี่', price: 150 },
-      { name: 'Orange Espresso', nameThai: 'เอสเพรสโซ่ส้ม', price: 150 },
+      { name: 'Apple Cold Brew', nameThai: 'โคลด์บริวแอปเปิ้ล', price: 180 },
+      { name: 'Honey Lemon Espresso', nameThai: 'เอสเพรสโซ่น้ำผึ้งเลม่อน', price: 180 },
+      { name: 'Lime Cold Brew', nameThai: 'โคลด์บริวมะนาว', price: 180 },
+      { name: 'Lychee Coffee', nameThai: 'กาแฟลิ้นจี่', price: 180 },
+      { name: 'Orange Espresso', nameThai: 'เอสเพรสโซ่น้ำส้มคั้นสด', price: 180 },
+      { name: 'Pineapple Espresso', nameThai: 'เอสเพรสโซ่สับปะรด', price: 180 },
     ]
   },
   {
@@ -325,14 +375,14 @@ const drinkCategories: MenuCategory[] = [
     folderName: 'Non Coffee',
     icon: GlassWater,
     items: [
-      { name: 'Chocolate', nameThai: 'ช็อกโกแลต', price: 130 },
-      { name: 'Mint Choco', nameThai: 'มินต์ช็อกโก', price: 140 },
-      { name: 'Caramel', nameThai: 'คาราเมล', price: 130 },
-      { name: 'Caramel Choco', nameThai: 'คาราเมลช็อกโก', price: 140 },
-      { name: 'Thai Milk Tea', nameThai: 'ชาไทย', price: 100 },
-      { name: 'Thai Lemon Tea', nameThai: 'ชามะนาว', price: 100 },
-      { name: 'Thai Green Tea', nameThai: 'ชาเขียว', price: 100 },
-      { name: 'Black Sesame', nameThai: 'งาดำ', price: 120 },
+      { name: 'Black Thai Tea', nameThai: 'ชาดำ', price: '90 / 120 / 150' },
+      { name: 'Caramel Choco', nameThai: 'คาราเมลช็อกโก้', price: '90 / 120 / 150' },
+      { name: 'Caramel', nameThai: 'คาราเมล', price: '90 / 120 / 150' },
+      { name: 'Chocolate', nameThai: 'ช็อกโกแลต', price: '90 / 120 / 150' },
+      { name: 'Mint Choco', nameThai: 'มินต์ช็อก', price: '90 / 120 / 150' },
+      { name: 'Thai Green Tea', nameThai: 'ชาเขียวไทย', price: '90 / 120 / 150' },
+      { name: 'Thai Lemon Tea', nameThai: 'ชามะนาว', price: '90 / 120 / 150' },
+      { name: 'Thai Milk Tea', nameThai: 'ชาไทย', price: '90 / 120 / 150' },
     ]
   },
   {
@@ -341,9 +391,10 @@ const drinkCategories: MenuCategory[] = [
     folderName: 'Signature Juices',
     icon: GlassWater,
     items: [
-      { name: 'Pineapple Basil', nameThai: 'สับปะรดโหระพา', price: 140 },
-      { name: 'Lychee Apple', nameThai: 'ลิ้นจี่แอปเปิ้ล', price: 150 },
-      { name: 'Sugarcane Ginger', nameThai: 'น้ำอ้อยขิง', price: 130 },
+      { name: 'Lychee Apple', nameThai: 'แอปเปิ้ลและลิ้นจี่', price: 150 },
+      { name: 'Orange Passion', nameThai: 'ส้มและเสาวรส', price: 150 },
+      { name: 'Pineapple Basil', nameThai: 'สับปะรดและโหระพา', price: 150 },
+      { name: 'Sugarcane Ginger', nameThai: 'อ้อยและขิง', price: 150 },
     ]
   },
   {
@@ -352,11 +403,11 @@ const drinkCategories: MenuCategory[] = [
     folderName: 'Juices',
     icon: GlassWater,
     items: [
-      { name: 'Fresh Coconut', nameThai: 'น้ำมะพร้าว', price: 80 },
-      { name: 'Fresh Squeezed Orange', nameThai: 'น้ำส้มคั้นสด', price: 100 },
-      { name: 'Fresh Squeezed Lime', nameThai: 'น้ำมะนาวคั้นสด', price: 80 },
-      { name: 'Fresh Pineapple', nameThai: 'น้ำสับปะรด', price: 100 },
-      { name: 'Fresh Sugarcane', nameThai: 'น้ำอ้อย', price: 80 },
+      { name: 'Fresh Coconut', nameThai: 'น้ำมะพร้าวสด', price: 120 },
+      { name: 'Fresh Pressed Apple', nameThai: 'น้ำแอปเปิ้ลสกัดสด', price: 120 },
+      { name: 'Fresh Pressed Pineapple', nameThai: 'น้ำสับปะรดสกัดสด', price: 120 },
+      { name: 'Fresh Squeezed Lime', nameThai: 'น้ำมะนาวคั้นสด', price: 120 },
+      { name: 'Fresh Squeezed Orange', nameThai: 'น้ำส้มคั้นสด', price: 120 },
     ]
   },
   {
@@ -365,10 +416,10 @@ const drinkCategories: MenuCategory[] = [
     folderName: 'Signature Smoothies',
     icon: GlassWater,
     items: [
-      { name: 'Three Monkeys Smoothie', nameThai: 'สมูทตี้ทรีมังกี้ส์', price: 150 },
-      { name: 'Aloha Coco', nameThai: 'อโลฮ่ามะพร้าว', price: 140 },
-      { name: 'Tamarind', nameThai: 'มะขาม', price: 130 },
-      { name: 'Banana Choco', nameThai: 'กล้วยช็อกโก', price: 140 },
+      { name: 'Aloha Coco', nameThai: 'มะพร้าวปั่นนมสด', price: 220 },
+      { name: 'Banana Choco', nameThai: 'ช็อกโกแลตกล้วยปั่นนมสด', price: 220 },
+      { name: 'Tamarind', nameThai: 'มะขามปั่น', price: 220 },
+      { name: 'Three Monkeys Smoothie', nameThai: 'ผลไม้รวมปั่น', price: 250 },
     ]
   },
   {
@@ -377,14 +428,14 @@ const drinkCategories: MenuCategory[] = [
     folderName: 'Fruit Shakes',
     icon: GlassWater,
     items: [
-      { name: 'Mango', nameThai: 'มะม่วง', price: 120 },
-      { name: 'Coconut', nameThai: 'มะพร้าว', price: 100 },
-      { name: 'Pineapple', nameThai: 'สับปะรด', price: 100 },
-      { name: 'Watermelon', nameThai: 'แตงโม', price: 90 },
-      { name: 'Orange', nameThai: 'ส้ม', price: 100 },
-      { name: 'Lime', nameThai: 'มะนาว', price: 90 },
-      { name: 'Honey Lemon', nameThai: 'น้ำผึ้งมะนาว', price: 100 },
-      { name: 'Passionfruit', nameThai: 'เสาวรส', price: 110 },
+      { name: 'Coconut', nameThai: 'มะพร้าวปั่น', price: 150 },
+      { name: 'Honey Lemon', nameThai: 'น้ำผึ้งเลม่อนปั่น', price: 150 },
+      { name: 'Lime', nameThai: 'มะนาวปั่น', price: 150 },
+      { name: 'Mango', nameThai: 'มะม่วงปั่น', price: 150 },
+      { name: 'Orange', nameThai: 'ส้มปั่น', price: 150 },
+      { name: 'Passionfruit', nameThai: 'เสาวรสปั่น', price: 150 },
+      { name: 'Pineapple', nameThai: 'สับปะรดปั่น', price: 150 },
+      { name: 'Watermelon', nameThai: 'แตงโมปั่น', price: 150 },
     ]
   },
   {
@@ -393,10 +444,10 @@ const drinkCategories: MenuCategory[] = [
     folderName: 'Milkshakes',
     icon: GlassWater,
     items: [
-      { name: 'Rich Chocolate Dream', nameThai: 'มิลค์เชคช็อกโกแลต', price: 130 },
-      { name: 'Mint Choco', nameThai: 'มิลค์เชคมินต์ช็อกโก', price: 140 },
-      { name: 'Strawberry', nameThai: 'มิลค์เชคสตรอว์เบอร์รี่', price: 130 },
-      { name: 'Caramel Sea Salt', nameThai: 'มิลค์เชคคาราเมลเกลือทะเล', price: 140 },
+      { name: 'Caramel Sea Salt', nameThai: 'คาราเมลซีซอล', price: 280 },
+      { name: 'Mint Choco', nameThai: 'มิ้นต์ช็อก', price: 280 },
+      { name: 'Rich Chocolate Dream', nameThai: 'ช็อกโกแลต', price: 280 },
+      { name: 'Strawberry Swirl', nameThai: 'สตรอเบอร์รี่', price: 280 },
     ]
   },
   {
@@ -405,9 +456,12 @@ const drinkCategories: MenuCategory[] = [
     folderName: 'Signature Cocktails',
     icon: Martini,
     items: [
-      { name: 'Kan-harb', nameThai: 'กันหาบ', price: 320 },
-      { name: 'Keng', nameThai: 'เก่ง', price: 290 },
-      { name: 'Muak-san', nameThai: 'หมวกสาน', price: 280 },
+      { name: 'Fa-shee', nameThai: 'ฝาชี', price: 350 },
+      { name: 'Kra-bork', nameThai: 'กระบอก', price: 350 },
+      { name: 'Sum-kai', nameThai: 'สุ่มไก่', price: 350 },
+      { name: 'Kan-harb', nameThai: 'คานหาบ', price: 350 },
+      { name: 'Keng', nameThai: 'เข่ง', price: 350 },
+      { name: 'Muak-san', nameThai: 'หมวกสาน', price: 350 },
     ]
   },
   {
@@ -416,9 +470,10 @@ const drinkCategories: MenuCategory[] = [
     folderName: 'Classic Cocktails',
     icon: Martini,
     items: [
-      { name: 'Mojito', nameThai: 'โมฮีโต้', price: 250 },
-      { name: 'Nigroni', nameThai: 'เนโกรนี่', price: 280 },
-      { name: 'Pina Colada', nameThai: 'ปิน่าโคลาด้า', price: 260 },
+      { name: 'Dry Martini', nameThai: 'ดราย มาร์ตินี่', price: 280 },
+      { name: 'Mojito', nameThai: 'โมจิโต้', price: 280 },
+      { name: 'Nigroni', nameThai: 'นิโกรนี', price: 280 },
+      { name: 'Pina Colada', nameThai: 'ปินาโคลาดา', price: 280 },
     ]
   },
   {
@@ -427,10 +482,10 @@ const drinkCategories: MenuCategory[] = [
     folderName: 'Mocktails',
     icon: Wine,
     items: [
-      { name: 'Cane Kingdom', nameThai: 'อาณาจักรอ้อย', price: 150 },
-      { name: 'Melon Bay', nameThai: 'เมลอนเบย์', price: 150 },
-      { name: 'Forbidden Fruit', nameThai: 'ผลไม้ต้องห้าม', price: 140 },
-      { name: 'Mango Queen', nameThai: 'มะม่วงควีน', price: 150 },
+      { name: 'Cane Kingdom', nameThai: 'อ้อย', price: 180 },
+      { name: 'Forbidden Love', nameThai: 'Forbidden Love', price: 180 },
+      { name: 'Mango Coco', nameThai: 'มะม่วงโกโก้', price: 180 },
+      { name: 'Melon Bay', nameThai: 'เมลอนเบย์', price: 180 },
     ]
   },
   {
@@ -439,10 +494,10 @@ const drinkCategories: MenuCategory[] = [
     folderName: 'Signature Soda',
     icon: GlassWater,
     items: [
-      { name: 'Pineapple Coconut', nameThai: 'สับปะรดมะพร้าว', price: 120 },
-      { name: 'Super Berry', nameThai: 'ซูเปอร์เบอร์รี่', price: 130 },
-      { name: 'Tamarind', nameThai: 'มะขาม', price: 110 },
-      { name: 'Strawberry Basil', nameThai: 'สตรอว์เบอร์รี่โหระพา', price: 120 },
+      { name: 'Pineapple Coconut', nameThai: 'โฮมเมดสับปะรดไซรัปกับมะพร้าวเคี้ยวสด', price: 150 },
+      { name: 'Strawberry Basil', nameThai: 'โฮมเมดสตอร์เบอร์รี่ไซรัปกับใบโหระพา', price: 150 },
+      { name: 'Super Berry', nameThai: 'ซูเปอร์เบอร์รี่', price: 150 },
+      { name: 'Tamarind', nameThai: 'โฮมเมดไซรัปมะขาม', price: 150 },
     ]
   },
   {
@@ -451,18 +506,20 @@ const drinkCategories: MenuCategory[] = [
     folderName: 'Soda',
     icon: GlassWater,
     items: [
-      { name: 'Passionfruit', nameThai: 'เสาวรส', price: 80 },
-      { name: 'Lime Mint', nameThai: 'มะนาวมินต์', price: 80 },
-      { name: 'Honey Lemon', nameThai: 'น้ำผึ้งมะนาว', price: 80 },
+      { name: 'Honey Lemon', nameThai: 'น้ำผึ้งเลม่อน', price: 120 },
+      { name: 'Lime Mint', nameThai: 'มะนาวมิ้นต์', price: 120 },
+      { name: 'Passionfruit', nameThai: 'เสาวรส', price: 120 },
+      { name: 'Pineapple', nameThai: 'สับปะรด', price: 120 },
     ]
   },
 ];
 
-const getImagePaths = (itemName: string, folderName: string, isFood: boolean): string[] => {
+const getImagePaths = (item: MenuItem, folderName: string, isFood: boolean): string[] => {
+  const fileBase = item.image || item.name;
   const basePath = isFood ? '/images/three_monkeys_menu/FOODS' : '/images/three_monkeys_menu/Drinks';
   return [
-    `${basePath}/${folderName}/${itemName}.jpg`,
-    `${basePath}/${folderName}/${itemName}.png`,
+    `${basePath}/${folderName}/${fileBase}.jpg`,
+    `${basePath}/${folderName}/${fileBase}.png`,
   ];
 };
 
@@ -670,17 +727,8 @@ export default function MenuPage() {
                       const isAllCategory = activeCategory === 'all-food' || activeCategory === 'all-drinks';
                       const items = isAllCategory 
                         ? (activeTab === 'food' ? allFoodItems : allDrinkItems)
-                        : currentCategory.items.map(item => ({ 
-                            ...item, 
-                            sourceCategory: currentCategory.id, 
-                            sourceFolderName: currentCategory.folderName 
-                          } as MenuItemWithSource));
-                      // Count only items with valid images
-                      const validCount = items.filter((item) => {
-                        const imageKey = `${(item as MenuItemWithSource).sourceCategory || currentCategory.id}-${item.name}`;
-                        return (imageIndices[imageKey] ?? 0) !== -1;
-                      }).length;
-                      return validCount;
+                        : currentCategory.items;
+                      return items.length;
                     })() })}
                   </p>
                 </div>
@@ -699,19 +747,12 @@ export default function MenuPage() {
                         sourceFolderName: currentCategory.folderName 
                       } as MenuItemWithSource));
                   
-                  // Filter items to only show those with valid images (not failed)
-                  const filteredItems = itemsToDisplay.filter((item) => {
-                    const imageKey = `${(item as MenuItemWithSource).sourceCategory || currentCategory.id}-${item.name}`;
-                    const currentImageIndex = imageIndices[imageKey] ?? 0;
-                    // Only include items where image hasn't explicitly failed (-1)
-                    return currentImageIndex !== -1;
-                  });
-                  
-                  return filteredItems.map((item, index) => {
+                  return itemsToDisplay.map((item, index) => {
                     const folderName = (item as MenuItemWithSource).sourceFolderName || currentCategory.folderName;
-                    const imagePaths = getImagePaths(item.name, folderName, activeTab === 'food');
+                    const imagePaths = getImagePaths(item, folderName, activeTab === 'food');
                     const imageKey = `${(item as MenuItemWithSource).sourceCategory || currentCategory.id}-${item.name}`;
                     const currentImageIndex = imageIndices[imageKey] ?? 0;
+                    const showImage = currentImageIndex !== -1;
                     
                     return (
                       <motion.div
@@ -723,14 +764,20 @@ export default function MenuPage() {
                       >
                         {/* Image Container */}
                         <div className="relative aspect-[4/3] bg-[#1a1a1a] overflow-hidden">
-                          <Image
-                            src={imagePaths[currentImageIndex]}
-                            alt={item.name}
-                            fill
-                            className="object-cover group-hover:scale-105 transition-transform duration-500"
-                            onError={() => handleImageError(imageKey, currentImageIndex, imagePaths.length)}
-                            unoptimized
-                          />
+                          {showImage ? (
+                            <Image
+                              src={imagePaths[currentImageIndex]}
+                              alt={item.name}
+                              fill
+                              className="object-cover group-hover:scale-105 transition-transform duration-500"
+                              onError={() => handleImageError(imageKey, currentImageIndex, imagePaths.length)}
+                              unoptimized
+                            />
+                          ) : (
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <Utensils className="w-10 h-10 text-white/15" />
+                            </div>
+                          )}
                           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                           
                           {/* Price Badge */}
