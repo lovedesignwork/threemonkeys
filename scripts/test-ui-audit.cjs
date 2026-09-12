@@ -82,6 +82,7 @@ function loadComponent(filename) {
       if (name === 'next/image') return { default: 'Image' };
       if (name === '@/i18n/navigation') return { Link: 'Link' };
       if (name === '@/components/ui') return { CustomSelect: 'CustomSelect', CountryCodeSelect: 'CountryCodeSelect' };
+      if (name === '@/components/ui/RainforestBackground') return { RainforestBackground: 'RainforestBackground' };
       if (name === 'next-intl') return { useTranslations: () => key => key };
       throw new Error(`Unexpected import: ${name}`);
     },

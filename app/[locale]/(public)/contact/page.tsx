@@ -1,5 +1,7 @@
 'use client';
 
+import { RainforestBackground } from '@/components/ui/RainforestBackground';
+
 import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -117,7 +119,8 @@ export default function ContactPage() {
   return (
     <main className="min-h-screen bg-[#0a0a0a]">
       {/* Hero Section */}
-      <section className="relative min-h-[60vh] flex items-end justify-center overflow-hidden">
+      <section className="relative min-h-[60vh] flex items-end justify-center overflow-hidden" data-botanical-section>
+        <RainforestBackground designKey="contact/hero" quiet />
         <div className="absolute inset-0">
           <Image
             src="/images/new/threemonkeys001.jpg"
@@ -161,7 +164,8 @@ export default function ContactPage() {
       </section>
 
       {/* Contact Methods */}
-      <section className="py-16 -mt-20 relative z-20">
+      <section className="py-16 -mt-20 relative z-20" data-botanical-section>
+        <RainforestBackground designKey="contact/contact-methods" />
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-6">
             {contactMethods.map((method, index) => (
@@ -197,7 +201,8 @@ export default function ContactPage() {
       </section>
 
       {/* Main Content Grid */}
-      <section className="py-10 sm:py-16">
+      <section className="py-10 sm:py-16" data-botanical-section>
+        <RainforestBackground designKey="contact/message-and-location" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-5 gap-8 lg:gap-12">
             {/* Contact Form - Takes 3 columns */}
@@ -461,7 +466,8 @@ export default function ContactPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 relative overflow-hidden">
+      <section className="py-24 relative overflow-hidden" data-botanical-section>
+        <RainforestBackground designKey="contact/reservation" quiet />
         <div className="absolute inset-0">
           <Image
             src="/images/new/threemonkeys028.jpg"

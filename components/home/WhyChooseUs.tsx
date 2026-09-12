@@ -1,5 +1,7 @@
 'use client';
 
+import { RainforestBackground } from '@/components/ui/RainforestBackground';
+
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
@@ -32,7 +34,8 @@ export function WhyChooseUs() {
     },
   ];
   return (
-    <section className="relative py-32 overflow-hidden">
+    <section className="relative py-32 overflow-hidden" data-botanical-section>
+        <RainforestBackground designKey="home/experience" quiet />
       {/* Leaves Background with Dark Overlay */}
       <div className="absolute inset-0">
         <Image

@@ -1,5 +1,7 @@
 'use client';
 
+import { RainforestBackground } from '@/components/ui/RainforestBackground';
+
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 import { motion } from 'framer-motion';
@@ -11,7 +13,8 @@ function CancelContent() {
   const bookingId = searchParams.get('booking_id');
 
   return (
-    <main className="min-h-screen pt-20 bg-gradient-to-b from-[#1a1a1a] to-[#2d2d2d]">
+    <main className="min-h-screen pt-20 bg-gradient-to-b from-[#1a1a1a] to-[#2d2d2d]" data-botanical-section>
+        <RainforestBackground designKey="checkout-cancel/notice" quiet />
       <div className="max-w-2xl mx-auto px-4 py-12">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
@@ -118,7 +121,8 @@ function CancelContent() {
 export default function CancelPage() {
   return (
     <Suspense fallback={
-      <main className="min-h-screen pt-20 bg-gradient-to-b from-[#1a1a1a] to-[#2d2d2d] flex items-center justify-center">
+      <main className="min-h-screen pt-20 bg-gradient-to-b from-[#1a1a1a] to-[#2d2d2d] flex items-center justify-center" data-botanical-section>
+        <RainforestBackground designKey="checkout-cancel/loading" quiet />
         <div className="text-white text-xl">Loading...</div>
       </main>
     }>

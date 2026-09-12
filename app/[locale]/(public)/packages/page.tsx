@@ -1,5 +1,7 @@
 'use client';
 
+import { RainforestBackground } from '@/components/ui/RainforestBackground';
+
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from '@/i18n/navigation';
@@ -24,7 +26,8 @@ export default function PackagesLandingPage() {
   return (
     <main className="min-h-screen bg-[#0a0a0a]">
       {/* Hero Section */}
-      <section className="relative h-[60vh] lg:h-[70vh] flex items-end justify-center overflow-hidden">
+      <section className="relative h-[60vh] lg:h-[70vh] flex items-end justify-center overflow-hidden" data-botanical-section>
+        <RainforestBackground designKey="packages/hero" quiet />
         <div className="absolute inset-0">
           <AnimatePresence mode="wait">
             <motion.div
@@ -76,7 +79,8 @@ export default function PackagesLandingPage() {
       </section>
 
       {/* Two Options */}
-      <section className="py-20">
+      <section className="py-20" data-botanical-section>
+        <RainforestBackground designKey="packages/experiences" />
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-8">
             {/* Our Seats Card */}
@@ -188,7 +192,8 @@ export default function PackagesLandingPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-[#111]">
+      <section className="py-20 bg-[#111]" data-botanical-section>
+        <RainforestBackground designKey="packages/concierge" />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

@@ -1,3 +1,4 @@
+import { RainforestBackground } from '@/components/ui/RainforestBackground';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Link } from '@/i18n/navigation';
@@ -146,7 +147,8 @@ export default async function BlogPostPage({ params }: Props) {
       />
 
       {/* Hero Section */}
-      <section className="relative min-h-[60vh] flex items-end overflow-hidden">
+      <section data-botanical-section className="relative min-h-[60vh] flex items-end overflow-hidden">
+        <RainforestBackground designKey={`blog/${slug}/hero`} quiet />
         {post.featured_image && (
           <>
             <Image
@@ -200,7 +202,8 @@ export default async function BlogPostPage({ params }: Props) {
       </section>
 
       {/* Content Section */}
-      <section className="py-16">
+      <section data-botanical-section className="py-16">
+        <RainforestBackground designKey={`blog/${slug}/article`} quiet />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Article Content */}
           <article className="prose prose-invert prose-lg max-w-none">
@@ -245,7 +248,8 @@ export default async function BlogPostPage({ params }: Props) {
       </section>
 
       {/* Related Posts */}
-      <section className="py-20 bg-[#111]">
+      <section data-botanical-section className="py-20 bg-[#111]">
+        <RainforestBackground designKey={`blog/${slug}/related-stories`} />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white mb-10 normal-case">
             More Articles
@@ -292,7 +296,8 @@ export default async function BlogPostPage({ params }: Props) {
       </section>
 
       {/* CTA */}
-      <section className="py-16 bg-[#0a0a0a]">
+      <section data-botanical-section className="py-16 bg-[#0a0a0a]">
+        <RainforestBackground designKey={`blog/${slug}/reservation-invitation`} />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white mb-4 normal-case">
             Ready to Experience Three Monkeys?

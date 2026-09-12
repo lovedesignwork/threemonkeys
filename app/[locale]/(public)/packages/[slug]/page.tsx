@@ -1,5 +1,7 @@
 'use client';
 
+import { RainforestBackground } from '@/components/ui/RainforestBackground';
+
 import { useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Link } from '@/i18n/navigation';
@@ -97,7 +99,8 @@ export default function PackagePage() {
             with minimal overlay.
           - Tablet+: 60vh / 70vh tall as before.
           - Arrows + thumbnails let the customer browse the gallery. */}
-      <section className="relative aspect-square sm:aspect-auto sm:h-[60vh] lg:h-[70vh] overflow-hidden">
+      <section className="relative aspect-square sm:aspect-auto sm:h-[60vh] lg:h-[70vh] overflow-hidden" data-botanical-section>
+        <RainforestBackground designKey={`packages/${slug}/gallery`} quiet />
         {/* Background image */}
         <motion.div
           className="absolute inset-0"
@@ -191,7 +194,8 @@ export default function PackagePage() {
       </section>
 
       {/* Content Section */}
-      <section className="relative z-10 -mt-20">
+      <section className="relative z-10 -mt-20" data-botanical-section>
+        <RainforestBackground designKey={`packages/${slug}/overview`} />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Main Content - 2 columns */}
@@ -769,7 +773,8 @@ export default function PackagePage() {
       </section>
 
       {/* Other Packages Section */}
-      <section className="py-24 mt-16">
+      <section className="py-24 mt-16" data-botanical-section>
+        <RainforestBackground designKey={`packages/${slug}/related-experiences`} />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}

@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import { MapPin, Phone, Mail, Clock, Navigation, ArrowUpRight } from 'lucide-react';
+import { RainforestBackground } from '@/components/ui/RainforestBackground';
 
 // Travel times are place names — left untranslated by design (they're
 // proper nouns on every map the visitor will use).
@@ -52,9 +53,10 @@ export function Location() {
 
   return (
     <section className="relative py-24 lg:py-32 bg-[#0f0f0f] overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <RainforestBackground scene="canopy" />
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Top Section - Header & Map Preview */}
-        <div className="grid lg:grid-cols-2 gap-16 items-center mb-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-24">
           {/* Left - Header Content */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
@@ -69,7 +71,7 @@ export function Location() {
               </span>
             </div>
 
-            <h2 className="text-5xl md:text-6xl lg:text-7xl font-[family-name:var(--font-krona)] text-white leading-[1.1] mb-8 normal-case">
+            <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-[family-name:var(--font-krona)] text-white leading-[1.1] mb-8 normal-case">
               {t('title_a')}
               <br />
               <span className="text-[#b1b94c]">{t('title_b')}</span>
@@ -80,17 +82,17 @@ export function Location() {
             </p>
 
             {/* Quick Stats */}
-            <div className="flex gap-8">
+            <div className="flex gap-4 sm:gap-8">
               <div>
-                <div className="text-4xl font-[family-name:var(--font-krona)] text-[#b1b94c]">100+</div>
+                <div className="text-3xl sm:text-4xl font-[family-name:var(--font-krona)] text-[#b1b94c]">100+</div>
                 <div className="text-white/40 text-sm mt-1">{t('stat_trees')}</div>
               </div>
               <div>
-                <div className="text-4xl font-[family-name:var(--font-krona)] text-[#b1b94c]">80m</div>
+                <div className="text-3xl sm:text-4xl font-[family-name:var(--font-krona)] text-[#b1b94c]">80m</div>
                 <div className="text-white/40 text-sm mt-1">{t('stat_sea')}</div>
               </div>
               <div>
-                <div className="text-4xl font-[family-name:var(--font-krona)] text-[#b1b94c]">25°</div>
+                <div className="text-3xl sm:text-4xl font-[family-name:var(--font-krona)] text-[#b1b94c]">25°</div>
                 <div className="text-white/40 text-sm mt-1">{t('stat_temp')}</div>
               </div>
             </div>

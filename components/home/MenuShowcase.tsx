@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { ArrowRight, Utensils } from 'lucide-react';
+import { RainforestBackground } from '@/components/ui/RainforestBackground';
 
 interface MenuImage {
   src: string;
@@ -40,18 +41,7 @@ export function MenuShowcase() {
 
   return (
     <section className="relative bg-[#0a0a0a] overflow-hidden py-20 sm:py-24 lg:py-32">
-      {/* Soft brand glow + dot grid backdrop */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-32 left-1/2 h-[420px] w-[420px] -translate-x-1/2 rounded-full bg-[#b1b94c]/8 blur-[120px]" />
-        <div
-          className="absolute inset-0 opacity-[0.05]"
-          style={{
-            backgroundImage:
-              'radial-gradient(circle at 1px 1px, rgba(177, 185, 76, 1) 1px, transparent 0)',
-            backgroundSize: '32px 32px',
-          }}
-        />
-      </div>
+      <RainforestBackground scene="palms" />
 
       <div className="relative z-10">
         {/* ── Section header ── */}
@@ -101,7 +91,7 @@ export function MenuShowcase() {
         </div>
 
         {/* ── Marquee row 1 (left-to-right scroll) ── */}
-        <div className="relative mb-3 sm:mb-4">
+        <div className="relative mb-3 sm:mb-4" style={{ maskImage: 'linear-gradient(to right, transparent, black 6%, black 94%, transparent)' }}>
           <div className="flex animate-mm-scroll-left">
             {duplicated.map((image, index) => (
               <article
@@ -131,7 +121,7 @@ export function MenuShowcase() {
         </div>
 
         {/* ── Marquee row 2 (right-to-left scroll, slower) ── */}
-        <div className="relative mb-12 sm:mb-16">
+        <div className="relative mb-12 sm:mb-16" style={{ maskImage: 'linear-gradient(to right, transparent, black 6%, black 94%, transparent)' }}>
           <div className="flex animate-mm-scroll-right">
             {[...duplicated].reverse().map((image, index) => (
               <article
@@ -176,10 +166,6 @@ export function MenuShowcase() {
           </Link>
         </motion.div>
       </div>
-
-      {/* Fade-out edges */}
-      <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-r from-[#0a0a0a] to-transparent z-20" />
-      <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-l from-[#0a0a0a] to-transparent z-20" />
 
       {/* Marquee keyframes — prefixed so they don't collide with anything */}
       <style jsx global>{`

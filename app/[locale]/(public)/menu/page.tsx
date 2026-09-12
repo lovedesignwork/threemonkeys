@@ -1,5 +1,7 @@
 'use client';
 
+import { RainforestBackground } from '@/components/ui/RainforestBackground';
+
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
@@ -624,7 +626,8 @@ export default function MenuPage() {
   return (
     <main className="min-h-screen bg-[#0a0a0a]">
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 overflow-hidden">
+      <section className="relative pt-32 pb-20 overflow-hidden" data-botanical-section>
+        <RainforestBackground designKey="menu/hero" quiet />
         <div className="absolute inset-0">
           <Image
             src="/images/new/threemonkeys009.jpg"
@@ -660,7 +663,8 @@ export default function MenuPage() {
       </section>
 
       {/* Menu Tabs */}
-      <section className="bg-[#0a0a0a]/95 backdrop-blur-xl border-b border-white/10">
+      <section className="bg-[#0a0a0a]/95 backdrop-blur-xl border-b border-white/10" data-botanical-section>
+        <RainforestBackground designKey="menu/food-and-drink-tabs" quiet />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-center gap-4 py-4">
             <button
@@ -690,7 +694,8 @@ export default function MenuPage() {
       </section>
 
       {/* Category Navigation */}
-      <section className="bg-[#111]/95 border-b border-white/10">
+      <section className="bg-[#111]/95 border-b border-white/10" data-botanical-section>
+        <RainforestBackground designKey="menu/category-navigation" quiet />
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap justify-center gap-2 py-4">
             {categories.map((category) => (
@@ -712,7 +717,8 @@ export default function MenuPage() {
       </section>
 
       {/* Menu Items */}
-      <section className="py-12">
+      <section className="py-12" data-botanical-section>
+        <RainforestBackground designKey={`menu/${activeTab}/${activeCategory}/dishes`} />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatePresence mode="wait">
             <motion.div
@@ -826,7 +832,8 @@ export default function MenuPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-[#111]">
+      <section className="py-20 bg-[#111]" data-botanical-section>
+        <RainforestBackground designKey="menu/reservation" />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

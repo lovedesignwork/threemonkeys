@@ -7,6 +7,8 @@
  * Admin URLs (/admin/*) are always allowed through — staff log in normally.
  */
 
+import { RainforestBackground } from '@/components/ui/RainforestBackground';
+
 import type { Metadata } from 'next';
 import Image from 'next/image';
 
@@ -36,7 +38,8 @@ export default function MaintenancePage() {
         />
       </div>
 
-      <section className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 py-12">
+      <section className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 py-12" data-botanical-section>
+        <RainforestBackground designKey="maintenance/welcome" quiet />
         {/* Logo */}
         <div className="mb-10 flex items-center justify-center">
           <Image

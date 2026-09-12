@@ -1,5 +1,7 @@
 'use client';
 
+import { RainforestBackground } from '@/components/ui/RainforestBackground';
+
 import { useState, useMemo, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from '@/i18n/navigation';
@@ -562,7 +564,8 @@ function BookingContent() {
   return (
     <main className="min-h-screen bg-[#0a0a0a]">
       {/* Hero Section */}
-      <section className="relative min-h-[50vh] flex items-end justify-center overflow-hidden">
+      <section className="relative min-h-[50vh] flex items-end justify-center overflow-hidden" data-botanical-section>
+        <RainforestBackground designKey="booking/hero" quiet />
         <div className="absolute inset-0">
           <Image
             src="/images/new/threemonkeys008.jpg"
@@ -606,7 +609,8 @@ function BookingContent() {
       </section>
 
       {/* Booking Content */}
-      <section className="py-10 sm:py-16 -mt-10 sm:-mt-20 relative z-10">
+      <section className="py-10 sm:py-16 -mt-10 sm:-mt-20 relative z-10" data-botanical-section>
+        <RainforestBackground designKey="booking/selection" quiet />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
             {/* Left Column - Package Selection */}
@@ -1634,7 +1638,8 @@ function BookingContent() {
 export default function BookingPage() {
   return (
     <Suspense fallback={
-      <main className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
+      <main className="min-h-screen bg-[#0a0a0a] flex items-center justify-center" data-botanical-section>
+        <RainforestBackground designKey="booking/loading" quiet />
         <div className="w-8 h-8 border-2 border-white/30 border-t-[#b1b94c] rounded-full animate-spin" />
       </main>
     }>

@@ -1,5 +1,6 @@
 'use client';
 
+import { RainforestBackground } from '@/components/ui/RainforestBackground';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from '@/i18n/navigation';
@@ -60,7 +61,8 @@ export default function PrivacyPage() {
   return (
     <main className="min-h-screen bg-[#0a0a0a]">
       {/* Hero Section */}
-      <section className="relative min-h-[50vh] flex items-end justify-center overflow-hidden">
+      <section data-botanical-section className="relative min-h-[50vh] flex items-end justify-center overflow-hidden">
+        <RainforestBackground designKey="privacy/hero" quiet />
         <div className="absolute inset-0">
           <Image
             src="/images/Random images/43_resize.jpg"
@@ -99,7 +101,8 @@ export default function PrivacyPage() {
       </section>
 
       {/* PDPA Compliance Badge */}
-      <section className="py-8 -mt-16 relative z-20">
+      <section data-botanical-section className="py-8 -mt-16 relative z-20">
+        <RainforestBackground designKey="privacy/trust-highlights" quiet />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -124,9 +127,10 @@ export default function PrivacyPage() {
       </section>
 
       {/* Main Content */}
-      <section className="py-16">
+      <section data-botanical-section className="py-16">
+        <RainforestBackground designKey="privacy/policy-guide" quiet />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Sidebar Navigation */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -177,12 +181,13 @@ export default function PrivacyPage() {
               <div className="space-y-12">
                 {/* Introduction */}
                 <div id="introduction" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="privacy/introduction" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-[#b1b94c]/20 flex items-center justify-center">
                         <Shield className="w-6 h-6 text-[#b1b94c]" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         1. Introduction
                       </h2>
                     </div>
@@ -203,12 +208,13 @@ export default function PrivacyPage() {
 
                 {/* Data Controllers */}
                 <div id="controllers" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="privacy/controllers" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-blue-500/20 flex items-center justify-center">
                         <Building className="w-6 h-6 text-blue-400" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         2. Data Controllers
                       </h2>
                     </div>
@@ -240,12 +246,13 @@ export default function PrivacyPage() {
 
                 {/* Information We Collect */}
                 <div id="collection" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="privacy/collection" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-cyan-500/20 flex items-center justify-center">
                         <Database className="w-6 h-6 text-cyan-400" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         3. Information We Collect
                       </h2>
                     </div>
@@ -309,12 +316,13 @@ export default function PrivacyPage() {
 
                 {/* How We Use Your Data */}
                 <div id="usage" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="privacy/usage" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-amber-500/20 flex items-center justify-center">
                         <Eye className="w-6 h-6 text-amber-400" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         4. How We Use Your Information
                       </h2>
                     </div>
@@ -345,12 +353,13 @@ export default function PrivacyPage() {
 
                 {/* Legal Basis */}
                 <div id="legal-basis" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="privacy/legal-basis" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-indigo-500/20 flex items-center justify-center">
                         <FileText className="w-6 h-6 text-indigo-400" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         5. Legal Basis for Processing
                       </h2>
                     </div>
@@ -378,12 +387,13 @@ export default function PrivacyPage() {
 
                 {/* Information Sharing */}
                 <div id="sharing" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="privacy/sharing" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-pink-500/20 flex items-center justify-center">
                         <Users className="w-6 h-6 text-pink-400" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         6. Information Sharing
                       </h2>
                     </div>
@@ -417,12 +427,13 @@ export default function PrivacyPage() {
 
                 {/* Data Security */}
                 <div id="security" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="privacy/security" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-green-500/20 flex items-center justify-center">
                         <Lock className="w-6 h-6 text-green-400" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         7. Data Security
                       </h2>
                     </div>
@@ -453,12 +464,13 @@ export default function PrivacyPage() {
 
                 {/* Your Rights (PDPA) */}
                 <div id="rights" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="privacy/rights" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-[#b1b94c]/20 flex items-center justify-center">
                         <Shield className="w-6 h-6 text-[#b1b94c]" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         8. Your Rights Under PDPA
                       </h2>
                     </div>
@@ -489,12 +501,13 @@ export default function PrivacyPage() {
 
                 {/* Cookies */}
                 <div id="cookies" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="privacy/cookies" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-orange-500/20 flex items-center justify-center">
                         <Cookie className="w-6 h-6 text-orange-400" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         9. Cookies and Tracking
                       </h2>
                     </div>
@@ -526,12 +539,13 @@ export default function PrivacyPage() {
 
                 {/* Data Retention */}
                 <div id="retention" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="privacy/retention" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-teal-500/20 flex items-center justify-center">
                         <Clock className="w-6 h-6 text-teal-400" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         10. Data Retention
                       </h2>
                     </div>
@@ -575,12 +589,13 @@ export default function PrivacyPage() {
 
                 {/* International Transfers */}
                 <div id="transfers" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="privacy/transfers" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-violet-500/20 flex items-center justify-center">
                         <Globe className="w-6 h-6 text-violet-400" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         11. International Data Transfers
                       </h2>
                     </div>
@@ -617,12 +632,13 @@ export default function PrivacyPage() {
 
                 {/* Contact Us */}
                 <div id="contact" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="privacy/contact" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-[#b1b94c]/20 flex items-center justify-center">
                         <Mail className="w-6 h-6 text-[#b1b94c]" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         12. Contact Us
                       </h2>
                     </div>
@@ -672,7 +688,8 @@ export default function PrivacyPage() {
               </div>
               
               {/* Related Links */}
-              <div className="mt-12 p-6 bg-[#111] rounded-3xl border border-white/10">
+              <div data-botanical-section className="mt-12 p-6 bg-[#111] rounded-3xl border border-white/10 overflow-hidden">
+                <RainforestBackground designKey="privacy/related-policies" quiet />
                 <h3 className="text-lg font-medium text-white mb-4">Related Policies</h3>
                 <div className="grid sm:grid-cols-3 gap-4">
                   <Link 

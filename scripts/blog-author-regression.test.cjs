@@ -48,6 +48,7 @@ function harness(options = {}) {
     'lucide-react': {},
     marked: { marked: async (value) => value },
     '@/i18n/navigation': { Link: 'a' },
+    '@/components/ui/RainforestBackground': { RainforestBackground: () => null },
     '@/lib/seo/config': { siteConfig: { url: 'https://example.test', name: 'Three Monkeys', ogImage: '/og.jpg' }, getLanguageAlternates: () => ({ en: 'https://example.test/blog/database-only-published-post' }) },
     '@/lib/seo/structured-data': {},
     '@/lib/data/blog': { getBlogPostBySlug: () => undefined, blogPosts: [] },

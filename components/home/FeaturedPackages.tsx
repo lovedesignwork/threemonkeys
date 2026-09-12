@@ -1,5 +1,7 @@
 'use client';
 
+import { RainforestBackground } from '@/components/ui/RainforestBackground';
+
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from '@/i18n/navigation';
@@ -30,7 +32,8 @@ export function FeaturedPackages() {
   );
 
   return (
-    <section id="seats" className="relative py-24 bg-black overflow-hidden">
+    <section id="seats" className="relative py-24 bg-black overflow-hidden" data-botanical-section>
+        <RainforestBackground designKey="home/dining-spaces"  />
       {/* Romantic Heart Icon CSS */}
       <style jsx global>{`
         @keyframes heartbeat {

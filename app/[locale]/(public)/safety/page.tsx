@@ -1,5 +1,6 @@
 'use client';
 
+import { RainforestBackground } from '@/components/ui/RainforestBackground';
 import { motion } from 'framer-motion';
 import { Section, Container } from '@/components/craft';
 import { 
@@ -17,7 +18,8 @@ import {
 export default function SafetyPage() {
   return (
     <main className="pt-20">
-      <Section className="bg-gradient-to-b from-[#1a1a1a] to-[#2d2d2d] py-16">
+      <Section data-botanical-section className="bg-gradient-to-b from-[#1a1a1a] to-[#2d2d2d] py-16">
+        <RainforestBackground designKey="safety/hero" quiet />
         <Container>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -31,7 +33,8 @@ export default function SafetyPage() {
         </Container>
       </Section>
 
-      <Section className="bg-white py-12">
+      <Section data-botanical-section className="bg-white py-12">
+        <RainforestBackground designKey="safety/visitor-guide" light quiet />
         <Container>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -40,17 +43,20 @@ export default function SafetyPage() {
           >
             {/* Quick Info */}
             <div className="grid md:grid-cols-3 gap-4 mb-10">
-              <div className="bg-[#b1b94c]/10 border border-[#b1b94c]/30 rounded-xl p-5 text-center">
+              <div data-botanical-section className="bg-[#b1b94c]/10 border border-[#b1b94c]/30 rounded-xl p-5 text-center overflow-hidden">
+                <RainforestBackground designKey="safety/fresh-ingredients" light quiet />
                 <Leaf className="w-10 h-10 text-[#1a1a1a] mx-auto mb-3" />
                 <h3 className="font-bold text-slate-800 mb-1">Fresh Daily</h3>
                 <p className="text-sm text-slate-600">Ingredients sourced fresh from local markets every morning</p>
               </div>
-              <div className="bg-[#b1b94c]/10 border border-[#b1b94c]/30 rounded-xl p-5 text-center">
+              <div data-botanical-section className="bg-[#b1b94c]/10 border border-[#b1b94c]/30 rounded-xl p-5 text-center overflow-hidden">
+                <RainforestBackground designKey="safety/kitchen-standards" light quiet />
                 <Award className="w-10 h-10 text-[#1a1a1a] mx-auto mb-3" />
                 <h3 className="font-bold text-slate-800 mb-1">Certified Kitchen</h3>
                 <p className="text-sm text-slate-600">HACCP compliant food handling standards</p>
               </div>
-              <div className="bg-[#b1b94c]/10 border border-[#b1b94c]/30 rounded-xl p-5 text-center">
+              <div data-botanical-section className="bg-[#b1b94c]/10 border border-[#b1b94c]/30 rounded-xl p-5 text-center overflow-hidden">
+                <RainforestBackground designKey="safety/arrival-time" light quiet />
                 <Clock className="w-10 h-10 text-[#1a1a1a] mx-auto mb-3" />
                 <h3 className="font-bold text-slate-800 mb-1">Arrive 15 Min Early</h3>
                 <p className="text-sm text-slate-600">Before your reservation time</p>
@@ -64,7 +70,8 @@ export default function SafetyPage() {
               </h2>
               
               <div className="grid md:grid-cols-2 gap-6 not-prose mb-8">
-                <div className="bg-green-50 border border-green-200 rounded-xl p-5">
+                <div data-botanical-section className="bg-green-50 border border-green-200 rounded-xl p-5 overflow-hidden">
+                  <RainforestBackground designKey="safety/dietary-accommodations" light quiet />
                   <h3 className="font-semibold text-green-800 mb-3 flex items-center gap-2">
                     <CheckCircle className="w-5 h-5" />
                     We Can Accommodate:
@@ -93,7 +100,8 @@ export default function SafetyPage() {
                   </ul>
                 </div>
                 
-                <div className="bg-amber-50 border border-amber-200 rounded-xl p-5">
+                <div data-botanical-section className="bg-amber-50 border border-amber-200 rounded-xl p-5 overflow-hidden">
+                  <RainforestBackground designKey="safety/dietary-notice" light quiet />
                   <h3 className="font-semibold text-amber-800 mb-3 flex items-center gap-2">
                     <AlertTriangle className="w-5 h-5" />
                     Please Inform Us Of:
@@ -123,7 +131,8 @@ export default function SafetyPage() {
                 </div>
               </div>
 
-              <div className="bg-blue-50 border border-blue-200 rounded-xl p-5 not-prose mb-8">
+              <div data-botanical-section className="bg-blue-50 border border-blue-200 rounded-xl p-5 not-prose mb-8 overflow-hidden">
+                <RainforestBackground designKey="safety/allergy-information" light quiet />
                 <div className="flex items-start gap-3">
                   <AlertTriangle className="w-6 h-6 text-blue-600 flex-shrink-0 mt-0.5" />
                   <div>
@@ -149,7 +158,8 @@ export default function SafetyPage() {
               </h2>
               
               <div className="grid md:grid-cols-2 gap-6 not-prose mb-8">
-                <div className="bg-green-50 border border-green-200 rounded-xl p-5">
+                <div data-botanical-section className="bg-green-50 border border-green-200 rounded-xl p-5 overflow-hidden">
+                  <RainforestBackground designKey="safety/dinner-attire" light quiet />
                   <h3 className="font-semibold text-green-800 mb-3">Recommended Attire</h3>
                   <ul className="space-y-2 text-sm text-green-700">
                     <li className="flex items-start gap-2">
@@ -171,7 +181,8 @@ export default function SafetyPage() {
                   </ul>
                 </div>
                 
-                <div className="bg-slate-50 border border-slate-200 rounded-xl p-5">
+                <div data-botanical-section className="bg-slate-50 border border-slate-200 rounded-xl p-5 overflow-hidden">
+                  <RainforestBackground designKey="safety/lunch-attire" light quiet />
                   <h3 className="font-semibold text-slate-800 mb-3">Lunch Service</h3>
                   <ul className="space-y-2 text-sm text-slate-600">
                     <li className="flex items-start gap-2">
@@ -195,7 +206,8 @@ export default function SafetyPage() {
                 Children & Families
               </h2>
               
-              <div className="bg-purple-50 border border-purple-200 rounded-xl p-5 not-prose mb-8">
+              <div data-botanical-section className="bg-purple-50 border border-purple-200 rounded-xl p-5 not-prose mb-8 overflow-hidden">
+                <RainforestBackground designKey="safety/families" light quiet />
                 <p className="text-purple-700 mb-3">
                   Families with children are welcome at Three Monkeys. We offer:
                 </p>

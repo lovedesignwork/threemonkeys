@@ -1,5 +1,7 @@
 'use client';
 
+import { RainforestBackground } from '@/components/ui/RainforestBackground';
+
 import { useState, useMemo, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
@@ -291,7 +293,8 @@ function CheckoutContent() {
   // Redirect if no package selected
   if (!selectedPackage || !selection.data) {
     return (
-      <main className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
+      <main className="min-h-screen bg-[#0a0a0a] flex items-center justify-center" data-botanical-section>
+        <RainforestBackground designKey="checkout/review" quiet />
         <div className="max-w-lg mx-auto text-center px-4">
           <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6">
             <AlertCircle className="w-10 h-10 text-[#b1b94c]" />
@@ -318,7 +321,8 @@ function CheckoutContent() {
   if (controlsLoaded && (isDisabled(selectedPackage.id) || isDateBlocked(selectedPackage.id, date))) {
     const dateBlocked = !isDisabled(selectedPackage.id);
     return (
-      <main className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
+      <main className="min-h-screen bg-[#0a0a0a] flex items-center justify-center" data-botanical-section>
+        <RainforestBackground designKey="checkout/unavailable" quiet />
         <div className="max-w-lg mx-auto text-center px-4">
           <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6">
             <AlertCircle className="w-10 h-10 text-amber-400" />
@@ -346,7 +350,8 @@ function CheckoutContent() {
   return (
     <main className="min-h-screen bg-[#0a0a0a]">
       {/* Main Content */}
-      <section className="py-8">
+      <section className="py-8" data-botanical-section>
+        <RainforestBackground designKey="checkout/details" quiet />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Breadcrumb */}
           <Link 
@@ -825,7 +830,8 @@ function CheckoutContent() {
 export default function CheckoutPage() {
   return (
     <Suspense fallback={
-      <main className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
+      <main className="min-h-screen bg-[#0a0a0a] flex items-center justify-center" data-botanical-section>
+        <RainforestBackground designKey="checkout/loading" quiet />
         <div className="w-8 h-8 border-2 border-white/30 border-t-[#b1b94c] rounded-full animate-spin" />
       </main>
     }>

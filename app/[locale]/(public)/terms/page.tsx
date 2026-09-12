@@ -1,5 +1,6 @@
 'use client';
 
+import { RainforestBackground } from '@/components/ui/RainforestBackground';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from '@/i18n/navigation';
@@ -57,7 +58,8 @@ export default function TermsPage() {
   return (
     <main className="min-h-screen bg-[#0a0a0a]">
       {/* Hero Section */}
-      <section className="relative min-h-[50vh] flex items-end justify-center overflow-hidden">
+      <section data-botanical-section className="relative min-h-[50vh] flex items-end justify-center overflow-hidden">
+        <RainforestBackground designKey="terms/hero" quiet />
         <div className="absolute inset-0">
           <Image
             src="/images/Random images/42_resize.jpg"
@@ -96,9 +98,10 @@ export default function TermsPage() {
       </section>
 
       {/* Main Content */}
-      <section className="py-16">
+      <section data-botanical-section className="py-16">
+        <RainforestBackground designKey="terms/policy-guide" quiet />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Sidebar Navigation */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -149,12 +152,13 @@ export default function TermsPage() {
               <div className="space-y-12">
                 {/* Introduction */}
                 <div id="introduction" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="terms/introduction" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-[#b1b94c]/20 flex items-center justify-center">
                         <FileText className="w-6 h-6 text-[#b1b94c]" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         1. Introduction
                       </h2>
                     </div>
@@ -174,12 +178,13 @@ export default function TermsPage() {
 
                 {/* Booking & Reservations */}
                 <div id="booking" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="terms/booking" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-blue-500/20 flex items-center justify-center">
                         <Calendar className="w-6 h-6 text-blue-400" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         2. Booking & Reservations
                       </h2>
                     </div>
@@ -243,12 +248,13 @@ export default function TermsPage() {
 
                 {/* Cancellation Policy */}
                 <div id="cancellation" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="terms/cancellation" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-amber-500/20 flex items-center justify-center">
                         <Clock className="w-6 h-6 text-amber-400" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         3. Cancellation Policy
                       </h2>
                     </div>
@@ -343,12 +349,13 @@ export default function TermsPage() {
 
                 {/* Transfer & Transportation */}
                 <div id="transfer" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="terms/transfer" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-purple-500/20 flex items-center justify-center">
                         <Car className="w-6 h-6 text-purple-400" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         4. Transfer & Transportation
                       </h2>
                     </div>
@@ -394,12 +401,13 @@ export default function TermsPage() {
 
                 {/* Reservation Requirements */}
                 <div id="requirements" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="terms/requirements" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-cyan-500/20 flex items-center justify-center">
                         <Users className="w-6 h-6 text-cyan-400" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         5. Reservation Requirements
                       </h2>
                     </div>
@@ -469,12 +477,13 @@ export default function TermsPage() {
 
                 {/* Food Safety & Liability */}
                 <div id="food-safety" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="terms/food-safety" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-orange-500/20 flex items-center justify-center">
                         <Utensils className="w-6 h-6 text-orange-400" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         6. Food Safety & Liability
                       </h2>
                     </div>
@@ -509,12 +518,13 @@ export default function TermsPage() {
 
                 {/* Arrival & Check-In */}
                 <div id="arrival" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="terms/arrival" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-teal-500/20 flex items-center justify-center">
                         <Clock className="w-6 h-6 text-teal-400" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         7. Arrival & Check-In
                       </h2>
                     </div>
@@ -553,12 +563,13 @@ export default function TermsPage() {
 
                 {/* Code of Conduct */}
                 <div id="conduct" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="terms/conduct" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-indigo-500/20 flex items-center justify-center">
                         <Shield className="w-6 h-6 text-indigo-400" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         8. Code of Conduct
                       </h2>
                     </div>
@@ -613,12 +624,13 @@ export default function TermsPage() {
 
                 {/* Photography & Media */}
                 <div id="photography" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="terms/photography" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-pink-500/20 flex items-center justify-center">
                         <Camera className="w-6 h-6 text-pink-400" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         9. Photography & Media
                       </h2>
                     </div>
@@ -643,12 +655,13 @@ export default function TermsPage() {
 
                 {/* Legal Terms */}
                 <div id="legal" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="terms/legal" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-slate-500/20 flex items-center justify-center">
                         <Scale className="w-6 h-6 text-slate-400" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         10. Legal Terms
                       </h2>
                     </div>
@@ -696,12 +709,13 @@ export default function TermsPage() {
 
                 {/* Contact Information */}
                 <div id="contact" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="terms/contact" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-[#b1b94c]/20 flex items-center justify-center">
                         <Mail className="w-6 h-6 text-[#b1b94c]" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         11. Contact Information
                       </h2>
                     </div>
@@ -750,7 +764,8 @@ export default function TermsPage() {
               </div>
               
               {/* Related Links */}
-              <div className="mt-12 p-6 bg-[#111] rounded-3xl border border-white/10">
+              <div data-botanical-section className="mt-12 p-6 bg-[#111] rounded-3xl border border-white/10 overflow-hidden">
+                <RainforestBackground designKey="terms/related-policies" quiet />
                 <h3 className="text-lg font-medium text-white mb-4">Related Policies</h3>
                 <div className="grid sm:grid-cols-3 gap-4">
                   <Link 

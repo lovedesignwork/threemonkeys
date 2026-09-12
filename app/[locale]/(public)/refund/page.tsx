@@ -1,5 +1,6 @@
 'use client';
 
+import { RainforestBackground } from '@/components/ui/RainforestBackground';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from '@/i18n/navigation';
@@ -57,7 +58,8 @@ export default function RefundPage() {
   return (
     <main className="min-h-screen bg-[#0a0a0a]">
       {/* Hero Section */}
-      <section className="relative min-h-[50vh] flex items-end justify-center overflow-hidden">
+      <section data-botanical-section className="relative min-h-[50vh] flex items-end justify-center overflow-hidden">
+        <RainforestBackground designKey="refund/hero" quiet />
         <div className="absolute inset-0">
           <Image
             src="/images/Random images/44_resize.jpg"
@@ -96,7 +98,8 @@ export default function RefundPage() {
       </section>
 
       {/* Quick Summary Cards */}
-      <section className="py-8 -mt-16 relative z-20">
+      <section data-botanical-section className="py-8 -mt-16 relative z-20">
+        <RainforestBackground designKey="refund/refund-highlights" quiet />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -141,9 +144,10 @@ export default function RefundPage() {
       </section>
 
       {/* Main Content */}
-      <section className="py-16">
+      <section data-botanical-section className="py-16">
+        <RainforestBackground designKey="refund/policy-guide" quiet />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Sidebar Navigation */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -194,12 +198,13 @@ export default function RefundPage() {
               <div className="space-y-12">
                 {/* Overview */}
                 <div id="overview" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="refund/overview" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-[#b1b94c]/20 flex items-center justify-center">
                         <FileText className="w-6 h-6 text-[#b1b94c]" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         1. Overview
                       </h2>
                     </div>
@@ -230,12 +235,13 @@ export default function RefundPage() {
 
                 {/* Standard Cancellation */}
                 <div id="standard" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="refund/standard" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-green-500/20 flex items-center justify-center">
                         <Clock className="w-6 h-6 text-green-400" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         2. Standard Cancellation & Refund
                       </h2>
                     </div>
@@ -292,12 +298,13 @@ export default function RefundPage() {
 
                 {/* Medical & Emergency */}
                 <div id="medical" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="refund/medical" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-amber-500/20 flex items-center justify-center">
                         <AlertCircle className="w-6 h-6 text-amber-400" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         3. Medical & Emergency Cancellations
                       </h2>
                     </div>
@@ -334,12 +341,13 @@ export default function RefundPage() {
 
                 {/* Cancellation by Us */}
                 <div id="by-us" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="refund/by-us" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-blue-500/20 flex items-center justify-center">
                         <RefreshCcw className="w-6 h-6 text-blue-400" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         4. Cancellation by Three Monkeys
                       </h2>
                     </div>
@@ -380,12 +388,13 @@ export default function RefundPage() {
 
                 {/* Third-Party Bookings */}
                 <div id="third-party" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="refund/third-party" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-purple-500/20 flex items-center justify-center">
                         <Users className="w-6 h-6 text-purple-400" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         5. Third-Party Bookings
                       </h2>
                     </div>
@@ -414,12 +423,13 @@ export default function RefundPage() {
 
                 {/* Partial Refunds */}
                 <div id="partial" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="refund/partial" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-teal-500/20 flex items-center justify-center">
                         <Percent className="w-6 h-6 text-teal-400" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         6. Partial Refunds
                       </h2>
                     </div>
@@ -453,12 +463,13 @@ export default function RefundPage() {
 
                 {/* Refund Process */}
                 <div id="process" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="refund/process" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-indigo-500/20 flex items-center justify-center">
                         <CreditCard className="w-6 h-6 text-indigo-400" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         7. Refund Process
                       </h2>
                     </div>
@@ -524,12 +535,13 @@ export default function RefundPage() {
 
                 {/* Non-Refundable Items */}
                 <div id="non-refundable" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="refund/non-refundable" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-red-500/20 flex items-center justify-center">
                         <XCircle className="w-6 h-6 text-red-400" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         8. Non-Refundable Items
                       </h2>
                     </div>
@@ -555,12 +567,13 @@ export default function RefundPage() {
 
                 {/* Disputes */}
                 <div id="disputes" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="refund/disputes" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-orange-500/20 flex items-center justify-center">
                         <Shield className="w-6 h-6 text-orange-400" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         9. Disputes
                       </h2>
                     </div>
@@ -596,12 +609,13 @@ export default function RefundPage() {
 
                 {/* Contact */}
                 <div id="contact" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="refund/contact" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-[#b1b94c]/20 flex items-center justify-center">
                         <Mail className="w-6 h-6 text-[#b1b94c]" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         10. Contact Information
                       </h2>
                     </div>
@@ -648,7 +662,8 @@ export default function RefundPage() {
               </div>
               
               {/* Related Links */}
-              <div className="mt-12 p-6 bg-[#111] rounded-3xl border border-white/10">
+              <div data-botanical-section className="mt-12 p-6 bg-[#111] rounded-3xl border border-white/10 overflow-hidden">
+                <RainforestBackground designKey="refund/related-policies" quiet />
                 <h3 className="text-lg font-medium text-white mb-4">Related Policies</h3>
                 <div className="grid sm:grid-cols-3 gap-4">
                   <Link 

@@ -1,5 +1,7 @@
 'use client';
 
+import { RainforestBackground } from '@/components/ui/RainforestBackground';
+
 import { useMemo, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from '@/i18n/navigation';
@@ -28,7 +30,8 @@ export default function SpecialPackagesPage() {
     <main className="min-h-screen bg-[#0a0a0a]">
       {/* Hero Section — taller on phones so the image is visible above
           the title text (was getting completely covered on mobile) */}
-      <section className="relative min-h-[78vh] sm:min-h-[60vh] md:min-h-[50vh] flex items-end justify-center overflow-hidden">
+      <section className="relative min-h-[78vh] sm:min-h-[60vh] md:min-h-[50vh] flex items-end justify-center overflow-hidden" data-botanical-section>
+        <RainforestBackground designKey="special-packages/hero" quiet />
         <div className="absolute inset-0">
           <Image
             src="/images/Random images/40_resize.jpg"
@@ -82,7 +85,8 @@ export default function SpecialPackagesPage() {
       </section>
 
       {/* Packages Grid */}
-      <section className="py-20">
+      <section className="py-20" data-botanical-section>
+        <RainforestBackground designKey="special-packages/celebrations" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-6">
             {specialPackages.map((pkg, index) => (
@@ -165,7 +169,8 @@ export default function SpecialPackagesPage() {
       </section>
 
       {/* Custom Request Section */}
-      <section className="py-24 relative overflow-hidden">
+      <section className="py-24 relative overflow-hidden" data-botanical-section>
+        <RainforestBackground designKey="special-packages/custom-events" quiet />
         <div className="absolute inset-0">
           <Image
             src="/images/Random images/41_resize.jpg"

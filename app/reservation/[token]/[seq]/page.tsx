@@ -1,3 +1,5 @@
+import { RainforestBackground } from '@/components/ui/RainforestBackground';
+
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
@@ -75,7 +77,8 @@ export default async function ReservationTicketPage(
   const deposit = fmtMoney(booking.deposit_amount);
 
   return (
-    <main className="min-h-screen w-full bg-gradient-to-b from-[#dfd92b] via-[#d6cf24] to-[#c4bd1e] py-6 px-4 sm:py-10 flex justify-center font-[family-name:var(--font-inter)]">
+    <main className="min-h-screen w-full bg-gradient-to-b from-[#dfd92b] via-[#d6cf24] to-[#c4bd1e] py-6 px-4 sm:py-10 flex justify-center font-[family-name:var(--font-inter)]" data-botanical-section>
+        <RainforestBackground designKey="reservation/ticket" light quiet />
       <div className="w-full max-w-md">
         {/* Ticket card */}
         <div className="bg-[#e7e02f] rounded-3xl shadow-2xl shadow-black/20 overflow-hidden ring-1 ring-black/10">
