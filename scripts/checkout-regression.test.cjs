@@ -18,6 +18,43 @@ const validBody = (overrides = {}) => ({
   ...overrides,
 });
 
+// Next imports route modules while collecting build metadata. Use the real
+// Stripe/Supabase libraries with an empty environment to reproduce Preview.
+function loadBookingRouteWithoutCredentials() {
+  const cache = new Map();
+  function load(id) {
+    if (!id.startsWith('@/')) return require(id);
+    const file = path.join(root, `${id.slice(2)}.ts`);
+    if (cache.has(file)) return cache.get(file).exports;
+    const loadedModule = { exports: {} };
+    cache.set(file, loadedModule);
+    const compiled = ts.transpileModule(fs.readFileSync(file, 'utf8'), {
+      compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020, esModuleInterop: true },
+    }).outputText;
+    vm.runInNewContext(compiled, {
+      module: loadedModule, exports: loadedModule.exports, require: load,
+      process: { env: {} }, URL, console,
+      fetch: () => { throw new Error('Network forbidden in regression tests'); },
+    }, { filename: file });
+    return loadedModule.exports;
+  }
+  return load('@/app/api/bookings/[ref]/route');
+}
+
+test('booking lookup can be imported during a Preview build without private credentials', () => {
+  assert.doesNotThrow(loadBookingRouteWithoutCredentials);
+});
+
+test('booking lookup still rejects missing payment verification without private credentials', async () => {
+  const route = loadBookingRouteWithoutCredentials();
+  const response = await route.GET(
+    { url: 'https://example.test/api/bookings/3M-123456' },
+    { params: Promise.resolve({ ref: '3M-123456' }) },
+  );
+  assert.equal(response.status, 401);
+  assert.equal((await response.json()).error, 'Unauthorized - payment verification required');
+});
+
 function harness(options = {}) {
   const writes = [], payments = [], rpcs = [];
   const promo = {
