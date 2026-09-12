@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Star, ArrowLeft, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
+import { RainforestBackground } from '@/components/ui/RainforestBackground';
 
 const testimonials = [
   {
@@ -55,19 +56,9 @@ export function Testimonials() {
 
   return (
     <section className="relative py-32 bg-[#0a0a0a] overflow-hidden">
-      {/* Background Image */}
-      <div className="absolute inset-0">
-        <Image
-          src="/images/Random images/48_resize.jpg"
-          alt="Restaurant ambiance"
-          fill
-          className="object-cover opacity-20"
-          unoptimized
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-black" />
-      </div>
+      <RainforestBackground scene="bamboo" />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           
           {/* Left Side - Header & Stats */}

@@ -1,5 +1,6 @@
 'use client';
 
+import { RainforestBackground } from '@/components/ui/RainforestBackground';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from '@/i18n/navigation';
@@ -136,7 +137,8 @@ export default function CookiePolicyPage() {
   return (
     <main className="min-h-screen bg-[#0a0a0a]">
       {/* Hero Section */}
-      <section className="relative min-h-[50vh] flex items-end justify-center overflow-hidden">
+      <section data-botanical-section className="relative min-h-[50vh] flex items-end justify-center overflow-hidden">
+        <RainforestBackground designKey="cookies/hero" quiet />
         <div className="absolute inset-0">
           <Image
             src="/images/Random images/45_resize.jpg"
@@ -175,7 +177,8 @@ export default function CookiePolicyPage() {
       </section>
 
       {/* Cookie Type Overview Cards */}
-      <section className="py-8 -mt-16 relative z-20">
+      <section data-botanical-section className="py-8 -mt-16 relative z-20">
+        <RainforestBackground designKey="cookies/cookie-overview" quiet />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -203,9 +206,10 @@ export default function CookiePolicyPage() {
       </section>
 
       {/* Main Content */}
-      <section className="py-16">
+      <section data-botanical-section className="py-16">
+        <RainforestBackground designKey="cookies/policy-guide" quiet />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Sidebar Navigation */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -256,12 +260,13 @@ export default function CookiePolicyPage() {
               <div className="space-y-12">
                 {/* What Are Cookies */}
                 <div id="what-are" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="cookies/what-are" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-[#b1b94c]/20 flex items-center justify-center">
                         <Cookie className="w-6 h-6 text-[#b1b94c]" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         1. What Are Cookies?
                       </h2>
                     </div>
@@ -300,12 +305,13 @@ export default function CookiePolicyPage() {
 
                 {/* Types of Cookies */}
                 <div id="types" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="cookies/types" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-blue-500/20 flex items-center justify-center">
                         <Database className="w-6 h-6 text-blue-400" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         2. Types of Cookies We Use
                       </h2>
                     </div>
@@ -377,12 +383,13 @@ export default function CookiePolicyPage() {
 
                 {/* Third-Party Cookies */}
                 <div id="third-party" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="cookies/third-party" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-purple-500/20 flex items-center justify-center">
                         <Globe className="w-6 h-6 text-purple-400" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         3. Third-Party Cookies
                       </h2>
                     </div>
@@ -446,12 +453,13 @@ export default function CookiePolicyPage() {
 
                 {/* Managing Cookies */}
                 <div id="managing" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="cookies/managing" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-teal-500/20 flex items-center justify-center">
                         <Sliders className="w-6 h-6 text-teal-400" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         4. Managing Cookies
                       </h2>
                     </div>
@@ -550,12 +558,13 @@ export default function CookiePolicyPage() {
 
                 {/* Similar Technologies */}
                 <div id="similar" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="cookies/similar" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-indigo-500/20 flex items-center justify-center">
                         <Settings className="w-6 h-6 text-indigo-400" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         5. Similar Technologies
                       </h2>
                     </div>
@@ -598,12 +607,13 @@ export default function CookiePolicyPage() {
 
                 {/* Policy Updates */}
                 <div id="updates" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="cookies/updates" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-orange-500/20 flex items-center justify-center">
                         <FileText className="w-6 h-6 text-orange-400" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         6. Updates to This Policy
                       </h2>
                     </div>
@@ -620,12 +630,13 @@ export default function CookiePolicyPage() {
 
                 {/* Contact Us */}
                 <div id="contact" className="scroll-mt-32">
-                  <div className="bg-[#111] rounded-3xl border border-white/10 p-8">
+                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
+                    <RainforestBackground designKey="cookies/contact" quiet />
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-12 h-12 rounded-2xl bg-[#b1b94c]/20 flex items-center justify-center">
                         <Mail className="w-6 h-6 text-[#b1b94c]" />
                       </div>
-                      <h2 className="text-2xl font-[family-name:var(--font-krona)] text-white">
+                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
                         7. Contact Us
                       </h2>
                     </div>
@@ -663,7 +674,8 @@ export default function CookiePolicyPage() {
               </div>
               
               {/* Related Links */}
-              <div className="mt-12 p-6 bg-[#111] rounded-3xl border border-white/10">
+              <div data-botanical-section className="mt-12 p-6 bg-[#111] rounded-3xl border border-white/10 overflow-hidden">
+                <RainforestBackground designKey="cookies/related-policies" quiet />
                 <h3 className="text-lg font-medium text-white mb-4">Related Policies</h3>
                 <div className="grid sm:grid-cols-3 gap-4">
                   <Link 

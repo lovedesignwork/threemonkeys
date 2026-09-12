@@ -6,6 +6,7 @@ import { usePathname } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import { Facebook, Instagram, Youtube, ArrowUpRight, MapPin, Phone, Mail, Clock, MessageCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { RainforestBackground } from '@/components/ui/RainforestBackground';
 
 const socialLinks = [
   { name: 'Facebook', icon: Facebook, href: 'https://facebook.com/threemonkeys' },
@@ -41,7 +42,8 @@ export function Footer() {
   return (
     <footer className="relative bg-[#0a0a0a]">
       {/* Top CTA Section */}
-      <div className="relative overflow-hidden">
+      <div className="relative overflow-hidden" data-botanical-section>
+        <RainforestBackground designKey="footer/invitation" quiet />
         <div className="absolute inset-0 bg-gradient-to-r from-[#b1b94c]/20 via-[#b1b94c]/10 to-[#b1b94c]/20" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           {isBookingOrCheckout ? (
@@ -109,8 +111,9 @@ export function Footer() {
       </div>
 
       {/* Main Footer */}
-      <div className="border-t border-white/5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div className="relative overflow-hidden border-t border-white/5">
+        <RainforestBackground scene="ferns" />
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12">
             {/* Brand Section */}
             <div className="lg:col-span-4">

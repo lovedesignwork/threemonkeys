@@ -10,6 +10,7 @@ import { formatPrice } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
 import { useTranslatedPackage } from '@/hooks/useTranslatedPackage';
 import { usePackageControls } from '@/hooks/usePackageControls';
+import { RainforestBackground } from '@/components/ui/RainforestBackground';
 
 export function SpecialPackages() {
   const t = useTranslations('home.packages');
@@ -22,8 +23,7 @@ export function SpecialPackages() {
 
   return (
     <section className="relative py-24 bg-[#0f0f0f] overflow-hidden">
-      {/* Subtle Background Accent */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-[#b1b94c]/5 rounded-full blur-3xl" />
+      <RainforestBackground scene="vines" />
       
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}

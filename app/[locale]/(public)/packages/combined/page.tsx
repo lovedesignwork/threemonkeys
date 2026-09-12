@@ -1,5 +1,7 @@
 'use client';
 
+import { RainforestBackground } from '@/components/ui/RainforestBackground';
+
 import { motion } from 'framer-motion';
 import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
@@ -25,7 +27,8 @@ export default function CombinedPackagesPage() {
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative min-h-[50vh] flex items-end justify-center bg-[#1a1a1a] overflow-hidden">
+      <section className="relative min-h-[50vh] flex items-end justify-center bg-[#1a1a1a] overflow-hidden" data-botanical-section>
+        <RainforestBackground designKey="packages/combined/hero" quiet />
         <div className="absolute inset-0 bg-[url('/images/Random images/43_resize.jpg')] bg-cover bg-center opacity-20" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#1a1a1a] via-transparent to-[#1a1a1a]" />
         
@@ -50,7 +53,8 @@ Explore our complete range of dining packages. From tasting menus to cooking cla
       </section>
 
       {/* Packages Section */}
-      <Section className="bg-[#0f0f0f] py-20">
+      <Section className="bg-[#0f0f0f] py-20" data-botanical-section>
+        <RainforestBackground designKey="packages/combined/catalogue" />
         <Container>
           <div className="space-y-8">
             {packages.map((pkg, index) => (
@@ -169,7 +173,8 @@ Explore our complete range of dining packages. From tasting menus to cooking cla
       </Section>
 
       {/* Why Choose Section */}
-      <Section className="bg-[#1a1a1a] py-16">
+      <Section className="bg-[#1a1a1a] py-16" data-botanical-section>
+        <RainforestBackground designKey="packages/combined/benefits" />
         <Container>
           <div className="text-center max-w-3xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-[family-name:var(--font-krona)] text-white mb-4">

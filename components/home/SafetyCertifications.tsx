@@ -1,5 +1,7 @@
 'use client';
 
+import { RainforestBackground } from '@/components/ui/RainforestBackground';
+
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Leaf, ChefHat, Utensils, Users } from 'lucide-react';
@@ -35,7 +37,8 @@ export function SafetyCertifications() {
     },
   ];
   return (
-    <section className="relative py-24 overflow-hidden">
+    <section className="relative py-24 overflow-hidden" data-botanical-section>
+        <RainforestBackground designKey="home/quality" light quiet />
       {/* Leaves Background with Green Overlay */}
       <div className="absolute inset-0">
         <Image

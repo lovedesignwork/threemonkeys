@@ -1,5 +1,6 @@
 'use client';
 
+import { RainforestBackground } from '@/components/ui/RainforestBackground';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
@@ -30,7 +31,8 @@ export default function BlogPage() {
   return (
     <main className="min-h-screen bg-[#0a0a0a]">
       {/* Hero Section */}
-      <section className="relative min-h-[50vh] flex items-end justify-center overflow-hidden">
+      <section data-botanical-section className="relative min-h-[50vh] flex items-end justify-center overflow-hidden">
+        <RainforestBackground designKey="blog/hero" quiet />
         <div className="absolute inset-0">
           <Image
             src="/images/Random images/34_resize.jpg"
@@ -71,7 +73,8 @@ export default function BlogPage() {
       </section>
 
       {/* Category Filter */}
-      <section className="py-8 border-b border-white/10">
+      <section data-botanical-section className="py-8 border-b border-white/10">
+        <RainforestBackground designKey="blog/categories" quiet />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap items-center justify-center gap-3">
             <button
@@ -103,7 +106,8 @@ export default function BlogPage() {
 
       {/* Featured Post - Only show when no category filter */}
       {!selectedCategory && (
-        <section className="py-16">
+        <section data-botanical-section className="py-16">
+          <RainforestBackground designKey="blog/featured-story" />
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -169,7 +173,8 @@ export default function BlogPage() {
       )}
 
       {/* Blog Posts Grid */}
-      <section className="py-16 bg-[#111]">
+      <section data-botanical-section className="py-16 bg-[#111]">
+        <RainforestBackground designKey="blog/latest-articles" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {!selectedCategory && (
             <motion.div
@@ -268,7 +273,8 @@ export default function BlogPage() {
       </section>
 
       {/* Newsletter CTA */}
-      <section className="py-24 relative overflow-hidden">
+      <section data-botanical-section className="py-24 relative overflow-hidden">
+        <RainforestBackground designKey="blog/social-invitation" light />
         <div className="absolute inset-0">
           <Image
             src="/images/Random images/35_resize.jpg"

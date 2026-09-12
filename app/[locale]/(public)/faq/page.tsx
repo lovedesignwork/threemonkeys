@@ -1,5 +1,7 @@
 'use client';
 
+import { RainforestBackground } from '@/components/ui/RainforestBackground';
+
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from '@/i18n/navigation';
@@ -114,7 +116,8 @@ export default function FAQPage() {
       <FAQSchema faqs={allFAQs} />
       
       {/* Hero Section */}
-      <section className="relative min-h-[50vh] flex items-end justify-center overflow-hidden">
+      <section className="relative min-h-[50vh] flex items-end justify-center overflow-hidden" data-botanical-section>
+        <RainforestBackground designKey="faq/hero" quiet />
         <div className="absolute inset-0">
           <Image
             src="/images/new/threemonkeys022.jpg"
@@ -175,7 +178,8 @@ export default function FAQPage() {
       </section>
 
       {/* Category Cards */}
-      <section className="py-16 -mt-20 relative z-20">
+      <section className="py-16 -mt-20 relative z-20" data-botanical-section>
+        <RainforestBackground designKey="faq/categories" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {faqCategories.map((cat, index) => (
@@ -215,7 +219,8 @@ export default function FAQPage() {
       </section>
 
       {/* FAQ Accordion */}
-      <section className="py-16">
+      <section className="py-16" data-botanical-section>
+        <RainforestBackground designKey={`faq/${activeCategory || "all"}/answers`} />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {filteredCategories.length === 0 ? (
             <motion.div
@@ -280,7 +285,8 @@ export default function FAQPage() {
       </section>
 
       {/* Quick Contact Cards */}
-      <section className="py-16 bg-[#111]">
+      <section className="py-16 bg-[#111]" data-botanical-section>
+        <RainforestBackground designKey="faq/contact-options" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -357,7 +363,8 @@ export default function FAQPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 relative overflow-hidden">
+      <section className="py-24 relative overflow-hidden" data-botanical-section>
+        <RainforestBackground designKey="faq/reservation" light quiet />
         <div className="absolute inset-0">
           <Image
             src="/images/Random images/33_resize.jpg"

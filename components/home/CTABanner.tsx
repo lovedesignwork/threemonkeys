@@ -1,5 +1,7 @@
 'use client';
 
+import { RainforestBackground } from '@/components/ui/RainforestBackground';
+
 import { motion } from 'framer-motion';
 import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
@@ -9,7 +11,8 @@ import { useTranslations } from 'next-intl';
 export function CTABanner() {
   const t = useTranslations('home.cta');
   return (
-    <section className="relative py-24 overflow-hidden">
+    <section className="relative py-24 overflow-hidden" data-botanical-section>
+        <RainforestBackground designKey="home/reservation" quiet />
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image

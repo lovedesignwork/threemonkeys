@@ -1,5 +1,7 @@
 'use client';
 
+import { RainforestBackground } from '@/components/ui/RainforestBackground';
+
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
@@ -32,7 +34,8 @@ export function HeroSlideshow() {
   const goNext = () => setCurrentImage((prev) => (prev + 1) % heroImages.length);
 
   return (
-    <section className="relative h-[100dvh] w-full overflow-hidden bg-black">
+    <section className="relative h-[100dvh] w-full overflow-hidden bg-black" data-botanical-section>
+        <RainforestBackground designKey="home/welcome" quiet />
       {/* Immersive Background Images */}
       <div className="absolute inset-0">
         <AnimatePresence mode="wait">

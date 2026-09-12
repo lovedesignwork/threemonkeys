@@ -1,0 +1,131 @@
+.root {
+  --ink: #a4ad67;
+  --strength: .33;
+  --sway: 28s;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+  color: var(--ink);
+  /* Transparent edges dissolve the drawings into each section's own color. */
+  mask-image: linear-gradient(to bottom, transparent, #000 9%, #000 90%, transparent);
+}
+
+/* No layout wrappers or host clipping: sticky rails, overlapping cards and
+   fixed lightboxes keep their existing containing blocks and stacking. */
+:global([data-botanical-section]) { position: relative; }
+:global([data-botanical-section]) > .root { z-index: 1; }
+:global([data-botanical-section]) > :global(:where(:not([data-rainforest], .absolute, .fixed, .sticky, [data-nimg='fill'], script, style))) {
+  position: relative;
+  z-index: 2;
+}
+
+.wash {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 2% 45%, #747d3212, transparent 47%),
+    radial-gradient(ellipse at 100% 75%, #8993430b, transparent 45%);
+}
+
+.frame {
+  position: absolute;
+  width: clamp(340px, 36vw, 660px);
+  aspect-ratio: 570 / 760;
+  opacity: var(--strength);
+  mask-image: linear-gradient(100deg, #000 25%, #0009 64%, transparent 100%);
+}
+
+.drawing {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-origin: 50% 92%;
+  animation: forest-sway var(--sway) ease-in-out infinite;
+  animation-delay: -9s;
+  animation-play-state: paused;
+}
+
+.root[data-active='true'] .drawing { animation-play-state: running; }
+.left { left: -9%; top: -7%; transform: rotate(14deg); }
+.right { right: -8%; bottom: -12%; transform: scaleX(-1) rotate(-14deg); }
+.right .drawing { animation-duration: calc(var(--sway) * 1.27); animation-delay: -19s; }
+
+.palms { --strength: .38; --sway: 26s; }
+.palms .left { width: clamp(410px, 43vw, 770px); left: -9%; top: -25%; transform: rotate(39deg); }
+.palms .right { width: clamp(380px, 41vw, 720px); right: -9%; bottom: -30%; transform: scaleX(-1) rotate(29deg); }
+
+.vines { --ink: #b1b97c; --strength: .31; --sway: 32s; }
+.vines .left { top: -8%; left: -13%; transform: rotate(-12deg); }
+.vines .right { width: clamp(380px, 40vw, 690px); top: 13%; right: -5%; bottom: auto; transform: scaleX(-1) rotate(16deg); }
+.vines .drawing { transform-origin: 50% 0; animation-name: forest-hang; }
+
+.leaves { --sway: 36s; }
+.leaves .left { left: -9%; top: -4%; transform: rotate(17deg); }
+.leaves .right { right: -7%; bottom: -17%; transform: scaleX(-1) rotate(-14deg); }
+.light { --ink: #273215; --strength: .28; }
+.light .wash { background: radial-gradient(ellipse at 0 30%, #53622310, transparent 60%); }
+
+.bamboo { --ink: #94a36b; --strength: .22; --sway: 33s; }
+.bamboo .left { left: -16%; top: -9%; transform: rotate(-7deg); }
+.bamboo .right { right: -16%; bottom: -12%; transform: scaleX(-1) rotate(8deg); }
+.bamboo .frame { width: clamp(430px, 43vw, 750px); }
+
+.canopy { --ink: #9ea66c; --strength: .26; --sway: 42s; }
+.canopy .left { left: -14%; top: 5%; transform: rotate(-3deg); }
+.canopy .right { right: -12%; bottom: -6%; transform: scaleX(-1); }
+.canopy .frame { width: clamp(510px, 48vw, 850px); }
+.canopy .drawing { animation-name: forest-breathe; }
+
+.ferns { --strength: .32; --sway: 30s; }
+.ferns .left { left: -13%; top: auto; bottom: -44%; transform: rotate(23deg); }
+.ferns .right { right: -10%; bottom: -44%; transform: scaleX(-1) rotate(-10deg); }
+.ferns .frame { width: clamp(370px, 35vw, 620px); }
+
+.flora { --strength: .35; }
+.flora .frame { width: clamp(390px, 37vw, 640px); }
+.flora .left { left: -11%; top: -7%; transform: rotate(-16deg); }
+.flora .right { right: -11%; bottom: -10%; transform: scaleX(-1) rotate(13deg); }
+.arrangement1 .left { top: 8%; transform: rotate(15deg); }
+.arrangement1 .right { bottom: -17%; transform: scaleX(-1) rotate(-17deg); }
+.arrangement2 .left { top: -21%; transform: rotate(32deg); }
+.arrangement2 .right { bottom: -4%; transform: scaleX(-1) rotate(5deg); }
+.flora.light { --strength: .24; }
+.quiet { --strength: .18; }
+.flora.light.quiet { --strength: .13; }
+.quiet .wash { opacity: .45; }
+
+/* Matching start/end poses and zero velocity at the turn keep every loop soft. */
+@keyframes forest-sway {
+  0%, 100% { transform: rotate(-1.5deg) translate3d(0, 0, 0); }
+  50% { transform: rotate(1.8deg) translate3d(7px, -5px, 0); }
+}
+@keyframes forest-hang {
+  0%, 100% { transform: rotate(-1.7deg); }
+  50% { transform: rotate(1.7deg) translate3d(3px, 5px, 0); }
+}
+@keyframes forest-breathe {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(-.5deg); }
+  50% { transform: translate3d(5px, -6px, 0) rotate(.6deg); }
+}
+
+@media (max-width: 767px) {
+  .root { --strength: .23; }
+  .frame { max-width: 340px; }
+  .left { left: -170px !important; top: -65px !important; }
+  .right { right: -180px !important; bottom: -50px !important; }
+  .vines .right { top: 46%; }
+  .canopy .frame { max-width: 420px; }
+  .canopy .left { left: -250px !important; top: 10% !important; }
+  .canopy .right { right: -265px !important; }
+  .ferns .left { top: auto !important; }
+  .light { --strength: .22; }
+  .flora .left { left: -205px !important; }
+  .flora .right { right: -215px !important; }
+  .quiet { --strength: .13; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root .drawing { animation: none; }
+}

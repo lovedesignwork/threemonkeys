@@ -1,5 +1,7 @@
 'use client';
 
+import { RainforestBackground } from '@/components/ui/RainforestBackground';
+
 import { useMemo, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from '@/i18n/navigation';
@@ -49,7 +51,8 @@ export default function SeatsPage() {
   // Loading fallback if no packages
   if (!seatPackages || seatPackages.length === 0) {
     return (
-      <main className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
+      <main className="min-h-screen bg-[#0a0a0a] flex items-center justify-center" data-botanical-section>
+        <RainforestBackground designKey="seats/loading" quiet />
         <div className="text-white text-center">
           <div className="w-8 h-8 border-2 border-[#b1b94c] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
           <p>Loading seats...</p>
@@ -71,7 +74,8 @@ export default function SeatsPage() {
         </defs>
       </svg>
       {/* Hero Section */}
-      <section className="relative h-[60vh] lg:h-[70vh] flex items-end justify-center overflow-hidden">
+      <section className="relative h-[60vh] lg:h-[70vh] flex items-end justify-center overflow-hidden" data-botanical-section>
+        <RainforestBackground designKey="seats/hero" quiet />
         <div className="absolute inset-0">
           <AnimatePresence mode="wait">
             <motion.div
@@ -123,7 +127,8 @@ export default function SeatsPage() {
       </section>
 
       {/* Seats Grid */}
-      <section className="py-20">
+      <section className="py-20" data-botanical-section>
+        <RainforestBackground designKey="seats/dining-zones" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Premium Seats - Monkey Dome & Monkey Nest */}
           <div className="mb-8">
@@ -410,7 +415,8 @@ export default function SeatsPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-[#111]">
+      <section className="py-20 bg-[#111]" data-botanical-section>
+        <RainforestBackground designKey="seats/celebrations" />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

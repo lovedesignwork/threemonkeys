@@ -1,5 +1,7 @@
 'use client';
 
+import { RainforestBackground } from '@/components/ui/RainforestBackground';
+
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
@@ -45,7 +47,8 @@ export default function AboutPage() {
   return (
     <main ref={containerRef} className="min-h-screen bg-[#0a0a0a]">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-end justify-center overflow-hidden">
+      <section className="relative min-h-screen flex items-end justify-center overflow-hidden" data-botanical-section>
+        <RainforestBackground designKey="about/hero" quiet />
         <motion.div 
           className="absolute inset-0"
           style={{ y: y1 }}
@@ -118,7 +121,8 @@ export default function AboutPage() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-20 relative z-10 -mt-32">
+      <section className="py-20 relative z-10 -mt-32" data-botanical-section>
+        <RainforestBackground designKey="about/milestones" />
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {[
@@ -154,7 +158,8 @@ export default function AboutPage() {
       </section>
 
       {/* Story Section */}
-      <section className="py-24">
+      <section className="py-24" data-botanical-section>
+        <RainforestBackground designKey="about/story" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             {/* Left - Images */}
@@ -254,7 +259,8 @@ export default function AboutPage() {
       </section>
 
       {/* Values Section */}
-      <section className="py-24 bg-[#111]">
+      <section className="py-24 bg-[#111]" data-botanical-section>
+        <RainforestBackground designKey="about/values" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -299,7 +305,8 @@ export default function AboutPage() {
       </section>
 
       {/* Experience Preview */}
-      <section className="py-24">
+      <section className="py-24" data-botanical-section>
+        <RainforestBackground designKey="about/experiences" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -372,7 +379,8 @@ export default function AboutPage() {
       </section>
 
       {/* Full Width CTA */}
-      <section className="relative py-32 overflow-hidden">
+      <section className="relative py-32 overflow-hidden" data-botanical-section>
+        <RainforestBackground designKey="about/reservation" quiet />
         <div className="absolute inset-0">
           <Image
             src="/images/new/threemonkeys033.jpg"
@@ -416,7 +424,8 @@ export default function AboutPage() {
       </section>
 
       {/* Location Section */}
-      <section className="py-24 bg-[#111]">
+      <section className="py-24 bg-[#111]" data-botanical-section>
+        <RainforestBackground designKey="about/location" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             {/* Map */}

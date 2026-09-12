@@ -1,5 +1,7 @@
 'use client';
 
+import { RainforestBackground } from '@/components/ui/RainforestBackground';
+
 import { useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
@@ -135,7 +137,8 @@ function SuccessContent() {
 
   if (error) {
     return (
-      <main className="min-h-screen bg-[#0a0a0a] flex items-center justify-center p-4">
+      <main className="min-h-screen bg-[#0a0a0a] flex items-center justify-center p-4" data-botanical-section>
+        <RainforestBackground designKey="checkout-success/access" quiet />
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -158,14 +161,16 @@ function SuccessContent() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
+      <main className="min-h-screen bg-[#0a0a0a] flex items-center justify-center" data-botanical-section>
+        <RainforestBackground designKey="checkout-success/loading" quiet />
         <div className="w-8 h-8 border-2 border-[#b1b94c] border-t-transparent rounded-full animate-spin" />
       </main>
     );
   }
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#0a0a0a] text-white">
+    <main className="relative min-h-screen overflow-hidden bg-[#0a0a0a] text-white" data-botanical-section>
+        <RainforestBackground designKey="checkout-success/confirmation" quiet />
       {/* Soft brand glow */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -top-1/3 left-1/2 h-[700px] w-[700px] -translate-x-1/2 rounded-full bg-[#b1b94c]/10 blur-[140px]" />
@@ -555,7 +560,8 @@ export default function SuccessPage() {
   return (
     <Suspense
       fallback={
-        <main className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
+        <main className="min-h-screen bg-[#0a0a0a] flex items-center justify-center" data-botanical-section>
+        <RainforestBackground designKey="checkout-success/pending" quiet />
           <div className="w-8 h-8 border-2 border-[#b1b94c] border-t-transparent rounded-full animate-spin" />
         </main>
       }

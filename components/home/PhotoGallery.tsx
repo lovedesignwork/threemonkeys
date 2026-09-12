@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { RainforestBackground } from '@/components/ui/RainforestBackground';
 
 const galleryImages = [
   { src: '/images/new/threemonkeys049.jpg', alt: 'Elegant Restaurant Interior' },
@@ -37,18 +38,8 @@ export function PhotoGallery() {
   };
 
   return (
-    <section className="relative py-24 overflow-hidden">
-      {/* Leaves Background with Green Overlay */}
-      <div className="absolute inset-0">
-        <Image
-          src="/images/Random images/43_resize.jpg"
-          alt=""
-          fill
-          className="object-cover"
-          unoptimized
-        />
-        <div className="absolute inset-0 bg-[#b1b94c]/90" />
-      </div>
+    <section className="relative py-24 bg-[#b1b94c] overflow-hidden">
+      <RainforestBackground scene="leaves" light />
       
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
