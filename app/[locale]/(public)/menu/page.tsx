@@ -255,7 +255,7 @@ const foodCategories: MenuCategory[] = [
       { name: 'Deep Fried Vegetables Spring Rolls', nameThai: 'ปอเปี๊ยะไส้ผัก', price: 150 },
       { name: 'Stir Fried Mixed Vegetables With Oyster Sauce', nameThai: 'ผัดผักรวม', price: 190 },
       { name: 'Mixed Fruits Salad', nameThai: 'ยำผลไม้รวม', price: 290 },
-      { name: 'Enoki Tempura', nameThai: 'เห็ดเข็มทองทอด', price: 190 },
+      { name: 'Enoki Tempura', nameThai: 'เห็ดเข็มทองเทมปุระ', price: 190 },
       { name: 'Spicy Crispy Banana Blossom Salad', nameThai: 'ยำทรีมังกี้ส์ (ยำหัวปลีกรอบ)', price: 290 },
     ]
   },
@@ -527,13 +527,22 @@ const getImagePaths = (item: MenuItem, folderName: string, isFood: boolean): str
 type MenuItemWithSource = MenuItem & { sourceCategory: string; sourceFolderName: string };
 
 const getAllFoodItems = (): MenuItemWithSource[] => {
+  const seenItems = new Set<string>();
+
   return foodCategories
     .filter(c => c.id !== 'all-food')
     .flatMap(c => c.items.map(item => ({ 
       ...item, 
       sourceCategory: c.id,
       sourceFolderName: c.folderName 
-    })));
+    })))
+    .filter(item => {
+      // A dish can belong to multiple categories but should appear once in All Food.
+      const key = JSON.stringify([item.name, item.price]);
+      if (seenItems.has(key)) return false;
+      seenItems.add(key);
+      return true;
+    });
 };
 
 const getAllDrinkItems = (): MenuItemWithSource[] => {
