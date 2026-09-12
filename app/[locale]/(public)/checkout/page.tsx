@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo, Suspense } from 'react';
+import { useState, useMemo, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -17,6 +17,7 @@ import { formatPrice } from '@/lib/utils';
 import { usePackageControls } from '@/hooks/usePackageControls';
 import StripeCardProvider from '@/components/checkout/StripeCardProvider';
 import EmbeddedCardForm from '@/components/checkout/EmbeddedCardForm';
+import { parseCheckoutSelection, CheckoutValidationError } from '@/lib/checkout/validation';
 
 // Special package IDs (fixed price regardless of guest count)
 const SPECIAL_PACKAGE_IDS = ['ultimate-dinner', 'ultimate-birthday', 'ultimate-romantic-dinner', 'will-you-marry-me'];
@@ -54,7 +55,7 @@ function CheckoutContent() {
   const packageId = searchParams.get('package');
   const date = searchParams.get('date');
   const time = searchParams.get('time');
-  const guests = parseInt(searchParams.get('guests') || '2');
+  const guests = Number(searchParams.get('guests') ?? '2');
   const transfer = searchParams.get('transfer') === 'true';
   const hotel = searchParams.get('hotel') || '';
   const requests = searchParams.get('requests') || '';
@@ -62,19 +63,14 @@ function CheckoutContent() {
   
   const selectedPackage = packages.find(p => p.id === packageId || p.slug === packageId);
   
-  // Parse addons from URL (format: "id:qty,id:qty")
-  const addonQuantities = useMemo(() => {
-    const result: Record<string, number> = {};
-    if (addonsParam) {
-      addonsParam.split(',').forEach(item => {
-        const [id, qty] = item.split(':');
-        if (id && qty) {
-          result[id] = parseInt(qty);
-        }
-      });
+  const selection = useMemo(() => {
+    try {
+      return { data: parseCheckoutSelection(searchParams), error: null };
+    } catch (error) {
+      return { data: null, error: error instanceof CheckoutValidationError ? error.message : 'Please review your booking details.' };
     }
-    return result;
-  }, [addonsParam]);
+  }, [searchParams]);
+  const addonQuantities = useMemo(() => selection.data?.promoAddons ?? {}, [selection.data]);
 
   // Build edit URL to go back to booking page with EVERY field the
   // customer has already filled, so clicking "Edit" doesn't reset their
@@ -98,7 +94,7 @@ function CheckoutContent() {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [countryCode, setCountryCode] = useState('+66');
-  const [specialRequests, setSpecialRequests] = useState(requests);
+  const specialRequests = requests;
   
   // Payment state
   const [isCreatingBooking, setIsCreatingBooking] = useState(false);
@@ -119,7 +115,7 @@ function CheckoutContent() {
 
   // Price calculations - Fixed price for special packages
   const prices = useMemo(() => {
-    if (!selectedPackage) return { base: 0, addons: 0, transfer: 0, discount: 0, subtotal: 0, total: 0 };
+    if (!selectedPackage || !selection.data) return { base: 0, addons: 0, transfer: 0, discount: 0, subtotal: 0, total: 0 };
 
     // Effective price = admin override when set, catalog price otherwise
     const packagePrice = priceOf(selectedPackage);
@@ -150,7 +146,7 @@ function CheckoutContent() {
       subtotal,
       total: Math.max(0, subtotal - discountAmount)
     };
-  }, [selectedPackage, guests, addonQuantities, transfer, discountAmount, priceOf]);
+  }, [selectedPackage, selection.data, guests, addonQuantities, transfer, discountAmount, priceOf]);
 
   // Format date for display
   const formatDisplayDate = (dateString: string) => {
@@ -158,9 +154,9 @@ function CheckoutContent() {
     const [year, month, day] = dateString.split('-').map(Number);
     const dateObj = new Date(year, month - 1, day);
     return dateObj.toLocaleDateString('en-US', { 
-      weekday: 'long',
+      weekday: 'short',
       year: 'numeric', 
-      month: 'long', 
+      month: 'short',
       day: 'numeric' 
     });
   };
@@ -235,7 +231,7 @@ function CheckoutContent() {
 
   // Create booking and payment intent
   const handleCreateBookingAndPay = async (): Promise<{ clientSecret: string; bookingRef: string } | null> => {
-    if (!isCustomerFormValid) return null;
+    if (!isCustomerFormValid || !selection.data) return null;
     
     setIsCreatingBooking(true);
     
@@ -293,7 +289,7 @@ function CheckoutContent() {
   };
 
   // Redirect if no package selected
-  if (!selectedPackage) {
+  if (!selectedPackage || !selection.data) {
     return (
       <main className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
         <div className="max-w-lg mx-auto text-center px-4">
@@ -301,12 +297,12 @@ function CheckoutContent() {
             <AlertCircle className="w-10 h-10 text-[#b1b94c]" />
           </div>
           <h1 className="text-2xl font-[family-name:var(--font-krona)] text-white mb-4 normal-case">
-            No Booking Found
+            {selectedPackage ? 'Review Your Booking' : 'No Booking Found'}
           </h1>
           <p className="text-white/60 mb-8">
-            Please select a dining zone and complete the booking form first.
+            {selection.error || 'Please select a dining zone and complete the booking form first.'}
           </p>
-          <Link href="/booking">
+          <Link href={editBookingUrl}>
             <button className="px-8 py-4 bg-[#b1b94c] hover:bg-[#c4cc5a] text-black font-[family-name:var(--font-krona)] rounded-xl transition-colors">
               Go to Booking
             </button>
@@ -361,9 +357,9 @@ function CheckoutContent() {
             <span>Back to Booking</span>
           </Link>
           
-          <div className="grid lg:grid-cols-5 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
             {/* Left Column - Forms */}
-            <div className="lg:col-span-3 space-y-6">
+            <div className="min-w-0 lg:col-span-3 space-y-6">
               {/* Page Title - Mobile & Desktop */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -445,8 +441,8 @@ function CheckoutContent() {
                       <Calendar className="w-4 h-4 text-[#b1b94c] flex-shrink-0" />
                       <div className="min-w-0">
                         <p className="text-[10px] text-white/40 uppercase tracking-wider">Date</p>
-                        <p className="text-sm text-white font-medium truncate">
-                          {formatDisplayDate(date || '').split(',')[0]}
+                        <p className="text-sm text-white font-medium leading-snug">
+                          {formatDisplayDate(date || '')}
                         </p>
                       </div>
                     </div>
@@ -546,9 +542,11 @@ function CheckoutContent() {
                 <div className="p-6 space-y-5">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm text-white/60 mb-2">First Name *</label>
+                      <label htmlFor="checkout-firstName" className="block text-sm text-white/60 mb-2">First Name *</label>
                       <input
                         type="text"
+                        id="checkout-firstName"
+                        autoComplete="given-name"
                         value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
                         placeholder="John"
@@ -557,9 +555,11 @@ function CheckoutContent() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm text-white/60 mb-2">Last Name *</label>
+                      <label htmlFor="checkout-lastName" className="block text-sm text-white/60 mb-2">Last Name *</label>
                       <input
                         type="text"
+                        id="checkout-lastName"
+                        autoComplete="family-name"
                         value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
                         placeholder="Doe"
@@ -570,11 +570,13 @@ function CheckoutContent() {
                   </div>
                   
                   <div>
-                    <label className="block text-sm text-white/60 mb-2">Email Address *</label>
+                    <label htmlFor="checkout-email" className="block text-sm text-white/60 mb-2">Email Address *</label>
                     <div className="relative">
                       <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
                       <input
                         type="email"
+                        id="checkout-email"
+                        autoComplete="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="john@example.com"
@@ -585,20 +587,22 @@ function CheckoutContent() {
                   </div>
                   
                   <div>
-                    <label className="block text-sm text-white/60 mb-2">Phone Number *</label>
+                    <label htmlFor="checkout-phone" className="block text-sm text-white/60 mb-2">Phone Number *</label>
                     <div className="flex gap-3">
                       <CountryPhoneSelector
                         value={countryCode}
                         onChange={setCountryCode}
-                        className="w-28"
+                        className="w-24 sm:w-28 shrink-0"
                         variant="dark"
                       />
-                      <div className="relative flex-grow">
+                      <div className="relative min-w-0 flex-1">
                         <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
                         <input
                           type="tel"
-                          value={phone}
-                          onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
+                          id="checkout-phone"
+                        autoComplete="tel-national"
+                        value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
                           placeholder="812345678"
                           className="w-full pl-12 pr-4 py-3 bg-white/5 border border-[#b1b94c]/30 rounded-xl text-white placeholder:text-white/30 focus:outline-none focus:border-[#b1b94c] focus:ring-2 focus:ring-[#b1b94c]/20"
                           required
@@ -626,7 +630,7 @@ function CheckoutContent() {
             </div>
 
             {/* Right Column - Order Summary & Payment - Dark Theme */}
-            <div className="lg:col-span-2">
+            <div className="min-w-0 lg:col-span-2">
               <div className="sticky top-28">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -727,7 +731,7 @@ function CheckoutContent() {
                               value={promoCodeInput}
                               onChange={(e) => setPromoCodeInput(e.target.value.toUpperCase())}
                               placeholder="Promo code"
-                              className="flex-1 px-4 py-2.5 bg-white/5 border border-[#b1b94c]/30 rounded-xl text-white text-sm uppercase placeholder:normal-case placeholder:text-white/30 focus:outline-none focus:border-[#b1b94c] focus:ring-2 focus:ring-[#b1b94c]/20"
+                              className="min-w-0 flex-1 px-4 py-2.5 bg-white/5 border border-[#b1b94c]/30 rounded-xl text-white text-sm uppercase placeholder:normal-case placeholder:text-white/30 focus:outline-none focus:border-[#b1b94c] focus:ring-2 focus:ring-[#b1b94c]/20"
                               onKeyDown={(e) => e.key === 'Enter' && validatePromoCode()}
                             />
                             <button

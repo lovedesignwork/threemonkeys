@@ -161,7 +161,7 @@ export function Location() {
             <div className="hidden lg:block relative aspect-[4/3] rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-[#1a1a1a]">
               <iframe
                 title="Three Monkeys location map"
-                src="https://www.openstreetmap.org/export/embed.html?bbox=98.30%2C7.90%2C98.35%2C7.95&layer=mapnik&marker=7.9267%2C98.3256"
+                src="https://www.google.com/maps?q=Three%20Monkeys%20Restaurant%20Phuket&output=embed"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}

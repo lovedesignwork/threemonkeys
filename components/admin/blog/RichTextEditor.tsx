@@ -38,6 +38,32 @@ interface RichTextEditorProps {
   placeholder?: string;
 }
 
+interface ToolbarButtonProps {
+  onClick: () => void;
+  isActive?: boolean;
+  disabled?: boolean;
+  children: React.ReactNode;
+}
+
+function ToolbarButton({ onClick, isActive = false, disabled = false, children }: ToolbarButtonProps) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      className={`p-2 rounded hover:bg-slate-100 transition-colors ${
+        isActive ? 'bg-slate-200 text-[#1a237e]' : 'text-slate-600'
+      } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+    >
+      {children}
+    </button>
+  );
+}
+
+function ToolbarDivider() {
+  return <div className="w-px h-6 bg-slate-200 mx-1" />;
+}
+
 export default function RichTextEditor({ content, onChange, placeholder = 'Start writing your blog post...' }: RichTextEditorProps) {
   const [showImageUpload, setShowImageUpload] = useState(false);
   
@@ -105,31 +131,6 @@ export default function RichTextEditor({ content, onChange, placeholder = 'Start
 
     editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
   };
-
-  const ToolbarButton = ({ 
-    onClick, 
-    isActive = false, 
-    disabled = false,
-    children 
-  }: { 
-    onClick: () => void; 
-    isActive?: boolean; 
-    disabled?: boolean;
-    children: React.ReactNode;
-  }) => (
-    <button
-      type="button"
-      onClick={onClick}
-      disabled={disabled}
-      className={`p-2 rounded hover:bg-slate-100 transition-colors ${
-        isActive ? 'bg-slate-200 text-[#1a237e]' : 'text-slate-600'
-      } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
-    >
-      {children}
-    </button>
-  );
-
-  const ToolbarDivider = () => <div className="w-px h-6 bg-slate-200 mx-1" />;
 
   return (
     <div className="border border-slate-200 rounded-xl overflow-hidden bg-white">

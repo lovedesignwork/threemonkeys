@@ -41,7 +41,7 @@ interface NewBookingNotificationProps {
   bookedAt: string;
 }
 
-const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://threemonkeys.vercel.app';
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://threemonkeysphuket.com';
 
 const formatPrice = (amount: number) => {
   return new Intl.NumberFormat('th-TH', {

@@ -166,7 +166,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
                 fontSize: 18,
               }}
             >
-              threemonkeys.vercel.app/blog
+              threemonkeysphuket.com/blog
             </span>
             <span
               style={{

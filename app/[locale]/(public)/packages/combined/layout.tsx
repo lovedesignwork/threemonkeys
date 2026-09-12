@@ -1,12 +1,17 @@
 import { Metadata } from 'next';
-import { generatePageMetadata } from '@/lib/seo/config';
+import { localizePageMetadata, generatePageMetadata } from '@/lib/seo/config';
 
-export const metadata: Metadata = generatePageMetadata(
+const pageMetadata: Metadata = generatePageMetadata(
   'Combo Packages - Complete Dining Experiences',
-  'Discover our premium combo packages at Three Monkeys Restaurant Phuket. Cooking classes, market tours, tasting menus, and more with round-trip transfers included.',
+  'Discover our premium combo packages at Three Monkeys Restaurant Phuket. Dining zones and celebration packages for your rainforest restaurant experience.',
   '/packages/combined',
-  '/images/Package image/32PF.JPG'
+  '/opengraph-image'
 );
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  return localizePageMetadata(pageMetadata, locale);
+}
 
 export default function CombinedPackagesLayout({
   children,

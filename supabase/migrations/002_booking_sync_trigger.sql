@@ -11,8 +11,8 @@ LANGUAGE plpgsql
 AS $$
 DECLARE
   request_id bigint;
-  onebooking_api_url text := 'https://onebooking-dashboard.vercel.app/api/bookings/sync';
-  onebooking_api_key text := 'hw_sk_live_5623c99495930dadafc8f3d67c8eee05b17aee5771cda897';
+  onebooking_api_url text := NULLIF(BTRIM(current_setting('app.onebooking_api_url', true)), '');
+  onebooking_api_key text := NULLIF(BTRIM(current_setting('app.onebooking_api_key', true)), '');
   customer_record record;
   transport_record record;
   package_record record;
@@ -22,6 +22,12 @@ BEGIN
   -- Only sync when status is confirmed (new confirmation or update to confirmed)
   IF NEW.status = 'confirmed' AND (OLD IS NULL OR OLD.status IS DISTINCT FROM 'confirmed') THEN
     
+    -- Both settings are provisioned outside source control. Never send data or
+    -- credentials to a legacy/default endpoint when configuration is missing.
+    IF onebooking_api_url IS NULL OR onebooking_api_key IS NULL OR onebooking_api_url !~ '^https://' THEN
+      RAISE WARNING 'OneBooking database sync is not configured; skipping booking sync';
+      RETURN NEW;
+    END IF;
     -- Get customer data
     SELECT first_name, last_name, email, phone, country_code
     INTO customer_record

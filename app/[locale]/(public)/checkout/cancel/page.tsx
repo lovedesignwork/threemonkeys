@@ -70,7 +70,7 @@ function CancelContent() {
             <div className="bg-orange-50 border border-orange-100 rounded-2xl p-6 mb-6">
               <h3 className="font-semibold text-orange-800 mb-3">Having trouble?</h3>
               <p className="text-sm text-orange-700 mb-4">
-                If you're experiencing issues with payment, please check:
+                If you&apos;re experiencing issues with payment, please check:
               </p>
               <ul className="space-y-2 text-sm text-orange-700">
                 <li>• Your card has sufficient funds</li>
@@ -84,7 +84,7 @@ function CancelContent() {
               <p className="text-center text-sm text-slate-500 mb-4">Need assistance? Contact our support team</p>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
                 <a
-                  href="tel:+6676323264"
+                  href="tel:+66980108838"
                   className="flex items-center justify-center gap-2 p-3 bg-slate-50 hover:bg-slate-100 rounded-xl transition-colors"
                 >
                   <Phone className="w-4 h-4 text-[#b1b94c]" />
@@ -98,7 +98,7 @@ function CancelContent() {
                   <span className="text-slate-700">Email</span>
                 </a>
                 <a
-                  href="https://wa.me/6676323264"
+                  href="https://wa.me/66980108838"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 p-3 bg-green-50 hover:bg-green-100 rounded-xl transition-colors"

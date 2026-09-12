@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase/server';
 import { requireAdmin, isAuthError } from '@/lib/auth/api-auth';
+import { getBlogAuthors } from '@/lib/data/blog-authors-server';
 
 export async function GET(request: NextRequest) {
   const auth = await requireAdmin(request);
@@ -9,10 +10,7 @@ export async function GET(request: NextRequest) {
   try {
     const { data, error } = await supabaseAdmin
       .from('blog_posts')
-      .select(`
-        *,
-        author:admin_users!author_id(id, full_name, email)
-      `)
+      .select('*')
       .order('created_at', { ascending: false });
 
     if (error) {
@@ -20,13 +18,10 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
+    const authors = await getBlogAuthors((data ?? []).map(post => post.author_id));
     const transformedData = data?.map(post => ({
       ...post,
-      author: post.author ? {
-        id: post.author.id,
-        name: post.author.full_name,
-        email: post.author.email,
-      } : null,
+      author: authors.get(post.author_id) ?? null,
     }));
 
     return NextResponse.json({ data: transformedData });

@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { adminGet, adminPost } from '@/lib/auth/api-client';
 import { CustomSelect } from '@/components/ui';
+import { siteConfig } from '@/lib/seo/config';
 
 interface GeneralSettings {
   siteName: string;
@@ -50,20 +51,20 @@ export default function SettingsPage() {
   const [loading, setLoading] = useState(true);
 
   const [general, setGeneral] = useState<GeneralSettings>({
-    siteName: 'Hanuman World Phuket',
+    siteName: siteConfig.name,
     timezone: 'Asia/Bangkok',
     currency: 'THB',
   });
 
   const [contact, setContact] = useState<ContactSettings>({
-    email: 'info@hanumanworldphuket.com',
-    phone: '+66 76 391 222',
+    email: siteConfig.contact.email,
+    phone: siteConfig.contact.phone,
   });
 
   const [notifications, setNotifications] = useState<NotificationSettings>({
     emailNotifications: true,
-    bookingNotificationEmails: 'enjoy@threemonkeysphuket.com',
-    contactNotificationEmails: 'enjoy@threemonkeysphuket.com',
+    bookingNotificationEmails: siteConfig.contact.email,
+    contactNotificationEmails: siteConfig.contact.email,
     sendCustomerConfirmation: true,
   });
 
@@ -243,14 +244,14 @@ export default function SettingsPage() {
             </div>
             <div>
               <h2 className="font-semibold text-slate-800">Booking Settings</h2>
-              <p className="text-sm text-slate-500">Configure booking behavior</p>
+              <p className="text-sm text-slate-500">Dining reservations and table availability</p>
             </div>
           </div>
 
           <div className="p-4 bg-green-50 rounded-xl border border-green-200">
-            <p className="text-sm font-medium text-green-800 mb-1">Always Open</p>
+            <p className="text-sm font-medium text-green-800 mb-1">Table Availability</p>
             <p className="text-sm text-green-700">
-              Hanuman World accepts unlimited bookings with no capacity restrictions. All time slots are always available.
+              Reservations depend on the selected dining zone, date, and time. Table availability is managed in Allotment; special packages are assigned a table manually.
             </p>
           </div>
         </div>

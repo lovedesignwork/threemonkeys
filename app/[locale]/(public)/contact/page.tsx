@@ -67,9 +67,15 @@ export default function ContactPage() {
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [subjectError, setSubjectError] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.subject) {
+      setSubjectError(true);
+      document.getElementById('contact-subject')?.focus();
+      return;
+    }
     setSending(true);
     setError(null);
     
@@ -216,6 +222,7 @@ export default function ContactPage() {
 
                 {sent && (
                   <motion.div
+                    role="status"
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="mb-6 p-5 bg-green-500/10 border border-green-500/30 rounded-2xl flex items-start gap-4"
@@ -234,6 +241,7 @@ export default function ContactPage() {
 
                 {error && (
                   <motion.div
+                    role="alert"
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="mb-6 p-5 bg-red-500/10 border border-red-500/30 rounded-2xl flex items-start gap-4"
@@ -251,10 +259,11 @@ export default function ContactPage() {
                 <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
                   <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
                     <div>
-                      <label className="block text-sm font-medium text-white/70 mb-2 font-[family-name:var(--font-inter)]">
+                      <label htmlFor="contact-name" className="block text-sm font-medium text-white/70 mb-2 font-[family-name:var(--font-inter)]">
                         {t('form.name')} *
                       </label>
                       <input
+                        id="contact-name"
                         type="text"
                         name="name"
                         value={formData.name}
@@ -265,10 +274,11 @@ export default function ContactPage() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-white/70 mb-2 font-[family-name:var(--font-inter)]">
+                      <label htmlFor="contact-email" className="block text-sm font-medium text-white/70 mb-2 font-[family-name:var(--font-inter)]">
                         {t('form.email')} *
                       </label>
                       <input
+                        id="contact-email"
                         type="email"
                         name="email"
                         value={formData.email}
@@ -282,7 +292,7 @@ export default function ContactPage() {
 
                   <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
                     <div>
-                      <label className="block text-sm font-medium text-white/70 mb-2 font-[family-name:var(--font-inter)]">
+                      <label htmlFor="contact-phone" className="block text-sm font-medium text-white/70 mb-2 font-[family-name:var(--font-inter)]">
                         {t('form.phone')}
                       </label>
                       <div className="flex gap-2">
@@ -294,6 +304,7 @@ export default function ContactPage() {
                           />
                         </div>
                         <input
+                          id="contact-phone"
                           type="tel"
                           name="phone"
                           value={formData.phone}
@@ -304,12 +315,19 @@ export default function ContactPage() {
                       </div>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-white/70 mb-2 font-[family-name:var(--font-inter)]">
+                      <label htmlFor="contact-subject" className="block text-sm font-medium text-white/70 mb-2 font-[family-name:var(--font-inter)]">
                         {t('form.subject')} *
                       </label>
                       <CustomSelect
+                        id="contact-subject"
+                        aria-required="true"
+                        aria-invalid={subjectError}
+                        aria-describedby={subjectError ? 'contact-subject-error' : undefined}
                         value={formData.subject}
-                        onChange={(value) => setFormData({ ...formData, subject: value })}
+                        onChange={(value) => {
+                          setFormData({ ...formData, subject: value });
+                          setSubjectError(false);
+                        }}
                         placeholder={t('form.subjectPlaceholder')}
                         options={[
                           { value: 'reservation', label: t('form.subjectOptions.reservation') },
@@ -319,14 +337,20 @@ export default function ContactPage() {
                           { value: 'other', label: t('form.subjectOptions.other') },
                         ]}
                       />
+                      {subjectError && (
+                        <p id="contact-subject-error" role="alert" className="mt-2 text-sm text-red-400">
+                          {t('form.subjectPlaceholder')}
+                        </p>
+                      )}
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-white/70 mb-2 font-[family-name:var(--font-inter)]">
+                    <label htmlFor="contact-message" className="block text-sm font-medium text-white/70 mb-2 font-[family-name:var(--font-inter)]">
                       {t('form.message')} *
                     </label>
                     <textarea
+                      id="contact-message"
                       name="message"
                       value={formData.message}
                       onChange={handleChange}

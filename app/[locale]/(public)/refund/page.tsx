@@ -207,7 +207,7 @@ export default function RefundPage() {
                       <p>
                         This Refund Policy applies to all online bookings made through our website. 
                         Payments are processed by <span className="text-white font-medium">Chamnanthang Co., Ltd.</span> (operating 
-                        as "ONEBOOKING"). Your credit card statement will display the payment as "ONEBOOKING".
+                        as &quot;ONEBOOKING&quot;). Your credit card statement will display the payment as &quot;ONEBOOKING&quot;.
                       </p>
                       
                       <div className="bg-blue-500/10 border border-blue-500/20 rounded-2xl p-6 mt-6">
@@ -514,7 +514,7 @@ export default function RefundPage() {
                               <FileText className="w-4 h-4 text-[#b1b94c]" />
                               <span className="text-white font-medium text-sm">Statement Display</span>
                             </div>
-                            <p className="text-white/60 text-sm">Appears as "ONEBOOKING" or "STRIPE"</p>
+                            <p className="text-white/60 text-sm">Appears as &quot;ONEBOOKING&quot; or &quot;STRIPE&quot;</p>
                           </div>
                         </div>
                       </div>

@@ -39,9 +39,9 @@ export default function manifest(): MetadataRoute.Manifest {
     ],
     screenshots: [
       {
-        src: '/images/og-image.jpg',
+        src: '/opengraph-image',
         sizes: '1200x630',
-        type: 'image/jpeg',
+        type: 'image/png',
       },
     ],
   };

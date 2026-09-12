@@ -17,7 +17,8 @@ import { buildBangkokTimestamp, getZoneForPackage } from '@/lib/allotment/zones'
 import { usePackageControls } from '@/hooks/usePackageControls';
 import type { Package } from '@/types';
 
-import { type Addon } from '@/lib/data/addons';
+import { type Addon, isSpecialPackage, isFixedPricePackage, isPerTablePackage } from '@/lib/data/addons';
+import { getAvailableTimeSlots, getMaxGuestsForPackage, getMinimumBookingDate, getBangkokDate, isAdvanceBooking, isTimeSlotBookable, isValidBookingDate, parseCalendarDate } from '@/lib/checkout/booking-rules';
 
 // Icon mapping for add-ons
 const addonIconMap: Record<string, React.ElementType> = {
@@ -26,72 +27,6 @@ const addonIconMap: Record<string, React.ElementType> = {
   'spark-fountain': Flame,
   'honeymoon-anniversary': Heart,
   'birthday-mini': Gift,
-};
-
-// Time slot configurations based on seat type
-const PREMIUM_TIME_SLOTS = ['16:00', '19:00', '22:00']; // Monkey Dome, Monkey Nest
-const SEMI_PREMIUM_TIME_SLOTS = ['19:00', '22:00']; // Monkey Hilltop, Bamboo Pavilion
-const SPECIAL_PACKAGE_TIME_SLOTS = ['17:00', '18:00', '19:00', '20:00', '21:00', '22:00']; // Special packages
-const NORMAL_TIME_SLOTS = ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00']; // All other seats
-
-// Special package IDs (require 1 day advance booking)
-const SPECIAL_PACKAGE_IDS = ['ultimate-dinner', 'ultimate-birthday', 'will-you-marry-me'];
-
-// Helper to check if a package is a special package
-const isSpecialPackage = (packageId: string | null): boolean => {
-  if (!packageId) return false;
-  return SPECIAL_PACKAGE_IDS.includes(packageId);
-};
-
-// Helper to check if booking date is at least 1 day in advance (for add-ons availability)
-const isAdvanceBooking = (selectedDate: string | Date | null | undefined): boolean => {
-  if (!selectedDate) return false;
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const bookingDate = new Date(selectedDate);
-  if (isNaN(bookingDate.getTime())) return false;
-  bookingDate.setHours(0, 0, 0, 0);
-  const diffTime = bookingDate.getTime() - today.getTime();
-  const diffDays = diffTime / (1000 * 60 * 60 * 24);
-  return diffDays >= 1;
-};
-
-// Helper to get available time slots based on package
-const getAvailableTimeSlots = (packageId: string | null): string[] => {
-  if (!packageId) return NORMAL_TIME_SLOTS;
-  
-  // Premium seats: Monkey Dome, Monkey Nest
-  if (packageId === 'monkey-dome' || packageId === 'monkey-nest') {
-    return PREMIUM_TIME_SLOTS;
-  }
-  
-  // Semi-premium seats: Monkey Hilltop, Bamboo Pavilion
-  if (packageId === 'monkey-hilltop' || packageId === 'bamboo-pavilion') {
-    return SEMI_PREMIUM_TIME_SLOTS;
-  }
-  
-  // Special packages: 17:00 - 22:00 hourly
-  if (isSpecialPackage(packageId)) {
-    return SPECIAL_PACKAGE_TIME_SLOTS;
-  }
-  
-  // All other seats: normal hourly slots
-  return NORMAL_TIME_SLOTS;
-};
-
-// Helper to check if a time slot is bookable (at least 2 hours before)
-const isTimeSlotBookable = (timeSlot: string, selectedDate: string): boolean => {
-  if (!selectedDate) return true; // If no date selected, show all as enabled initially
-  
-  const now = new Date();
-  const [hours, minutes] = timeSlot.split(':').map(Number);
-  const slotDate = new Date(selectedDate);
-  slotDate.setHours(hours, minutes, 0, 0);
-  
-  // Add 2 hours buffer to current time
-  const minBookingTime = new Date(now.getTime() + 2 * 60 * 60 * 1000);
-  
-  return slotDate > minBookingTime;
 };
 
 const allSeatPackages = packages.filter(pkg => pkg.type === 'seat' && !pkg.suspended);
@@ -111,7 +46,7 @@ const seatUnitLabel = (pkgId: string): string => {
     case 'monkey-nest': return '/ table (max 6)';
     case 'bamboo-pavilion': return '/ person (max 4)';
     case 'exclusive-romantic-zone-7': return '/ person (max 4)';
-    case 'zone-7': return '/ person (up to 50)';
+    case 'zone-7': return '/ person (up to 10)';
     case 'zone-6': return '/ person (up to 50)';
     case 'rooftop-romantic': return '/ person (up to 40)';
     case 'monkey-hilltop': return '/ person (2-4)';
@@ -304,6 +239,18 @@ function BookingContent() {
   // customer's previous booking selections instead of resetting them.
   const [selectedDate, setSelectedDate] = useState(() => searchParams.get('date') || '');
   const [selectedTime, setSelectedTime] = useState(() => searchParams.get('time') || '');
+  const [bookingNow, setBookingNow] = useState(() => new Date());
+
+  // Refresh deadlines after Phuket midnight and when returning to this tab.
+  useEffect(() => {
+    const refreshTime = () => setBookingNow(new Date());
+    const timer = window.setInterval(refreshTime, 60_000);
+    window.addEventListener('focus', refreshTime);
+    return () => {
+      window.clearInterval(timer);
+      window.removeEventListener('focus', refreshTime);
+    };
+  }, []);
   
   // Get available time slots based on selected package
   const availableTimeSlots = useMemo(() => {
@@ -312,26 +259,13 @@ function BookingContent() {
   
   // Get minimum booking date based on package type (special packages require 1 day advance)
   const minBookingDate = useMemo(() => {
-    const today = new Date();
-    if (isSpecialPackage(selectedPackageId)) {
-      // Special packages require at least 1 day in advance
-      const tomorrow = new Date(today);
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      return tomorrow.toISOString().split('T')[0];
-    }
-    return today.toISOString().split('T')[0];
-  }, [selectedPackageId]);
+    return getMinimumBookingDate(selectedPackageId, bookingNow);
+  }, [selectedPackageId, bookingNow]);
   
-  // Reset selected date if it's no longer valid for special packages
+  // Clear dates that expire as Phuket's calendar day changes.
   useEffect(() => {
-    if (selectedDate && isSpecialPackage(selectedPackageId)) {
-      const selectedDateObj = new Date(selectedDate);
-      const minDateObj = new Date(minBookingDate);
-      if (selectedDateObj < minDateObj) {
-        setSelectedDate('');
-      }
-    }
-  }, [selectedPackageId, selectedDate, minBookingDate]);
+    if (selectedDate && (!isValidBookingDate(selectedDate) || selectedDate < minBookingDate)) setSelectedDate('');
+  }, [selectedDate, minBookingDate]);
 
   // Dates the admin has blocked for the currently selected package
   const blockedDatesForSelected = useMemo(
@@ -348,10 +282,10 @@ function BookingContent() {
   
   // Reset selected time when package changes and current time is not available
   useEffect(() => {
-    if (selectedTime && !availableTimeSlots.includes(selectedTime)) {
+    if (selectedTime && (!availableTimeSlots.includes(selectedTime) || !isTimeSlotBookable(selectedTime, selectedDate, bookingNow))) {
       setSelectedTime('');
     }
-  }, [selectedPackageId, availableTimeSlots, selectedTime]);
+  }, [availableTimeSlots, selectedTime, selectedDate, bookingNow]);
   const [guestCount, setGuestCount] = useState(() => {
     const g = parseInt(searchParams.get('guests') || '', 10);
     return Number.isFinite(g) && g > 0 ? g : 2;
@@ -365,10 +299,10 @@ function BookingContent() {
   // private transfer). Clear any stale selection when it no longer applies so
   // the price and checkout payload stay correct.
   useEffect(() => {
-    if (needTransfer && (isSpecialPackage(selectedPackageId) || !isAdvanceBooking(selectedDate))) {
+    if (needTransfer && (isSpecialPackage(selectedPackageId) || !isAdvanceBooking(selectedDate, bookingNow))) {
       setNeedTransfer(false);
     }
-  }, [selectedPackageId, selectedDate, needTransfer]);
+  }, [selectedPackageId, selectedDate, needTransfer, bookingNow]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedAddons, setSelectedAddons] = useState<Record<string, number>>(() => {
     // URL format: "addonId:qty,addonId:qty"
@@ -383,6 +317,12 @@ function BookingContent() {
     }
     return result;
   });
+
+  useEffect(() => {
+    if (selectedDate && !isAdvanceBooking(selectedDate, bookingNow)) {
+      setSelectedAddons(current => Object.keys(current).length ? {} : current);
+    }
+  }, [selectedDate, bookingNow]);
 
   // Track which addon descriptions are expanded
   const [expandedAddons, setExpandedAddons] = useState<Record<string, boolean>>({});
@@ -428,9 +368,8 @@ function BookingContent() {
   // Check if selected date is alcohol restricted
   const isSelectedDateAlcoholRestricted = useMemo(() => {
     if (!selectedDate) return false;
-    // Convert selected date to ISO format (YYYY-MM-DD) for comparison
-    const dateStr = new Date(selectedDate).toISOString().split('T')[0];
-    return alcoholRestrictedDates.includes(dateStr);
+    // Compare calendar dates directly without converting through a timezone.
+    return isValidBookingDate(selectedDate) && alcoholRestrictedDates.includes(selectedDate);
   }, [selectedDate, alcoholRestrictedDates]);
 
   const toggleAddonExpanded = (addonId: string, e: React.MouseEvent) => {
@@ -451,33 +390,13 @@ function BookingContent() {
     setGuestCount(newCount);
   };
 
-  // Per-table packages (fixed price regardless of guest count, max 4 guests)
-  const isPerTablePackage = (pkgId: string | null) => {
-    return pkgId === 'monkey-dome' || pkgId === 'monkey-nest';
-  };
-
-  // Fixed price packages (special packages + per-table packages)
-  // These have fixed prices that don't change with guest count
-  const isFixedPricePackage = (pkgId: string | null) => {
-    return isPerTablePackage(pkgId) || isSpecialPackage(pkgId);
-  };
-
-  // Max guests: Monkey Dome = 4, Monkey Nest = 6, Bamboo Pavilion = 4, Exclusive Zone 7 = 4, Zone 7 = 50, Will You Marry Me = 2, Special packages = 10, Others = 20
-  const getMaxGuestsForPackage = (pkgId: string | null) => {
-    if (pkgId === 'monkey-dome') return 4;
-    if (pkgId === 'monkey-nest') return 6;
-    if (pkgId === 'bamboo-pavilion') return 4;
-    if (pkgId === 'exclusive-romantic-zone-7') return 4;
-    if (pkgId === 'zone-7') return 50;
-    if (pkgId === 'zone-6') return 50;
-    if (pkgId === 'rooftop-romantic') return 40;
-    if (pkgId === 'indoor-seat' || pkgId === 'outdoor-seat') return 100;
-    if (pkgId === 'will-you-marry-me') return 2;
-    if (isSpecialPackage(pkgId)) return 10;
-    return 20;
-  };
-
   const maxGuestsForPackage = getMaxGuestsForPackage(selectedPackageId);
+
+  useEffect(() => {
+    if (selectedPackageId) {
+      setGuestCount(current => Math.min(current, getMaxGuestsForPackage(selectedPackageId)));
+    }
+  }, [selectedPackageId]);
 
   const handleSelectPackage = (pkgId: string) => {
     setSelectedPackageId(pkgId);
@@ -603,12 +522,19 @@ function BookingContent() {
     selectedPackageId &&
     selectedDate &&
     selectedTime &&
+    selectedDate >= minBookingDate &&
+    isTimeSlotBookable(selectedTime, selectedDate, bookingNow) &&
     availabilityState !== 'full' &&
     !isDisabled(selectedPackageId) &&
     !isDateBlocked(selectedPackageId, selectedDate);
 
   const handleProceedToCheckout = () => {
     if (!isFormValid) return;
+    const now = new Date();
+    if (selectedDate < getMinimumBookingDate(selectedPackageId, now) || !isTimeSlotBookable(selectedTime, selectedDate, now)) {
+      setBookingNow(now);
+      return;
+    }
     
     // Build addons string (format: "id:qty,id:qty")
     const addonsStr = Object.entries(selectedAddons)
@@ -958,6 +884,7 @@ function BookingContent() {
                             value={selectedDate}
                             onChange={setSelectedDate}
                             minDate={minBookingDate}
+                            todayDate={getBangkokDate(bookingNow)}
                             restrictedDates={alcoholRestrictedDates}
                             blockedDates={blockedDatesForSelected}
                           />
@@ -971,7 +898,7 @@ function BookingContent() {
 
                         {/* Time Picker - Single dropdown based on seat type */}
                         <div>
-                          <label className="block text-sm font-medium text-white/70 mb-3 flex items-center gap-2">
+                          <label htmlFor="booking-time" className="block text-sm font-medium text-white/70 mb-3 flex items-center gap-2">
                             <Clock className="w-4 h-4 text-[#b1b94c]" />
                             Select Time
                             {(selectedPackageId === 'monkey-dome' || selectedPackageId === 'monkey-nest' ||
@@ -986,6 +913,8 @@ function BookingContent() {
                             )}
                           </label>
                           <CustomSelect
+                            id="booking-time"
+                            aria-label="Select Time"
                             value={selectedTime}
                             onChange={setSelectedTime}
                             placeholder="Select time"
@@ -995,7 +924,7 @@ function BookingContent() {
                               const hourNum = parseInt(hourStr);
                               const display12h = hourNum > 12 ? hourNum - 12 : (hourNum === 0 ? 12 : hourNum);
                               const ampm = hourNum >= 12 ? 'PM' : 'AM';
-                              const isBookable = isTimeSlotBookable(timeSlot, selectedDate);
+                              const isBookable = isTimeSlotBookable(timeSlot, selectedDate, bookingNow);
                               
                               return { 
                                 value: timeSlot, 
@@ -1059,7 +988,7 @@ function BookingContent() {
                                   : selectedPackageId === 'exclusive-romantic-zone-7'
                                   ? 'Max 4 persons'
                                   : selectedPackageId === 'zone-7'
-                                  ? 'Up to 50 persons'
+                                  ? 'Up to 10 persons'
                                   : selectedPackageId === 'zone-6'
                                   ? 'Up to 50 persons'
                                   : selectedPackageId === 'rooftop-romantic'
@@ -1079,6 +1008,8 @@ function BookingContent() {
                           </label>
                           <div className="flex items-center gap-3">
                             <button
+                              type="button"
+                              aria-label="Decrease guests"
                               onClick={() => handleGuestCountChange(-1)}
                               disabled={guestCount <= 1}
                               className="w-12 h-12 rounded-xl bg-white/5 border-2 border-white/10 flex items-center justify-center hover:bg-white/10 hover:border-[#b1b94c]/50 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
@@ -1090,6 +1021,8 @@ function BookingContent() {
                               <span className="text-white/50 ml-2 text-sm">{guestCount === 1 ? 'person' : 'persons'}</span>
                             </div>
                             <button
+                              type="button"
+                              aria-label="Increase guests"
                               onClick={() => handleGuestCountChange(1)}
                               disabled={guestCount >= maxGuestsForPackage}
                               className="w-12 h-12 rounded-xl bg-white/5 border-2 border-white/10 flex items-center justify-center hover:bg-white/10 hover:border-[#b1b94c]/50 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
@@ -1131,7 +1064,7 @@ function BookingContent() {
 
                         {/* Special Requests */}
                         <div className="flex flex-col h-full">
-                          <label className="block text-sm font-medium text-white/70 mb-2 flex items-center gap-2">
+                          <label htmlFor="booking-special-requests" className="block text-sm font-medium text-white/70 mb-2 flex items-center gap-2">
                             <Info className="w-4 h-4 text-[#b1b94c]" />
                             Special Requests (Optional)
                           </label>
@@ -1146,6 +1079,7 @@ function BookingContent() {
                             </div>
                           )}
                           <textarea
+                            id="booking-special-requests"
                             value={specialRequests}
                             onChange={(e) => setSpecialRequests(e.target.value)}
                             placeholder={selectedPackage?.id === 'ultimate-dinner' 
@@ -1163,7 +1097,7 @@ function BookingContent() {
                           already include a private transfer. Toggling this
                           flows through checkout -> booking_transport
                           (transport_type 'private') and syncs to OneBooking. */}
-                      {!isSpecialPackage(selectedPackageId) && selectedDate && isAdvanceBooking(selectedDate) && (
+                      {!isSpecialPackage(selectedPackageId) && selectedDate && isAdvanceBooking(selectedDate, bookingNow) && (
                       <div className="mt-5 sm:mt-6">
                         <div
                           className={`relative rounded-2xl border transition-all duration-300 ${
@@ -1246,7 +1180,7 @@ function BookingContent() {
 
               {/* Add-ons & Promotions - Only available for advance bookings (at least 1 day) */}
               <AnimatePresence>
-                {selectedPackage && selectedDate && isAdvanceBooking(selectedDate) && (
+                {selectedPackage && selectedDate && isAdvanceBooking(selectedDate, bookingNow) && (
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -1334,16 +1268,23 @@ function BookingContent() {
                                 </div>
                                 
                                 {/* Checkbox */}
-                                <label className="flex items-center gap-2 mt-3 cursor-pointer">
-                                  <div className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-all ${
+                                <button
+                                  type="button"
+                                  role="switch"
+                                  aria-label={addon.name}
+                                  aria-checked={isSelected}
+                                  onClick={(event) => { event.stopPropagation(); updateAddonQuantity(addon.id, isSelected ? -1 : 1); }}
+                                  className="flex items-center gap-2 mt-3 cursor-pointer rounded focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#b1b94c]"
+                                >
+                                  <span className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-all ${
                                     isSelected 
                                       ? 'bg-[#b1b94c] border-[#b1b94c]' 
                                       : 'border-white/30 bg-transparent'
                                   }`}>
                                     {isSelected && <Check className="w-3 h-3 text-black" />}
-                                  </div>
+                                  </span>
                                   <span className="text-white/70 text-sm">add this to my booking</span>
-                                </label>
+                                </button>
                               </div>
                             </motion.div>
                           );
@@ -1411,16 +1352,23 @@ function BookingContent() {
                                   </div>
                                   
                                   {/* Checkbox */}
-                                  <label className="flex items-center gap-2 cursor-pointer">
-                                    <div className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-all ${
+                                  <button
+                                    type="button"
+                                    role="switch"
+                                    aria-label={addon.name}
+                                    aria-checked={isSelected}
+                                    onClick={(event) => { event.stopPropagation(); updateAddonQuantity(addon.id, isSelected ? -1 : 1); }}
+                                    className="flex items-center gap-2 cursor-pointer rounded focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#b1b94c]"
+                                  >
+                                    <span className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-all ${
                                       isSelected 
                                         ? 'bg-[#b1b94c] border-[#b1b94c]' 
                                         : 'border-white/30 bg-transparent'
                                     }`}>
                                       {isSelected && <Check className="w-3 h-3 text-black" />}
-                                    </div>
+                                    </span>
                                     <span className="text-white/70 text-sm">add this to my booking</span>
-                                  </label>
+                                  </button>
                                 </div>
                               </div>
                             </motion.div>
@@ -1469,7 +1417,7 @@ function BookingContent() {
                           <div className="flex items-center gap-3 text-sm">
                             <Calendar className="w-4 h-4 text-[#b1b94c]" />
                             <span className="text-white">
-                              {new Date(selectedDate).toLocaleDateString('en-US', { 
+                              {parseCalendarDate(selectedDate)?.toLocaleDateString('en-US', {
                                 weekday: 'long', 
                                 year: 'numeric', 
                                 month: 'long', 
@@ -1661,7 +1609,7 @@ function BookingContent() {
                     </div>
                     <div>
                       <p className="text-white font-medium text-sm">Three Monkeys Restaurant</p>
-                      <p className="text-white/40 text-xs mt-1">Inside Hanuman World, Kathu, Phuket</p>
+                      <p className="text-white/40 text-xs mt-1">Inside Hanuman World, Wichit, Phuket</p>
                       <a
                         href="https://maps.app.goo.gl/hk5Z7PQUHnmz6tVB6"
                         target="_blank"

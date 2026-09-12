@@ -273,7 +273,7 @@ export default function CookiePolicyPage() {
                       </p>
                       <p>
                         This Cookie Policy explains how <span className="text-white font-medium">SKY WORLD ADVENTURES Co., Ltd.</span> 
-                        (operating as "Three Monkeys") uses cookies and similar technologies on our website.
+                        (operating as &quot;Three Monkeys&quot;) uses cookies and similar technologies on our website.
                       </p>
                       
                       <div className="bg-white/5 rounded-2xl p-6 mt-6">
@@ -408,7 +408,7 @@ export default function CookiePolicyPage() {
                       </div>
                       
                       <p className="text-sm">
-                        Please refer to these third parties' privacy policies for more information:
+                        Please refer to these third parties&apos; privacy policies for more information:
                       </p>
                       
                       <div className="flex flex-wrap gap-3 mt-4">
@@ -462,7 +462,7 @@ export default function CookiePolicyPage() {
                         <p className="text-white/70">
                           When you first visit our website, you will see a cookie consent banner that 
                           allows you to accept or customize your cookie preferences. You can change 
-                          your preferences at any time by clicking the "Cookie Settings" link in the 
+                          your preferences at any time by clicking the &quot;Cookie Settings&quot; link in the
                           footer of our website.
                         </p>
                       </div>
@@ -525,7 +525,7 @@ export default function CookiePolicyPage() {
                             <Settings className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
                             <div>
                               <span className="text-white font-medium">Preference cookies disabled:</span>
-                              <span className="text-white/60 ml-2">Your settings won't be remembered</span>
+                              <span className="text-white/60 ml-2">Your settings won&apos;t be remembered</span>
                             </div>
                           </div>
                           <div className="flex items-start gap-3">
@@ -539,7 +539,7 @@ export default function CookiePolicyPage() {
                             <Target className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
                             <div>
                               <span className="text-white font-medium">Marketing cookies disabled:</span>
-                              <span className="text-white/60 ml-2">Ads won't be personalized</span>
+                              <span className="text-white/60 ml-2">Ads won&apos;t be personalized</span>
                             </div>
                           </div>
                         </div>
@@ -611,7 +611,7 @@ export default function CookiePolicyPage() {
                     <div className="bg-white/5 rounded-2xl p-6">
                       <p className="text-white/70">
                         We may update this Cookie Policy from time to time to reflect changes in 
-                        technology, legislation, or our business practices. The "Last updated" date 
+                        technology, legislation, or our business practices. The &quot;Last updated&quot; date
                         at the top of this page indicates when the policy was last revised.
                       </p>
                     </div>

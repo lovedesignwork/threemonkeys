@@ -1,200 +1,54 @@
-# Flying Hanuman - Branding Checklist
+# Three Monkeys Restaurant — Branding Checklist
 
-Use this checklist to track progress on rebranding from Hanuman World to Flying Hanuman.
+Use this checklist when reviewing restaurant branding and content inherited from the original booking-site template. It is a review aid, not a deployment plan. Unchecked items require verification; they do not imply that a defect exists.
 
----
+## Current references
 
-## Phase 1: Configuration & Setup
+| Item | Source of truth |
+| --- | --- |
+| Public name | `siteConfig.name` in `lib/seo/config.ts`: Three Monkeys Restaurant |
+| Website URL | `siteConfig.url` in `lib/seo/config.ts` |
+| Customer contact | `siteConfig.contact` in `lib/seo/config.ts` |
+| Email | `enjoy@threemonkeysphuket.com` |
+| Phone | `+66 98-010-8838` |
+| Location | Inside Hanuman World, Phuket; use the full address from `siteConfig.contact.address` |
+| Public colors and fonts | `app/globals.css`: primary `#b1b94c`, heading font Krona, body font Inter |
+| Dining zones and booking allocation | `lib/allotment/zones.ts`, `lib/allotment/server.ts`, and the configured `tm_zones` inventory |
 
-### Environment
-- [ ] Create `.env.local` from `.env.example`
-- [ ] Set `WEBSITE_ID=flying-hanuman`
-- [ ] Set `NEXT_PUBLIC_SITE_NAME=Flying Hanuman`
-- [ ] Configure Supabase keys (same as HW)
-- [ ] Configure Stripe keys
-- [ ] Configure Resend API key
-- [ ] Configure OneBooking API key
+Use the shared configuration for new branding references so page copy, metadata, and admin previews stay consistent when the site URL or contact details change.
 
-### Tailwind Config (`tailwind.config.ts`)
-- [ ] Change primary color from `#1a237e` to `#f2e421`
-- [ ] Add primary-dark color `#d4c91e`
-- [ ] Add Trade Winds font family
-- [ ] Add Google Sans font family
+## Confirmed corrections
 
-### Root Layout (`app/layout.tsx`)
-- [ ] Update site title to "Flying Hanuman"
-- [ ] Update meta description
-- [ ] Import Trade Winds font from Google Fonts
-- [ ] Import Google Sans font (or use Inter as fallback)
-- [ ] Update favicon reference
+- [x] Contact metadata uses the restaurant name and shared contact details.
+- [x] Admin settings defaults use the restaurant name, email, and phone.
+- [x] Admin booking information describes table availability and manual assignment for special packages.
+- [x] Blog SEO previews and the canonical URL placeholder use the configured website URL.
+- [x] This checklist describes Three Monkeys Restaurant and its current application structure.
 
-### Global CSS (`app/globals.css`)
-- [ ] Update any hardcoded color values
-- [ ] Add Trade Winds font-face if needed
+## Public website review
 
----
+- [ ] Check the header, footer, logo alt text, favicon, and social preview images for the restaurant identity.
+- [ ] Review all locale variants under `app/[locale]/(public)` and their translation messages.
+- [ ] Review the home, about, contact, menu, seats, FAQ, and blog pages for restaurant-specific copy and working links.
+- [ ] Review dining-zone and special-package pages against the current restaurant offerings.
+- [ ] Check booking, checkout, success, cancellation, and reservation pages for the correct name and contact details.
+- [ ] Check privacy, terms, refund, and cookie pages for the correct business references.
+- [ ] Check metadata, canonical URLs, alternate-language URLs, structured data, sitemap, robots, and AI-readable content against the shared site configuration.
+- [ ] Verify public pages on desktop and mobile, including keyboard navigation and readable contrast.
 
-## Phase 2: Assets
+## Admin and communications review
 
-### Logo
-- [ ] Move `logo/LOGO-NS.png` to `public/images/FH-Logo.png`
-- [ ] Update all logo references in code
-- [ ] Create favicon from FH logo
+- [ ] Review admin login, navigation, settings, empty states, and help text for copied branding.
+- [ ] Verify persisted site settings as well as code defaults; saved settings can override defaults.
+- [ ] Check blog search and social previews against the configured site URL.
+- [ ] Review customer confirmations, booking notifications, contact messages, and auto-replies for the restaurant name, links, logo, and customer contact details.
+- [ ] Confirm table availability messages agree with dining-zone allotment rules and special-package handling.
 
-### Images (Replace all HW images)
-- [ ] Replace hero images in `public/images/Hero Image/`
-- [ ] Replace gallery images in `public/images/Gallery/`
-- [ ] Replace package images in `public/images/Package image/`
-- [ ] Replace background images
-- [ ] Delete HW-specific images
+## Preserve valid references and integration settings
 
----
-
-## Phase 3: Rebrand Pages (KEEP SAME DESIGN)
-
-### Admin Dashboard
-Files to update (change `#1a237e` to `#f2e421`):
-- [ ] `app/admin/layout.tsx` - Sidebar and header colors
-- [ ] `app/admin/page.tsx` - Dashboard cards
-- [ ] `app/admin/login/page.tsx` - Login form
-- [ ] `app/admin/bookings/page.tsx`
-- [ ] `app/admin/bookings/[id]/page.tsx`
-- [ ] `app/admin/products/page.tsx`
-- [ ] `app/admin/addons/page.tsx`
-- [ ] `app/admin/promo-codes/page.tsx`
-- [ ] `app/admin/blog/page.tsx`
-- [ ] `app/admin/blog/new/page.tsx`
-- [ ] `app/admin/blog/[id]/page.tsx`
-- [ ] `app/admin/contacts/page.tsx`
-- [ ] `app/admin/legal/page.tsx`
-- [ ] `app/admin/users/page.tsx`
-- [ ] `app/admin/settings/page.tsx`
-
-### Booking Page (KEEP EXACT LAYOUT)
-- [ ] `app/(public)/booking/page.tsx` - Change colors only
-- [ ] `app/(public)/booking/layout.tsx` - Update metadata
-
-### Checkout Pages (KEEP EXACT LAYOUT)
-- [ ] `app/(public)/checkout/page.tsx` - Change colors only
-- [ ] `app/(public)/checkout/layout.tsx` - Update metadata
-- [ ] `app/(public)/checkout/success/page.tsx` - Change colors, update brand name
-- [ ] `app/(public)/checkout/cancel/page.tsx` - Change colors, update brand name
-
-### UI Components
-- [ ] `components/ui/Button.tsx`
-- [ ] `components/ui/Badge.tsx`
-- [ ] `components/ui/Card.tsx`
-- [ ] `components/ui/CalendarPicker.tsx`
-- [ ] `components/ui/CustomSelect.tsx`
-- [ ] `components/ui/LegalModal.tsx`
-
----
-
-## Phase 4: Redesign Pages (NEW DESIGN)
-
-### Layout Components
-- [ ] `components/layout/Header.tsx` - NEW DESIGN
-- [ ] `components/layout/Footer.tsx` - NEW DESIGN
-
-### Homepage
-- [ ] `app/(public)/page.tsx` - NEW DESIGN
-- [ ] `components/home/HeroSlideshow.tsx` - NEW DESIGN or replace
-- [ ] `components/home/FeaturedPackages.tsx` - NEW DESIGN
-- [ ] `components/home/WhyChooseUs.tsx` - NEW DESIGN
-- [ ] `components/home/PhotoGallery.tsx` - NEW DESIGN
-- [ ] `components/home/Testimonials.tsx` - NEW DESIGN
-- [ ] `components/home/Location.tsx` - NEW DESIGN
-- [ ] `components/home/CallToAction.tsx` - NEW DESIGN
-- [ ] `components/home/Partners.tsx` - NEW DESIGN
-- [ ] `components/home/SafetyCertifications.tsx` - NEW DESIGN
-
-### Public Pages
-- [ ] `app/(public)/about/page.tsx` - NEW DESIGN
-- [ ] `app/(public)/contact/page.tsx` - NEW DESIGN
-- [ ] `app/(public)/faq/page.tsx` - NEW DESIGN
-- [ ] `app/(public)/blog/page.tsx` - NEW DESIGN
-- [ ] `app/(public)/blog/[slug]/page.tsx` - NEW DESIGN
-- [ ] `app/(public)/privacy/page.tsx` - NEW DESIGN
-- [ ] `app/(public)/terms/page.tsx` - NEW DESIGN
-
-### Package Pages
-- [ ] `app/(public)/packages/combined/page.tsx` - NEW DESIGN
-- [ ] `app/(public)/packages/zipline/page.tsx` - NEW DESIGN
-- [ ] `app/(public)/packages/roller/page.tsx` - NEW DESIGN
-- [ ] `app/(public)/packages/skywalk/page.tsx` - NEW DESIGN
-- [ ] `app/(public)/packages/slingshot/page.tsx` - NEW DESIGN
-- [ ] `app/(public)/packages/luge/page.tsx` - NEW DESIGN
-
----
-
-## Phase 5: Content & Data
-
-### Email Templates (Update brand name)
-- [ ] `lib/email/resend.ts` - Change EMAIL_FROM
-- [ ] `lib/email/templates/BookingConfirmation.tsx` - Change "Hanuman World" to "Flying Hanuman"
-- [ ] `lib/email/templates/NewBookingNotification.tsx` - Change brand name
-- [ ] `lib/email/templates/ContactFormEmail.tsx` - Change brand name
-- [ ] `lib/email/templates/ContactAutoReply.tsx` - Change brand name
-
-### Data Files (Update content)
-- [ ] `lib/data/packages.ts` - FH packages and pricing
-- [ ] `lib/data/faq.ts` - FH FAQ content
-- [ ] `lib/data/blog.ts` - FH blog content (if using static data)
-
-### SEO
-- [ ] `lib/seo/config.ts` - Update all SEO settings
-- [ ] `app/robots.ts` - Update sitemap URL
-- [ ] `app/sitemap.ts` - Update URLs
-- [ ] `public/manifest.json` - Update app name and colors
-- [ ] `public/robots.txt` - Update domain
-- [ ] `public/llms.txt` - Update for FH
-
----
-
-## Phase 6: Testing
-
-### Functionality Tests
-- [ ] Admin login works
-- [ ] Create a test product
-- [ ] Create a test add-on
-- [ ] Create a test promo code
-- [ ] Complete a test booking (use Stripe test mode)
-- [ ] Verify booking appears in admin
-- [ ] Verify booking syncs to OneBooking Dashboard
-- [ ] Test contact form submission
-- [ ] Test email notifications
-
-### Visual Tests
-- [ ] All pages display correctly on desktop
-- [ ] All pages display correctly on mobile
-- [ ] No blue (#1a237e) colors remaining
-- [ ] Logo displays correctly everywhere
-- [ ] Fonts load correctly
-
----
-
-## Phase 7: Deployment
-
-- [ ] Create GitHub repository for FH
-- [ ] Push code to GitHub
-- [ ] Create Vercel project
-- [ ] Add environment variables in Vercel
-- [ ] Deploy to Vercel
-- [ ] Configure custom domain
-- [ ] Set up Stripe webhook for production domain
-- [ ] Verify Resend domain
-- [ ] Test production booking flow
-
----
-
-## Quick Find & Replace
-
-Use your IDE's find & replace to speed up rebranding:
-
-| Find | Replace With |
-|------|--------------|
-| `Hanuman World` | `Flying Hanuman` |
-| `#1a237e` | `#f2e421` |
-| `#0d1259` | `#1a1a1a` (or your dark color) |
-| `hanumanworldphuket` | `flyinghanuman` |
-| `HW Logo.png` | `FH-Logo.png` |
+- Keep the factual location reference **Inside Hanuman World** and genuine partner names or links.
+- Review matches in context; do not globally replace every occurrence of another business name.
+- Preserve internal website IDs, database identifiers, booking references, storage paths, and integration keys unless a separately scoped integration change requires them.
+- Treat the verified email sender domain separately from customer-facing contact details; a branding edit must not change delivery configuration automatically.
+- Review existing assets before replacing or removing them. A filename alone does not establish whether an image is incorrect.
+- Validate payment, email, contact submissions, and booking synchronization in an appropriate test environment before performing actions that create bookings, send messages, or charge payments.

@@ -183,7 +183,7 @@ export default async function Image() {
               fontSize: 18,
             }}
           >
-            threemonkeys.vercel.app
+            threemonkeysphuket.com
           </span>
         </div>
       </div>

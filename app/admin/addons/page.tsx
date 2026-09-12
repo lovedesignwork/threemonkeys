@@ -209,7 +209,7 @@ export default function AddonsPage() {
       {hasChanges && (
         <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-center gap-3">
           <AlertTriangle className="w-5 h-5 text-amber-600" />
-          <span className="text-amber-800 text-sm">You have unsaved changes. Click "Save Changes" to apply them.</span>
+          <span className="text-amber-800 text-sm">You have unsaved changes. Click &quot;Save Changes&quot; to apply them.</span>
         </div>
       )}
 

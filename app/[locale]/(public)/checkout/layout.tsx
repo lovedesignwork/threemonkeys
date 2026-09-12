@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
-import { generatePageMetadata } from '@/lib/seo/config';
+import { localizePageMetadata, generatePageMetadata } from '@/lib/seo/config';
 
-export const metadata: Metadata = {
+const pageMetadata: Metadata = {
   ...generatePageMetadata(
     'Checkout - Complete Your Booking',
     'Complete your Three Monkeys Restaurant booking. Secure payment with Stripe. Your culinary experience awaits!',
@@ -12,6 +12,11 @@ export const metadata: Metadata = {
     follow: false,
   },
 };
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  return localizePageMetadata(pageMetadata, locale);
+}
 
 export default function CheckoutLayout({
   children,

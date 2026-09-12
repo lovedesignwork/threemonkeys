@@ -21,7 +21,8 @@ export const resend = {
   }
 };
 
-export const EMAIL_FROM = 'Three Monkeys <support@hanumanworldphuket.com>';
+// EMAIL_FROM must use a sender domain verified in the restaurant's Resend account.
+export const EMAIL_FROM = process.env.EMAIL_FROM || 'Three Monkeys Restaurant <enjoy@threemonkeysphuket.com>';
 
 // Parse comma-separated emails into array
 export function parseEmails(emailString: string): string[] {

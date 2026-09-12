@@ -11,7 +11,10 @@ export default function LiveChat() {
     return null;
   }
 
-  const license = process.env.NEXT_PUBLIC_LIVECHAT_LICENSE || '15436743';
+  const license = process.env.NEXT_PUBLIC_LIVECHAT_LICENSE;
+
+  // Only connect a widget explicitly configured for this restaurant.
+  if (!license) return null;
 
   return (
     <LiveChatWidget

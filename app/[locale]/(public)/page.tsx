@@ -11,18 +11,23 @@ import {
   CTABanner,
   Location,
 } from '@/components/home';
-import { generatePageMetadata, siteConfig } from '@/lib/seo/config';
+import { localizePageMetadata, generatePageMetadata, siteConfig } from '@/lib/seo/config';
 
-export const metadata: Metadata = {
+const pageMetadata: Metadata = {
   ...generatePageMetadata(
     `${siteConfig.name} - Authentic Thai Cuisine in Phuket`,
-    'Experience authentic Southern Thai cuisine at Three Monkeys Restaurant Phuket. Enjoy exquisite dining in our beautiful garden setting with tasting menus, cooking classes, and private dining experiences. Book your table today!',
+    'Experience Southern Thai cuisine in the rainforest at Three Monkeys Restaurant Phuket. Choose your dining zone or a celebration package and reserve your table online.',
     '/',
   ),
   alternates: {
     canonical: siteConfig.url,
   },
 };
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  return localizePageMetadata(pageMetadata, locale);
+}
 
 export default function HomePage() {
   return (

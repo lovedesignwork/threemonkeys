@@ -189,8 +189,8 @@ export default function PrivacyPage() {
                     <div className="space-y-4 text-white/70 leading-relaxed">
                       <p>
                         This Privacy Policy explains how <span className="text-white font-medium">SKY WORLD ADVENTURES Co., Ltd.</span> 
-                        (operating as "Three Monkeys") and <span className="text-white font-medium">Chamnanthang Co., Ltd.</span> 
-                        (operating as "ONEBOOKING" for online payment processing) collect, use, disclose, 
+                        (operating as &quot;Three Monkeys&quot;) and <span className="text-white font-medium">Chamnanthang Co., Ltd.</span>
+                        (operating as &quot;ONEBOOKING&quot; for online payment processing) collect, use, disclose,
                         and safeguard your information when you visit our website or use our services.
                       </p>
                       <p>
@@ -231,7 +231,7 @@ export default function PrivacyPage() {
                         <h3 className="text-lg font-medium text-white mb-2">Chamnanthang Co., Ltd.</h3>
                         <p className="text-white/60 text-sm">
                           Data controller for online booking and payment processing. Your credit card 
-                          statement will display payments as "ONEBOOKING".
+                          statement will display payments as &quot;ONEBOOKING&quot;.
                         </p>
                       </div>
                     </div>

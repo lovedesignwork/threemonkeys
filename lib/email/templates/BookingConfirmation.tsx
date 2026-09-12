@@ -254,7 +254,7 @@ export const BookingConfirmationEmail = ({
                       href="https://maps.app.goo.gl/hk5Z7PQUHnmz6tVB6"
                       style={contactLink}
                     >
-                      Inside Hanuman World, Kathu, Phuket
+                      Inside Hanuman World, Wichit, Phuket
                     </Link>
                   </td>
                 </tr>

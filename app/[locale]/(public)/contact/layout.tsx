@@ -1,10 +1,10 @@
 import { Metadata } from 'next';
-import { generatePageMetadata, siteConfig } from '@/lib/seo/config';
+import { localizePageMetadata, generatePageMetadata, siteConfig } from '@/lib/seo/config';
 
-export const metadata: Metadata = {
+const pageMetadata: Metadata = {
   ...generatePageMetadata(
     'Contact Us - Get in Touch',
-    `Contact Hanuman World Phuket for bookings, inquiries, and support. Call us at ${siteConfig.contact.phone}, email ${siteConfig.contact.email}, or use our contact form. We\'re here to help!`,
+    `Contact ${siteConfig.name} for table reservations, inquiries, and support. Call us at ${siteConfig.contact.phone}, email ${siteConfig.contact.email}, or use our contact form. We're here to help!`,
     '/contact'
   ),
   other: {
@@ -12,6 +12,11 @@ export const metadata: Metadata = {
     'contact:email': siteConfig.contact.email,
   },
 };
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  return localizePageMetadata(pageMetadata, locale);
+}
 
 export default function ContactLayout({
   children,

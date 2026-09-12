@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { siteConfig } from '@/lib/seo/config';
+import { siteConfig, getLanguageAlternates } from '@/lib/seo/config';
 import { getPackageBySlug } from '@/lib/data/packages';
 import { ProductSchema, BreadcrumbSchema } from '@/lib/seo/structured-data';
 
@@ -34,6 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       : pkg.description,
     alternates: {
       canonical: url,
+      languages: getLanguageAlternates(`/packages/${slug}`),
     },
     openGraph: {
       type: 'website',
@@ -59,14 +60,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function PackageLayout({ params, children }: Props) {
-  const { slug } = await params;
+  const { slug, locale } = await params;
   const pkg = getPackageBySlug(slug);
 
   if (!pkg) {
     notFound();
   }
 
-  const url = `${siteConfig.url}/packages/${slug}`;
+  const url = `${siteConfig.url}${locale === 'en' ? '' : `/${locale}`}/packages/${slug}`;
   const image = pkg.image?.startsWith('http') ? pkg.image : `${siteConfig.url}${pkg.image}`;
 
   return (

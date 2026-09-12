@@ -1,16 +1,29 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase/server';
+import { timingSafeEqual } from 'node:crypto';
+import { setupAdminSchema } from '@/lib/auth/user-management';
 
 export async function POST(request: NextRequest) {
+  // Bootstrap is an explicit, temporary operator action. Never use a baked-in key.
+  const expectedKey = process.env.ADMIN_BOOTSTRAP_KEY;
+  if (process.env.ENABLE_ADMIN_BOOTSTRAP !== 'true' || !expectedKey || expectedKey.length < 32) {
+    return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  }
+
   try {
-    // Check if setup key is provided (security measure)
-    const body = await request.json();
-    const { setupKey } = body;
-    
-    // Simple security check - in production, use a more secure method
-    if (setupKey !== 'HANUMAN_SETUP_2024') {
+    const body = await request.json().catch(() => null);
+    const setupKey = body?.setupKey;
+    const providedKey = typeof setupKey === 'string' ? Buffer.from(setupKey) : Buffer.alloc(0);
+    const configuredKey = Buffer.from(expectedKey);
+    if (providedKey.length !== configuredKey.length || !timingSafeEqual(providedKey, configuredKey)) {
       return NextResponse.json({ error: 'Invalid setup key' }, { status: 403 });
     }
+
+    const parsed = setupAdminSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json({ error: parsed.error.issues[0].message }, { status: 400 });
+    }
+    const { email, password, fullName } = parsed.data;
 
     // Check if any admin users already exist
     const { data: existingAdmins, error: checkError } = await supabaseAdmin
@@ -24,14 +37,10 @@ export async function POST(request: NextRequest) {
     }
 
     if (existingAdmins && existingAdmins.length > 0) {
-      return NextResponse.json({ error: 'Admin users already exist' }, { status: 400 });
+      return NextResponse.json({ error: 'Admin users already exist' }, { status: 409 });
     }
 
     // Create the superadmin user in Supabase Auth
-    const email = body.email || 'john@hanumanworldphuket.com';
-    const password = body.password || 'HW@dmin2024!Secure';
-    const fullName = body.fullName || 'John Admin';
-
     const { data: authUser, error: authError } = await supabaseAdmin.auth.admin.createUser({
       email,
       password,
@@ -51,6 +60,7 @@ export async function POST(request: NextRequest) {
     const { error: adminError } = await supabaseAdmin
       .from('admin_users')
       .insert({
+        id: authUser.user.id,
         user_id: authUser.user.id,
         email: email,
         role: 'superadmin',
@@ -68,9 +78,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       message: 'Superadmin created successfully',
-      credentials: {
+      user: {
+        id: authUser.user.id,
         email,
-        password,
       },
     });
   } catch (error) {

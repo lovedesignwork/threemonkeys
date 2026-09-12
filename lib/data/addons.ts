@@ -66,7 +66,7 @@ export function getAddonById(id: string): Addon | undefined {
 }
 
 // Special package IDs (require 1 day advance booking)
-const SPECIAL_PACKAGE_IDS = ['ultimate-dinner', 'ultimate-birthday', 'will-you-marry-me'];
+const SPECIAL_PACKAGE_IDS = ['ultimate-dinner', 'ultimate-birthday', 'ultimate-romantic-dinner', 'will-you-marry-me'];
 
 // Helper to check if a package is a special package
 export function isSpecialPackage(packageId: string | null): boolean {

@@ -3,8 +3,8 @@ import { Metadata } from 'next';
 export const siteConfig = {
   name: 'Three Monkeys Restaurant',
   description: 'Authentic Southern Thai Cuisine in Phuket\'s rainforest. Book your table for an unforgettable dining experience at Three Monkeys Restaurant.',
-  url: 'https://threemonkeys.vercel.app',
-  ogImage: '/images/og-image.jpg',
+  url: 'https://threemonkeysphuket.com',
+  ogImage: '/opengraph-image',
   locale: 'en_US',
   creator: 'Three Monkeys Restaurant',
   keywords: [
@@ -27,22 +27,39 @@ export const siteConfig = {
   social: {
     facebook: 'https://www.facebook.com/threemonkeysrestaurant',
     instagram: 'https://www.instagram.com/threemonkeysrestaurant/',
-    tripadvisor: 'https://www.tripadvisor.com/Restaurant_Review-Three_Monkeys_Phuket',
   },
   contact: {
     email: 'enjoy@threemonkeysphuket.com',
     phone: '+66 98-010-8838',
     address: 'Inside Hanuman World, 105 Moo 4, Muang Chao Fa Rd., Wichit, Mueang Phuket, Phuket 83000, Thailand',
   },
-  geo: {
-    latitude: 7.9285,
-    longitude: 98.3185,
+  mapUrl: 'https://maps.app.goo.gl/hk5Z7PQUHnmz6tVB6',
+  address: {
+    streetAddress: '105 Moo 4, Muang Chao Fa Rd.',
+    addressLocality: 'Wichit, Mueang Phuket',
+    addressRegion: 'Phuket',
+    postalCode: '83000',
+    addressCountry: 'TH',
   },
+  openingHours: { opens: '10:00', closes: '01:00' },
   locales: ['en', 'th', 'cn', 'ja', 'ko', 'ru', 'fr', 'es', 'ar'] as const,
   defaultLocale: 'en' as const,
 };
 
 export type SupportedLocale = (typeof siteConfig.locales)[number];
+
+/** Keep translated pages canonical to their own route, with language alternates. */
+export function localizePageMetadata(metadata: Metadata, locale: string): Metadata {
+  const canonical = metadata.alternates?.canonical?.toString() || siteConfig.url;
+  const path = new URL(canonical, siteConfig.url).pathname;
+  const localizedPath = locale === siteConfig.defaultLocale ? path : `/${locale}${path === '/' ? '' : path}`;
+  const url = `${siteConfig.url}${localizedPath}`;
+  return {
+    ...metadata,
+    alternates: { ...metadata.alternates, canonical: url, languages: getLanguageAlternates(path) },
+    openGraph: { ...metadata.openGraph, url },
+  };
+}
 
 export function getLanguageAlternates(path: string = ''): Record<string, string> {
   const alternates: Record<string, string> = {};
@@ -106,9 +123,6 @@ export const defaultMetadata: Metadata = {
   alternates: {
     canonical: siteConfig.url,
     languages: getLanguageAlternates('/'),
-  },
-  verification: {
-    google: 'your-google-verification-code',
   },
   category: 'food',
 };

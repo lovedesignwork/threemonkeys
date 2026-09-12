@@ -6,10 +6,11 @@ import { usePathname } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import { Facebook, Instagram, Youtube, ArrowUpRight, MapPin, Phone, Mail, Clock, MessageCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { siteConfig } from '@/lib/seo/config';
 
 const socialLinks = [
-  { name: 'Facebook', icon: Facebook, href: 'https://facebook.com/threemonkeys' },
-  { name: 'Instagram', icon: Instagram, href: 'https://www.instagram.com/threemonkeysrestaurant/' },
+  { name: 'Facebook', icon: Facebook, href: siteConfig.social.facebook },
+  { name: 'Instagram', icon: Instagram, href: siteConfig.social.instagram },
   { name: 'YouTube', icon: Youtube, href: 'https://youtube.com/threemonkeys' },
 ];
 

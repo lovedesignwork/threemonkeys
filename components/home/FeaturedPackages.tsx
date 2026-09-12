@@ -9,6 +9,7 @@ import { getSeatPackages } from '@/lib/data/packages';
 import { Package } from '@/types';
 import { useTranslations } from 'next-intl';
 import { useTranslatedPackage } from '@/hooks/useTranslatedPackage';
+import { usePackageControls } from '@/hooks/usePackageControls';
 
 function isRomanticZone(pkg: Package): boolean {
   return pkg.id === 'monkey-dome' || pkg.id === 'monkey-nest';
@@ -17,7 +18,11 @@ function isRomanticZone(pkg: Package): boolean {
 export function FeaturedPackages() {
   const t = useTranslations('home.seats');
   const { getTranslatedPackage } = useTranslatedPackage();
-  const seatPackages = useMemo(() => getSeatPackages().map(getTranslatedPackage), [getTranslatedPackage]);
+  const { priceOf, isDisabled } = usePackageControls();
+  const seatPackages = useMemo(
+    () => getSeatPackages().filter(pkg => !isDisabled(pkg.id)).map(getTranslatedPackage),
+    [getTranslatedPackage, isDisabled]
+  );
   const premiumSeats = seatPackages.filter(pkg => pkg.id === 'monkey-dome' || pkg.id === 'monkey-nest');
   const openSeating = seatPackages.filter(pkg => pkg.id === 'indoor-seat' || pkg.id === 'outdoor-seat');
   const otherSeats = seatPackages.filter(
@@ -169,11 +174,11 @@ export function FeaturedPackages() {
                         <span className="text-white/40 text-xs uppercase tracking-wider block mb-1">{t('deposit')}</span>
                         <div className="flex items-baseline gap-1">
                           <span className="text-3xl font-bold text-[#b1b94c] font-[family-name:var(--font-krona)]">
-                            ฿4,000
+                            ฿{priceOf(pkg).toLocaleString()}
                           </span>
                           <span className="text-white/40 text-sm">{t('perTable')}</span>
                         </div>
-                        <span className="text-white/30 text-xs">{t('upTo', { n: 4 })}</span>
+                        <span className="text-white/30 text-xs">{t('upTo', { n: pkg.id === 'monkey-nest' ? 6 : 4 })}</span>
                       </div>
                       
                       {/* Reserve Button */}
@@ -276,7 +281,7 @@ export function FeaturedPackages() {
                           <div>
                             <span className="text-white/40 text-[10px] uppercase tracking-wider block">{t('deposit')}</span>
                             <span className="text-xl font-bold text-[#b1b94c] font-[family-name:var(--font-krona)]">
-                              ฿1,000
+                              ฿{priceOf(pkg).toLocaleString()}
                             </span>
                             <span className="text-white/30 text-[10px] ml-1">{t('perPerson')}</span>
                           </div>
@@ -357,7 +362,7 @@ export function FeaturedPackages() {
                         <span className="text-white/40 text-xs uppercase tracking-wider block mb-1">{t('deposit')}</span>
                         <div className="flex items-baseline gap-1">
                           <span className="text-3xl font-bold text-[#b1b94c] font-[family-name:var(--font-krona)]">
-                            ฿1,000
+                            ฿{priceOf(pkg).toLocaleString()}
                           </span>
                           <span className="text-white/40 text-sm">{t('perPerson')}</span>
                         </div>

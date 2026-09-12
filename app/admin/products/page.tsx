@@ -215,7 +215,7 @@ export default function ProductsPage() {
                 value={newPackage.name}
                 onChange={(e) => setNewPackage({ ...newPackage, name: e.target.value })}
                 className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:border-[#1a237e] text-slate-800 placeholder:text-slate-400"
-                placeholder="WORLD A+"
+                placeholder="Monkey Dome"
               />
             </div>
             <div>

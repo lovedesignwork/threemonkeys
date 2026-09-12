@@ -3,7 +3,6 @@
 import { useState, useMemo } from 'react';
 import { 
   Search, 
-  Eye, 
   CheckCircle, 
   XCircle, 
   AlertCircle,
@@ -14,6 +13,9 @@ import {
   Twitter,
   Facebook,
 } from 'lucide-react';
+import { siteConfig } from '@/lib/seo/config';
+
+const siteHostname = new URL(siteConfig.url).hostname;
 
 interface SEOData {
   seoTitle: string;
@@ -44,6 +46,40 @@ interface SEOCheck {
   label: string;
   status: 'good' | 'warning' | 'bad';
   message: string;
+}
+
+function StatusIcon({ status }: { status: SEOCheck['status'] }) {
+  if (status === 'good') return <CheckCircle className="w-4 h-4 text-green-500" />;
+  if (status === 'warning') return <AlertCircle className="w-4 h-4 text-orange-500" />;
+  return <XCircle className="w-4 h-4 text-red-500" />;
+}
+
+interface SectionProps {
+  id: string;
+  title: string;
+  children: React.ReactNode;
+  expandedSection: string | null;
+  onToggle: (id: string) => void;
+}
+
+function Section({ id, title, children, expandedSection, onToggle }: SectionProps) {
+  return (
+    <div className="border-b border-slate-200 last:border-0">
+      <button
+        type="button"
+        onClick={() => onToggle(id)}
+        className="w-full flex items-center justify-between p-4 hover:bg-slate-50 transition-colors"
+      >
+        <span className="font-medium text-slate-800">{title}</span>
+        {expandedSection === id ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+      </button>
+      {expandedSection === id && (
+        <div className="px-4 pb-4 space-y-4">
+          {children}
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default function SEOPanel({ title, content, slug, seoData, onChange }: SEOPanelProps) {
@@ -101,7 +137,7 @@ export default function SEOPanel({ title, content, slug, seoData, onChange }: SE
 
     // Focus keyword in content
     if (focusKeyword) {
-      const keywordCount = (contentLower.match(new RegExp(focusKeyword, 'g')) || []).length;
+      const keywordCount = contentLower.split(focusKeyword).length - 1;
       const density = wordCount > 0 ? (keywordCount / wordCount) * 100 : 0;
       
       checks.push({
@@ -116,7 +152,9 @@ export default function SEOPanel({ title, content, slug, seoData, onChange }: SE
 
     // Focus keyword in first paragraph
     if (focusKeyword) {
-      const firstPara = contentLower.split('</p>')[0] || '';
+      const firstParagraph = content.match(/<p(?:\s[^>]*)?>([\s\S]*?)<\/p>/i)?.[1]
+        ?? content.split(/\r?\n\s*\r?\n/)[0];
+      const firstPara = firstParagraph.replace(/<[^>]*>/g, '').toLowerCase();
       checks.push({
         id: 'keyword-intro',
         label: 'Focus keyword in introduction',
@@ -187,29 +225,9 @@ export default function SEOPanel({ title, content, slug, seoData, onChange }: SE
     return 'bg-red-500';
   };
 
-  const StatusIcon = ({ status }: { status: 'good' | 'warning' | 'bad' }) => {
-    if (status === 'good') return <CheckCircle className="w-4 h-4 text-green-500" />;
-    if (status === 'warning') return <AlertCircle className="w-4 h-4 text-orange-500" />;
-    return <XCircle className="w-4 h-4 text-red-500" />;
+  const toggleSection = (id: string) => {
+    setExpandedSection(current => current === id ? null : id);
   };
-
-  const Section = ({ id, title, children }: { id: string; title: string; children: React.ReactNode }) => (
-    <div className="border-b border-slate-200 last:border-0">
-      <button
-        type="button"
-        onClick={() => setExpandedSection(expandedSection === id ? null : id)}
-        className="w-full flex items-center justify-between p-4 hover:bg-slate-50 transition-colors"
-      >
-        <span className="font-medium text-slate-800">{title}</span>
-        {expandedSection === id ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-      </button>
-      {expandedSection === id && (
-        <div className="px-4 pb-4 space-y-4">
-          {children}
-        </div>
-      )}
-    </div>
-  );
 
   return (
     <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
@@ -263,7 +281,7 @@ export default function SEOPanel({ title, content, slug, seoData, onChange }: SE
       {activeTab === 'seo' && (
         <div>
           {/* Focus Keyword */}
-          <Section id="focus-keyword" title="Focus Keyword">
+          <Section id="focus-keyword" title="Focus Keyword" expandedSection={expandedSection} onToggle={toggleSection}>
             <div>
               <label className="block text-sm text-slate-600 mb-1">Focus Keyword</label>
               <input
@@ -287,7 +305,7 @@ export default function SEOPanel({ title, content, slug, seoData, onChange }: SE
           </Section>
 
           {/* SEO Title & Description */}
-          <Section id="meta" title="Meta Title & Description">
+          <Section id="meta" title="Meta Title & Description" expandedSection={expandedSection} onToggle={toggleSection}>
             <div>
               <label className="block text-sm text-slate-600 mb-1">
                 SEO Title <span className="text-slate-400">({(seoData.seoTitle || title).length}/60)</span>
@@ -315,13 +333,13 @@ export default function SEOPanel({ title, content, slug, seoData, onChange }: SE
           </Section>
 
           {/* Google Preview */}
-          <Section id="preview" title="Google Preview">
+          <Section id="preview" title="Google Preview" expandedSection={expandedSection} onToggle={toggleSection}>
             <div className="p-4 bg-slate-50 rounded-lg">
               <div className="text-blue-600 text-lg hover:underline cursor-pointer truncate">
                 {seoData.seoTitle || title || 'Page Title'}
               </div>
               <div className="text-green-700 text-sm">
-                hanumanworldphuket.com/blog/{slug || 'your-post-url'}
+                {siteHostname}/blog/{slug || 'your-post-url'}
               </div>
               <div className="text-slate-600 text-sm mt-1 line-clamp-2">
                 {seoData.seoDescription || 'Add a meta description to see how your post will appear in search results.'}
@@ -330,14 +348,14 @@ export default function SEOPanel({ title, content, slug, seoData, onChange }: SE
           </Section>
 
           {/* Advanced */}
-          <Section id="advanced" title="Advanced">
+          <Section id="advanced" title="Advanced" expandedSection={expandedSection} onToggle={toggleSection}>
             <div>
               <label className="block text-sm text-slate-600 mb-1">Canonical URL</label>
               <input
                 type="text"
                 value={seoData.canonicalUrl}
                 onChange={(e) => onChange({ canonicalUrl: e.target.value })}
-                placeholder="https://hanumanworldphuket.com/blog/..."
+                placeholder={`${siteConfig.url}/blog/...`}
                 className="w-full px-3 py-2 border border-slate-200 rounded-lg text-slate-800 text-sm focus:outline-none focus:border-[#1a237e]"
               />
             </div>
@@ -364,7 +382,7 @@ export default function SEOPanel({ title, content, slug, seoData, onChange }: SE
           </Section>
 
           {/* Analysis Results */}
-          <Section id="analysis" title="SEO Analysis">
+          <Section id="analysis" title="SEO Analysis" expandedSection={expandedSection} onToggle={toggleSection}>
             <div className="space-y-2">
               {seoChecks.map((check) => (
                 <div key={check.id} className="flex items-start gap-3 p-2 rounded-lg hover:bg-slate-50">
@@ -383,7 +401,7 @@ export default function SEOPanel({ title, content, slug, seoData, onChange }: SE
       {activeTab === 'social' && (
         <div>
           {/* Facebook/Open Graph */}
-          <Section id="og" title="Facebook / Open Graph">
+          <Section id="og" title="Facebook / Open Graph" expandedSection={expandedSection} onToggle={toggleSection}>
             <div>
               <label className="block text-sm text-slate-600 mb-1">OG Title</label>
               <input
@@ -425,7 +443,7 @@ export default function SEOPanel({ title, content, slug, seoData, onChange }: SE
                   <div className="h-40 bg-slate-200 bg-cover bg-center" style={{ backgroundImage: `url(${seoData.ogImage})` }} />
                 )}
                 <div className="p-3">
-                  <div className="text-xs text-slate-400 uppercase">hanumanworldphuket.com</div>
+                  <div className="text-xs text-slate-400 uppercase">{siteHostname}</div>
                   <div className="font-bold text-slate-800 line-clamp-1">{seoData.ogTitle || title || 'Title'}</div>
                   <div className="text-sm text-slate-500 line-clamp-2">{seoData.ogDescription || seoData.seoDescription || 'Description'}</div>
                 </div>
@@ -434,7 +452,7 @@ export default function SEOPanel({ title, content, slug, seoData, onChange }: SE
           </Section>
 
           {/* Twitter */}
-          <Section id="twitter" title="Twitter Card">
+          <Section id="twitter" title="Twitter Card" expandedSection={expandedSection} onToggle={toggleSection}>
             <div>
               <label className="block text-sm text-slate-600 mb-1">Twitter Title</label>
               <input
@@ -478,7 +496,7 @@ export default function SEOPanel({ title, content, slug, seoData, onChange }: SE
                 <div className="p-3">
                   <div className="font-bold text-slate-800 line-clamp-1">{seoData.twitterTitle || title || 'Title'}</div>
                   <div className="text-sm text-slate-500 line-clamp-2">{seoData.twitterDescription || seoData.seoDescription || 'Description'}</div>
-                  <div className="text-xs text-slate-400 mt-1">hanumanworldphuket.com</div>
+                  <div className="text-xs text-slate-400 mt-1">{siteHostname}</div>
                 </div>
               </div>
             </div>

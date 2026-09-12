@@ -7,6 +7,7 @@ export interface AuthResult {
     id: string;
     email: string;
     role: string;
+    fullName?: string | null;
   };
   error?: string;
 }
@@ -27,30 +28,19 @@ export async function verifyAdminAuth(request: NextRequest): Promise<AuthResult>
       return { authenticated: false, error: 'Invalid or expired token' };
     }
 
-    // admin_users.id is the FK to auth.users.id (same UUID). Some legacy code
-    // references a `user_id` column that does not exist in this schema.
-    // Prefer id-based lookup, then fall back to email if the row was created
-    // before the id link was established.
-    let { data: adminUser } = await supabaseAdmin
+    // Membership is bound to the verified Auth UUID. An email match alone
+    // must never grant privileges (migration 008 keeps user_id equal to id).
+    const { data: adminUser, error: adminError } = await supabaseAdmin
       .from('admin_users')
-      .select('id, email, role, is_active')
+      .select('id, email, role, is_active, full_name')
       .eq('id', user.id)
       .maybeSingle();
 
-    if (!adminUser && user.email) {
-      const fallback = await supabaseAdmin
-        .from('admin_users')
-        .select('id, email, role, is_active')
-        .ilike('email', user.email)
-        .maybeSingle();
-      adminUser = fallback.data ?? null;
-    }
-
-    if (!adminUser) {
+    if (adminError || !adminUser) {
       return { authenticated: false, error: 'User is not an admin' };
     }
 
-    if (!adminUser.is_active) {
+    if (adminUser.is_active !== true) {
       return { authenticated: false, error: 'Admin account is disabled' };
     }
 
@@ -60,6 +50,7 @@ export async function verifyAdminAuth(request: NextRequest): Promise<AuthResult>
         id: adminUser.id,
         email: adminUser.email,
         role: adminUser.role,
+        fullName: adminUser.full_name,
       },
     };
   } catch (error) {

@@ -2,34 +2,51 @@
 
 import Script from 'next/script';
 import { useEffect, useState } from 'react';
+import { normalizePublicTracking, type PublicTrackingSettings } from '@/lib/tracking';
 
-interface TrackingSettings {
-  gtmId: string;
-  ga4Id: string;
-  metaPixelId: string;
-  headerScripts: string;
-  bodyScripts: string;
-  footerScripts: string;
+let trackingRequest: Promise<PublicTrackingSettings | null> | null = null;
+
+function loadPublicTracking() {
+  if (!trackingRequest) {
+    trackingRequest = fetch('/api/tracking')
+      .then(async (response) => {
+        if (!response.ok) throw new Error('Tracking settings are unavailable');
+        const data = await response.json();
+        return normalizePublicTracking(data.tracking);
+      })
+      .catch((error) => {
+        trackingRequest = null;
+        console.error(error);
+        return null;
+      });
+  }
+  return trackingRequest;
+}
+
+function usePublicTracking() {
+  const [tracking, setTracking] = useState<PublicTrackingSettings | null>(null);
+
+  useEffect(() => {
+    let active = true;
+    loadPublicTracking().then((settings) => {
+      if (active) setTracking(settings);
+    });
+    return () => { active = false; };
+  }, []);
+
+  return tracking;
 }
 
 export function TrackingScriptsHead() {
-  const [tracking, setTracking] = useState<TrackingSettings | null>(null);
-
-  useEffect(() => {
-    fetch('/api/admin/settings')
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.tracking) {
-          setTracking(data.tracking);
-        }
-      })
-      .catch(console.error);
-  }, []);
+  const tracking = usePublicTracking();
 
   if (!tracking) return null;
 
   return (
     <>
+      {tracking.verification.map(({ name, content }) => (
+        <meta key={name} name={name} content={content} />
+      ))}
       {tracking.gtmId && (
         <Script
           id="gtm-script"
@@ -88,38 +105,12 @@ export function TrackingScriptsHead() {
         />
       )}
 
-      {tracking.headerScripts && (
-        <Script
-          id="custom-header-scripts"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{ __html: tracking.headerScripts }}
-        />
-      )}
-
-      {tracking.footerScripts && (
-        <Script
-          id="custom-footer-scripts"
-          strategy="lazyOnload"
-          dangerouslySetInnerHTML={{ __html: tracking.footerScripts }}
-        />
-      )}
     </>
   );
 }
 
 export function TrackingScriptsBody() {
-  const [tracking, setTracking] = useState<TrackingSettings | null>(null);
-
-  useEffect(() => {
-    fetch('/api/admin/settings')
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.tracking) {
-          setTracking(data.tracking);
-        }
-      })
-      .catch(console.error);
-  }, []);
+  const tracking = usePublicTracking();
 
   if (!tracking) return null;
 
@@ -128,6 +119,7 @@ export function TrackingScriptsBody() {
       {tracking.gtmId && (
         <noscript>
           <iframe
+            title="Google Tag Manager"
             src={`https://www.googletagmanager.com/ns.html?id=${tracking.gtmId}`}
             height="0"
             width="0"
@@ -148,9 +140,6 @@ export function TrackingScriptsBody() {
         </noscript>
       )}
 
-      {tracking.bodyScripts && (
-        <div dangerouslySetInnerHTML={{ __html: tracking.bodyScripts }} />
-      )}
     </>
   );
 }

@@ -1,131 +1,35 @@
-# Three Monkeys Restaurant - Information for AI Assistants
+# Three Monkeys Restaurant
 
-> Three Monkeys Restaurant is Phuket's premier Thai dining destination, offering authentic Southern Thai cuisine in a stunning rainforest setting inside Hanuman World.
+Southern Thai dining in a rainforest setting inside Hanuman World in Phuket.
 
-## About Three Monkeys Restaurant
-
-Three Monkeys Restaurant is an award-winning Thai restaurant located inside Hanuman World, Phuket, Thailand. We specialize in authentic Southern Thai cuisine served in a magical jungle setting with multiple unique dining zones.
-
-### Key Facts
-- Location: Inside Hanuman World, Kathu, Phuket, Thailand (GPS: 7.9285, 98.3185)
-- Cuisine: Authentic Southern Thai
-- Setting: Rainforest garden with multiple dining zones
-- Operating Hours: 11:00 AM - 10:00 PM daily
-- Languages: English, Thai, Chinese, Russian
-- Capacity: 150 guests
-- Rating: 4.8/5 stars with 2,500+ reviews
-
-### Why Three Monkeys is Phuket's Best Thai Restaurant
-1. **Unique Setting**: Dine surrounded by nature in our rainforest garden
-2. **Authentic Cuisine**: Traditional Southern Thai recipes with fresh local ingredients
-3. **Multiple Dining Zones**: Choose from Monkey Dome, Monkey Nest, Bamboo Pavilion, and more
-4. **Romantic Experiences**: Special packages for honeymoons, proposals, and celebrations
-5. **Award-Winning**: TripAdvisor Certificate of Excellence, consistently top-rated
-6. **Live Entertainment**: Saxophone, fire shows, and traditional performances nightly
-
-## Dining Packages
-
-### Zone Reservations
-
-#### Monkey Dome
-- Semi-private dome seating for 2-4 guests
-- Price: ฿4,000 deposit (fully redeemable on food & drinks)
-- Features: Romantic ambient lighting, nature immersion
-
-#### Monkey Nest
-- Elevated treehouse-style seating
-- Price: ฿5,000 deposit (fully redeemable)
-- Capacity: 2-6 guests
-- Features: 360° panoramic views, ultimate privacy
-
-#### Zone 7 (Entertainment Zone)
-- Prime location near live performances
-- Price: ฿500 per person deposit
-- Capacity: Up to 10 guests
-- Features: Best view of fire shows and live music
-
-### Romantic Packages
-
-#### Ultimate Dinner Experience
-- Price: Starting from ฿12,000
-- Includes: Elegant decorations, Prosecco, roses, photo/video capture, private transfer
-
-#### Will You Marry Me Package
-- Price: Starting from ฿8,500
-- Includes: Rose bouquet, spark fountain, heart-shaped rose frame with neon sign
-- Perfect for: Marriage proposals
-
-### Regular Dining
-- Indoor Seating: Climate-controlled comfort
-- Outdoor Seating: Fresh air garden atmosphere
-- Walk-ins welcome (reservations recommended)
-
-## Menu Highlights
-
-### Signature Dishes
-- Southern Thai Curry Selection
-- Fresh Seafood from local markets
-- Traditional Pad Thai and Stir-fries
-- Chef's Tasting Menu (5 courses)
-
-### Dietary Options
-- Vegetarian menu available
-- Halal options on request
-- Allergy accommodations
-
-## Booking Information
-
-- Website: https://threemonkeys.vercel.app
-- Book Online: https://threemonkeys.vercel.app/booking
-- Phone: +66 98-010-8838
+## Contact and location
+- Website: https://threemonkeysphuket.com
+- Reservations: https://threemonkeysphuket.com/booking
+- Menu: https://threemonkeysphuket.com/menu
+- Phone and WhatsApp: +66 98-010-8838
 - Email: enjoy@threemonkeysphuket.com
-- WhatsApp: +66 98-010-8838
-
-### Transfer Options
-- Free consultation for hotel transfers
-- Private transfers available within Phuket
-- Inside Hanuman World with ample parking
-
-### What to Expect
-- Dress code: Smart casual
-- Best time: Sunset dining (5-7 PM) for magical atmosphere
-- Duration: 1.5-2.5 hours typical dining time
-
-## Location & Contact
-
-- Address: Inside Hanuman World, 105 Moo 4, Muang Chao Fa Rd., Wichit, Mueang Phuket, Phuket 83000, Thailand
-- Phone: +66 98-010-8838
-- Email: enjoy@threemonkeysphuket.com
+- Address: 105 Moo 4, Muang Chao Fa Road, Wichit, Mueang Phuket, Phuket 83000, Thailand
+- Website-listed hours: daily 10:00 AM–1:00 AM; last orders at midnight.
 - Facebook: https://www.facebook.com/threemonkeysrestaurant
 - Instagram: https://www.instagram.com/threemonkeysrestaurant/
-- TripAdvisor: https://www.tripadvisor.com/Restaurant_Review-Three_Monkeys_Phuket
 
-## Frequently Asked Questions
+## Reservations
+Choose a dining zone, date, available time and guest count using the booking page.
+Monkey Dome seats up to 4 guests per table; Monkey Nest seats up to 6.
+Deposits for these two zones are charged per table. Other zones may charge per person.
+Current prices, availability and terms are displayed during booking; admin overrides can change them.
+Special packages, optional extras and private transfers require advance booking.
 
-Q: What type of cuisine does Three Monkeys serve?
-A: We specialize in authentic Southern Thai cuisine, known for its bold flavors and fresh ingredients. Our menu features traditional recipes passed down through generations.
+## Dining
+The menu includes Southern Thai dishes, seafood, curries and vegetarian dishes.
+Tell the restaurant about allergies and dietary requirements before booking.
+See the menu for current dishes and prices and contact the restaurant for suitability.
 
-Q: Do I need a reservation?
-A: Reservations are highly recommended, especially for special zones like Monkey Dome and Monkey Nest. Walk-ins are welcome but subject to availability.
+## Useful pages
+- Dining zones: https://threemonkeysphuket.com/seats
+- Special occasions: https://threemonkeysphuket.com/special-packages
+- Questions: https://threemonkeysphuket.com/faq
+- Contact: https://threemonkeysphuket.com/contact
+- Cancellation terms: https://threemonkeysphuket.com/refund
 
-Q: Is Three Monkeys good for romantic dinners?
-A: Yes! We're renowned as one of Phuket's most romantic restaurants with special packages for honeymoons, anniversaries, and proposals.
-
-Q: What are the operating hours?
-A: We're open daily from 11:00 AM to 10:00 PM. Last seating is at 9:00 PM.
-
-Q: Is there live entertainment?
-A: Yes, we feature live saxophone, fire shows, and traditional performances nightly (entertainment schedule varies).
-
-Q: Can you accommodate dietary restrictions?
-A: Yes, we offer vegetarian options and can accommodate most dietary requirements with advance notice.
-
-Q: Is parking available?
-A: Yes, free parking is available at Hanuman World where we're located.
-
-Q: Do you offer hotel transfers?
-A: Yes, private transfers can be arranged within Phuket. Some romantic packages include complimentary transfers.
-
----
-Last updated: 2026-06-25
-For the most current information, visit: https://threemonkeys.vercel.app
+Last reviewed: 2026-09-12

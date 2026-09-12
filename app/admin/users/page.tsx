@@ -25,7 +25,7 @@ import {
   ChevronDown
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
-import { adminGet, adminPatch } from '@/lib/auth/api-client';
+import { adminFetch, adminGet, adminPatch, adminPost, adminPut } from '@/lib/auth/api-client';
 
 interface AdminUser {
   id: string;
@@ -210,15 +210,11 @@ export default function UsersPage() {
     setError(null);
 
     try {
-      const response = await fetch('/api/auth/create-user', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: formEmail,
-          password: formPassword,
-          fullName: formFullName,
-          role: formRole,
-        }),
+      const response = await adminPost('/api/auth/create-user', {
+        email: formEmail,
+        password: formPassword,
+        fullName: formFullName,
+        role: formRole,
       });
 
       const data = await response.json();
@@ -246,15 +242,11 @@ export default function UsersPage() {
     setError(null);
 
     try {
-      const response = await fetch('/api/auth/update-user', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          userId: selectedUser.user_id,
-          fullName: formFullName,
-          role: formRole,
-          password: formPassword || undefined,
-        }),
+      const response = await adminPut('/api/auth/update-user', {
+        userId: selectedUser.id,
+        fullName: formFullName,
+        role: formRole,
+        password: formPassword || undefined,
       });
 
       const data = await response.json();
@@ -275,8 +267,8 @@ export default function UsersPage() {
   };
 
   const handleBanUser = async (user: AdminUser) => {
-    if (user.role === 'superadmin' && user.user_id === currentAdmin?.user_id) {
-      setError("You cannot ban your own account");
+    if (user.role === 'superadmin' && user.is_active) {
+      setError('Cannot disable superadmin accounts');
       setTimeout(() => setError(null), 3000);
       return;
     }
@@ -308,10 +300,9 @@ export default function UsersPage() {
     setSaving(true);
 
     try {
-      const response = await fetch('/api/auth/delete-user', {
+      const response = await adminFetch('/api/auth/delete-user', {
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: selectedUser.user_id }),
+        body: JSON.stringify({ userId: selectedUser.id }),
       });
 
       if (!response.ok) {
@@ -406,7 +397,7 @@ export default function UsersPage() {
             </thead>
             <tbody className="divide-y divide-slate-100">
               {users.map((user) => {
-                const isSelf = user.user_id === currentAdmin?.user_id;
+                const isSelf = user.id === currentAdmin?.id;
                 const isSuperadmin = user.role === 'superadmin';
                 
                 return (
@@ -467,7 +458,7 @@ export default function UsersPage() {
                         )}
                         
                         {/* Ban/Unban Button */}
-                        {!isSelf && (
+                        {!isSelf && (!isSuperadmin || !user.is_active) && (
                           <button
                             onClick={() => handleBanUser(user)}
                             className={`p-2 rounded-lg transition-colors ${

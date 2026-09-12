@@ -3,14 +3,15 @@ import { notFound } from 'next/navigation';
 import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
 import { ArrowLeft, Calendar, Clock, User, Tag, ArrowRight } from 'lucide-react';
-import { siteConfig } from '@/lib/seo/config';
+import { siteConfig, getLanguageAlternates } from '@/lib/seo/config';
 import { ArticleSchema, BreadcrumbSchema } from '@/lib/seo/structured-data';
 import { supabaseAdmin } from '@/lib/supabase/server';
 import { getBlogPostBySlug, blogPosts } from '@/lib/data/blog';
+import { getBlogAuthors } from '@/lib/data/blog-authors-server';
 import { marked } from 'marked';
 
 interface Props {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }
 
 export const revalidate = 60;
@@ -29,23 +30,21 @@ async function getBlogPost(slug: string) {
   try {
     const { data: post, error } = await supabaseAdmin
       .from('blog_posts')
-      .select(`
-        *,
-        author:admin_users!author_id(name)
-      `)
+      .select('*')
       .eq('slug', slug)
       .eq('status', 'published')
       .single();
 
     if (!error && post) {
+      const authors = await getBlogAuthors([post.author_id]);
       return {
         ...post,
-        authorName: post.author?.name || 'Three Monkeys Team',
+        authorName: authors.get(post.author_id)?.name || 'Three Monkeys Team',
         readTime: Math.ceil((post.content?.replace(/<[^>]*>/g, '').split(/\s+/).length || 0) / 200) || 5,
         source: 'supabase',
       };
     }
-  } catch (e) {
+  } catch {
     // Supabase failed, continue to static data
   }
 
@@ -65,14 +64,14 @@ async function getBlogPost(slug: string) {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug, locale } = await params;
   const post = await getBlogPost(slug);
   
   if (!post) {
     return { title: 'Post Not Found' };
   }
 
-  const url = `${siteConfig.url}/blog/${slug}`;
+  const url = `${siteConfig.url}${locale === 'en' ? '' : `/${locale}`}/blog/${slug}`;
   const image = post.og_image || post.featured_image || siteConfig.ogImage;
 
   return {
@@ -81,6 +80,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     authors: [{ name: post.authorName }],
     alternates: {
       canonical: post.canonical_url || url,
+      languages: getLanguageAlternates(`/blog/${slug}`),
     },
     openGraph: {
       type: 'article',

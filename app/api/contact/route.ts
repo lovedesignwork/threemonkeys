@@ -1,6 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { z } from 'zod';
 import { sendContactFormEmail } from '@/lib/email/send-contact-email';
 import { supabaseAdmin } from '@/lib/supabase/server';
+
+const contactSchema = z.object({
+  name: z.string().trim().min(1, 'Name is required').max(100, 'Name must be 100 characters or fewer'),
+  email: z.string().trim().max(254, 'Email must be 254 characters or fewer').email('Invalid email address'),
+  phone: z.string().trim().max(50, 'Phone must be 50 characters or fewer').nullable().optional(),
+  subject: z.string().trim().min(1, 'Subject is required').max(200, 'Subject must be 200 characters or fewer'),
+  message: z.string().trim().min(1, 'Message is required').max(10000, 'Message must be 10000 characters or fewer'),
+});
 
 async function syncToOneBooking(data: {
   id: string;
@@ -52,23 +61,26 @@ async function syncToOneBooking(data: {
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const { name, email, phone, subject, message } = body;
-
-    if (!name || !email || !subject || !message) {
+    let body: unknown;
+    try {
+      body = await request.json();
+    } catch {
       return NextResponse.json(
-        { error: 'Name, email, subject, and message are required' },
+        { error: 'Invalid JSON body' },
         { status: 400 }
       );
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    const parsed = contactSchema.safeParse(body);
+    if (!parsed.success) {
       return NextResponse.json(
-        { error: 'Invalid email address' },
+        { error: parsed.error.issues[0]?.message || 'Invalid contact details' },
         { status: 400 }
       );
     }
+
+    const { name, email, subject, message } = parsed.data;
+    const phone = parsed.data.phone || undefined;
 
     const { data: insertedData, error: dbError } = await supabaseAdmin
       .from('contact_submissions')
@@ -83,13 +95,17 @@ export async function POST(request: NextRequest) {
       .select('id')
       .single();
 
-    if (dbError) {
+    if (dbError || !insertedData?.id) {
       console.error('Failed to store contact submission:', dbError);
+      return NextResponse.json(
+        { error: 'Failed to save your message. Please try again later.' },
+        { status: 500 }
+      );
     }
 
-    const submissionId = insertedData?.id || crypto.randomUUID();
-
-    await Promise.all([
+    // A stored message is available to admins even if a notification service is
+    // unavailable. Only start these follow-ups after persistence is confirmed.
+    const followups = await Promise.allSettled([
       sendContactFormEmail({
         name,
         email,
@@ -98,7 +114,7 @@ export async function POST(request: NextRequest) {
         message,
       }),
       syncToOneBooking({
-        id: submissionId,
+        id: insertedData.id,
         name,
         email,
         phone,
@@ -107,9 +123,15 @@ export async function POST(request: NextRequest) {
       }),
     ]);
 
+    for (const result of followups) {
+      if (result.status === 'rejected') {
+        console.error('[contact] Follow-up failed after saving submission:', insertedData.id, result.reason);
+      }
+    }
+
     return NextResponse.json({
       success: true,
-      message: 'Your message has been sent successfully. We will get back to you soon!',
+      message: 'Your message has been received. We will get back to you soon!',
     });
   } catch (error) {
     console.error('Contact form error:', error);

@@ -112,7 +112,7 @@ export default function AdminLoginPage() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@threemonkeysrestaurant.com"
+                  placeholder="admin@threemonkeysphuket.com"
                   className="w-full h-12 pl-11 pr-4 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:border-[#b1b94c] focus:ring-1 focus:ring-[#b1b94c]"
                   required
                 />

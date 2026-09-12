@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase/server';
 import { requireSuperAdmin, isAuthError } from '@/lib/auth/api-auth';
+import { userStatusSchema } from '@/lib/auth/user-management';
 
 export async function GET(request: NextRequest) {
   const auth = await requireSuperAdmin(request);
@@ -29,8 +30,28 @@ export async function PATCH(request: NextRequest) {
   if (isAuthError(auth)) return auth;
 
   try {
-    const body = await request.json();
-    const { id, is_active } = body;
+    const parsed = userStatusSchema.safeParse(await request.json().catch(() => null));
+    if (!parsed.success) {
+      return NextResponse.json({ error: parsed.error.issues[0].message }, { status: 400 });
+    }
+    const { id, is_active } = parsed.data;
+
+    const { data: target, error: lookupError } = await supabaseAdmin
+      .from('admin_users')
+      .select('id, role')
+      .eq('id', id)
+      .maybeSingle();
+
+    if (lookupError) {
+      return NextResponse.json({ error: 'Failed to look up user' }, { status: 500 });
+    }
+    if (!target) {
+      return NextResponse.json({ error: 'Admin user not found' }, { status: 404 });
+    }
+    // Match edit/delete protection and avoid concurrent bans disabling every superadmin.
+    if (!is_active && (id === auth.user?.id || target.role === 'superadmin')) {
+      return NextResponse.json({ error: 'Cannot disable superadmin accounts' }, { status: 403 });
+    }
 
     const { error } = await supabaseAdmin
       .from('admin_users')

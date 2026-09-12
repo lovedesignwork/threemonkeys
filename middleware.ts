@@ -65,13 +65,13 @@ export function middleware(req: NextRequest) {
       // Bypass via existing cookie
       const cookieValue = req.cookies.get(cookieName)?.value;
       if (cookieValue && bypassPin && cookieValue === bypassPin) {
-        return NextResponse.next();
+        return intlMiddleware(req);
       }
 
       // Bypass for logged-in admins.
       const adminFlag = req.cookies.get('tm_admin')?.value;
       if (adminFlag === '1') {
-        return NextResponse.next();
+        return intlMiddleware(req);
       }
 
       // Otherwise: serve the maintenance page.

@@ -482,7 +482,7 @@ function SuccessContent() {
                 <div className="flex-1 min-w-0">
                   <h3 className="font-bold text-white">Three Monkeys Restaurant</h3>
                   <p className="text-sm text-white/50">
-                    Inside Hanuman World, Kathu, Phuket
+                    Inside Hanuman World, Wichit, Phuket
                   </p>
                 </div>
                 <ChevronRight className="w-5 h-5 text-white/30 group-hover:text-[#b1b94c] transition-colors" />

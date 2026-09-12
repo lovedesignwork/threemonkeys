@@ -28,29 +28,19 @@ export function OrganizationSchema() {
     alternateName: 'Three Monkeys Restaurant Phuket',
     description: siteConfig.description,
     url: siteConfig.url,
-    logo: `${siteConfig.url}/images/logo.png`,
-    image: `${siteConfig.url}/images/og-image.jpg`,
+    logo: `${siteConfig.url}/images/threemonkeyslogo.png`,
+    image: `${siteConfig.url}/opengraph-image`,
     telephone: siteConfig.contact.phone,
     email: siteConfig.contact.email,
     address: {
       '@type': 'PostalAddress',
-      streetAddress: '105 Moo 4, Soi Namtok Kathu',
-      addressLocality: 'Kathu',
-      addressRegion: 'Phuket',
-      postalCode: '83120',
-      addressCountry: 'TH',
-    },
-    geo: {
-      '@type': 'GeoCoordinates',
-      latitude: siteConfig.geo.latitude,
-      longitude: siteConfig.geo.longitude,
+      ...siteConfig.address,
     },
     openingHoursSpecification: [
       {
         '@type': 'OpeningHoursSpecification',
         dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-        opens: '11:00',
-        closes: '22:00',
+        ...siteConfig.openingHours,
       },
     ],
     priceRange: '฿฿',
@@ -58,9 +48,8 @@ export function OrganizationSchema() {
     sameAs: [
       siteConfig.social.facebook,
       siteConfig.social.instagram,
-      siteConfig.social.tripadvisor,
     ],
-    hasMap: `https://www.google.com/maps?q=${siteConfig.geo.latitude},${siteConfig.geo.longitude}`,
+    hasMap: siteConfig.mapUrl,
     acceptsReservations: 'True',
     availableLanguage: ['English', 'Thai', 'Chinese', 'Russian'],
   };
@@ -83,14 +72,6 @@ export function WebsiteSchema() {
     description: siteConfig.description,
     publisher: {
       '@id': `${siteConfig.url}/#organization`,
-    },
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: {
-        '@type': 'EntryPoint',
-        urlTemplate: `${siteConfig.url}/search?q={search_term_string}`,
-      },
-      'query-input': 'required name=search_term_string',
     },
   };
 
@@ -128,7 +109,7 @@ export function ProductSchema({ product }: { product: ProductData }) {
     '@type': 'Product',
     name: product.name,
     description: product.description,
-    image: product.image || `${siteConfig.url}/images/og-image.jpg`,
+    image: product.image || `${siteConfig.url}/opengraph-image`,
     url: product.url,
     brand: {
       '@type': 'Brand',
@@ -146,13 +127,6 @@ export function ProductSchema({ product }: { product: ProductData }) {
       },
       validFrom: new Date().toISOString(),
     },
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: '4.8',
-      reviewCount: '2500',
-      bestRating: '5',
-      worstRating: '1',
-    },
   };
 
   return (
@@ -169,7 +143,7 @@ export function MenuItemSchema({ product }: { product: ProductData }) {
     '@type': 'MenuItem',
     name: product.name,
     description: product.description,
-    image: product.image || `${siteConfig.url}/images/og-image.jpg`,
+    image: product.image || `${siteConfig.url}/opengraph-image`,
     url: product.url,
     offers: {
       '@type': 'Offer',
@@ -216,35 +190,20 @@ export function LocalBusinessSchema() {
     '@type': 'LocalBusiness',
     '@id': `${siteConfig.url}/#localbusiness`,
     name: siteConfig.name,
-    image: `${siteConfig.url}/images/og-image.jpg`,
+    image: `${siteConfig.url}/opengraph-image`,
     telephone: siteConfig.contact.phone,
     email: siteConfig.contact.email,
     url: siteConfig.url,
     address: {
       '@type': 'PostalAddress',
-      streetAddress: '105 Moo 4, Soi Namtok Kathu',
-      addressLocality: 'Kathu',
-      addressRegion: 'Phuket',
-      postalCode: '83120',
-      addressCountry: 'TH',
-    },
-    geo: {
-      '@type': 'GeoCoordinates',
-      latitude: siteConfig.geo.latitude,
-      longitude: siteConfig.geo.longitude,
+      ...siteConfig.address,
     },
     openingHoursSpecification: {
       '@type': 'OpeningHoursSpecification',
       dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-      opens: '08:00',
-      closes: '17:00',
+      ...siteConfig.openingHours,
     },
     priceRange: '฿฿',
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: '4.8',
-      reviewCount: '2500',
-    },
   };
 
   return (
@@ -290,7 +249,7 @@ export function ArticleSchema({
       name: siteConfig.name,
       logo: {
         '@type': 'ImageObject',
-        url: `${siteConfig.url}/images/logo.png`,
+        url: `${siteConfig.url}/images/threemonkeyslogo.png`,
       },
     },
     mainEntityOfPage: {
@@ -314,47 +273,30 @@ export function RestaurantSchema() {
     '@id': `${siteConfig.url}/#restaurant`,
     name: siteConfig.name,
     alternateName: ['Three Monkeys', 'Three Monkeys Thai Restaurant', 'Three Monkeys Phuket'],
-    description: 'Phuket\'s premier Thai restaurant featuring authentic Southern Thai cuisine, tasting menus, cooking classes, and a beautiful garden dining setting.',
+    description: siteConfig.description,
     slogan: 'Authentic Thai Cuisine',
     url: siteConfig.url,
-    logo: `${siteConfig.url}/images/logo.png`,
+    logo: `${siteConfig.url}/images/threemonkeyslogo.png`,
     image: [
-      `${siteConfig.url}/images/og-image.jpg`,
-      `${siteConfig.url}/images/restaurant.jpg`,
-      `${siteConfig.url}/images/garden.jpg`,
+      `${siteConfig.url}/opengraph-image`,
+      `${siteConfig.url}/images/new/threemonkeys057.jpg`,
+      `${siteConfig.url}/images/new/threemonkeys048.jpg`,
     ],
     telephone: siteConfig.contact.phone,
     email: siteConfig.contact.email,
     address: {
       '@type': 'PostalAddress',
-      streetAddress: '105 Moo 4, Soi Namtok Kathu',
-      addressLocality: 'Kathu',
-      addressRegion: 'Phuket',
-      postalCode: '83120',
-      addressCountry: 'TH',
-    },
-    geo: {
-      '@type': 'GeoCoordinates',
-      latitude: siteConfig.geo.latitude,
-      longitude: siteConfig.geo.longitude,
+      ...siteConfig.address,
     },
     openingHoursSpecification: {
       '@type': 'OpeningHoursSpecification',
       dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-      opens: '11:00',
-      closes: '22:00',
+      ...siteConfig.openingHours,
     },
     priceRange: '฿฿',
     currenciesAccepted: 'THB',
     paymentAccepted: 'Cash, Credit Card',
     servesCuisine: ['Thai', 'Southern Thai', 'Asian'],
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: '4.8',
-      reviewCount: '2500',
-      bestRating: '5',
-      worstRating: '1',
-    },
     amenityFeature: [
       { '@type': 'LocationFeatureSpecification', name: 'Free WiFi', value: true },
       { '@type': 'LocationFeatureSpecification', name: 'Garden Seating', value: true },
@@ -364,18 +306,15 @@ export function RestaurantSchema() {
     ],
     publicAccess: true,
     acceptsReservations: 'True',
-    maximumAttendeeCapacity: 150,
     knowsAbout: [
       'Thai cuisine',
       'Southern Thai food',
-      'Cooking classes',
       'Fine dining in Phuket',
       'Thai culinary experiences',
     ],
     sameAs: [
       siteConfig.social.facebook,
       siteConfig.social.instagram,
-      siteConfig.social.tripadvisor,
     ],
   };
 
@@ -402,7 +341,7 @@ export function SpeakableSchema() {
     mainEntity: {
       '@type': 'Restaurant',
       name: siteConfig.name,
-      description: 'Premier Thai restaurant in Phuket featuring authentic Southern Thai cuisine, tasting menus, cooking classes, and beautiful garden dining.',
+      description: siteConfig.description,
     },
   };
 
@@ -421,17 +360,12 @@ export function HowToBookSchema() {
     name: 'How to Book a Table at Three Monkeys Restaurant',
     description: 'Step-by-step guide to booking your dining experience at Three Monkeys Restaurant Phuket',
     totalTime: 'PT5M',
-    estimatedCost: {
-      '@type': 'MonetaryAmount',
-      currency: 'THB',
-      value: '1200-4500',
-    },
     step: [
       {
         '@type': 'HowToStep',
         position: 1,
         name: 'Choose your dining package',
-        text: 'Select from Chef\'s Tasting Menu, Signature Dinner, Garden Dining Experience, or Private Chef Experience',
+        text: 'Choose a dining zone such as Monkey Dome or Monkey Nest, or a celebration package',
         url: `${siteConfig.url}/booking`,
       },
       {
@@ -445,7 +379,7 @@ export function HowToBookSchema() {
         '@type': 'HowToStep',
         position: 3,
         name: 'Add extras (optional)',
-        text: 'Add wine pairing, dessert platter, or private dining area to enhance your experience',
+        text: 'Choose available celebration extras and transfer options for your reservation',
         url: `${siteConfig.url}/booking`,
       },
       {

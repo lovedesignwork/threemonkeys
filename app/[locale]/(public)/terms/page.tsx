@@ -166,7 +166,7 @@ export default function TermsPage() {
                       </p>
                       <p>
                         Online bookings and payments are processed by <span className="text-white font-medium">Chamnanthang Co., Ltd.</span> 
-                        (operating as "ONEBOOKING"). Your credit card statement will display the payment as "ONEBOOKING".
+                        (operating as &quot;ONEBOOKING&quot;). Your credit card statement will display the payment as &quot;ONEBOOKING&quot;.
                       </p>
                     </div>
                   </div>
@@ -233,7 +233,7 @@ export default function TermsPage() {
                         <h3 className="text-lg font-medium text-white mb-3">2.5 Confirmation</h3>
                         <p className="text-white/70 leading-relaxed">
                           Your booking is confirmed once payment is successfully processed and you receive a 
-                          confirmation email. The credit card statement will display the payment as "ONEBOOKING" 
+                          confirmation email. The credit card statement will display the payment as &quot;ONEBOOKING&quot;
                           (Chamnanthang Co., Ltd.).
                         </p>
                       </div>

@@ -2,11 +2,14 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Calendar, AlertTriangle, Ban } from 'lucide-react';
+import { parseCalendarDate } from '@/lib/checkout/booking-rules';
 
 interface CalendarPickerProps {
   value: string;
   onChange: (date: string) => void;
   minDate?: string;
+  /** Business-local current date, when it differs from the visitor's date. */
+  todayDate?: string;
   restrictedDates?: string[];
   /** Dates ('YYYY-MM-DD') that cannot be selected at all (fully booked / admin blocked). */
   blockedDates?: string[];
@@ -18,23 +21,19 @@ const MONTHS = [
   'July', 'August', 'September', 'October', 'November', 'December'
 ];
 
-export function CalendarPicker({ value, onChange, minDate, restrictedDates = [], blockedDates = [] }: CalendarPickerProps) {
+export function CalendarPicker({ value, onChange, minDate, todayDate, restrictedDates = [], blockedDates = [] }: CalendarPickerProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(() => {
-    if (value) {
-      const date = new Date(value);
-      return new Date(date.getFullYear(), date.getMonth(), 1);
-    }
-    return new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+    const date = parseCalendarDate(value) || parseCalendarDate(minDate) || new Date();
+    return new Date(date.getFullYear(), date.getMonth(), 1);
   });
   
   const containerRef = useRef<HTMLDivElement>(null);
   
-  const today = new Date();
+  const today = parseCalendarDate(todayDate) || new Date();
   today.setHours(0, 0, 0, 0);
   
-  const minDateObj = minDate ? new Date(minDate) : today;
-  minDateObj.setHours(0, 0, 0, 0);
+  const minDateObj = parseCalendarDate(minDate) || today;
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {

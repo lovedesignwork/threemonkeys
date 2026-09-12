@@ -1,22 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase/server';
+import { isAuthError, requireSuperAdmin } from '@/lib/auth/api-auth';
+import { createUserSchema } from '@/lib/auth/user-management';
 
 export async function POST(request: NextRequest) {
+  const auth = await requireSuperAdmin(request);
+  if (isAuthError(auth)) return auth;
+
   try {
-    const body = await request.json();
-    const { email, password, fullName, role } = body;
-
-    if (!email || !password || !fullName || !role) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+    const parsed = createUserSchema.safeParse(await request.json().catch(() => null));
+    if (!parsed.success) {
+      return NextResponse.json({ error: parsed.error.issues[0].message }, { status: 400 });
     }
-
-    if (!['admin', 'staff', 'writer', 'allotment'].includes(role)) {
-      return NextResponse.json({ error: 'Invalid role' }, { status: 400 });
-    }
-
-    if (password.length < 8) {
-      return NextResponse.json({ error: 'Password must be at least 8 characters' }, { status: 400 });
-    }
+    const { email, password, fullName, role } = parsed.data;
 
     // Create auth user
     const { data: authUser, error: authError } = await supabaseAdmin.auth.admin.createUser({
@@ -38,6 +34,7 @@ export async function POST(request: NextRequest) {
     const { error: adminError } = await supabaseAdmin
       .from('admin_users')
       .insert({
+        id: authUser.user.id,
         user_id: authUser.user.id,
         email: email,
         role: role,
