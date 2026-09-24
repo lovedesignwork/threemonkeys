@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow"><title>Purchase thank-you email · Three Monkeys</title>
+  <style>
+    * { box-sizing: border-box; } body { margin: 0; background: #e4e6dd; color: #273b2b; font-family: Arial, sans-serif; }
+    .toolbar { position: sticky; top: 0; z-index: 5; background: #112319; color: #f2f3e6; padding: 18px 32px; display: flex; align-items: center; gap: 24px; box-shadow: 0 3px 20px #1021161a; }
+    .brand { display: flex; gap: 12px; align-items: center; margin-right: auto; } .brand img { width: 30px; height: 31px; }
+    .brand strong { font-size: 11px; letter-spacing: 2px; display: block; } .brand span { display: block; font-size: 11px; color: #a6b297; margin-top: 5px; }
+    .switch { display: flex; padding: 3px; gap: 3px; border: 1px solid #43523a; border-radius: 5px; }
+    button { border: 0; font-family: inherit; cursor: pointer; background: transparent; color: inherit; border-radius: 3px; padding: 8px 15px; font-size: 12px; }
+    button[aria-pressed=true] { background: #bdc86e; color: #18271b; } button:focus-visible, select:focus-visible, a:focus-visible { outline: 2px solid #b5c465; outline-offset: 4px; }
+    select { font-family: inherit; border: 1px solid #526044; border-radius: 4px; padding: 10px; background: #112319; color: #f2f3e6; max-width: 170px; }
+    .draft { font-size: 10px; letter-spacing: 1.4px; color: #bac596; white-space: nowrap; }
+    .workspace { padding: 34px 16px 60px; }
+    .envelope { max-width: 740px; margin: auto; background: #fff; border: 1px solid #d1d6c8; border-radius: 9px; overflow: hidden; box-shadow: 0 22px 70px #27392017; transition: max-width .3s ease; }
+    .envelope.mobile { max-width: 375px; }
+    .mail-head { padding: 22px 30px; border-bottom: 1px solid #e4e6de; background: #fff; }
+    .subject { font-size: 18px; letter-spacing: -.3px; font-weight: 600; margin: 0 0 17px; color: #25372a; }
+    .sender { display: flex; gap: 11px; align-items: center; }.avatar { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; font-size: 11px; background: #ecf0da; color: #60713f; }
+    .sender strong { font-size: 11px; display: block; margin-bottom: 4px; } .sender small { font-size: 10px; color: #7b8377; } .sample { margin-left: auto; font-size: 9px; color: #7b8377; text-align: right; line-height: 16px; }
+    iframe { width: 100%; height: 1800px; border: 0; display: block; background: #e9eadf; }
+    .caption { max-width: 740px; margin: 18px auto 0; color: #747c6c; text-align: center; font-size: 11px; line-height: 20px; }
+    .caption a { color: #405b3b; }
+    @media(max-width: 720px) { .toolbar { flex-wrap: wrap; padding: 15px; gap: 12px; } .brand { flex: 1; } .draft { display: none; } .toolbar .switch { order: 3; } .toolbar select { order: 4; margin-left: auto; } .workspace { padding: 18px 8px 35px; } .mail-head { padding: 18px; } .subject { font-size: 16px; } .sample { display: none; } }
+    @media(prefers-reduced-motion: reduce) { .envelope { transition: none; } }
+  </style>
+</head>
+<body>
+  <header class="toolbar">
+    <div class="brand"><img src="/assets/logo.png" alt="Three Monkeys"><div><strong>THE RAINFOREST INVITATION</strong><span>Purchase thank-you email</span></div></div>
+    <div class="switch" role="group" aria-label="Email preview size"><button type="button" data-view="desktop" aria-pressed="true">Desktop</button><button type="button" data-view="mobile" aria-pressed="false">Mobile</button></div>
+    <select id="scenario" aria-label="Sample reservation"><option value="standard">Standard reservation</option><option value="extras">With extras & pickup</option></select>
+    <span class="draft">DRAFT 01 · FOR APPROVAL</span>
+  </header>
+  <main class="workspace">
+    <div class="envelope" id="envelope">
+      <div class="mail-head"><h1 class="subject">Your table awaits, Alex · Three Monkeys</h1><div class="sender"><div class="avatar" aria-hidden="true">3M</div><div><strong>Three Monkeys Restaurant</strong><small>to Alex · Booking confirmation</small></div><span class="sample">SAMPLE RESERVATION<br />18 September 2026</span></div></div>
+      <iframe id="email" title="Proposed purchase thank-you email" src="/email?scenario=standard" scrolling="no"></iframe>
+    </div>
+    <p class="caption">Sample booking details. Awaiting your approval before replacing the live email.<br /><a id="raw" href="/email?scenario=standard" target="_blank" rel="noopener">Open the email by itself ↗</a></p>
+  </main>
+  <script>
+    const frame = document.getElementById('email');
+    let observer;
+    function fit() { if(frame.contentDocument?.body) frame.style.height = Math.ceil(frame.contentDocument.body.getBoundingClientRect().height) + 'px'; }
+    frame.addEventListener('load', () => { observer?.disconnect(); frame.style.height = '200px'; fit(); observer = new ResizeObserver(fit); observer.observe(frame.contentDocument.body); frame.contentDocument.querySelectorAll('a').forEach(a=>{a.target='_blank';a.rel='noopener';}); });
+    document.querySelectorAll('[data-view]').forEach(button=>button.addEventListener('click',()=>{ document.getElementById('envelope').classList.toggle('mobile',button.dataset.view==='mobile'); document.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-pressed',String(b===button))); }));
+    document.getElementById('scenario').addEventListener('change',event=>{const src='/email?scenario='+encodeURIComponent(event.target.value); frame.src=src; document.getElementById('raw').href=src;});
+  </script>
+</body>
+</html>
