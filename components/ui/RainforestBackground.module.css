@@ -29,6 +29,17 @@
     radial-gradient(ellipse at 100% 75%, #8993430b, transparent 45%);
 }
 
+/* Keep the artwork beside the 1280px content column on ultrawide screens.
+   The outer wash stays full width; the drawings dissolve at their own edges. */
+.composition {
+  position: absolute;
+  inset-block: 0;
+  left: 50%;
+  width: min(100%, 1680px);
+  transform: translateX(-50%);
+  mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+}
+
 .frame {
   position: absolute;
   width: clamp(340px, 36vw, 660px);
@@ -83,7 +94,7 @@
 .ferns .right { right: -10%; bottom: -44%; transform: scaleX(-1) rotate(-10deg); }
 .ferns .frame { width: clamp(370px, 35vw, 620px); }
 
-.flora { --strength: .35; }
+.flora { --strength: .26; }
 .flora .frame { width: clamp(390px, 37vw, 640px); }
 .flora .left { left: -11%; top: -7%; transform: rotate(-16deg); }
 .flora .right { right: -11%; bottom: -10%; transform: scaleX(-1) rotate(13deg); }

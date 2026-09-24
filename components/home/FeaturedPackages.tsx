@@ -59,9 +59,6 @@ export function FeaturedPackages() {
         }
       `}</style>
 
-      {/* Background Accent */}
-      <div className="absolute top-0 right-0 w-1/2 h-full bg-[#b1b94c]/5 -skew-x-12 origin-top-right" />
-      
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-16">

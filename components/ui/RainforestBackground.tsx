@@ -163,15 +163,17 @@ export function RainforestBackground({ scene, designKey, light = false, quiet = 
       style={Drawing ? undefined : { '--sway': `${recipe.duration}s` } as CSSProperties}
     >
       <div className={styles.wash} />
-      <div className={`${styles.frame} ${styles.left}`}>
-        <svg className={styles.drawing} viewBox="-90 -40 570 760" fill="none" stroke="currentColor" strokeWidth="1.15" strokeLinecap="round" strokeLinejoin="round" focusable="false">
-          {Drawing ? <Drawing /> : <BotanicalDrawing identity={`${identity}/left`} />}
-        </svg>
-      </div>
-      <div className={`${styles.frame} ${styles.right}`}>
-        <svg className={styles.drawing} viewBox="-90 -40 570 760" fill="none" stroke="currentColor" strokeWidth="1.15" strokeLinecap="round" strokeLinejoin="round" focusable="false">
-          {Drawing ? <Drawing /> : <BotanicalDrawing identity={`${identity}/right`} />}
-        </svg>
+      <div className={styles.composition}>
+        <div className={`${styles.frame} ${styles.left}`}>
+          <svg className={styles.drawing} viewBox="-90 -40 570 760" fill="none" stroke="currentColor" strokeWidth="1.15" strokeLinecap="round" strokeLinejoin="round" focusable="false">
+            {Drawing ? <Drawing /> : <BotanicalDrawing identity={`${identity}/left`} />}
+          </svg>
+        </div>
+        <div className={`${styles.frame} ${styles.right}`}>
+          <svg className={styles.drawing} viewBox="-90 -40 570 760" fill="none" stroke="currentColor" strokeWidth="1.15" strokeLinecap="round" strokeLinejoin="round" focusable="false">
+            {Drawing ? <Drawing /> : <BotanicalDrawing identity={`${identity}/right`} />}
+          </svg>
+        </div>
       </div>
     </div>
   );
