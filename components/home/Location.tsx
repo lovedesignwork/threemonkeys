@@ -101,7 +101,7 @@ export function Location() {
           {/* Right - Directions block.
               Mobile/tablet: a static photo card + "Get Directions" button
               that opens the user's native map app. We deliberately do NOT
-              render the OpenStreetMap iframe on small screens — it
+              show the Google Maps iframe on small screens — it
               captures touch events and makes the page hard to scroll.
               Desktop (lg+): full interactive iframe with floating CTA. */}
           <motion.div
@@ -167,7 +167,8 @@ export function Location() {
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
-                loading="lazy"
+                // Lazy loading can stall inside this animated, initially hidden block.
+                loading="eager"
                 className="grayscale-[30%] hover:grayscale-0 transition-all duration-700"
               />
               <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/40 via-transparent to-transparent" />
