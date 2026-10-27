@@ -170,7 +170,7 @@ function QuickSelectGrid({
                 <p className="text-[10px] text-white/50 line-clamp-1 mb-1">{pkg.shortDescription}</p>
                 <div className="flex items-center gap-1">
                   <span className="text-xs font-bold text-[#b1b94c]">{formatPrice(priceOf(pkg))}</span>
-                  <span className="text-[10px] text-white/40">/ table (up to 4)</span>
+                  <span className="text-[10px] text-white/40">{seatUnitLabel(pkg.id)}</span>
                 </div>
               </div>
               <ArrowRight className="w-4 h-4 text-[#b1b94c]/50 group-hover:text-[#b1b94c] transition-colors flex-shrink-0" />
