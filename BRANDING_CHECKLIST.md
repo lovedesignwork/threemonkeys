@@ -139,7 +139,7 @@ Files to update (change `#1a237e` to `#f2e421`):
 ### Data Files (Update content)
 - [ ] `lib/data/packages.ts` - FH packages and pricing
 - [ ] `lib/data/faq.ts` - FH FAQ content
-- [ ] `lib/data/blog.ts` - FH blog content (if using static data)
+- [ ] `lib/blog/posts.ts` - CMS-backed blog content
 
 ### SEO
 - [ ] `lib/seo/config.ts` - Update all SEO settings

@@ -45,19 +45,16 @@ const sitemap = load('app/sitemap.ts', {
     { slug: 'suspended', category: 'combined', suspended: true },
     { slug: 'transfer', category: 'transfer' },
   ] },
-  '@/lib/data/blog': { blogPosts: [{ slug: 'story', publishedAt: '2026-01-01' }] },
-  '@/lib/supabase/server': { supabaseAdmin: { from: () => ({ select: () => ({ eq: async () => ({
-    data: [{ slug: 'story', updated_at: '2026-02-01' }, { slug: 'new-story', updated_at: '2026-03-01' }], error: null,
-  }) }) }) } },
+  '@/lib/blog/posts': { getPublishedPosts: async () => [{ slug: 'story' }, { slug: 'new-story' }] },
 }).default;
 const entries = await sitemap();
 assert.equal(new Set(entries.map((entry) => entry.url)).size, entries.length);
 assert.ok(entries.every((entry) => entry.url.startsWith(config.siteConfig.url)));
 assert.ok(!entries.some((entry) => /checkout|admin|reservation|suspended|transfer/.test(entry.url)));
-assert.equal(entries.filter((entry) => entry.url.endsWith('/blog/story')).length, 9);
+assert.equal(entries.filter((entry) => entry.url.endsWith('/blog/story')).length, 1);
 assert.equal(entries.find((entry) => entry.url.endsWith('/menu')).lastModified, undefined);
-assert.equal(entries.find((entry) => entry.url.endsWith('/blog/story')).lastModified.toISOString(), '2026-02-01T00:00:00.000Z');
-assert.ok(entries.every((entry) => entry.alternates.languages['zh-CN']));
+assert.equal(entries.find((entry) => entry.url.endsWith('/blog/story')).lastModified, undefined);
+assert.ok(entries.filter(entry => !/\/blog(?:\/|$)/.test(entry.url)).every((entry) => entry.alternates.languages['zh-CN']));
 
 const jsx = (type, props) => typeof type === 'function' ? type(props) : { type, props };
 const schema = load('lib/seo/structured-data.tsx', {

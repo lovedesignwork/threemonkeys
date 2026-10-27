@@ -1,0 +1,114 @@
+.blog-reading {
+  font-family: var(--font-inter), sans-serif;
+}
+.article-body {
+  font-size: 18px;
+  line-height: 1.85;
+  overflow-wrap: anywhere;
+}
+.article-body h2 {
+  font-family: var(--font-krona), sans-serif;
+  font-size: clamp(21px, 3vw, 27px);
+  line-height: 1.5;
+  margin: 52px 0 20px;
+  text-transform: none;
+  scroll-margin-top: 140px;
+}
+.article-body h3 {
+  font-size: 21px;
+  line-height: 1.5;
+  margin: 32px 0 14px;
+  text-transform: none;
+}
+.article-body p {
+  margin: 0 0 24px;
+}
+.article-body ul,
+.article-body ol {
+  padding-inline-start: 26px;
+  margin: 20px 0 28px;
+}
+.article-body ul {
+  list-style: disc;
+}
+.article-body ol {
+  list-style: decimal;
+}
+.article-body li {
+  padding-inline-start: 6px;
+  margin: 10px 0;
+}
+.article-body a {
+  color: #3c521b;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.article-body strong {
+  color: #172315;
+  font-weight: 650;
+}
+.article-body figure {
+  margin: 38px 0;
+}
+.article-body img {
+  display: block;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  max-height: 760px;
+  margin: auto;
+  border-radius: 3px;
+}
+.article-body figcaption {
+  font-size: 14px;
+  color: #586452;
+  line-height: 1.6;
+  margin-top: 12px;
+}
+.article-table {
+  overflow-x: auto;
+  margin: 28px 0;
+}
+.article-body table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 520px;
+  font-size: 15px;
+  line-height: 1.7;
+}
+.article-body th,
+.article-body td {
+  border: 1px solid #cbd0bd;
+  padding: 15px;
+  vertical-align: top;
+  text-align: start;
+}
+.article-body th {
+  background: #e6e9da;
+  color: #263420;
+  font-weight: 600;
+}
+.article-body blockquote {
+  border-inline-start: 3px solid #8c9a54;
+  padding-inline-start: 22px;
+  margin: 30px 0;
+}
+.article-body hr {
+  border-color: #cbd0bd;
+  margin: 40px 0;
+}
+.article-toc a:focus-visible,
+.article-body a:focus-visible {
+  outline: 2px solid #52652a;
+  outline-offset: 4px;
+}
+@media (max-width: 640px) {
+  .article-body {
+    font-size: 17px;
+    line-height: 1.8;
+  }
+  .article-body h2 {
+    margin-top: 40px;
+    scroll-margin-top: 115px;
+  }
+}

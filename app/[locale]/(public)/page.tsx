@@ -11,6 +11,8 @@ import {
   Location,
 } from '@/components/home';
 import { createPageMetadata } from '@/lib/seo/config';
+import { LatestArticles } from '@/components/home/LatestArticles';
+export const dynamic = 'force-dynamic';
 
 export const generateMetadata = createPageMetadata(
   'Rainforest Dining in Phuket',
@@ -31,6 +33,7 @@ export default function HomePage() {
       <SpecialPackages />
       <WhyChooseUs />
       <PhotoGallery />
+      <LatestArticles />
       <Testimonials />
       <SafetyCertifications />
       <CTABanner />

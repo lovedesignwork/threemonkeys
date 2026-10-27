@@ -1,25 +1,11 @@
 import { MetadataRoute } from 'next';
 import { siteConfig, getLanguageAlternates } from '@/lib/seo/config';
 import { packages } from '@/lib/data/packages';
-import { blogPosts } from '@/lib/data/blog';
+import { getPublishedPosts } from '@/lib/blog/posts';
 import { routing } from '@/i18n/routing';
-import { supabaseAdmin } from '@/lib/supabase/server';
 
-export const revalidate = 3600;
 
-async function getBlogPostsFromSupabase() {
-  try {
-    const { data: posts, error } = await supabaseAdmin
-      .from('blog_posts')
-      .select('slug, updated_at, created_at')
-      .eq('status', 'published');
-
-    if (error || !posts) return [];
-    return posts;
-  } catch {
-    return [];
-  }
-}
+export const dynamic = 'force-dynamic';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = siteConfig.url;
@@ -49,10 +35,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   for (const route of staticRoutes) {
     for (const locale of locales) {
+      if (route.path === '/blog' && locale !== defaultLocale) continue;
       const localePath = locale === defaultLocale ? route.path : `/${locale}${route.path}`;
       staticPages.push({
         url: `${baseUrl}${localePath}`,
-        alternates: { languages: getLanguageAlternates(route.path) },
+        alternates: route.path === '/blog' ? undefined : { languages: getLanguageAlternates(route.path) },
         changeFrequency: route.changeFrequency,
         priority: route.priority,
       });
@@ -76,43 +63,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
   }
 
-  const blogPages: MetadataRoute.Sitemap = [];
-  
-  const supabasePosts = await getBlogPostsFromSupabase();
-  
-  const allBlogSlugs = new Set<string>();
-  
-  for (const post of supabasePosts) {
-    allBlogSlugs.add(post.slug);
-  }
-  
-  for (const post of blogPosts) {
-    allBlogSlugs.add(post.slug);
-  }
-
-  for (const slug of allBlogSlugs) {
-    const supabasePost = supabasePosts.find(p => p.slug === slug);
-    const staticPost = blogPosts.find(p => p.slug === slug);
-    
-    const lastModified = supabasePost?.updated_at 
-      ? new Date(supabasePost.updated_at) 
-      : staticPost?.publishedAt 
-        ? new Date(staticPost.publishedAt)
-        : undefined;
-
-    for (const locale of locales) {
-      const localePath = locale === defaultLocale 
-        ? `/blog/${slug}` 
-        : `/${locale}/blog/${slug}`;
-      blogPages.push({
-        url: `${baseUrl}${localePath}`,
-        lastModified,
-        alternates: { languages: getLanguageAlternates(`/blog/${slug}`) },
-        changeFrequency: 'weekly' as const,
-        priority: 0.6,
-      });
-    }
-  }
-
+  const blogPages: MetadataRoute.Sitemap = (await getPublishedPosts()).map(post => ({
+    url: `${baseUrl}/blog/${post.slug}`,
+    changeFrequency: 'weekly' as const,
+    priority: 0.6,
+  }));
   return [...staticPages, ...packagePages, ...blogPages];
 }

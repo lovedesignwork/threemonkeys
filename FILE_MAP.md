@@ -176,5 +176,5 @@ logo/LOGO-NS.png                       # FH logo - move to public/images/
 ```
 lib/data/packages.ts                   # FH packages, pricing, descriptions
 lib/data/faq.ts                        # FH FAQ content
-lib/data/blog.ts                       # FH blog posts (or use database)
+lib/blog/posts.ts                       # CMS-backed published blog queries
 ```

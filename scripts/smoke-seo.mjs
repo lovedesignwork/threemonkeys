@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict';
+import { get } from './http-test-client.mjs';
 
 const base = process.argv[2] || 'http://localhost:3127';
 for (const path of ['/', '/cn/menu', '/booking', '/checkout', '/sitemap.xml', '/robots.txt', '/llms.txt', '/api/tracking', '/api/admin/settings']) {
-  const response = await fetch(base + path);
+  const response = await get(base + path);
   const body = await response.text();
   assert.equal(response.status, path === '/api/admin/settings' ? 401 : 200, path);
   if (['/', '/cn/menu', '/booking'].includes(path)) {

@@ -37,7 +37,7 @@ const navigation: NavItem[] = [
   { key: 'seats',           href: '/seats',            icon: Armchair },
   { key: 'specialPackages', href: '/special-packages', icon: Sparkles },
   { key: 'about',           href: '/about',            icon: Info },
-  { key: 'blog',            href: '/blog',             icon: AtSign, hidden: true },
+  { key: 'blog',            href: '/blog',             icon: AtSign },
   { key: 'faq',             href: '/faq',              icon: HelpCircle },
   { key: 'contact',         href: '/contact',          icon: Mail },
 ];
@@ -105,7 +105,7 @@ export function Header() {
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center gap-5">
+            <nav className="hidden xl:flex items-center gap-3 xl:gap-5">
               {visibleNav.map((item) => {
                 const label = tNav(item.key);
                 const words = label.split(' ');
@@ -136,7 +136,7 @@ export function Header() {
 
             {/* Right CTA, Language Switcher, Mobile Toggle */}
             <div className="relative z-10 flex items-center gap-2 sm:gap-3">
-              <div className="hidden lg:block">
+              <div className="hidden xl:block">
                 <LanguageSwitcher variant="default" />
               </div>
 
@@ -148,7 +148,7 @@ export function Header() {
 
               <button
                 onClick={() => setIsMobileMenuOpen(true)}
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition-all hover:bg-white/10 hover:border-[#b1b94c]/50 lg:hidden"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition-all hover:bg-white/10 hover:border-[#b1b94c]/50 xl:hidden"
                 aria-label="Open menu"
               >
                 <Menu className="h-5 w-5" />
@@ -168,7 +168,7 @@ export function Header() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-[100] lg:hidden"
+            className="fixed inset-0 z-[100] xl:hidden"
           >
             {/* Backdrop */}
             <motion.div
