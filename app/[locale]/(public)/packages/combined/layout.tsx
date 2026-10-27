@@ -1,17 +1,11 @@
-import { Metadata } from 'next';
-import { generatePageMetadata } from '@/lib/seo/config';
+import { createPageMetadata } from '@/lib/seo/config';
 
-export const metadata: Metadata = generatePageMetadata(
-  'Combo Packages - Complete Dining Experiences',
-  'Discover our premium combo packages at Three Monkeys Restaurant Phuket. Cooking classes, market tours, tasting menus, and more with round-trip transfers included.',
-  '/packages/combined',
-  '/images/Package image/32PF.JPG'
+export const generateMetadata = createPageMetadata(
+  "All Dining Packages",
+  "Explore Three Monkeys Restaurant dining packages and seating options in Phuket. Compare experiences and reserve online.",
+  '/packages/combined'
 );
 
-export default function CombinedPackagesLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function PageLayout({ children }: { children: React.ReactNode }) {
   return children;
 }

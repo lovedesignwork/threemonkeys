@@ -45,8 +45,8 @@ export function SafetyCertifications() {
           src="/images/Random images/44_resize.jpg"
           alt=""
           fill
+          sizes="100vw"
           className="object-cover"
-          unoptimized
         />
         <div className="absolute inset-0 bg-[#b1b94c]/90" />
       </div>
@@ -134,6 +134,7 @@ export function SafetyCertifications() {
                 src="/images/Random images/45_resize.jpg"
                 alt="Restaurant Kitchen"
                 fill
+                sizes="(min-width: 1280px) 608px, (min-width: 1024px) 50vw, 1px"
                 className="object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />

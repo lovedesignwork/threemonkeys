@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Inter, Oswald, Krona_One } from 'next/font/google';
 import './globals.css';
 import { defaultMetadata } from '@/lib/seo/config';
-import { OrganizationSchema, WebsiteSchema, LocalBusinessSchema, RestaurantSchema, SpeakableSchema, HowToBookSchema } from '@/lib/seo/structured-data';
+import { OrganizationSchema, WebsiteSchema, RestaurantSchema } from '@/lib/seo/structured-data';
 import { TrackingScriptsHead, TrackingScriptsBody } from '@/components/TrackingScripts';
 import LiveChat from '@/components/LiveChat';
 
@@ -45,10 +45,7 @@ export default function RootLayout({
       <head>
         <OrganizationSchema />
         <WebsiteSchema />
-        <LocalBusinessSchema />
         <RestaurantSchema />
-        <SpeakableSchema />
-        <HowToBookSchema />
       </head>
       <body className="antialiased font-[family-name:var(--font-inter)]">
         <TrackingScriptsBody />

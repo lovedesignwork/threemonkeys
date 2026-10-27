@@ -2,29 +2,29 @@
 
 import Script from 'next/script';
 import { useEffect, useState } from 'react';
+import { createTrackingLoader, type TrackingSettings } from '@/lib/tracking';
 
-interface TrackingSettings {
-  gtmId: string;
-  ga4Id: string;
-  metaPixelId: string;
-  headerScripts: string;
-  bodyScripts: string;
-  footerScripts: string;
-}
+const loadTracking = createTrackingLoader(
+  (...args) => fetch(...args),
+  process.env.NEXT_PUBLIC_GA4_ID,
+);
 
-export function TrackingScriptsHead() {
+function useTrackingSettings() {
   const [tracking, setTracking] = useState<TrackingSettings | null>(null);
 
   useEffect(() => {
-    fetch('/api/admin/settings')
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.tracking) {
-          setTracking(data.tracking);
-        }
-      })
-      .catch(console.error);
+    let mounted = true;
+    loadTracking().then((settings) => {
+      if (mounted) setTracking(settings);
+    });
+    return () => { mounted = false; };
   }, []);
+
+  return tracking;
+}
+
+export function TrackingScriptsHead() {
+  const tracking = useTrackingSettings();
 
   if (!tracking) return null;
 
@@ -108,18 +108,7 @@ export function TrackingScriptsHead() {
 }
 
 export function TrackingScriptsBody() {
-  const [tracking, setTracking] = useState<TrackingSettings | null>(null);
-
-  useEffect(() => {
-    fetch('/api/admin/settings')
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.tracking) {
-          setTracking(data.tracking);
-        }
-      })
-      .catch(console.error);
-  }, []);
+  const tracking = useTrackingSettings();
 
   if (!tracking) return null;
 

@@ -12,6 +12,8 @@ export const routing = defineRouting({
   locales: ['en', 'th', 'cn', 'ja', 'ko', 'ru', 'fr', 'es', 'ar'] as const,
   defaultLocale: 'en',
   localePrefix: 'as-needed',
+  // Page metadata supplies canonical language tags (zh-CN uses the /cn slug).
+  alternateLinks: false,
 });
 
 export type Locale = (typeof routing.locales)[number];

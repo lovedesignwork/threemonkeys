@@ -51,3 +51,8 @@ logs
 
 # Large SQL dumps
 3M SQL/
+.env*
+!/.env.example
+
+# Local account-verification screenshots and performance reports
+/docs/verification/

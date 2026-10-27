@@ -1,23 +1,11 @@
-import { Metadata } from 'next';
-import { generatePageMetadata } from '@/lib/seo/config';
+import { createPageMetadata } from '@/lib/seo/config';
 
-export const metadata: Metadata = {
-  ...generatePageMetadata(
-    'Terms & Conditions',
-    'Read the terms and conditions for Three Monkeys Restaurant. Learn about booking policies, cancellation terms, dining requirements, and reservation guidelines.',
-    '/terms'
-  ),
-  robots: {
-    index: true,
-    follow: true,
-    noarchive: true,
-  },
-};
+export const generateMetadata = createPageMetadata(
+  "Terms & Conditions",
+  "Read the terms and conditions for Three Monkeys Restaurant, including booking policies, cancellation terms, and reservation guidelines.",
+  '/terms'
+);
 
-export default function TermsLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function PageLayout({ children }: { children: React.ReactNode }) {
   return children;
 }

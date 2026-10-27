@@ -37,8 +37,8 @@ export function HeroSlideshow() {
     <section className="relative h-[100dvh] w-full overflow-hidden bg-black" data-botanical-section>
         <RainforestBackground designKey="home/welcome" quiet />
       {/* Immersive Background Images */}
-      <div className="absolute inset-0">
-        <AnimatePresence mode="wait">
+      <div className="absolute inset-0 hero-image-enter">
+        <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={currentImage}
             initial={{ opacity: 0, scale: 1.05 }}
@@ -52,8 +52,8 @@ export function HeroSlideshow() {
               alt="Three Monkeys Restaurant"
               fill
               className="object-cover"
-              priority
-              unoptimized
+              sizes="100vw"
+              priority={currentImage === 0}
             />
           </motion.div>
         </AnimatePresence>
@@ -88,11 +88,9 @@ export function HeroSlideshow() {
           <div className="flex flex-col items-end justify-between gap-8 lg:flex-row lg:items-end">
             
             {/* Left: Typography & Intro */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="w-full max-w-2xl"
+            <div
+              className="w-full max-w-2xl hero-content-enter"
+              style={{ animationDelay: '0.2s' }}
             >
               <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/20 px-4 py-1.5 backdrop-blur-md">
                 <MapPin className="h-4 w-4 text-[#b1b94c]" />
@@ -111,14 +109,12 @@ export function HeroSlideshow() {
               <p className="mt-6 max-w-lg font-[family-name:var(--font-inter)] text-base font-light leading-relaxed text-white/80 sm:text-lg hidden sm:block">
                 {t('description')}
               </p>
-            </motion.div>
+            </div>
 
             {/* Right: Actions & Slide Controls */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="flex w-full flex-col gap-8 lg:w-auto lg:items-end"
+            <div
+              className="flex w-full flex-col gap-8 lg:w-auto lg:items-end hero-content-enter"
+              style={{ animationDelay: '0.4s' }}
             >
               {/* Action Buttons */}
               <div className="flex flex-wrap items-center gap-4">
@@ -183,7 +179,7 @@ export function HeroSlideshow() {
                   <ChevronRight className="h-4 w-4" />
                 </button>
               </div>
-            </motion.div>
+            </div>
 
           </div>
         </div>

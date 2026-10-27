@@ -44,6 +44,8 @@ const testimonials = [
 
 export function Testimonials() {
   const t = useTranslations('home.reviews');
+  const tActions = useTranslations('actions');
+  const tSlides = useTranslations('home.hero');
   const [current, setCurrent] = useState(0);
 
   const next = () => setCurrent((prev) => (prev + 1) % testimonials.length);
@@ -115,12 +117,14 @@ export function Testimonials() {
             <div className="absolute -top-16 right-0 flex gap-3 z-10">
               <button
                 onClick={prev}
+                aria-label={tActions('previous')}
                 className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-white/60 hover:bg-[#b1b94c] hover:border-[#b1b94c] hover:text-black transition-all"
               >
                 <ArrowLeft className="w-5 h-5" />
               </button>
               <button
                 onClick={next}
+                aria-label={tActions('next')}
                 className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-white/60 hover:bg-[#b1b94c] hover:border-[#b1b94c] hover:text-black transition-all"
               >
                 <ArrowRight className="w-5 h-5" />
@@ -162,14 +166,14 @@ export function Testimonials() {
                         src={testimonials[current].image}
                         alt={testimonials[current].name}
                         fill
+                        sizes="56px"
                         className="object-cover"
-                        unoptimized
                       />
                     </div>
                     <div>
-                      <h4 className="text-white font-semibold text-lg">
+                      <h3 className="text-white font-semibold text-lg">
                         {testimonials[current].name}
-                      </h4>
+                      </h3>
                       <p className="text-white/40 text-sm">
                         {testimonials[current].location}
                       </p>
@@ -183,6 +187,8 @@ export function Testimonials() {
                     <button
                       key={index}
                       onClick={() => setCurrent(index)}
+                      aria-label={tSlides('slide_aria', { n: index + 1 })}
+                      aria-current={index === current ? 'true' : undefined}
                       className="relative h-1 flex-1 bg-white/10 rounded-full overflow-hidden"
                     >
                       {index === current && (

@@ -1,9 +1,11 @@
 import { MetadataRoute } from 'next';
-import { siteConfig } from '@/lib/seo/config';
+import { siteConfig, getLanguageAlternates } from '@/lib/seo/config';
 import { packages } from '@/lib/data/packages';
 import { blogPosts } from '@/lib/data/blog';
 import { routing } from '@/i18n/routing';
 import { supabaseAdmin } from '@/lib/supabase/server';
+
+export const revalidate = 3600;
 
 async function getBlogPostsFromSupabase() {
   try {
@@ -50,7 +52,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       const localePath = locale === defaultLocale ? route.path : `/${locale}${route.path}`;
       staticPages.push({
         url: `${baseUrl}${localePath}`,
-        lastModified: new Date(),
+        alternates: { languages: getLanguageAlternates(route.path) },
         changeFrequency: route.changeFrequency,
         priority: route.priority,
       });
@@ -67,7 +69,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         : `/${locale}/packages/${pkg.slug}`;
       packagePages.push({
         url: `${baseUrl}${localePath}`,
-        lastModified: new Date(),
+        alternates: { languages: getLanguageAlternates(`/packages/${pkg.slug}`) },
         changeFrequency: 'weekly' as const,
         priority: 0.7,
       });
@@ -96,7 +98,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ? new Date(supabasePost.updated_at) 
       : staticPost?.publishedAt 
         ? new Date(staticPost.publishedAt)
-        : new Date();
+        : undefined;
 
     for (const locale of locales) {
       const localePath = locale === defaultLocale 
@@ -105,6 +107,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       blogPages.push({
         url: `${baseUrl}${localePath}`,
         lastModified,
+        alternates: { languages: getLanguageAlternates(`/blog/${slug}`) },
         changeFrequency: 'weekly' as const,
         priority: 0.6,
       });

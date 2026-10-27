@@ -87,7 +87,8 @@ export function PhotoGallery() {
               <Image 
                 src={galleryImages[0].src} 
                 alt={galleryImages[0].alt} 
-                fill 
+                fill
+                sizes="(min-width: 1280px) 600px, (min-width: 768px) 50vw, calc(100vw - 32px)"
                 className="object-cover transition-transform duration-700 group-hover:scale-110" 
               />
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300" />
@@ -108,7 +109,8 @@ export function PhotoGallery() {
                 <Image 
                   src={image.src} 
                   alt={image.alt} 
-                  fill 
+                  fill
+                  sizes="(min-width: 1280px) 300px, (min-width: 768px) 25vw, 50vw"
                   className="object-cover transition-transform duration-700 group-hover:scale-110" 
                 />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300" />
@@ -131,7 +133,8 @@ export function PhotoGallery() {
                 <Image 
                   src={image.src} 
                   alt={image.alt} 
-                  fill 
+                  fill
+                  sizes="(min-width: 1280px) 300px, (min-width: 768px) 25vw, 50vw"
                   className="object-cover transition-transform duration-700 group-hover:scale-110" 
                 />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300" />
@@ -206,6 +209,7 @@ export function PhotoGallery() {
                 src={galleryImages[selectedImage].src}
                 alt={galleryImages[selectedImage].alt}
                 fill
+                sizes="(min-width: 1056px) 1024px, calc(100vw - 32px)"
                 className="object-contain"
               />
             </motion.div>

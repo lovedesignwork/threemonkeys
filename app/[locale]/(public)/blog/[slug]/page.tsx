@@ -4,14 +4,14 @@ import { notFound } from 'next/navigation';
 import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
 import { ArrowLeft, Calendar, Clock, User, Tag, ArrowRight } from 'lucide-react';
-import { siteConfig } from '@/lib/seo/config';
+import { siteConfig, getLanguageAlternates, getLocalizedUrl } from '@/lib/seo/config';
 import { ArticleSchema, BreadcrumbSchema } from '@/lib/seo/structured-data';
 import { supabaseAdmin } from '@/lib/supabase/server';
 import { getBlogPostBySlug, blogPosts } from '@/lib/data/blog';
 import { marked } from 'marked';
 
 interface Props {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }
 
 export const revalidate = 60;
@@ -66,14 +66,14 @@ async function getBlogPost(slug: string) {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug, locale } = await params;
   const post = await getBlogPost(slug);
   
   if (!post) {
     return { title: 'Post Not Found' };
   }
 
-  const url = `${siteConfig.url}/blog/${slug}`;
+  const url = getLocalizedUrl(`/blog/${slug}`, locale);
   const image = post.og_image || post.featured_image || siteConfig.ogImage;
 
   return {
@@ -82,6 +82,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     authors: [{ name: post.authorName }],
     alternates: {
       canonical: post.canonical_url || url,
+      languages: getLanguageAlternates(`/blog/${slug}`),
     },
     openGraph: {
       type: 'article',
@@ -104,14 +105,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function BlogPostPage({ params }: Props) {
-  const { slug } = await params;
+  const { slug, locale } = await params;
   const post = await getBlogPost(slug);
 
   if (!post) {
     notFound();
   }
 
-  const articleUrl = `${siteConfig.url}/blog/${slug}`;
+  const articleUrl = getLocalizedUrl(`/blog/${slug}`, locale);
   const articleImage = post.featured_image?.startsWith('http') 
     ? post.featured_image 
     : post.featured_image 
@@ -140,8 +141,8 @@ export default async function BlogPostPage({ params }: Props) {
       />
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: siteConfig.url },
-          { name: 'Blog', url: `${siteConfig.url}/blog` },
+          { name: 'Home', url: getLocalizedUrl('', locale) },
+          { name: 'Blog', url: getLocalizedUrl('/blog', locale) },
           { name: post.title, url: articleUrl },
         ]}
       />

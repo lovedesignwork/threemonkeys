@@ -822,3 +822,17 @@ input[data-autofill-light]:-webkit-autofill:focus {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+/* Run the existing hero entrance on first paint, without waiting for hydration. */
+@keyframes hero-content-enter {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes hero-image-enter {
+  from { opacity: 0; transform: scale(1.05); }
+  to { opacity: 1; transform: scale(1); }
+}
+.hero-content-enter { animation: hero-content-enter 0.8s ease-out both; }
+.hero-image-enter { animation: hero-image-enter 1.8s ease-in-out both; }
+@media (prefers-reduced-motion: reduce) {
+  .hero-content-enter, .hero-image-enter { animation: none; }
+}

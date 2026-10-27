@@ -10,9 +10,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: [
           '/admin/',
           '/api/',
-          '/checkout/success',
-          '/checkout/cancel',
-          '/_next/',
           '/private/',
           '/reservation/',
         ],

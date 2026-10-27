@@ -121,8 +121,8 @@ export function FeaturedPackages() {
                         src={pkg.image}
                         alt={pkg.name}
                         fill
+                        sizes="(min-width: 1280px) 360px, (min-width: 768px) 30vw, calc(100vw - 32px)"
                         className="object-cover transition-transform duration-700 group-hover:scale-110"
-                        unoptimized
                       />
                       
                       {/* Badges */}
@@ -216,8 +216,8 @@ export function FeaturedPackages() {
                         src={pkg.image}
                         alt={pkg.name}
                         fill
+                        sizes="(min-width: 1280px) 390px, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, calc(100vw - 32px)"
                         className="object-cover transition-transform duration-700 group-hover:scale-110"
-                        unoptimized
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#111]/70 via-transparent to-transparent" />
                       
@@ -326,8 +326,8 @@ export function FeaturedPackages() {
                         src={pkg.image}
                         alt={pkg.name}
                         fill
+                        sizes="(min-width: 1280px) 360px, (min-width: 768px) 30vw, calc(100vw - 32px)"
                         className="object-cover transition-transform duration-700 group-hover:scale-110"
-                        unoptimized
                       />
                     </div>
 

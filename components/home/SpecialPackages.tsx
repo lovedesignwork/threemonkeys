@@ -74,8 +74,8 @@ export function SpecialPackages() {
                       src={pkg.image}
                       alt={pkg.name}
                       fill
+                      sizes="(min-width: 1280px) 360px, (min-width: 768px) 30vw, calc(100vw - 32px)"
                       className="object-cover transition-transform duration-700 group-hover:scale-110"
-                      unoptimized
                     />
                     
                     {/* Advance Booking Badge */}

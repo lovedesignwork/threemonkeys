@@ -1,23 +1,11 @@
-import { Metadata } from 'next';
-import { generatePageMetadata } from '@/lib/seo/config';
+import { createPageMetadata } from '@/lib/seo/config';
 
-export const metadata: Metadata = {
-  ...generatePageMetadata(
-    'Privacy Policy',
-    'Read Three Monkeys Restaurant\'s privacy policy. Learn how we collect, use, and protect your personal information when you use our services.',
-    '/privacy'
-  ),
-  robots: {
-    index: true,
-    follow: true,
-    noarchive: true,
-  },
-};
+export const generateMetadata = createPageMetadata(
+  "Privacy Policy",
+  "Learn how Three Monkeys Restaurant collects, uses, and protects personal information when you use our website and booking services.",
+  '/privacy'
+);
 
-export default function PrivacyLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function PageLayout({ children }: { children: React.ReactNode }) {
   return children;
 }

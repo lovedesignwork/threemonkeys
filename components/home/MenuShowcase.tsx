@@ -104,7 +104,6 @@ export function MenuShowcase() {
                   fill
                   sizes="(min-width: 1024px) 300px, (min-width: 640px) 260px, 220px"
                   className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-110"
-                  unoptimized
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-3 sm:p-4">
@@ -134,7 +133,6 @@ export function MenuShowcase() {
                   fill
                   sizes="(min-width: 1024px) 300px, (min-width: 640px) 260px, 220px"
                   className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-110"
-                  unoptimized
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-3 sm:p-4">

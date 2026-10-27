@@ -1,16 +1,11 @@
-import { Metadata } from 'next';
-import { generatePageMetadata } from '@/lib/seo/config';
+import { createPageMetadata } from '@/lib/seo/config';
 
-export const metadata: Metadata = generatePageMetadata(
-  'FAQ - Frequently Asked Questions',
-  'Find answers to frequently asked questions about Three Monkeys Restaurant Phuket. Learn about reservations, menu options, dietary requirements, dress code, and more.',
+export const generateMetadata = createPageMetadata(
+  "Dining & Reservation FAQ",
+  "Find answers about reservations, menu options, dietary requirements, dress code, and dining at Three Monkeys Restaurant Phuket.",
   '/faq'
 );
 
-export default function FAQLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function PageLayout({ children }: { children: React.ReactNode }) {
   return children;
 }

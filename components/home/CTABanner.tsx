@@ -19,8 +19,8 @@ export function CTABanner() {
           src="/images/new/threemonkeys047.jpg"
           alt="Romantic Dinner Setting"
           fill
+          sizes="100vw"
           className="object-cover"
-          unoptimized
         />
         <div className="absolute inset-0 bg-black/70" />
         

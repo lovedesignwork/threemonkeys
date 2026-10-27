@@ -3,8 +3,8 @@ import { Metadata } from 'next';
 export const siteConfig = {
   name: 'Three Monkeys Restaurant',
   description: 'Authentic Southern Thai Cuisine in Phuket\'s rainforest. Book your table for an unforgettable dining experience at Three Monkeys Restaurant.',
-  url: 'https://threemonkeys.vercel.app',
-  ogImage: '/images/og-image.jpg',
+  url: 'https://threemonkeysphuket.com',
+  ogImage: '/opengraph-image',
   locale: 'en_US',
   creator: 'Three Monkeys Restaurant',
   keywords: [
@@ -27,16 +27,11 @@ export const siteConfig = {
   social: {
     facebook: 'https://www.facebook.com/threemonkeysrestaurant',
     instagram: 'https://www.instagram.com/threemonkeysrestaurant/',
-    tripadvisor: 'https://www.tripadvisor.com/Restaurant_Review-Three_Monkeys_Phuket',
   },
   contact: {
     email: 'enjoy@threemonkeysphuket.com',
     phone: '+66 98-010-8838',
     address: 'Inside Hanuman World, 105 Moo 4, Muang Chao Fa Rd., Wichit, Mueang Phuket, Phuket 83000, Thailand',
-  },
-  geo: {
-    latitude: 7.9285,
-    longitude: 98.3185,
   },
   locales: ['en', 'th', 'cn', 'ja', 'ko', 'ru', 'fr', 'es', 'ar'] as const,
   defaultLocale: 'en' as const,
@@ -44,15 +39,26 @@ export const siteConfig = {
 
 export type SupportedLocale = (typeof siteConfig.locales)[number];
 
+// URL slugs and language tags differ for Chinese: /cn is the public route,
+// while zh-CN is the valid language tag used by search engines.
+export const languageTags: Record<SupportedLocale, string> = {
+  en: 'en', th: 'th', cn: 'zh-CN', ja: 'ja', ko: 'ko',
+  ru: 'ru', fr: 'fr', es: 'es', ar: 'ar',
+};
+
+export function getLocalizedUrl(path: string = '', locale: string = 'en') {
+  const normalizedPath = path === '/' ? '' : path;
+  return `${siteConfig.url}${locale === 'en' ? '' : `/${locale}`}${normalizedPath}`;
+}
+
 export function getLanguageAlternates(path: string = ''): Record<string, string> {
   const alternates: Record<string, string> = {};
   
   for (const locale of siteConfig.locales) {
-    const localePath = locale === siteConfig.defaultLocale ? path : `/${locale}${path}`;
-    alternates[locale] = `${siteConfig.url}${localePath}`;
+    alternates[languageTags[locale]] = getLocalizedUrl(path, locale);
   }
   
-  alternates['x-default'] = `${siteConfig.url}${path}`;
+  alternates['x-default'] = getLocalizedUrl(path);
   
   return alternates;
 }
@@ -107,9 +113,9 @@ export const defaultMetadata: Metadata = {
     canonical: siteConfig.url,
     languages: getLanguageAlternates('/'),
   },
-  verification: {
-    google: 'your-google-verification-code',
-  },
+  ...(process.env.GOOGLE_SITE_VERIFICATION ? {
+    verification: { google: process.env.GOOGLE_SITE_VERIFICATION },
+  } : {}),
   category: 'food',
 };
 
@@ -117,9 +123,10 @@ export function generatePageMetadata(
   title: string,
   description: string,
   path: string = '',
-  image?: string
+  image?: string,
+  locale: string = 'en'
 ): Metadata {
-  const url = `${siteConfig.url}${path}`;
+  const url = getLocalizedUrl(path, locale);
   const ogImage = image || '/opengraph-image';
 
   return {
@@ -148,5 +155,12 @@ export function generatePageMetadata(
       description,
       images: [ogImage],
     },
+  };
+}
+
+export function createPageMetadata(title: string, description: string, path: string, options: Metadata = {}) {
+  return async ({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> => {
+    const { locale } = await params;
+    return { ...generatePageMetadata(title, description, path, undefined, locale), ...options };
   };
 }

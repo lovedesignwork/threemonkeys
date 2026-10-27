@@ -1,16 +1,11 @@
-import { Metadata } from 'next';
-import { generatePageMetadata } from '@/lib/seo/config';
+import { createPageMetadata } from '@/lib/seo/config';
 
-export const metadata: Metadata = generatePageMetadata(
-  'About Us - Our Story & Mission',
-  'Learn about Three Monkeys Restaurant, Phuket\'s premier Thai dining destination. Discover our culinary philosophy, fresh ingredients, and commitment to authentic Southern Thai cuisine.',
+export const generateMetadata = createPageMetadata(
+  "About Three Monkeys Phuket",
+  "Discover Three Monkeys Restaurant at Hanuman World in Phuket, serving Southern Thai cuisine in a rainforest setting.",
   '/about'
 );
 
-export default function AboutLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function PageLayout({ children }: { children: React.ReactNode }) {
   return children;
 }

@@ -1,6 +1,8 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
+import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { MapPin, Phone, Mail, Clock, Navigation, ArrowUpRight } from 'lucide-react';
 import { RainforestBackground } from '@/components/ui/RainforestBackground';
@@ -17,6 +19,10 @@ const travelTimes = [
 export function Location() {
   const t = useTranslations('home.location');
   const tActions = useTranslations('actions');
+  const mapRef = useRef<HTMLDivElement>(null);
+  // A CSS-hidden desktop map has no intersection on mobile. Mount the
+  // embed shortly before it becomes visible, preserving the interactive map.
+  const mapInView = useInView(mapRef, { once: true, margin: '400px 0px' });
 
   // Built inside the component so labels/values pull from the active locale.
   // Phone, email and physical address themselves stay as-is — they're
@@ -118,12 +124,12 @@ export function Location() {
               rel="noopener noreferrer"
               className="lg:hidden block relative aspect-[5/4] sm:aspect-[16/10] rounded-3xl overflow-hidden border border-white/10 shadow-2xl group"
             >
-              <div
-                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                style={{
-                  backgroundImage:
-                    "url('/images/new/threemonkeys035.jpg')",
-                }}
+              <Image
+                src="/images/new/threemonkeys035.jpg"
+                alt=""
+                fill
+                sizes="(min-width: 1024px) 1px, calc(100vw - 32px)"
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
 
@@ -160,17 +166,17 @@ export function Location() {
             </a>
 
             {/* ── Desktop: interactive map iframe ── */}
-            <div className="hidden lg:block relative aspect-[4/3] rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-[#1a1a1a]">
-              <iframe
+            <div ref={mapRef} className="hidden lg:block relative aspect-[4/3] rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-[#1a1a1a]">
+              {mapInView && <iframe
                 title="Three Monkeys location map"
                 src="https://www.google.com/maps?q=Three%20Monkeys%20Restaurant%20Phuket&output=embed"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
-                // Lazy loading can stall inside this animated, initially hidden block.
+                // Mounting is deferred above; load immediately once near view.
                 loading="eager"
                 className="grayscale-[30%] hover:grayscale-0 transition-all duration-700"
-              />
+              />}
               <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/40 via-transparent to-transparent" />
             </div>
 

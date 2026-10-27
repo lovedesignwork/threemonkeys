@@ -1,4 +1,3 @@
-import { Metadata } from 'next';
 import { 
   HeroSlideshow,
   SpecialPackages,
@@ -11,18 +10,13 @@ import {
   CTABanner,
   Location,
 } from '@/components/home';
-import { generatePageMetadata, siteConfig } from '@/lib/seo/config';
+import { createPageMetadata } from '@/lib/seo/config';
 
-export const metadata: Metadata = {
-  ...generatePageMetadata(
-    `${siteConfig.name} - Authentic Thai Cuisine in Phuket`,
-    'Experience authentic Southern Thai cuisine at Three Monkeys Restaurant Phuket. Enjoy exquisite dining in our beautiful garden setting with tasting menus, cooking classes, and private dining experiences. Book your table today!',
-    '/',
-  ),
-  alternates: {
-    canonical: siteConfig.url,
-  },
-};
+export const generateMetadata = createPageMetadata(
+  'Rainforest Dining in Phuket',
+  'Experience Southern Thai cuisine at Three Monkeys Restaurant in Phuket’s rainforest. Explore our menu, dining zones, and special packages. Reserve online.',
+  '/',
+);
 
 export default function HomePage() {
   return (

@@ -42,8 +42,8 @@ export function WhyChooseUs() {
           src="/images/Random images/46_resize.jpg"
           alt=""
           fill
+          sizes="100vw"
           className="object-cover"
-          unoptimized
         />
         <div className="absolute inset-0 bg-black/85" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/50" />
@@ -158,8 +158,8 @@ export function WhyChooseUs() {
               src="/images/small/threemonkeys047_resize.jpg"
               alt="Three Monkeys Restaurant Interior"
               fill
+              sizes="(min-width: 1280px) 800px, (min-width: 1024px) 66vw, calc(100vw - 32px)"
               className="object-cover"
-              unoptimized
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
             
