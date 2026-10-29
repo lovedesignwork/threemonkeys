@@ -47,7 +47,7 @@ Verification date: 29 October 2026 (Asia/Bangkok)
 
 ## Production acceptance checks
 
-Live acceptance on October 29: before consent and after rejection no Google vendor script was present; Analytics-only consent loaded G-6JMLEKYFPG. The controlled arrival-article visit with `utm_content=verification_2026_10_29` and subsequent client navigation to contact appeared as one view each in property 407293377 Realtime. Enhanced Measurement remains OFF. The sole Internal Traffic exclusion filter is in Testing state. Timezone is Thailand GMT+07; existing reporting currency remains USD because saving THB requires the owner to supply the business employee band. No fake purchase or real charge was made. Screenshots are private under docs/verification/brand-optimization.
+Live acceptance on October 29: before consent and after rejection no Google vendor script was present; Analytics-only consent loaded G-6JMLEKYFPG. The controlled arrival-article visit with `utm_content=verification_2026_10_29` and subsequent client navigation to contact appeared as one view each in property 407293377 Realtime. Enhanced Measurement remains OFF. The sole Internal Traffic exclusion filter is in Testing state. Timezone is Thailand GMT+07. The owner subsequently confirmed 11–100 employees; Thai Baht (THB) reporting currency and Medium business size were saved and verified after reload on October 29. Industry is Food & Drink and objectives are Drive sales / Understand web and/or app traffic. No fake purchase or real charge was made. Screenshots are private under docs/verification/brand-optimization.
 
 The following checklist records the intended acceptance procedure; code-test results and the observed live checks above should not be confused with a real paid conversion.
 
