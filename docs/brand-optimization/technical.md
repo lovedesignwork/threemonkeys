@@ -4,6 +4,12 @@ Checked 29 October 2026, Asia/Bangkok. Baseline source: `6a0c3ea`, including the
 
 ## Production release verification
 
+### Legacy navigation recovery
+
+The release owner exported 293 Search Console 404 URLs from the historical 23 October indexing report. Trailing private-use UI icon characters were removed in memory when examining the export. Current HTTP checks confirmed four obsolete navigation URLs still returned 404 while their exact current counterparts returned 200 with matching page intent. Four explicit permanent 308 redirects were added: `/home` to `/`, `/contact-phuket-three-monkeys-restaurant` to `/contact`, `/faq-three-monkeys-restaurant-phuket` to `/faq`, and `/menu-three-monkeys-phuket-diner-thailand` to `/menu`. No blanket article/category redirect was added, no rooftop package was guessed, and Thai image-attachment URLs were left untouched.
+
+`npm run build`, targeted ESLint and `git diff --check` passed. The local production integration test `node scripts/smoke-legacy-redirects.mjs http://localhost:3128` passed eight legacy/slash variants, permanent status, bounded redirect chains, query preservation, fixed same-origin destinations, seven unchanged current/localized pages and seven preserved unknown/deleted/attachment 404s. The temporary server was stopped. The release owner deploys and repeats this same test against the public domain.
+
 Final release `4152b3b` also passed both production suites: `smoke-seo.mjs` (ten endpoints) and `smoke-blog.mjs` (nine currently published articles, latest/archive/category/sitemap checks, unpublished/private route protection and 16 unique internal article destinations). The final response confirms consent markup at byte 9,230 before main content at byte 15,635 and the corrected footer contrast classes.
 
 ### Final official scores — 19:19 Bangkok

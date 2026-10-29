@@ -28,4 +28,4 @@ Checked: 29 October 2026, Asia/Bangkok. This sheet records source-backed brand i
 
 ## Publication evidence
 
-Four new article payloads and all planned media were prepared locally. Publication and native scheduling are separate actions; check `content-calendar.json` and the root worklog for actual platform IDs and statuses. The root agent reported a first GBP submission using the contact-page CTA while new article publication remained pending; this sheet does not independently confirm that post's public visibility.
+Four new article payloads and their media were prepared locally, then published/scheduled after deployment confirmation. The arrival article became public on October 29 at 19:11:43 Bangkok; the other three are scheduled for November 2, 5 and 9 at 09:00 Bangkok. Live checks confirmed the first article in the archive/sitemap and future articles hidden. See `article-publication-results.md` for exact IDs and evidence. `content-calendar.json` is the sole calendar. GBP publication and native scheduling are separate actions; use the root worklog and GBP calendar fields for their verified platform statuses.

@@ -10,9 +10,10 @@
     "prepared_file": "docs/verification/brand/gbp/2026-10-29-post.jpg",
     "width": 1200,
     "height": 675,
-    "status": "prepared",
+    "status": "published_verified",
     "platform_id": null,
-    "history_limitation": "Compared with registered website article assets and this20imagecampaign. Historic GBP posts and public media require root reconciliation before upload."
+    "history_limitation": "Unique against campaign and registered article assets. Recent owner media visually inspected; full historic GBP visual deduplication incomplete.",
+    "verified_on": "2026-10-29"
   },
   {
     "date": "2026-10-29",
@@ -25,9 +26,10 @@
     "prepared_file": "docs/verification/brand/gbp/2026-10-29-profile-photo.jpg",
     "width": 1200,
     "height": 800,
-    "status": "prepared",
+    "status": "published_verified_in_manager",
     "platform_id": null,
-    "history_limitation": "Compared with registered website article assets and this20imagecampaign. Historic GBP posts and public media require root reconciliation before upload."
+    "history_limitation": "Unique against campaign and registered article assets. Recent owner media visually inspected; full historic GBP visual deduplication incomplete.",
+    "verified_on": "2026-10-29"
   },
   {
     "date": "2026-11-02",
@@ -40,9 +42,10 @@
     "prepared_file": "docs/verification/brand/gbp/2026-11-02-post.jpg",
     "width": 500,
     "height": 500,
-    "status": "prepared",
+    "status": "native_scheduled_verified",
     "platform_id": null,
-    "history_limitation": "Compared with registered website article assets and this20imagecampaign. Historic GBP posts and public media require root reconciliation before upload."
+    "history_limitation": "Unique against campaign and registered article assets. Recent owner media visually inspected; full historic GBP visual deduplication incomplete.",
+    "verified_on": "2026-10-29"
   },
   {
     "date": "2026-11-02",
@@ -55,9 +58,10 @@
     "prepared_file": "docs/verification/brand/gbp/2026-11-02-profile-photo.jpg",
     "width": 500,
     "height": 500,
-    "status": "prepared",
+    "status": "prepared_for_local_check",
     "platform_id": null,
-    "history_limitation": "Compared with registered website article assets and this20imagecampaign. Historic GBP posts and public media require root reconciliation before upload."
+    "history_limitation": "Unique against campaign and registered article assets. Recent owner media visually inspected; full historic GBP visual deduplication incomplete.",
+    "verified_on": "2026-10-29"
   },
   {
     "date": "2026-11-05",
@@ -70,9 +74,10 @@
     "prepared_file": "docs/verification/brand/gbp/2026-11-05-post.jpg",
     "width": 500,
     "height": 500,
-    "status": "prepared",
+    "status": "native_scheduled_verified",
     "platform_id": null,
-    "history_limitation": "Compared with registered website article assets and this20imagecampaign. Historic GBP posts and public media require root reconciliation before upload."
+    "history_limitation": "Unique against campaign and registered article assets. Recent owner media visually inspected; full historic GBP visual deduplication incomplete.",
+    "verified_on": "2026-10-29"
   },
   {
     "date": "2026-11-05",
@@ -85,9 +90,10 @@
     "prepared_file": "docs/verification/brand/gbp/2026-11-05-profile-photo.jpg",
     "width": 500,
     "height": 500,
-    "status": "prepared",
+    "status": "prepared_for_local_check",
     "platform_id": null,
-    "history_limitation": "Compared with registered website article assets and this20imagecampaign. Historic GBP posts and public media require root reconciliation before upload."
+    "history_limitation": "Unique against campaign and registered article assets. Recent owner media visually inspected; full historic GBP visual deduplication incomplete.",
+    "verified_on": "2026-10-29"
   },
   {
     "date": "2026-11-09",
@@ -100,9 +106,10 @@
     "prepared_file": "docs/verification/brand/gbp/2026-11-09-post.jpg",
     "width": 800,
     "height": 1200,
-    "status": "prepared",
+    "status": "native_scheduled_verified",
     "platform_id": null,
-    "history_limitation": "Compared with registered website article assets and this20imagecampaign. Historic GBP posts and public media require root reconciliation before upload."
+    "history_limitation": "Unique against campaign and registered article assets. Recent owner media visually inspected; full historic GBP visual deduplication incomplete.",
+    "verified_on": "2026-10-29"
   },
   {
     "date": "2026-11-09",
@@ -115,8 +122,9 @@
     "prepared_file": "docs/verification/brand/gbp/2026-11-09-profile-photo.jpg",
     "width": 800,
     "height": 1200,
-    "status": "prepared",
+    "status": "prepared_for_local_check",
     "platform_id": null,
-    "history_limitation": "Compared with registered website article assets and this20imagecampaign. Historic GBP posts and public media require root reconciliation before upload."
+    "history_limitation": "Unique against campaign and registered article assets. Recent owner media visually inspected; full historic GBP visual deduplication incomplete.",
+    "verified_on": "2026-10-29"
   }
 ]

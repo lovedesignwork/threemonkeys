@@ -56,3 +56,6 @@ logs
 
 # Local account-verification screenshots and performance reports
 /docs/verification/
+
+# Local printable handoff artifacts
+/output/
