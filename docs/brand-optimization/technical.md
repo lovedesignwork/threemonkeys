@@ -4,6 +4,31 @@ Checked 29 October 2026, Asia/Bangkok. Baseline source: `6a0c3ea`, including the
 
 ## Production release verification
 
+Final release `4152b3b` also passed both production suites: `smoke-seo.mjs` (ten endpoints) and `smoke-blog.mjs` (nine currently published articles, latest/archive/category/sitemap checks, unpublished/private route protection and 16 unique internal article destinations). The final response confirms consent markup at byte 9,230 before main content at byte 15,635 and the corrected footer contrast classes.
+
+### Final official scores — 19:19 Bangkok
+
+[Final mobile report](https://pagespeed.web.dev/analysis/https-threemonkeysphuket-com/zpngpxozgc?form_factor=mobile) and [final desktop report](https://pagespeed.web.dev/analysis/https-threemonkeysphuket-com/zpngpxozgc?form_factor=desktop), captured 29 October 2026 after release `4152b3b`:
+
+| Check | Mobile | Desktop |
+| --- | ---: | ---: |
+| Performance | **97** | **96** |
+| Accessibility | **100** | **100** |
+| Best practices | **100** | **100** |
+| SEO | **100** | **100** |
+| Agentic browsing | 3/3 | 3/3 |
+| FCP | 1.4 s | 0.4 s |
+| LCP | 2.3 s | 0.9 s |
+| TBT | 40 ms | 60 ms |
+| CLS | 0.001 | 0.001 |
+| Speed index | 3.9 s | 1.9 s |
+
+Mobile consent element render delay fell to 660 ms from 1,190 ms in the preceding report; its lab LCP improved from 3.8 s to 2.3 s. Remaining diagnostics include server response latency (mobile TTFB 770 ms, estimated 670 ms opportunity), first-party CSS blocking (530 ms estimated mobile opportunity), and unused JavaScript. These are real remaining costs, but automatic diagnostic savings are not additive score promises. No artificial consent delay, content removal or animation removal was used. Performance is not 100 on either device; historical field data remains unchanged over this short interval. Screenshots: `docs/verification/psi-mobile-final-2026-10-29.jpg` and `psi-desktop-final-2026-10-29.jpg`.
+
+### Chat resilience follow-up
+
+The release owner's browser test loaded the vendor script/iframe after clicking chat, but the vendor did not emit its ready event within roughly one minute. The installed adapter confirms `onReady` and `visibility="maximized"` are supported; the specific external failure remains unverified. A 15-second fallback now replaces the disabled loading button with an actionable **Contact us** link and a status message. The existing immediate contact link remains while loading; the widget stays mounted so a late ready event can still open chat. No vendor script is loaded before the visitor clicks. ESLint, TypeScript and diff checks passed; the release owner verifies the timed UI after deployment.
+
 Release `53c8857` was deployed to `https://threemonkeysphuket.com/` on 29 October. `node scripts/smoke-seo.mjs https://threemonkeysphuket.com` passed all ten endpoint checks, including real server-rendered headings on English and Chinese booking routes, canonical metadata, Search Console verification, private checkout noindex, sitemap, robots, llms, existing GA configuration and unauthenticated admin denial (401). Browser interaction and analytics checks are recorded separately by the release owner.
 
 ### Official PageSpeed after deployment

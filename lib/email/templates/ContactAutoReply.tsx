@@ -184,7 +184,7 @@ export const ContactAutoReply = ({
             <Text style={footerBrand}>Three Monkeys Restaurant</Text>
             <Text style={footerTagline}>Phuket&apos;s rainforest dining experience</Text>
             <Text style={footerAddress}>
-              Inside Hanuman World, Kathu, Phuket, Thailand
+              Inside Hanuman World, Wichit, Phuket, Thailand
             </Text>
             <Hr style={footerDivider} />
             <Text style={footerLinks}>

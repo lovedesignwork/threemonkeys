@@ -1665,7 +1665,7 @@ function BookingContent() {
                     </div>
                     <div>
                       <p className="text-white font-medium text-sm">Three Monkeys Restaurant</p>
-                      <p className="text-white/40 text-xs mt-1">Inside Hanuman World, Kathu, Phuket</p>
+                      <p className="text-white/40 text-xs mt-1">Inside Hanuman World, Wichit, Phuket</p>
                       <a
                         href="https://maps.app.goo.gl/hk5Z7PQUHnmz6tVB6"
                         target="_blank"
