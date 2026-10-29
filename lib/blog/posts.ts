@@ -3,9 +3,9 @@ import { cache } from "react";
 import { supabaseAdmin } from "@/lib/supabase/server";
 import type { PublicPost } from "./types";
 
-// Never return private publication timestamps to client components or RSC props.
+// Publication dates are factual metadata; future articles remain private below.
 const fields =
-  "id,slug,title,excerpt,content,category,tags,featured_image,seo_title,seo_description,focus_keyword,image_manifest";
+  "id,slug,title,excerpt,content,category,tags,featured_image,seo_title,seo_description,focus_keyword,image_manifest,author,published_at,updated_at";
 export const getPublishedPosts = cache(async (): Promise<PublicPost[]> => {
   const { data, error } = await supabaseAdmin
     .from("blog_posts")

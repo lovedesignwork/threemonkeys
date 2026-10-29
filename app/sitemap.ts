@@ -65,6 +65,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const blogPages: MetadataRoute.Sitemap = (await getPublishedPosts()).map(post => ({
     url: `${baseUrl}/blog/${post.slug}`,
+    lastModified: post.updated_at || post.published_at,
     changeFrequency: 'weekly' as const,
     priority: 0.6,
   }));

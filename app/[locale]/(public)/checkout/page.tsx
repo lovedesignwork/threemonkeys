@@ -1,5 +1,7 @@
 'use client';
 
+import { checkoutAttribution } from '@/lib/analytics';
+
 import { RainforestBackground } from '@/components/ui/RainforestBackground';
 
 import { useState, useEffect, useMemo, Suspense } from 'react';
@@ -249,6 +251,7 @@ function CheckoutContent() {
         },
         body: JSON.stringify({
           packageId: selectedPackage?.id,
+          ...checkoutAttribution(),
           date,
           time,
           guests,

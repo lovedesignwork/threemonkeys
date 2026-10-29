@@ -22,7 +22,7 @@ export const faqs: FAQ[] = [
   {
     id: '4',
     question: 'Can I modify or cancel my reservation?',
-    answer: 'Yes, you can modify or cancel your reservation up to 24 hours before your scheduled time at no charge. Cancellations within 24 hours or no-shows may incur a fee for tasting menu bookings.',
+    answer: 'Bookings and deposits are non-refundable. You may reschedule, subject to availability and confirmation. Contact us with your booking reference and preferred new date and time.',
     category: 'Reservations',
   },
   {

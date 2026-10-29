@@ -53,7 +53,8 @@ export function HeroSlideshow() {
               fill
               className="object-cover"
               sizes="100vw"
-              priority={currentImage === 0}
+              loading="eager"
+              fetchPriority={currentImage === 0 ? 'high' : 'auto'}
             />
           </motion.div>
         </AnimatePresence>

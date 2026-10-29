@@ -6,6 +6,7 @@ import { getClientIP, getGeoFromIP } from '@/lib/geo/ip-lookup';
 import { getPackageById } from '@/lib/data/packages';
 import { getAddonById, isFixedPricePackage } from '@/lib/data/addons';
 import { fetchPackageControls } from '@/lib/data/package-controls-server';
+import { stripeAttribution } from '@/lib/analytics';
 import {
   isPackageDisabled,
   isPackageDateBlocked,
@@ -13,6 +14,8 @@ import {
 } from '@/lib/data/package-controls';
 
 interface BookingData {
+  attribution?: unknown;
+  analyticsConsent?: boolean;
   packageId: string;
   date: string;
   time: string;
@@ -253,6 +256,7 @@ export async function POST(request: NextRequest) {
       payment_method_types: ['card'], // Card payments only
       description,
       metadata: {
+        ...stripeAttribution(body.attribution, body.analyticsConsent),
         booking_id: booking.id,
         booking_ref: booking.booking_ref,
         package_name: packageData.name,

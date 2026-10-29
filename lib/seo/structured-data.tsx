@@ -98,13 +98,16 @@ export function FAQSchema({ faqs }: { faqs: FAQItem[] }) {
   }} />;
 }
 
-export function ArticleSchema({ title, description, image, url }: {
+export function ArticleSchema({ title, description, image, url, publishedAt, updatedAt, author }: {
   title: string; description: string; image: string; url: string;
+  publishedAt?: string; updatedAt?: string; author?: string;
 }) {
   return <JsonLd data={{
     '@context': 'https://schema.org', '@type': 'BlogPosting',
     headline: title, description, image, url, inLanguage: 'en',
-    author: { '@type': 'Organization', '@id': organizationId, name: siteConfig.name },
+    ...(publishedAt ? { datePublished: publishedAt } : {}),
+    ...(updatedAt ? { dateModified: updatedAt } : {}),
+    author: { '@type': 'Organization', name: author || siteConfig.name, url: siteConfig.url },
     publisher: { '@id': organizationId },
     mainEntityOfPage: { '@type': 'WebPage', '@id': url },
   }} />;

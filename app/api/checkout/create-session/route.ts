@@ -3,6 +3,7 @@ import { stripe, PRIVATE_TRANSFER_PRICE, NON_PLAYER_PRICE } from '@/lib/stripe/c
 import { supabaseAdmin } from '@/lib/supabase/server';
 import Stripe from 'stripe';
 import { fetchPackageControls } from '@/lib/data/package-controls-server';
+import { stripeAttribution } from '@/lib/analytics';
 import {
   isPackageDisabled,
   isPackageDateBlocked,
@@ -10,6 +11,8 @@ import {
 } from '@/lib/data/package-controls';
 
 interface BookingData {
+  attribution?: unknown;
+  analyticsConsent?: boolean;
   packageId: string;
   date: string;
   time: string;
@@ -222,11 +225,13 @@ export async function POST(request: NextRequest) {
       cancel_url: `${appUrl}/checkout/cancel?booking_id=${booking.id}`,
       customer_email: customer.email,
       metadata: {
+        ...stripeAttribution(body.attribution, body.analyticsConsent),
         booking_id: booking.id,
         booking_ref: booking.booking_ref,
       },
       payment_intent_data: {
         metadata: {
+          ...stripeAttribution(body.attribution, body.analyticsConsent),
           booking_id: booking.id,
           booking_ref: booking.booking_ref,
         },

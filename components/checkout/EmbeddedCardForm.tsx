@@ -145,7 +145,7 @@ export default function EmbeddedCardForm({
             />
           </div>
           <span className="text-xs text-white/70 pt-1">
-            I agree to the <button type="button" onClick={() => setTermsModalOpen(true)} className="text-[#b1b94c] underline hover:text-[#c4cc5a] transition-colors">Terms & Conditions</button> and <button type="button" onClick={() => setPrivacyModalOpen(true)} className="text-[#b1b94c] underline hover:text-[#c4cc5a] transition-colors">Privacy Policy</button>. I understand the cancellation policy and that bookings are non-refundable within 24 hours of the activity. *
+            I agree to the <button type="button" onClick={() => setTermsModalOpen(true)} className="text-[#b1b94c] underline hover:text-[#c4cc5a] transition-colors">Terms & Conditions</button> and <button type="button" onClick={() => setPrivacyModalOpen(true)} className="text-[#b1b94c] underline hover:text-[#c4cc5a] transition-colors">Privacy Policy</button>. I understand the cancellation policy and that bookings are non-refundable. Rescheduling is subject to availability and confirmation. *
           </span>
         </label>
       </div>

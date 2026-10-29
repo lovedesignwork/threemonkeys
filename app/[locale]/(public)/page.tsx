@@ -12,6 +12,7 @@ import {
 } from '@/components/home';
 import { createPageMetadata } from '@/lib/seo/config';
 import { LatestArticles } from '@/components/home/LatestArticles';
+import { Suspense } from 'react';
 export const dynamic = 'force-dynamic';
 
 export const generateMetadata = createPageMetadata(
@@ -33,7 +34,23 @@ export default function HomePage() {
       <SpecialPackages />
       <WhyChooseUs />
       <PhotoGallery />
-      <LatestArticles />
+      <Suspense fallback={
+        <div aria-hidden="true" className="bg-[#121511] px-5 py-20 sm:px-8 lg:py-28">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-12 h-24" />
+            <div className="grid gap-10 md:grid-cols-3">
+              {[0, 1, 2].map((item) => (
+                <div key={item}>
+                  <div className="aspect-[16/11] bg-white/5" />
+                  <div className="h-56" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      }>
+        <LatestArticles />
+      </Suspense>
       <Testimonials />
       <SafetyCertifications />
       <CTABanner />

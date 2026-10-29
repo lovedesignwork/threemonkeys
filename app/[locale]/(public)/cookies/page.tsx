@@ -5,11 +5,11 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
-import { 
-  Cookie, 
-  Shield, 
-  BarChart3, 
-  Target, 
+import {
+  Cookie,
+  Shield,
+  BarChart3,
+  Target,
   Settings,
   FileText,
   Mail,
@@ -149,7 +149,7 @@ export default function CookiePolicyPage() {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-[#0a0a0a]" />
         </div>
-        
+
         <div className="relative z-10 text-center px-4 pt-32 pb-12 max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -160,15 +160,15 @@ export default function CookiePolicyPage() {
               <Cookie className="w-4 h-4 text-[#b1b94c]" />
               <span className="text-sm text-white/80">Transparency First</span>
             </div>
-            
+
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-[family-name:var(--font-krona)] text-white mb-6">
               Cookie Policy
             </h1>
-            
+
             <p className="text-lg text-white/60 max-w-2xl mx-auto mb-4">
               Understanding how we use cookies to improve your experience
             </p>
-            
+
             <p className="text-sm text-white/40">
               Last updated: February 2026
             </p>
@@ -189,7 +189,7 @@ export default function CookiePolicyPage() {
             {cookieTypes.map((type) => {
               const colors = getColorClasses(type.color);
               return (
-                <div 
+                <div
                   key={type.id}
                   className={`bg-[#111] rounded-2xl border ${colors.border} p-4`}
                 >
@@ -239,7 +239,7 @@ export default function CookiePolicyPage() {
                     ))}
                   </nav>
                 </div>
-                
+
                 <button
                   onClick={scrollToTop}
                   className="mt-4 w-full flex items-center justify-center gap-2 px-4 py-3 bg-white/5 hover:bg-white/10 rounded-xl text-white/60 hover:text-white transition-all"
@@ -272,15 +272,15 @@ export default function CookiePolicyPage() {
                     </div>
                     <div className="space-y-4 text-white/70 leading-relaxed">
                       <p>
-                        Cookies are small text files that are stored on your device (computer, tablet, 
-                        or mobile phone) when you visit a website. They are widely used to make websites 
+                        Cookies are small text files that are stored on your device (computer, tablet,
+                        or mobile phone) when you visit a website. They are widely used to make websites
                         work more efficiently and provide information to website owners.
                       </p>
                       <p>
-                        This Cookie Policy explains how <span className="text-white font-medium">SKY WORLD ADVENTURES Co., Ltd.</span> 
-                        (operating as "Three Monkeys") uses cookies and similar technologies on our website.
+                        This Cookie Policy explains how <span className="text-white font-medium">SKY WORLD ADVENTURES Co., Ltd.</span>
+                        (operating as &quot;Three Monkeys&quot;) uses cookies and similar technologies on our website.
                       </p>
-                      
+
                       <div className="bg-white/5 rounded-2xl p-6 mt-6">
                         <h4 className="text-white font-medium mb-3">Cookies help us to:</h4>
                         <div className="grid sm:grid-cols-2 gap-3">
@@ -315,14 +315,14 @@ export default function CookiePolicyPage() {
                         2. Types of Cookies We Use
                       </h2>
                     </div>
-                    
+
                     <div className="space-y-4">
                       {cookieTypes.map((type) => {
                         const colors = getColorClasses(type.color);
                         const isExpanded = expandedCookie === type.id;
-                        
+
                         return (
-                          <div 
+                          <div
                             key={type.id}
                             className={`rounded-2xl border ${colors.border} overflow-hidden transition-all`}
                           >
@@ -339,11 +339,11 @@ export default function CookiePolicyPage() {
                                   <p className="text-white/50 text-sm">{type.description}</p>
                                 </div>
                               </div>
-                              <ChevronRight 
+                              <ChevronRight
                                 className={`w-5 h-5 ${colors.text} transition-transform ${isExpanded ? 'rotate-90' : ''}`}
                               />
                             </button>
-                            
+
                             {isExpanded && (
                               <div className="p-6 bg-white/5">
                                 <div className="overflow-x-auto">
@@ -393,13 +393,13 @@ export default function CookiePolicyPage() {
                         3. Third-Party Cookies
                       </h2>
                     </div>
-                    
+
                     <div className="space-y-4 text-white/70 leading-relaxed">
                       <p>
-                        Some cookies are placed by third-party services that appear on our pages. 
+                        Some cookies are placed by third-party services that appear on our pages.
                         We do not control these cookies. The third parties include:
                       </p>
-                      
+
                       <div className="grid sm:grid-cols-2 gap-4 my-6">
                         {[
                           { name: 'Google Analytics', desc: 'Website analytics and performance' },
@@ -413,33 +413,33 @@ export default function CookiePolicyPage() {
                           </div>
                         ))}
                       </div>
-                      
+
                       <p className="text-sm">
-                        Please refer to these third parties' privacy policies for more information:
+                        Please refer to these third parties&apos; privacy policies for more information:
                       </p>
-                      
+
                       <div className="flex flex-wrap gap-3 mt-4">
-                        <a 
-                          href="https://policies.google.com/privacy" 
-                          target="_blank" 
+                        <a
+                          href="https://policies.google.com/privacy"
+                          target="_blank"
                           rel="noopener noreferrer"
                           className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 rounded-lg text-[#b1b94c] hover:bg-white/10 transition-colors text-sm"
                         >
                           Google Privacy Policy
                           <ExternalLink className="w-3 h-3" />
                         </a>
-                        <a 
-                          href="https://www.facebook.com/privacy/policy/" 
-                          target="_blank" 
+                        <a
+                          href="https://www.facebook.com/privacy/policy/"
+                          target="_blank"
                           rel="noopener noreferrer"
                           className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 rounded-lg text-[#b1b94c] hover:bg-white/10 transition-colors text-sm"
                         >
                           Meta Privacy Policy
                           <ExternalLink className="w-3 h-3" />
                         </a>
-                        <a 
-                          href="https://stripe.com/privacy" 
-                          target="_blank" 
+                        <a
+                          href="https://stripe.com/privacy"
+                          target="_blank"
                           rel="noopener noreferrer"
                           className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 rounded-lg text-[#b1b94c] hover:bg-white/10 transition-colors text-sm"
                         >
@@ -463,18 +463,18 @@ export default function CookiePolicyPage() {
                         4. Managing Cookies
                       </h2>
                     </div>
-                    
+
                     <div className="space-y-6">
                       <div className="bg-white/5 rounded-2xl p-6">
                         <h3 className="text-lg font-medium text-white mb-4">4.1 Cookie Consent</h3>
                         <p className="text-white/70">
-                          When you first visit our website, you will see a cookie consent banner that 
-                          allows you to accept or customize your cookie preferences. You can change 
-                          your preferences at any time by clicking the "Cookie Settings" link in the 
-                          footer of our website.
+                          When you first visit our website, you will see a cookie consent banner that
+                          allows you to accept or customize your cookie preferences. You can change
+                          your preferences at any time using the &quot;Cookie Settings&quot; button at the
+                          bottom of our website. Optional analytics and marketing remain off until you choose them.
                         </p>
                       </div>
-                      
+
                       <div className="bg-white/5 rounded-2xl p-6">
                         <h3 className="text-lg font-medium text-white mb-4">4.2 Browser Settings</h3>
                         <p className="text-white/70 mb-4">
@@ -495,17 +495,17 @@ export default function CookiePolicyPage() {
                             </div>
                           ))}
                         </div>
-                        
+
                         <p className="text-white/70 text-sm mb-4">
                           Cookie management instructions for popular browsers:
                         </p>
-                        
+
                         <div className="flex flex-wrap gap-3">
                           {browserLinks.map((browser, index) => (
-                            <a 
+                            <a
                               key={index}
-                              href={browser.url} 
-                              target="_blank" 
+                              href={browser.url}
+                              target="_blank"
                               rel="noopener noreferrer"
                               className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 rounded-lg text-white/70 hover:text-[#b1b94c] hover:bg-white/10 transition-colors text-sm"
                             >
@@ -515,7 +515,7 @@ export default function CookiePolicyPage() {
                           ))}
                         </div>
                       </div>
-                      
+
                       <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-6">
                         <h3 className="text-lg font-medium text-amber-400 mb-4">4.3 Impact of Disabling Cookies</h3>
                         <p className="text-white/70 mb-4">
@@ -533,7 +533,7 @@ export default function CookiePolicyPage() {
                             <Settings className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
                             <div>
                               <span className="text-white font-medium">Preference cookies disabled:</span>
-                              <span className="text-white/60 ml-2">Your settings won't be remembered</span>
+                              <span className="text-white/60 ml-2">Your settings won&apos;t be remembered</span>
                             </div>
                           </div>
                           <div className="flex items-start gap-3">
@@ -547,7 +547,7 @@ export default function CookiePolicyPage() {
                             <Target className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
                             <div>
                               <span className="text-white font-medium">Marketing cookies disabled:</span>
-                              <span className="text-white/60 ml-2">Ads won't be personalized</span>
+                              <span className="text-white/60 ml-2">Ads won&apos;t be personalized</span>
                             </div>
                           </div>
                         </div>
@@ -568,12 +568,12 @@ export default function CookiePolicyPage() {
                         5. Similar Technologies
                       </h2>
                     </div>
-                    
+
                     <div className="space-y-4 text-white/70 leading-relaxed">
                       <p>
                         In addition to cookies, we may use similar technologies such as:
                       </p>
-                      
+
                       <div className="grid sm:grid-cols-3 gap-4 my-6">
                         <div className="bg-white/5 rounded-xl p-4">
                           <div className="w-10 h-10 rounded-xl bg-indigo-500/20 flex items-center justify-center mb-3">
@@ -597,7 +597,7 @@ export default function CookiePolicyPage() {
                           <p className="text-white/50 text-sm">Small images to track behavior</p>
                         </div>
                       </div>
-                      
+
                       <p className="text-sm text-white/50">
                         These technologies are subject to the same consent requirements as cookies.
                       </p>
@@ -617,11 +617,11 @@ export default function CookiePolicyPage() {
                         6. Updates to This Policy
                       </h2>
                     </div>
-                    
+
                     <div className="bg-white/5 rounded-2xl p-6">
                       <p className="text-white/70">
-                        We may update this Cookie Policy from time to time to reflect changes in 
-                        technology, legislation, or our business practices. The "Last updated" date 
+                        We may update this Cookie Policy from time to time to reflect changes in
+                        technology, legislation, or our business practices. The &quot;Last updated&quot; date
                         at the top of this page indicates when the policy was last revised.
                       </p>
                     </div>
@@ -640,12 +640,12 @@ export default function CookiePolicyPage() {
                         7. Contact Us
                       </h2>
                     </div>
-                    
+
                     <p className="text-white/70 mb-6">
-                      If you have questions about our use of cookies or this Cookie Policy, 
+                      If you have questions about our use of cookies or this Cookie Policy,
                       please contact us:
                     </p>
-                    
+
                     <div className="bg-white/5 rounded-2xl p-6">
                       <div className="space-y-4">
                         <div className="flex items-center gap-3 text-white/70">
@@ -662,7 +662,7 @@ export default function CookiePolicyPage() {
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="mt-6 p-4 bg-white/5 rounded-xl">
                       <p className="text-white/60 text-sm">
                         For more information about how we handle your personal data, please see our{' '}
@@ -672,27 +672,27 @@ export default function CookiePolicyPage() {
                   </div>
                 </div>
               </div>
-              
+
               {/* Related Links */}
               <div data-botanical-section className="mt-12 p-6 bg-[#111] rounded-3xl border border-white/10 overflow-hidden">
                 <RainforestBackground designKey="cookies/related-policies" quiet />
                 <h3 className="text-lg font-medium text-white mb-4">Related Policies</h3>
                 <div className="grid sm:grid-cols-3 gap-4">
-                  <Link 
+                  <Link
                     href="/terms"
                     className="flex items-center gap-3 p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-colors group"
                   >
                     <FileText className="w-5 h-5 text-[#b1b94c]" />
                     <span className="text-white/70 group-hover:text-white transition-colors">Terms & Conditions</span>
                   </Link>
-                  <Link 
+                  <Link
                     href="/privacy"
                     className="flex items-center gap-3 p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-colors group"
                   >
                     <Shield className="w-5 h-5 text-[#b1b94c]" />
                     <span className="text-white/70 group-hover:text-white transition-colors">Privacy Policy</span>
                   </Link>
-                  <Link 
+                  <Link
                     href="/refund"
                     className="flex items-center gap-3 p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-colors group"
                   >

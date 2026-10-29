@@ -24,6 +24,8 @@ const initial = {
   seo_description: "",
   focus_keyword: "",
   status: "draft",
+  author: "Three Monkeys Team",
+  published_at: "",
 };
 export default function BlogEditor({ id }: { id?: string }) {
   const router = useRouter();
@@ -74,7 +76,9 @@ export default function BlogEditor({ id }: { id?: string }) {
       setPost({ ...initial, ...result.data });
       setMessage(
         status === "published"
-          ? "Published. Homepage, archive and sitemap now use this version."
+          ? result.data.published_at && Date.parse(result.data.published_at) > Date.now()
+            ? "Scheduled. The article will appear on the website at the selected Bangkok time."
+            : "Published. Homepage, archive and sitemap now use this version."
           : "Draft saved. It is unavailable publicly.",
       );
       if (!id) router.replace(`/admin/blog/${result.data.id}`);
@@ -189,7 +193,7 @@ export default function BlogEditor({ id }: { id?: string }) {
           {message}
         </p>
       )}
-      {id && post.status === "published" && (
+      {id && post.status === "published" && (!post.published_at || Date.parse(post.published_at) <= Date.now()) && (
         <a
           href={`/blog/${post.slug}`}
           target="_blank"
@@ -207,11 +211,21 @@ export default function BlogEditor({ id }: { id?: string }) {
         {field("focus_keyword", "Target keyword")}
         {field("seo_title", "SEO title")}
         {field("seo_description", "Meta description", true)}
+        <label className="block text-sm font-medium text-slate-700">
+          Publication time (Asia/Bangkok, UTC+7)
+          <input
+            type="datetime-local"
+            value={post.published_at ? new Date(Date.parse(post.published_at) + 7 * 60 * 60 * 1000).toISOString().slice(0,16) : ""}
+            onChange={(e) => update("published_at", e.target.value ? new Date(`${e.target.value}:00+07:00`).toISOString() : "")}
+            className="mt-2 w-full rounded-lg border border-slate-300 p-3"
+          />
+          <span className="mt-2 block text-xs font-normal">Leave blank for immediate publication of a new article. A future time schedules publication when you click Publish. Save draft keeps it private.</span>
+        </label>
       </div>
       <p className="text-sm text-slate-600">
         Publish 800–1,600 words with one featured photo and 2–4 different body
-        photos. Use H2/H3 headings. Dates and reading times stay off the public
-        blog. Captions and alt text come from the photo library.
+        photos. Use H2/H3 headings. Publication dates appear in search metadata;
+        the reading layout remains undated. Captions and alt text come from the photo library.
       </p>
       <ArticleEditor
         content={post.content}

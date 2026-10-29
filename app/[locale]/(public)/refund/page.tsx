@@ -19,7 +19,6 @@ import {
   ArrowUp,
   CreditCard,
   Shield,
-  Calendar,
   Users,
   Percent
 } from 'lucide-react';
@@ -30,8 +29,8 @@ const sections = [
   { id: 'medical', title: 'Medical & Emergency', icon: AlertCircle },
   { id: 'by-us', title: 'Cancellation by Us', icon: RefreshCcw },
   { id: 'third-party', title: 'Third-Party Bookings', icon: Users },
-  { id: 'partial', title: 'Partial Refunds', icon: Percent },
-  { id: 'process', title: 'Refund Process', icon: CreditCard },
+  { id: 'partial', title: 'Booking Changes', icon: Percent },
+  { id: 'process', title: 'Rescheduling', icon: CreditCard },
   { id: 'non-refundable', title: 'Non-Refundable Items', icon: XCircle },
   { id: 'disputes', title: 'Disputes', icon: Shield },
   { id: 'contact', title: 'Contact', icon: Mail },
@@ -87,11 +86,11 @@ export default function RefundPage() {
             </h1>
             
             <p className="text-lg text-white/60 max-w-2xl mx-auto mb-4">
-              Clear and fair refund guidelines for your peace of mind
+              Our non-refundable booking and rescheduling policy
             </p>
             
             <p className="text-sm text-white/40">
-              Last updated: February 2026
+              Last updated: 29 October 2026
             </p>
           </motion.div>
         </div>
@@ -111,10 +110,9 @@ export default function RefundPage() {
               <div className="w-12 h-12 rounded-2xl bg-green-500/20 flex items-center justify-center mb-4">
                 <CheckCircle className="w-6 h-6 text-green-400" />
               </div>
-              <h3 className="text-lg font-medium text-green-400 mb-2">Full Refund</h3>
+              <h3 className="text-lg font-medium text-green-400 mb-2">Non-Refundable</h3>
               <p className="text-white/60 text-sm">
-                Cancel 24+ hours before reservation<br />
-                <span className="text-white/40">(5% processing fee applies)</span>
+                Bookings and deposits are non-refundable
               </p>
             </div>
             
@@ -122,10 +120,9 @@ export default function RefundPage() {
               <div className="w-12 h-12 rounded-2xl bg-amber-500/20 flex items-center justify-center mb-4">
                 <FileText className="w-6 h-6 text-amber-400" />
               </div>
-              <h3 className="text-lg font-medium text-amber-400 mb-2">Medical Cases</h3>
+              <h3 className="text-lg font-medium text-amber-400 mb-2">Rescheduling</h3>
               <p className="text-white/60 text-sm">
-                With valid medical certificate<br />
-                <span className="text-white/40">(5% processing fee applies)</span>
+                Date and time changes are subject to availability and confirmation
               </p>
             </div>
             
@@ -133,10 +130,9 @@ export default function RefundPage() {
               <div className="w-12 h-12 rounded-2xl bg-red-500/20 flex items-center justify-center mb-4">
                 <XCircle className="w-6 h-6 text-red-400" />
               </div>
-              <h3 className="text-lg font-medium text-red-400 mb-2">No Refund</h3>
+              <h3 className="text-lg font-medium text-red-400 mb-2">Contact Our Team</h3>
               <p className="text-white/60 text-sm">
-                Less than 24 hours notice<br />
-                <span className="text-white/40">or no-show</span>
+                Have your booking reference ready
               </p>
             </div>
           </motion.div>
@@ -212,7 +208,7 @@ export default function RefundPage() {
                       <p>
                         This Refund Policy applies to all online bookings made through our website. 
                         Payments are processed by <span className="text-white font-medium">Chamnanthang Co., Ltd.</span> (operating 
-                        as "ONEBOOKING"). Your credit card statement will display the payment as "ONEBOOKING".
+                        as &quot;ONEBOOKING&quot;). Your credit card statement will display the payment as &quot;ONEBOOKING&quot;.
                       </p>
                       
                       <div className="bg-blue-500/10 border border-blue-500/20 rounded-2xl p-6 mt-6">
@@ -223,8 +219,7 @@ export default function RefundPage() {
                           <div>
                             <h4 className="text-blue-400 font-medium mb-2">Important Note</h4>
                             <p className="text-blue-400/80 text-sm">
-                              A <span className="font-medium">5% processing fee</span> will be deducted from all refunds 
-                              to cover payment gateway and administrative costs.
+                              Bookings and deposits are non-refundable. You may reschedule, subject to availability and confirmation.
                             </p>
                           </div>
                         </div>
@@ -234,158 +229,11 @@ export default function RefundPage() {
                 </div>
 
                 {/* Standard Cancellation */}
-                <div id="standard" className="scroll-mt-32">
-                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
-                    <RainforestBackground designKey="refund/standard" quiet />
-                    <div className="flex items-center gap-3 mb-6">
-                      <div className="w-12 h-12 rounded-2xl bg-green-500/20 flex items-center justify-center">
-                        <Clock className="w-6 h-6 text-green-400" />
-                      </div>
-                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
-                        2. Standard Cancellation & Refund
-                      </h2>
-                    </div>
-                    
-                    <div className="space-y-6">
-                      <div className="bg-green-500/10 border border-green-500/20 rounded-2xl p-6">
-                        <h3 className="text-lg font-medium text-green-400 mb-4">2.1 More Than 24 Hours Before Reservation</h3>
-                        <div className="space-y-3">
-                          <div className="flex items-center gap-3 text-white/70">
-                            <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
-                            <span><span className="text-white font-medium">Refund:</span> Full refund minus 5% processing fee</span>
-                          </div>
-                          <div className="flex items-center gap-3 text-white/70">
-                            <Clock className="w-5 h-5 text-green-400 flex-shrink-0" />
-                            <span><span className="text-white font-medium">Processing Time:</span> 5-10 business days</span>
-                          </div>
-                          <div className="flex items-center gap-3 text-white/70">
-                            <Mail className="w-5 h-5 text-green-400 flex-shrink-0" />
-                            <span><span className="text-white font-medium">How to Cancel:</span> Email enjoy@threemonkeysphuket.com</span>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-6">
-                        <h3 className="text-lg font-medium text-amber-400 mb-4">2.2 Less Than 24 Hours Before Reservation</h3>
-                        <div className="space-y-3">
-                          <div className="flex items-center gap-3 text-white/70">
-                            <XCircle className="w-5 h-5 text-amber-400 flex-shrink-0" />
-                            <span><span className="text-white font-medium">Refund:</span> No refund available</span>
-                          </div>
-                          <div className="flex items-center gap-3 text-white/70">
-                            <Calendar className="w-5 h-5 text-amber-400 flex-shrink-0" />
-                            <span><span className="text-white font-medium">Alternative:</span> You may reschedule (subject to availability)</span>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-6">
-                        <h3 className="text-lg font-medium text-red-400 mb-4">2.3 No-Show</h3>
-                        <div className="space-y-3">
-                          <div className="flex items-center gap-3 text-white/70">
-                            <XCircle className="w-5 h-5 text-red-400 flex-shrink-0" />
-                            <span><span className="text-white font-medium">Refund:</span> No refund under any circumstances</span>
-                          </div>
-                          <div className="flex items-center gap-3 text-white/70">
-                            <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0" />
-                            <span>Missing the scheduled time without prior notification is considered a no-show</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
+<div id="standard" className="scroll-mt-32"><div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]"><RainforestBackground designKey="refund/standard" quiet /><h2 className="text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white mb-6">2. Cancellation and Rescheduling</h2><div className="space-y-4 text-white/70 leading-relaxed"><p>Bookings and deposits are non-refundable, regardless of how far in advance a cancellation is requested.</p><p>You may reschedule your booking, subject to availability and confirmation. Contact us with your booking reference and preferred new date and time. Changes in the service date must be requested at least 1 day in advance. Requests made less than 1 day before the reservation may not be accommodated. A change is confirmed only when our team confirms it.</p><p>If you cannot attend, please contact us. A missed reservation does not entitle you to a refund.</p></div></div></div>
                 {/* Medical & Emergency */}
-                <div id="medical" className="scroll-mt-32">
-                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
-                    <RainforestBackground designKey="refund/medical" quiet />
-                    <div className="flex items-center gap-3 mb-6">
-                      <div className="w-12 h-12 rounded-2xl bg-amber-500/20 flex items-center justify-center">
-                        <AlertCircle className="w-6 h-6 text-amber-400" />
-                      </div>
-                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
-                        3. Medical & Emergency Cancellations
-                      </h2>
-                    </div>
-                    
-                    <div className="space-y-4 text-white/70 leading-relaxed">
-                      <p>
-                        We understand that emergencies happen. For cancellations due to medical 
-                        emergencies or accidents:
-                      </p>
-                      
-                      <div className="bg-white/5 rounded-2xl p-6">
-                        <ul className="space-y-3">
-                          <li className="flex items-start gap-3">
-                            <ChevronRight className="w-5 h-5 text-[#b1b94c] flex-shrink-0 mt-0.5" />
-                            <span>A <span className="text-white font-medium">valid medical certificate</span> is required</span>
-                          </li>
-                          <li className="flex items-start gap-3">
-                            <ChevronRight className="w-5 h-5 text-[#b1b94c] flex-shrink-0 mt-0.5" />
-                            <span>The certificate must be dated and clearly state the condition</span>
-                          </li>
-                          <li className="flex items-start gap-3">
-                            <ChevronRight className="w-5 h-5 text-[#b1b94c] flex-shrink-0 mt-0.5" />
-                            <span>Submit the certificate to enjoy@threemonkeysphuket.com within 7 days</span>
-                          </li>
-                          <li className="flex items-start gap-3">
-                            <ChevronRight className="w-5 h-5 text-[#b1b94c] flex-shrink-0 mt-0.5" />
-                            <span>Refund will be processed minus the 5% processing fee</span>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
+<div id="medical" className="scroll-mt-32"><div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]"><RainforestBackground designKey="refund/medical" quiet /><h2 className="text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white mb-6">3. Illness or an Emergency</h2><div className="space-y-4 text-white/70 leading-relaxed"><p>If illness or an emergency affects your visit, contact our team to discuss rescheduling. The non-refundable policy still applies; a medical certificate does not create a refund entitlement.</p></div></div></div>
                 {/* Cancellation by Us */}
-                <div id="by-us" className="scroll-mt-32">
-                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
-                    <RainforestBackground designKey="refund/by-us" quiet />
-                    <div className="flex items-center gap-3 mb-6">
-                      <div className="w-12 h-12 rounded-2xl bg-blue-500/20 flex items-center justify-center">
-                        <RefreshCcw className="w-6 h-6 text-blue-400" />
-                      </div>
-                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
-                        4. Cancellation by Three Monkeys
-                      </h2>
-                    </div>
-                    
-                    <div className="space-y-4 text-white/70 leading-relaxed">
-                      <p>In rare cases, we may need to cancel reservations due to:</p>
-                      
-                      <div className="grid sm:grid-cols-3 gap-4 my-6">
-                        <div className="bg-white/5 rounded-xl p-4 text-center">
-                          <div className="text-2xl mb-2">🌧️</div>
-                          <p className="text-sm text-white/60">Severe weather conditions</p>
-                        </div>
-                        <div className="bg-white/5 rounded-xl p-4 text-center">
-                          <div className="text-2xl mb-2">⚠️</div>
-                          <p className="text-sm text-white/60">Safety concerns</p>
-                        </div>
-                        <div className="bg-white/5 rounded-xl p-4 text-center">
-                          <div className="text-2xl mb-2">🔧</div>
-                          <p className="text-sm text-white/60">Unforeseen circumstances</p>
-                        </div>
-                      </div>
-                      
-                      <p>In such cases, you will receive:</p>
-                      
-                      <div className="grid sm:grid-cols-2 gap-4">
-                        <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-4">
-                          <h4 className="text-green-400 font-medium mb-2">Option 1</h4>
-                          <p className="text-white/60 text-sm">Full refund (no processing fee deducted)</p>
-                        </div>
-                        <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-4">
-                          <h4 className="text-blue-400 font-medium mb-2">Option 2</h4>
-                          <p className="text-white/60 text-sm">Reschedule to another date at no additional cost</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
+<div id="by-us" className="scroll-mt-32"><div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]"><RainforestBackground designKey="refund/by-us" quiet /><h2 className="text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white mb-6">4. Changes by Three Monkeys</h2><div className="space-y-4 text-white/70 leading-relaxed"><p>Weather, safety concerns or unforeseen circumstances may require changes to a reservation. If Three Monkeys cancels your reservation, you may receive a full refund with no processing fee deducted or reschedule to another date at no additional cost.</p></div></div></div>
                 {/* Third-Party Bookings */}
                 <div id="third-party" className="scroll-mt-32">
                   <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
@@ -422,117 +270,9 @@ export default function RefundPage() {
                 </div>
 
                 {/* Partial Refunds */}
-                <div id="partial" className="scroll-mt-32">
-                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
-                    <RainforestBackground designKey="refund/partial" quiet />
-                    <div className="flex items-center gap-3 mb-6">
-                      <div className="w-12 h-12 rounded-2xl bg-teal-500/20 flex items-center justify-center">
-                        <Percent className="w-6 h-6 text-teal-400" />
-                      </div>
-                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
-                        6. Partial Refunds
-                      </h2>
-                    </div>
-                    
-                    <div className="space-y-4 text-white/70 leading-relaxed">
-                      <p>Partial refunds may be issued in the following situations:</p>
-                      
-                      <div className="bg-white/5 rounded-2xl p-6">
-                        <ul className="space-y-3">
-                          <li className="flex items-start gap-3">
-                            <ChevronRight className="w-5 h-5 text-teal-400 flex-shrink-0 mt-0.5" />
-                            <span>Reducing the number of guests (24+ hours notice required)</span>
-                          </li>
-                          <li className="flex items-start gap-3">
-                            <ChevronRight className="w-5 h-5 text-teal-400 flex-shrink-0 mt-0.5" />
-                            <span>Downgrading to a lower-priced package (24+ hours notice required)</span>
-                          </li>
-                          <li className="flex items-start gap-3">
-                            <ChevronRight className="w-5 h-5 text-teal-400 flex-shrink-0 mt-0.5" />
-                            <span>Service partially completed due to weather interruption</span>
-                          </li>
-                        </ul>
-                      </div>
-                      
-                      <p className="text-sm text-white/50">
-                        All partial refunds are subject to the 5% processing fee on the refunded amount.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
+<div id="partial" className="scroll-mt-32"><div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]"><RainforestBackground designKey="refund/partial" quiet /><h2 className="text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white mb-6">6. Changes to Your Booking</h2><div className="space-y-4 text-white/70 leading-relaxed"><p>If your group size or seating requirements change, contact us with your booking reference. Changes depend on availability and confirmation. Reducing the number of guests or changing the package does not make the booking payment or deposit refundable.</p></div></div></div>
                 {/* Refund Process */}
-                <div id="process" className="scroll-mt-32">
-                  <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
-                    <RainforestBackground designKey="refund/process" quiet />
-                    <div className="flex items-center gap-3 mb-6">
-                      <div className="w-12 h-12 rounded-2xl bg-indigo-500/20 flex items-center justify-center">
-                        <CreditCard className="w-6 h-6 text-indigo-400" />
-                      </div>
-                      <h2 className="min-w-0 text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white">
-                        7. Refund Process
-                      </h2>
-                    </div>
-                    
-                    <div className="space-y-6">
-                      <div className="bg-white/5 rounded-2xl p-6">
-                        <h3 className="text-lg font-medium text-white mb-4">7.1 How to Request a Refund</h3>
-                        <div className="space-y-4">
-                          <div className="flex items-start gap-4">
-                            <div className="w-8 h-8 rounded-full bg-[#b1b94c]/20 flex items-center justify-center flex-shrink-0">
-                              <span className="text-[#b1b94c] font-medium text-sm">1</span>
-                            </div>
-                            <div>
-                              <p className="text-white font-medium mb-1">Email enjoy@threemonkeysphuket.com with:</p>
-                              <ul className="text-white/60 text-sm space-y-1 ml-4">
-                                <li>• Your booking reference number</li>
-                                <li>• Reason for cancellation</li>
-                                <li>• Medical certificate (if applicable)</li>
-                              </ul>
-                            </div>
-                          </div>
-                          <div className="flex items-start gap-4">
-                            <div className="w-8 h-8 rounded-full bg-[#b1b94c]/20 flex items-center justify-center flex-shrink-0">
-                              <span className="text-[#b1b94c] font-medium text-sm">2</span>
-                            </div>
-                            <p className="text-white/70">You will receive a confirmation email within 24 hours</p>
-                          </div>
-                          <div className="flex items-start gap-4">
-                            <div className="w-8 h-8 rounded-full bg-[#b1b94c]/20 flex items-center justify-center flex-shrink-0">
-                              <span className="text-[#b1b94c] font-medium text-sm">3</span>
-                            </div>
-                            <p className="text-white/70">Approved refunds are processed within 5-10 business days</p>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div className="bg-white/5 rounded-2xl p-6">
-                        <h3 className="text-lg font-medium text-white mb-4">7.2 Refund Method</h3>
-                        <p className="text-white/70 mb-4">
-                          Refunds are issued to the <span className="text-white font-medium">original payment method</span> used for 
-                          the booking. We cannot refund to a different card or payment method.
-                        </p>
-                        <div className="grid sm:grid-cols-2 gap-4">
-                          <div className="bg-white/5 rounded-xl p-4">
-                            <div className="flex items-center gap-2 mb-2">
-                              <CreditCard className="w-4 h-4 text-[#b1b94c]" />
-                              <span className="text-white font-medium text-sm">Credit/Debit Cards</span>
-                            </div>
-                            <p className="text-white/60 text-sm">5-10 business days (may vary by bank)</p>
-                          </div>
-                          <div className="bg-white/5 rounded-xl p-4">
-                            <div className="flex items-center gap-2 mb-2">
-                              <FileText className="w-4 h-4 text-[#b1b94c]" />
-                              <span className="text-white font-medium text-sm">Statement Display</span>
-                            </div>
-                            <p className="text-white/60 text-sm">Appears as "ONEBOOKING" or "STRIPE"</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
+<div id="process" className="scroll-mt-32"><div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]"><RainforestBackground designKey="refund/process" quiet /><h2 className="text-xl sm:text-2xl font-[family-name:var(--font-krona)] text-white mb-6">7. How to Request Rescheduling</h2><div className="space-y-4 text-white/70 leading-relaxed"><p>Email enjoy@threemonkeysphuket.com or call +66 98-010-8838. Provide your booking reference, existing reservation date and time, and the new date and time you would prefer.</p><p>Our team will check availability and confirm the arrangement. Keep the confirmation with your booking details.</p></div></div></div>
                 {/* Non-Refundable Items */}
                 <div id="non-refundable" className="scroll-mt-32">
                   <div data-botanical-section className="bg-[#111] rounded-3xl border border-white/10 p-5 sm:p-8 overflow-hidden [overflow-wrap:anywhere]">
@@ -580,8 +320,7 @@ export default function RefundPage() {
                     
                     <div className="bg-white/5 rounded-2xl p-6">
                       <p className="text-white/70 mb-4">
-                        If you believe your refund request was incorrectly denied or you have not 
-                        received your refund within the stated timeframe:
+                        If you have a payment concern or believe there is an error with your booking:
                       </p>
                       <div className="space-y-4">
                         <div className="flex items-start gap-4">
@@ -626,7 +365,7 @@ export default function RefundPage() {
                           <div className="w-10 h-10 rounded-xl bg-[#b1b94c]/20 flex items-center justify-center">
                             <Mail className="w-5 h-5 text-[#b1b94c]" />
                           </div>
-                          <h3 className="text-lg font-medium text-white">For Refund Requests</h3>
+                          <h3 className="text-lg font-medium text-white">For Booking Changes</h3>
                         </div>
                         <div className="space-y-2 text-white/70">
                           <p>enjoy@threemonkeysphuket.com</p>

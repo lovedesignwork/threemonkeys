@@ -39,6 +39,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: post.seo_title,
       description: post.seo_description,
       images: [image],
+      publishedTime: post.published_at,
+      modifiedTime: post.updated_at,
+      authors: [post.author],
     },
     twitter: {
       card: "summary_large_image",
@@ -67,6 +70,9 @@ export default async function BlogPostPage({ params }: Props) {
         description={post.seo_description}
         image={new URL(post.featured_image, siteConfig.url).href}
         url={url}
+        publishedAt={post.published_at}
+        updatedAt={post.updated_at}
+        author={post.author}
       />
       <BreadcrumbSchema
         items={[
@@ -95,7 +101,7 @@ export default async function BlogPostPage({ params }: Props) {
             {post.excerpt}
           </p>
           <p className="mt-6 text-sm text-white/55">
-            By Three Monkeys Restaurant
+            By {post.author || "Three Monkeys Team"}
           </p>
         </div>
       </header>

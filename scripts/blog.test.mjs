@@ -16,8 +16,9 @@ function load(file, imports = {}) {
 }
 const rendering = load('lib/blog/html.ts');
 const { validatePost } = load('lib/blog/validation.ts', { './html': rendering });
-const posts = JSON.parse(fs.readFileSync('docs/verification/blog/posts.json'));
-const registry = Object.values(JSON.parse(fs.readFileSync('docs/blog-content/images.json'))).flat();
+const campaignPath = 'docs/verification/brand/article-payloads.json';
+const posts = [...JSON.parse(fs.readFileSync('docs/verification/blog/posts.json')), ...(fs.existsSync(campaignPath) ? JSON.parse(fs.readFileSync(campaignPath)) : [])];
+const registry = [...Object.values(JSON.parse(fs.readFileSync('docs/blog-content/images.json'))).flat(), ...(fs.existsSync('docs/brand-optimization/article-media.json') ? JSON.parse(fs.readFileSync('docs/brand-optimization/article-media.json')) : [])];
 assert.equal(new Set(registry.map(m => m.source_hash)).size, registry.length);
 for (const post of posts) {
   const saved = validatePost(post, registry);
@@ -45,6 +46,10 @@ for (const post of posts) {
   console.log(`PASS ${post.slug}: ${rendering.wordCount(saved.content)} words, ${post.image_manifest.length} unique photos`);
 }
 const sample = posts[0];
+assert.equal(validatePost({...sample,published_at:'2026-11-02T09:00:00+07:00'}, registry).published_at,'2026-11-02T02:00:00.000Z');
+assert.throws(()=>validatePost({...sample,published_at:'2026-11-02T09:00'},registry), /timezone/);
+assert.throws(()=>validatePost({...sample,published_at:'invalid'},registry), /timezone/);
+assert.ok(!Object.hasOwn(validatePost({...sample,published_at:''},registry),'published_at'));
 assert.throws(() => validatePost({ ...sample, content: '<h2>Too short</h2><p>Text</p>' }, registry), /800/);
 assert.throws(() => validatePost({ ...sample, content: sample.content + `<img src="${sample.featured_image}">` }, registry), /different/);
 assert.throws(() => validatePost({ ...sample, featured_image: 'https://example.com/unregistered.jpg' }, registry), /library/);

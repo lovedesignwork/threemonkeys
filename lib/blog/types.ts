@@ -21,4 +21,7 @@ export interface PublicPost {
   seo_description: string;
   focus_keyword: string;
   image_manifest: BlogMedia[];
+  author: string;
+  published_at: string;
+  updated_at: string;
 }

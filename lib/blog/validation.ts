@@ -11,6 +11,9 @@ export function validatePost(
   const slug = text("slug");
   const status = input.status === "published" ? "published" : "draft";
   const featured_image = text("featured_image");
+  const publication = text("published_at");
+  if (publication && (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2}(?:\.\d{1,3})?)?(?:Z|[+-]\d{2}:\d{2})$/.test(publication) || !Number.isFinite(Date.parse(publication))))
+    throw new Error("Choose a valid publication date with a timezone.");
   const sources = [featured_image, ...articleImageSources(content)].filter(
     Boolean,
   );
@@ -61,7 +64,8 @@ export function validatePost(
       ? input.tags.filter((v): v is string => typeof v === "string")
       : [],
     status,
-    author: "Three Monkeys Restaurant",
+    author: text("author") || "Three Monkeys Team",
+    ...(publication ? { published_at: new Date(publication).toISOString() } : {}),
     image_manifest: images,
   };
 }

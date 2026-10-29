@@ -1,0 +1,314 @@
+[
+  {
+    "id": "628cea42-0b70-4cb2-a784-6dc303333168",
+    "src": "/images/editorial/three-monkeys-sign-1600.webp",
+    "source_hash": "7625427f106bdebc20c4e17b9689cffc386621f3d276d45688205c9d34d951be",
+    "fingerprint": "0000000000000000000000000000000000000000000000000000000100000000000000010100000000000011111000000000001111000010000001111100011000000111110001000000011111000110000000111100011000000011110001100000001110000110000000111100001000000001110000000000000010000010",
+    "source_name": "public/images/new/threemonkeys001.jpg",
+    "width": 1200,
+    "height": 800,
+    "variants": [
+      {
+        "src": "/images/editorial/three-monkeys-sign-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/editorial/three-monkeys-sign-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/images/editorial/three-monkeys-sign-1600.webp",
+        "width": 1200
+      }
+    ],
+    "alt": "Illuminated Three Monkeys sign surrounded by greenery at night",
+    "caption": "The restaurant name helps identify the destination inside Hanuman World.",
+    "generated": false
+  },
+  {
+    "id": "de3dd378-5e83-4fea-aff4-d5de0c446d69",
+    "src": "/images/editorial/restaurant-walkway-1600.webp",
+    "source_hash": "b3216058c42ed6fe631e28b744bd1f43828c027473b4aa4882307449b06bed8b",
+    "fingerprint": "0000000000000000000001100100000000000000000000000000000100000000000000110000000000000010000000000000001100110000000000100011000000000001100110000000101110011000001111111011110100101111101111110001111110111111000111111001111100111111110111010111111111100000",
+    "source_name": "public/images/new/threemonkeys031.jpg",
+    "width": 1200,
+    "height": 800,
+    "variants": [
+      {
+        "src": "/images/editorial/restaurant-walkway-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/editorial/restaurant-walkway-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/images/editorial/restaurant-walkway-1600.webp",
+        "width": 1200
+      }
+    ],
+    "alt": "Wooden walkway between dining tables beneath trees and hanging lights",
+    "caption": "Consider the route to your chosen table when discussing access needs.",
+    "generated": false
+  },
+  {
+    "id": "5f9b0d14-4ca1-4409-a992-2866e7a3222a",
+    "src": "/images/editorial/restaurant-building-night-1600.webp",
+    "source_hash": "b9594a9e72b7b8d797ed33caf79320b01f457eb358b19712a2d482de2b8d8457",
+    "fingerprint": "0000000001000000000000000110000000000000011000000000000001100000000000000111100001000001111110001100101111111110111011100011111101011111110111110001111111111111000111000100100000010000000000000000000000000000001111110111100000111111111111100011111110001111",
+    "source_name": "public/images/new/threemonkeys049.jpg",
+    "width": 1200,
+    "height": 675,
+    "variants": [
+      {
+        "src": "/images/editorial/restaurant-building-night-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/editorial/restaurant-building-night-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/images/editorial/restaurant-building-night-1600.webp",
+        "width": 1200
+      }
+    ],
+    "alt": "Curving illuminated restaurant roof and glass-fronted dining space at night",
+    "caption": "An evening exterior view of Three Monkeys.",
+    "generated": false
+  },
+  {
+    "id": "1b90c5ed-8e6f-4826-a65f-4b2b99f82c7f",
+    "src": "/images/editorial/coconut-galanga-soup-1600.webp",
+    "source_hash": "c39a346c13dc3bd77acf886a2a244663984aa077c2b6e24d3dacd65ecbb10e1b",
+    "fingerprint": "0000000000000000000000000000000000000000000000000000111111110000000111111111100000011111111110000011111111111100001110111111110000111110111111000011110111111100000111111111100000011111111110000000111111110000000000111100000000000000000000000000000000000000",
+    "source_name": "public/images/three_monkeys_menu/FOODS/Thai/Coconut Galanga Soup With Chicken Prawns Seafood.jpg",
+    "width": 500,
+    "height": 500,
+    "variants": [
+      {
+        "src": "/images/editorial/coconut-galanga-soup-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/editorial/coconut-galanga-soup-960.webp",
+        "width": 500
+      },
+      {
+        "src": "/images/editorial/coconut-galanga-soup-1600.webp",
+        "width": 500
+      }
+    ],
+    "alt": "Coconut galanga soup with prawns, squid, mushrooms and herbs",
+    "caption": "The menu lists coconut galanga soup with a choice of chicken, prawns or seafood.",
+    "generated": false
+  },
+  {
+    "id": "60b83779-fff3-45fa-a0c8-dbd0a7c42a1a",
+    "src": "/images/editorial/prawn-local-vegetable-soup-1600.webp",
+    "source_hash": "b4b9f2d071c71e4f0d22fa1338550e21672ae15a06f66a8746644440981058b1",
+    "fingerprint": "0000000000000000000000000000000000000110010000000000000000011000000000011100010000000011111101000101111111111010011111111111111001111111111111100111111111111110011111111111110000111111111110000001111111110000000001111100000000000000000000000000000000000000",
+    "source_name": "public/images/three_monkeys_menu/FOODS/Thai/Coconut Milk Soup With Prawns And Local Vegetables.jpg",
+    "width": 500,
+    "height": 500,
+    "variants": [
+      {
+        "src": "/images/editorial/prawn-local-vegetable-soup-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/editorial/prawn-local-vegetable-soup-960.webp",
+        "width": 500
+      },
+      {
+        "src": "/images/editorial/prawn-local-vegetable-soup-1600.webp",
+        "width": 500
+      }
+    ],
+    "alt": "Prawns and leafy vegetables in a bowl of coconut milk soup",
+    "caption": "A separate coconut soup on the menu combines prawns and local vegetables.",
+    "generated": false
+  },
+  {
+    "id": "fa37ff20-2c5d-43de-af78-5eff9c294544",
+    "src": "/images/editorial/herbal-sea-bass-soup-1600.webp",
+    "source_hash": "e1480f8e77fe3c8818c7419bbe187497c552d8f6dde420d7d8bd2d2e697d1a37",
+    "fingerprint": "0000000000000000000000011000000000001111111100000001100000111000001100101110110000100111111001100100111111111110011111111111111001111101111111100111111111111110011111110011110000111110011110000001111111110000000001111100000000000000000000000000000000000000",
+    "source_name": "public/images/three_monkeys_menu/FOODS/Thai/Herbal Sour Clear Soup With Sea Bass Belly.jpg",
+    "width": 500,
+    "height": 500,
+    "variants": [
+      {
+        "src": "/images/editorial/herbal-sea-bass-soup-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/editorial/herbal-sea-bass-soup-960.webp",
+        "width": 500
+      },
+      {
+        "src": "/images/editorial/herbal-sea-bass-soup-1600.webp",
+        "width": 500
+      }
+    ],
+    "alt": "Clear soup with sea bass, red chillies and herbs in a green bowl",
+    "caption": "Herbal sour clear soup offers a different starting point from the coconut-based choices.",
+    "generated": false
+  },
+  {
+    "id": "dc3e48cc-f109-4cf6-a513-eb34af1b4da8",
+    "src": "/images/editorial/vegetable-spring-rolls-1600.webp",
+    "source_hash": "ea454b3d9b936325c6a21e7e1ba45ec02e18ffb4cb2dc1a23b6539e0c40e8edf",
+    "fingerprint": "1111111111111111111111111110001111111111110110001111111111000000111111111110000011111001110011111100100000000101101111000000000010110100000000001000010010000000111000000000000011110000000000011111111111111111111111111111111111111111111111111111111111111111",
+    "source_name": "public/images/three_monkeys_menu/FOODS/Vegetarian/Deep Fried Vegetables Spring Rolls.jpg",
+    "width": 500,
+    "height": 500,
+    "variants": [
+      {
+        "src": "/images/editorial/vegetable-spring-rolls-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/editorial/vegetable-spring-rolls-960.webp",
+        "width": 500
+      },
+      {
+        "src": "/images/editorial/vegetable-spring-rolls-1600.webp",
+        "width": 500
+      }
+    ],
+    "alt": "Vegetable spring rolls cut open on a green plate beside dipping sauce",
+    "caption": "Ask about fillings, wrappers, sauces and preparation rather than relying on the dish name alone.",
+    "generated": false
+  },
+  {
+    "id": "55c9d2e5-1f40-4f9e-ad9e-79429600b957",
+    "src": "/images/editorial/edamame-bowl-1600.webp",
+    "source_hash": "d1c859d501a761952bea956c4802368a6c43ea63af785007c1fbb28be1b29494",
+    "fingerprint": "0000011100001000111000011000000011100110011100001111111111111100111111111111111101011111101110010000101111011110000001111100111000000111111011100000000111011100000001011001110000000011111110000000001111111000000000000111000000000000000000000000000000000000",
+    "source_name": "public/images/three_monkeys_menu/FOODS/Japanese/Edamame.jpg",
+    "width": 500,
+    "height": 500,
+    "variants": [
+      {
+        "src": "/images/editorial/edamame-bowl-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/editorial/edamame-bowl-960.webp",
+        "width": 500
+      },
+      {
+        "src": "/images/editorial/edamame-bowl-1600.webp",
+        "width": 500
+      }
+    ],
+    "alt": "Green edamame pods in a bowl with chopsticks on a bamboo mat",
+    "caption": "The Japanese menu includes edamame; confirm preparation for your requirements.",
+    "generated": false
+  },
+  {
+    "id": "2c64f76b-e563-47f1-a9a6-4f4262ae56f6",
+    "src": "/images/editorial/corn-on-cob-1600.webp",
+    "source_hash": "56145004755c38eadcdf7adc63ee427b5a282cf950738a775080b4f48cd15450",
+    "fingerprint": "0000110111000000000011101110001000001111111011100001110110011100000111111011010000101111101001000000111111110010000011111111101000001111111110100010010111111010000000011111001000000000111101000000000001101000000000000001000000000000000000000000000000000000",
+    "source_name": "public/images/three_monkeys_menu/FOODS/Vegetarian/Corn On The Cob.jpg",
+    "width": 500,
+    "height": 500,
+    "variants": [
+      {
+        "src": "/images/editorial/corn-on-cob-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/editorial/corn-on-cob-960.webp",
+        "width": 500
+      },
+      {
+        "src": "/images/editorial/corn-on-cob-1600.webp",
+        "width": 500
+      }
+    ],
+    "alt": "Grilled corn pieces with wooden picks in a brown bowl",
+    "caption": "Check toppings and preparation when ordering a side dish.",
+    "generated": false
+  },
+  {
+    "id": "dcc78620-701f-42f6-a94c-a38808f3d611",
+    "src": "/images/editorial/bamboo-dining-pavilion-1600.webp",
+    "source_hash": "1ae3adb20ef1d12fa9832783299ac3cf2593dc9770a7972e2f3fa89d2879e11a",
+    "fingerprint": "0111110000011011011111000011001111111000101100101111100011100011110110000001011100000100001111000111100000111100011111100011110000111100000111000111110000011100001111000001110011111000100100001111100000000000011100100000000011000010000000000000000001000000",
+    "source_name": "public/images/new/threemonkeys034.jpg",
+    "width": 1200,
+    "height": 800,
+    "variants": [
+      {
+        "src": "/images/editorial/bamboo-dining-pavilion-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/editorial/bamboo-dining-pavilion-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/images/editorial/bamboo-dining-pavilion-1600.webp",
+        "width": 1200
+      }
+    ],
+    "alt": "Bamboo dining pavilion with hanging lanterns and trees at dusk",
+    "caption": "The dining setting can be part of the day without assuming an activity is included.",
+    "generated": false
+  },
+  {
+    "id": "0a82a51b-0ea2-413e-a089-d30aef42b053",
+    "src": "/images/editorial/monkey-tree-sculpture-1600.webp",
+    "source_hash": "f2c7f5431d52ee26d131f7c3776d7c416b58859ea984d88394805552cae6c0c1",
+    "fingerprint": "0000011100010000000000110001000000000011000110000000001100111000000000110001100000000011101110000000011110111000000100111111000000000011011100000000001101110000000000100110000000000000111000001110001111100000111101111110001111110111111010011111111111100000",
+    "source_name": "public/images/new/threemonkeys013.jpg",
+    "width": 1200,
+    "height": 800,
+    "variants": [
+      {
+        "src": "/images/editorial/monkey-tree-sculpture-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/editorial/monkey-tree-sculpture-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/images/editorial/monkey-tree-sculpture-1600.webp",
+        "width": 1200
+      }
+    ],
+    "alt": "Decorative monkey sculpture attached to a tree in the restaurant",
+    "caption": "A distinctive detail within the Three Monkeys setting.",
+    "generated": false
+  },
+  {
+    "id": "ba20f2ca-b9c3-49b1-af5f-d9cce5b52632",
+    "src": "/images/editorial/illuminated-canopy-building-1600.webp",
+    "source_hash": "c4463dc78eab3d07da49d72a8255942cda099af740a8b60b02df355af2283f51",
+    "fingerprint": "0000000000000000000000110000000011000011100000001100001110000000010000111000000001100001111000000111011111000000111111111100000010000111100000001000001110011000100111110000000000111110000000000111111000000000111111100000000011111111000000001111111100000000",
+    "source_name": "public/images/new/threemonkeys048.jpg",
+    "width": 1200,
+    "height": 675,
+    "variants": [
+      {
+        "src": "/images/editorial/illuminated-canopy-building-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/editorial/illuminated-canopy-building-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/images/editorial/illuminated-canopy-building-1600.webp",
+        "width": 1200
+      }
+    ],
+    "alt": "Illuminated Three Monkeys building surrounded by dense trees at night",
+    "caption": "Plan the restaurant reservation separately from any activity arrangements.",
+    "generated": false
+  }
+]

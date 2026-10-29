@@ -1,0 +1,16 @@
+{
+  "timezone": "Asia/Bangkok",
+  "prepared_on": "2026-10-29",
+  "platform_schedules_activated": false,
+  "monthly_limit": 8,
+  "cadence": "First eight Monday/Thursday slots of each month at 09:00 Asia/Bangkok, counting all brand posts",
+  "historical_post_note": "Existing October GBP marketing posts may already exceed the monthly limit. Reconcile the full profile history before adding further posts; do not count only this workflow.",
+  "initial_batch": [
+    {"slug":"getting-to-three-monkeys-phuket","requested_release":"now","article_status":"prepared_not_published","gbp_status":"prepared_not_uploaded","article_id":null,"gbp_post_id":null,"profile_photo_id":null},
+    {"slug":"thai-soups-three-monkeys-phuket","scheduled_for":"2026-11-02T09:00:00+07:00","article_status":"prepared_schedule_not_activated","gbp_status":"prepared_schedule_not_activated","article_id":null,"gbp_post_id":null,"profile_photo_id":null},
+    {"slug":"dietary-requests-three-monkeys-phuket","scheduled_for":"2026-11-05T09:00:00+07:00","article_status":"prepared_schedule_not_activated","gbp_status":"prepared_schedule_not_activated","article_id":null,"gbp_post_id":null,"profile_photo_id":null},
+    {"slug":"hanuman-world-and-three-monkeys-dining","scheduled_for":"2026-11-09T09:00:00+07:00","article_status":"prepared_schedule_not_activated","gbp_status":"prepared_schedule_not_activated","article_id":null,"gbp_post_id":null,"profile_photo_id":null}
+  ],
+  "november_slots": ["2026-11-02","2026-11-05","2026-11-09","2026-11-12","2026-11-16","2026-11-19","2026-11-23","2026-11-26"],
+  "december_slots": ["2026-12-03","2026-12-07","2026-12-10","2026-12-14","2026-12-17","2026-12-21","2026-12-24","2026-12-28"]
+}

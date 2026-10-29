@@ -5,16 +5,16 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
-import { 
-  FileText, 
-  Calendar, 
-  CreditCard, 
-  Clock, 
-  Car, 
-  Users, 
-  Utensils, 
-  Camera, 
-  Shield, 
+import {
+  FileText,
+  Calendar,
+  CreditCard,
+  Clock,
+  Car,
+  Users,
+  Utensils,
+  Camera,
+  Shield,
   Scale,
   ChevronRight,
   ArrowUp,
@@ -70,7 +70,7 @@ export default function TermsPage() {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-[#0a0a0a]" />
         </div>
-        
+
         <div className="relative z-10 text-center px-4 pt-32 pb-12 max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -81,17 +81,17 @@ export default function TermsPage() {
               <FileText className="w-4 h-4 text-[#b1b94c]" />
               <span className="text-sm text-white/80">Legal Documentation</span>
             </div>
-            
+
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-[family-name:var(--font-krona)] text-white mb-6">
               Terms & Conditions
             </h1>
-            
+
             <p className="text-lg text-white/60 max-w-2xl mx-auto mb-4">
               Please read these terms carefully before making a reservation at Three Monkeys Restaurant
             </p>
-            
+
             <p className="text-sm text-white/40">
-              Last updated: February 2026
+              Last updated: 29 October 2026
             </p>
           </motion.div>
         </div>
@@ -131,7 +131,7 @@ export default function TermsPage() {
                     ))}
                   </nav>
                 </div>
-                
+
                 <button
                   onClick={scrollToTop}
                   className="mt-4 w-full flex items-center justify-center gap-2 px-4 py-3 bg-white/5 hover:bg-white/10 rounded-xl text-white/60 hover:text-white transition-all"
@@ -164,13 +164,13 @@ export default function TermsPage() {
                     </div>
                     <div className="space-y-4 text-white/70 leading-relaxed">
                       <p>
-                        Welcome to Three Monkeys, operated by <span className="text-white font-medium">SKY WORLD ADVENTURES Co., Ltd.</span> 
-                        These Terms and Conditions govern your use of our website, services, and dining experiences. 
+                        Welcome to Three Monkeys, operated by <span className="text-white font-medium">SKY WORLD ADVENTURES Co., Ltd.</span>
+                        These Terms and Conditions govern your use of our website, services, and dining experiences.
                         By making a booking or visiting our restaurant, you agree to be bound by these terms.
                       </p>
                       <p>
-                        Online bookings and payments are processed by <span className="text-white font-medium">Chamnanthang Co., Ltd.</span> 
-                        (operating as "ONEBOOKING"). Your credit card statement will display the payment as "ONEBOOKING".
+                        Online bookings and payments are processed by <span className="text-white font-medium">Chamnanthang Co., Ltd.</span>
+                        (operating as &quot;ONEBOOKING&quot;). Your credit card statement will display the payment as &quot;ONEBOOKING&quot;.
                       </p>
                     </div>
                   </div>
@@ -188,21 +188,21 @@ export default function TermsPage() {
                         2. Booking & Reservations
                       </h2>
                     </div>
-                    
+
                     <div className="space-y-6">
                       <div className="bg-white/5 rounded-2xl p-6">
                         <h3 className="text-lg font-medium text-white mb-3">2.1 Making a Booking</h3>
                         <p className="text-white/70 leading-relaxed">
-                          All bookings are subject to availability. When you make a booking, you will receive a 
-                          confirmation email with your booking reference number. Please keep this for your records 
+                          All bookings are subject to availability. When you make a booking, you will receive a
+                          confirmation email with your booking reference number. Please keep this for your records
                           and present it upon arrival.
                         </p>
                       </div>
-                      
+
                       <div className="bg-white/5 rounded-2xl p-6">
                         <h3 className="text-lg font-medium text-white mb-3">2.2 Payment</h3>
                         <p className="text-white/70 leading-relaxed mb-3">
-                          A deposit is required at the time of booking. We accept major credit cards through 
+                          A deposit is required at the time of booking. We accept major credit cards through
                           our secure payment partner, Stripe. All prices are displayed in Thai Baht (THB).
                         </p>
                         <div className="bg-amber-500/10 border border-amber-500/20 rounded-xl p-4">
@@ -211,34 +211,34 @@ export default function TermsPage() {
                           </p>
                         </div>
                       </div>
-                      
+
                       <div className="bg-white/5 rounded-2xl p-6">
                         <h3 className="text-lg font-medium text-white mb-3">2.3 Deposit Usage</h3>
                         <p className="text-white/70 leading-relaxed">
-                          The deposit can be used toward food and beverages. If actual expenses are less than 
-                          the deposit, <span className="text-white font-medium">the balance is non-refundable</span>. 
+                          The deposit can be used toward food and beverages. If actual expenses are less than
+                          the deposit, <span className="text-white font-medium">the balance is non-refundable</span>.
                           If expenses exceed the deposit, the difference must be paid at the restaurant.
                         </p>
                       </div>
-                      
+
                       <div className="bg-white/5 rounded-2xl p-6">
                         <h3 className="text-lg font-medium text-white mb-3">2.4 Credit Card Verification</h3>
                         <p className="text-white/70 leading-relaxed mb-3">
-                          Guests paying by credit card must present the <span className="text-white font-medium">same card used for payment</span>, 
+                          Guests paying by credit card must present the <span className="text-white font-medium">same card used for payment</span>,
                           with the cardholder name matching the booking. The restaurant will verify the card upon arrival.
                         </p>
                         <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-4">
                           <p className="text-red-400 text-sm">
-                            If these conditions are not met, any refund will incur a 5% fee, and the full bill must be settled at the restaurant.
+                            If these conditions are not met, please contact the restaurant to confirm your payment arrangements. Booking payments and deposits are non-refundable.
                           </p>
                         </div>
                       </div>
-                      
+
                       <div className="bg-white/5 rounded-2xl p-6">
                         <h3 className="text-lg font-medium text-white mb-3">2.5 Confirmation</h3>
                         <p className="text-white/70 leading-relaxed">
-                          Your booking is confirmed once payment is successfully processed and you receive a 
-                          confirmation email. The credit card statement will display the payment as "ONEBOOKING" 
+                          Your booking is confirmed once payment is successfully processed and you receive a
+                          confirmation email. The credit card statement will display the payment as &quot;ONEBOOKING&quot;
                           (Chamnanthang Co., Ltd.).
                         </p>
                       </div>
@@ -258,90 +258,72 @@ export default function TermsPage() {
                         3. Cancellation Policy
                       </h2>
                     </div>
-                    
+
                     {/* Quick Summary Cards */}
                     <div className="grid md:grid-cols-3 gap-4 mb-8">
                       <div className="bg-green-500/10 border border-green-500/20 rounded-2xl p-4">
                         <div className="w-10 h-10 rounded-xl bg-green-500/20 flex items-center justify-center mb-3">
                           <Clock className="w-5 h-5 text-green-400" />
                         </div>
-                        <h4 className="font-medium text-green-400 mb-1">24+ Hours</h4>
-                        <p className="text-sm text-green-400/70">Full refund (5% fee)</p>
+                        <h4 className="font-medium text-green-400 mb-1">Non-Refundable</h4>
+                        <p className="text-sm text-green-400/70">Bookings and deposits</p>
                       </div>
                       <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-4">
                         <div className="w-10 h-10 rounded-xl bg-amber-500/20 flex items-center justify-center mb-3">
                           <FileText className="w-5 h-5 text-amber-400" />
                         </div>
-                        <h4 className="font-medium text-amber-400 mb-1">Medical</h4>
-                        <p className="text-sm text-amber-400/70">With certificate</p>
+                        <h4 className="font-medium text-amber-400 mb-1">Rescheduling</h4>
+                        <p className="text-sm text-amber-400/70">Subject to availability</p>
                       </div>
                       <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-4">
                         <div className="w-10 h-10 rounded-xl bg-red-500/20 flex items-center justify-center mb-3">
                           <Clock className="w-5 h-5 text-red-400" />
                         </div>
-                        <h4 className="font-medium text-red-400 mb-1">&lt;24 Hours</h4>
-                        <p className="text-sm text-red-400/70">No refund</p>
+                        <h4 className="font-medium text-red-400 mb-1">Confirmation</h4>
+                        <p className="text-sm text-red-400/70">Contact our team</p>
                       </div>
                     </div>
-                    
+
                     <div className="space-y-4 text-white/70 leading-relaxed">
                       <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-6">
                         <h3 className="text-lg font-medium text-red-400 mb-3">3.1 Deposit Non-Refundable</h3>
                         <p>
-                          In the case of booking cancellation, <span className="text-red-400 font-medium">the deposit will not be refunded</span>. 
+                          In the case of booking cancellation, <span className="text-red-400 font-medium">the deposit will not be refunded</span>.
                           However, the service time and date of the booking can be changed (see section 3.6 below).
                         </p>
                       </div>
-                      
+
                       <div className="bg-white/5 rounded-2xl p-6">
-                        <h3 className="text-lg font-medium text-white mb-3">3.2 Processing Fee</h3>
-                        <p>
-                          In the event of a cancellation or partial refund, and once approved by the company, 
-                          a <span className="text-white font-medium">5% processing fee</span> will be deducted from the total amount paid, 
-                          in accordance with our refund policy.
-                        </p>
+                        <h3 className="text-lg font-medium text-white mb-3">3.2 Cancellation Requests</h3>
+                        <p>Bookings and deposits are non-refundable. Cancelling further in advance does not make a booking eligible for a refund.</p>
                       </div>
-                      
+
                       <div className="bg-white/5 rounded-2xl p-6">
-                        <h3 className="text-lg font-medium text-white mb-3">3.3 Less Than 24 Hours</h3>
-                        <p>
-                          Cancellations made less than 24 hours before the scheduled reservation will 
-                          <span className="text-red-400 font-medium"> not be eligible for a refund</span>.
-                        </p>
+                        <h3 className="text-lg font-medium text-white mb-3">3.3 Contacting Us</h3>
+                        <p>Please contact us with your booking reference if your plans change. Our team can check options for a new date and time.</p>
                       </div>
-                      
+
                       <div className="bg-white/5 rounded-2xl p-6">
-                        <h3 className="text-lg font-medium text-white mb-3">3.4 Medical Cancellations</h3>
-                        <p>
-                          For cancellations due to medical emergencies, a <span className="text-white font-medium">valid medical 
-                          certificate is required</span>. With proper documentation, you will receive a full refund minus 
-                          the 5% processing fee.
-                        </p>
+                        <h3 className="text-lg font-medium text-white mb-3">3.4 Illness or Emergencies</h3>
+                        <p>If illness or an emergency affects your visit, contact us to discuss rescheduling. Bookings and deposits remain non-refundable.</p>
                       </div>
-                      
+
                       <div className="bg-white/5 rounded-2xl p-6">
                         <h3 className="text-lg font-medium text-white mb-3">3.5 No-Show Policy</h3>
                         <p>
-                          If you miss the scheduled reservation time without prior notification, or if you are a no-show, 
+                          If you miss the scheduled reservation time without prior notification, or if you are a no-show,
                           <span className="text-red-400 font-medium"> no refund will be issued under any circumstances</span>.
                         </p>
                       </div>
-                      
+
                       <div className="bg-[#b1b94c]/10 border border-[#b1b94c]/20 rounded-2xl p-6">
                         <h3 className="text-lg font-medium text-[#b1b94c] mb-3">3.6 Date & Time Changes</h3>
-                        <p>
-                          Any changes in service date must be made <span className="text-white font-medium">at least 1 day in advance</span>. 
-                          Changes requested less than 1 day before the scheduled reservation may not be accommodated.
-                        </p>
+                        <p>You may reschedule your booking, subject to availability and confirmation. Changes in the service date must be requested at least 1 day in advance. Requests made less than 1 day before the reservation may not be accommodated. Contact our team with your booking reference and preferred new date and time.</p>
                       </div>
-                      
+
                       <div className="bg-white/5 rounded-2xl p-6">
-                        <h3 className="text-lg font-medium text-white mb-3">3.7 Cancellation by Three Monkeys</h3>
-                        <p>
-                          We reserve the right to cancel or adjust services without prior notice due to unfavorable weather 
-                          conditions, safety concerns, or unforeseen circumstances. In such cases, you will receive a full 
-                          refund or the option to reschedule to another date at no additional cost.
-                        </p>
+                        <h3 className="text-lg font-medium text-white mb-3">3.7 Changes by Three Monkeys</h3>
+                        <p>We reserve the right to cancel or adjust services due to unfavorable weather, safety concerns or unforeseen circumstances. If Three Monkeys cancels your reservation, you may receive a full refund with no processing fee deducted or reschedule to another date at no additional cost.</p>
                       </div>
                     </div>
                   </div>
@@ -359,19 +341,19 @@ export default function TermsPage() {
                         4. Transfer & Transportation
                       </h2>
                     </div>
-                    
+
                     <div className="space-y-4 text-white/70 leading-relaxed">
                       <div className="bg-white/5 rounded-2xl p-6">
                         <h3 className="text-lg font-medium text-white mb-3">4.1 VVIP Transfer Service</h3>
                         <p className="mb-4">
-                          We offer premium VVIP transfer services from selected areas in Phuket. This service 
+                          We offer premium VVIP transfer services from selected areas in Phuket. This service
                           includes pickup and drop-off at your hotel or designated location.
                         </p>
                         <div className="bg-[#b1b94c]/10 border border-[#b1b94c]/20 rounded-xl p-4">
                           <p className="text-[#b1b94c] font-medium">VVIP Transfer: ฿1,500 per booking</p>
                         </div>
                       </div>
-                      
+
                       <div className="bg-white/5 rounded-2xl p-6">
                         <h3 className="text-lg font-medium text-white mb-3">4.2 Out-of-Zone Locations</h3>
                         <p className="mb-3">
@@ -386,12 +368,12 @@ export default function TermsPage() {
                         </div>
                         <p className="mt-4 text-sm">Additional fees may apply for these locations.</p>
                       </div>
-                      
+
                       <div className="bg-white/5 rounded-2xl p-6">
                         <h3 className="text-lg font-medium text-white mb-3">4.3 Airport Transfers</h3>
                         <p>
-                          We <span className="text-white font-medium">do not provide airport pick-up</span> due to fixed 
-                          reservation times and flight unpredictability. Airport drop-off is available; please include 
+                          We <span className="text-white font-medium">do not provide airport pick-up</span> due to fixed
+                          reservation times and flight unpredictability. Airport drop-off is available; please include
                           your flight time in the booking notes.
                         </p>
                       </div>
@@ -411,7 +393,7 @@ export default function TermsPage() {
                         5. Reservation Requirements
                       </h2>
                     </div>
-                    
+
                     <div className="space-y-4 text-white/70 leading-relaxed">
                       <div className="bg-white/5 rounded-2xl p-6">
                         <h3 className="text-lg font-medium text-white mb-3">5.1 Guest Requirements</h3>
@@ -426,7 +408,7 @@ export default function TermsPage() {
                           </li>
                         </ul>
                       </div>
-                      
+
                       <div className="bg-white/5 rounded-2xl p-6">
                         <h3 className="text-lg font-medium text-white mb-3">5.2 Special Dietary Needs</h3>
                         <p className="mb-3">Please inform us in advance if you have:</p>
@@ -449,7 +431,7 @@ export default function TermsPage() {
                           </li>
                         </ul>
                       </div>
-                      
+
                       <div className="bg-white/5 rounded-2xl p-6">
                         <h3 className="text-lg font-medium text-white mb-3">5.3 Dress Code</h3>
                         <ul className="space-y-2">
@@ -487,28 +469,28 @@ export default function TermsPage() {
                         6. Food Safety & Liability
                       </h2>
                     </div>
-                    
+
                     <div className="space-y-4 text-white/70 leading-relaxed">
                       <div className="bg-white/5 rounded-2xl p-6">
                         <h3 className="text-lg font-medium text-white mb-3">6.1 Allergen Information</h3>
                         <p>
-                          Our kitchen handles common allergens. While we take precautions, we cannot guarantee 
+                          Our kitchen handles common allergens. While we take precautions, we cannot guarantee
                           a completely allergen-free environment. By dining with us, you acknowledge this limitation.
                         </p>
                       </div>
-                      
+
                       <div className="bg-white/5 rounded-2xl p-6">
                         <h3 className="text-lg font-medium text-white mb-3">6.2 Food Safety Standards</h3>
                         <p>
-                          Our kitchen follows strict hygiene and food safety protocols. All staff are trained 
+                          Our kitchen follows strict hygiene and food safety protocols. All staff are trained
                           in food handling and safety procedures.
                         </p>
                       </div>
-                      
+
                       <div className="bg-white/5 rounded-2xl p-6">
                         <h3 className="text-lg font-medium text-white mb-3">6.3 Liability</h3>
                         <p>
-                          Three Monkeys Restaurant takes every precaution to ensure food safety. However, 
+                          Three Monkeys Restaurant takes every precaution to ensure food safety. However,
                           guests with severe allergies should inform staff before ordering.
                         </p>
                       </div>
@@ -528,7 +510,7 @@ export default function TermsPage() {
                         7. Arrival & Check-In
                       </h2>
                     </div>
-                    
+
                     <div className="space-y-4">
                       <div className="bg-[#b1b94c]/10 border border-[#b1b94c]/20 rounded-2xl p-6">
                         <h3 className="text-lg font-medium text-[#b1b94c] mb-3">Arrival Requirement</h3>
@@ -536,15 +518,15 @@ export default function TermsPage() {
                           Please arrive at the Restaurant <span className="text-white font-medium">at least 15 minutes in advance</span> of your reservation time.
                         </p>
                       </div>
-                      
+
                       <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-6">
                         <h3 className="text-lg font-medium text-red-400 mb-3">Late Arrival Policy</h3>
                         <p className="text-white/70">
-                          If the customer arrives <span className="text-red-400 font-medium">more than 15 minutes late</span>, 
+                          If the customer arrives <span className="text-red-400 font-medium">more than 15 minutes late</span>,
                           the Restaurant has the right to release the table to other customers. No refund will be provided in such cases.
                         </p>
                       </div>
-                      
+
                       <div className="bg-white/5 rounded-2xl p-6">
                         <ul className="space-y-3 text-white/70">
                           <li className="flex items-start gap-2">
@@ -573,7 +555,7 @@ export default function TermsPage() {
                         8. Code of Conduct
                       </h2>
                     </div>
-                    
+
                     <div className="space-y-4">
                       <div className="bg-white/5 rounded-2xl p-6">
                         <p className="text-white/70 mb-4">Guests must:</p>
@@ -596,7 +578,7 @@ export default function TermsPage() {
                           </li>
                         </ul>
                       </div>
-                      
+
                       <div className="grid md:grid-cols-2 gap-4">
                         <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-6">
                           <h3 className="text-lg font-medium text-red-400 mb-3">No Pets Allowed</h3>
@@ -604,7 +586,7 @@ export default function TermsPage() {
                             The restaurant does not allow pets. Service animals with proper documentation may be permitted upon prior arrangement.
                           </p>
                         </div>
-                        
+
                         <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-6">
                           <h3 className="text-lg font-medium text-red-400 mb-3">No Outside Food & Drinks</h3>
                           <p className="text-white/70">
@@ -612,7 +594,7 @@ export default function TermsPage() {
                           </p>
                         </div>
                       </div>
-                      
+
                       <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl">
                         <p className="text-red-400 text-sm">
                           Violation of the code of conduct may result in being asked to leave without refund.
@@ -634,18 +616,18 @@ export default function TermsPage() {
                         9. Photography & Media
                       </h2>
                     </div>
-                    
+
                     <div className="space-y-4 text-white/70 leading-relaxed">
                       <div className="bg-white/5 rounded-2xl p-6">
                         <p>
-                          Three Monkeys may photograph food and dining areas for promotional purposes. 
-                          Guests may be included in background shots. Please inform us if you prefer 
+                          Three Monkeys may photograph food and dining areas for promotional purposes.
+                          Guests may be included in background shots. Please inform us if you prefer
                           not to be photographed.
                         </p>
                       </div>
                       <div className="bg-white/5 rounded-2xl p-6">
                         <p>
-                          Personal photography of food is welcome. Please be considerate of other 
+                          Personal photography of food is welcome. Please be considerate of other
                           guests when using flash or professional equipment.
                         </p>
                       </div>
@@ -665,41 +647,41 @@ export default function TermsPage() {
                         10. Legal Terms
                       </h2>
                     </div>
-                    
+
                     <div className="space-y-4 text-white/70 leading-relaxed">
                       <div className="bg-white/5 rounded-2xl p-6">
                         <h3 className="text-lg font-medium text-white mb-3">Intellectual Property</h3>
                         <p>
-                          All content on this website, including text, images, logos, and designs, is 
-                          the property of SKY WORLD ADVENTURES Co., Ltd. and is protected by copyright 
+                          All content on this website, including text, images, logos, and designs, is
+                          the property of SKY WORLD ADVENTURES Co., Ltd. and is protected by copyright
                           and trademark laws. Unauthorized use is prohibited.
                         </p>
                       </div>
-                      
+
                       <div className="bg-white/5 rounded-2xl p-6">
                         <h3 className="text-lg font-medium text-white mb-3">Limitation of Liability</h3>
                         <p>
-                          To the maximum extent permitted by law, SKY WORLD ADVENTURES Co., Ltd. and 
-                          Chamnanthang Co., Ltd. shall not be liable for any indirect, incidental, 
-                          special, consequential, or punitive damages arising from your use of our 
+                          To the maximum extent permitted by law, SKY WORLD ADVENTURES Co., Ltd. and
+                          Chamnanthang Co., Ltd. shall not be liable for any indirect, incidental,
+                          special, consequential, or punitive damages arising from your use of our
                           services.
                         </p>
                       </div>
-                      
+
                       <div className="bg-white/5 rounded-2xl p-6">
                         <h3 className="text-lg font-medium text-white mb-3">Changes to Terms</h3>
                         <p>
-                          We reserve the right to modify these terms at any time. Changes will be 
-                          effective immediately upon posting to our website. Continued use of our 
+                          We reserve the right to modify these terms at any time. Changes will be
+                          effective immediately upon posting to our website. Continued use of our
                           services constitutes acceptance of the modified terms.
                         </p>
                       </div>
-                      
+
                       <div className="bg-white/5 rounded-2xl p-6">
                         <h3 className="text-lg font-medium text-white mb-3">Governing Law</h3>
                         <p>
-                          These terms are governed by the laws of the Kingdom of Thailand. Any disputes 
-                          arising from these terms shall be subject to the exclusive jurisdiction of 
+                          These terms are governed by the laws of the Kingdom of Thailand. Any disputes
+                          arising from these terms shall be subject to the exclusive jurisdiction of
                           the courts of Phuket, Thailand.
                         </p>
                       </div>
@@ -719,11 +701,11 @@ export default function TermsPage() {
                         11. Contact Information
                       </h2>
                     </div>
-                    
+
                     <p className="text-white/70 mb-6">
                       For questions about these terms, please contact us:
                     </p>
-                    
+
                     <div className="grid md:grid-cols-2 gap-4">
                       <div className="bg-white/5 rounded-2xl p-6">
                         <h3 className="text-lg font-medium text-white mb-4">SKY WORLD ADVENTURES Co., Ltd.</h3>
@@ -743,7 +725,7 @@ export default function TermsPage() {
                           </div>
                         </div>
                       </div>
-                      
+
                       <div className="bg-white/5 rounded-2xl p-6">
                         <h3 className="text-lg font-medium text-white mb-4">Chamnanthang Co., Ltd.</h3>
                         <p className="text-sm text-white/40 mb-4">(ONEBOOKING - Payment Inquiries)</p>
@@ -762,27 +744,27 @@ export default function TermsPage() {
                   </div>
                 </div>
               </div>
-              
+
               {/* Related Links */}
               <div data-botanical-section className="mt-12 p-6 bg-[#111] rounded-3xl border border-white/10 overflow-hidden">
                 <RainforestBackground designKey="terms/related-policies" quiet />
                 <h3 className="text-lg font-medium text-white mb-4">Related Policies</h3>
                 <div className="grid sm:grid-cols-3 gap-4">
-                  <Link 
+                  <Link
                     href="/privacy"
                     className="flex items-center gap-3 p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-colors group"
                   >
                     <Shield className="w-5 h-5 text-[#b1b94c]" />
                     <span className="text-white/70 group-hover:text-white transition-colors">Privacy Policy</span>
                   </Link>
-                  <Link 
+                  <Link
                     href="/refund"
                     className="flex items-center gap-3 p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-colors group"
                   >
                     <CreditCard className="w-5 h-5 text-[#b1b94c]" />
                     <span className="text-white/70 group-hover:text-white transition-colors">Refund Policy</span>
                   </Link>
-                  <Link 
+                  <Link
                     href="/cookies"
                     className="flex items-center gap-3 p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-colors group"
                   >
