@@ -4,6 +4,8 @@ Checked 29 October 2026, Asia/Bangkok. Baseline source: `6a0c3ea`, including the
 
 ## Production release verification
 
+Latest application release `fa16b5c` is READY on deployment `dpl_HUzquT7dW6WUX8h2GgG5D9mooxdm` and aliased to the public domain. Production build and TypeScript passed. The legacy redirect integration script exited 0 against production after all eight redirects, seven valid routes and seven deliberate 404 controls passed. The live chat timed contact fallback and Wichit location copy were verified in the preceding `37bf29b` release. Earlier source-preparation notes below are historical; the current status is this verified release.
+
 ### Legacy navigation recovery
 
 The release owner exported 293 Search Console 404 URLs from the historical 23 October indexing report. Trailing private-use UI icon characters were removed in memory when examining the export. Current HTTP checks confirmed four obsolete navigation URLs still returned 404 while their exact current counterparts returned 200 with matching page intent. Four explicit permanent 308 redirects were added: `/home` to `/`, `/contact-phuket-three-monkeys-restaurant` to `/contact`, `/faq-three-monkeys-restaurant-phuket` to `/faq`, and `/menu-three-monkeys-phuket-diner-thailand` to `/menu`. No blanket article/category redirect was added, no rooftop package was guessed, and Thai image-attachment URLs were left untouched.

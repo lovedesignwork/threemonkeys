@@ -2,6 +2,12 @@ import assert from 'node:assert/strict';
 
 const base = process.argv[2] || 'http://localhost:3128';
 const origin = new URL(base).origin;
+async function fetchHeaders(url) {
+  const response = await fetch(url, { redirect: 'manual', signal: AbortSignal.timeout(30000) });
+  // Release response streams so the verification process can exit promptly.
+  await response.body?.cancel();
+  return response;
+}
 const mappings = new Map([
   ['/home', '/'],
   ['/contact-phuket-three-monkeys-restaurant', '/contact'],
@@ -14,7 +20,7 @@ for (const [source, destination] of mappings) {
     let current = new URL(source + suffix + '?utm_source=legacy&next=https%3A%2F%2Fexample.net%2F', base);
     let redirects = 0;
     for (;;) {
-      const response = await fetch(current, { redirect: 'manual' });
+      const response = await fetchHeaders(current);
       if (response.status === 200) break;
       assert.equal(response.status, 308, current.href);
       assert.ok(++redirects <= 2, 'no redirect loops');
@@ -31,11 +37,11 @@ for (const [source, destination] of mappings) {
 }
 
 for (const path of ['/', '/contact', '/faq', '/menu', '/th', '/th/menu', '/cn/menu']) {
-  const response = await fetch(new URL(path, base), { redirect: 'manual' });
+  const response = await fetchHeaders(new URL(path, base));
   assert.equal(response.status, 200, `valid route unchanged: ${path}`);
 }
 for (const path of ['/th/home', '/cn/home', '/home/extra', '/category/thai-food', '/a-fun-filled-day-at-three-monkeys', '/packages/rooftop-romantic', '/menu-three-monkeys-phuket-diner-thailand/3m_menu-food_04-05_0']) {
-  const response = await fetch(new URL(path, base), { redirect: 'manual' });
+  const response = await fetchHeaders(new URL(path, base));
   assert.equal(response.status, 404, `unmapped URL retains 404: ${path}`);
 }
 console.log('PASS current and localized routes remain valid; deleted/unknown/attachment URLs retain 404');
