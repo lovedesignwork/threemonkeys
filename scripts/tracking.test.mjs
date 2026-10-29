@@ -1,6 +1,24 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { createTrackingLoader, publicTrackingSettings } from '../lib/tracking.ts';
+import { createGoogleTagQueue, createTrackingLoader, publicTrackingSettings } from '../lib/tracking.ts';
+
+test('Google tag queue preserves native Arguments protocol and command order', () => {
+  const dataLayer = [];
+  const gtag = createGoogleTagQueue(dataLayer);
+  const config = { send_page_view: false };
+  const page = { page_location: 'https://threemonkeysphuket.com/menu' };
+  gtag('config', 'G-EXAMPLE123', config);
+  gtag('event', 'page_view', page);
+  assert.equal(dataLayer.length, 2);
+  for (const command of dataLayer) {
+    assert.equal(Object.prototype.toString.call(command), '[object Arguments]');
+    assert.equal(Array.isArray(command), false);
+    assert.equal(command.length, 3);
+  }
+  assert.deepEqual(Array.from(dataLayer[0]), ['config', 'G-EXAMPLE123', config]);
+  assert.deepEqual(Array.from(dataLayer[1]), ['event', 'page_view', page]);
+  assert.equal(dataLayer[0][2], config);
+});
 
 test('public configuration excludes unrelated and nested private settings', () => {
   const settings = publicTrackingSettings({

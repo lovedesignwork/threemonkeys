@@ -41,7 +41,7 @@ Verification date: 29 October 2026 (Asia/Bangkok)
 ## Verification performed
 
 - `node scripts/analytics.test.mjs`: nine tests pass (public URL cleaning; private route exclusion; referrer minimization; campaign validation;30-day attribution; explicit/expiring consent; trusted paid-state checks; duplicate ledger; stored receipt allowlist).
-- `node scripts/tracking.test.mjs`: four existing tracking configuration/fallback tests pass.
+- `node scripts/tracking.test.mjs`: five tests pass, including the native Arguments command protocol expected by Google's loader. The direct tag uses this queue instead of rest-parameter arrays; config and event commands retain their order and payload identity.
 - `npx tsc --noEmit`: passed before final documentation; main release should run the full build after combining other agents' work.
 - ESLint on changed tracking/analytics/payment/cookie files: no errors; two pre-existing unused-variable warnings in checkout/page.tsx.
 

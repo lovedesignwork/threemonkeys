@@ -4,7 +4,7 @@ import Script from 'next/script';
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { createTrackingLoader, type TrackingSettings } from '@/lib/tracking';
+import { createGoogleTagQueue, createTrackingLoader, type TrackingSettings } from '@/lib/tracking';
 import {
   ANALYTICS_ORIGIN, ATTRIBUTION_KEY, CONSENT_KEY, campaignFromUrl, nextAttribution,
   purchaseAlreadySent, readConsent, rememberPurchase, safePageLocation, safeReferrer, type Consent,
@@ -134,7 +134,7 @@ export function TrackingScriptsHead() {
     const page = safePageLocation(location.href)!;
     const referrer = previousPage.current || safeReferrer(document.referrer);
     w.dataLayer ||= [];
-    w.gtag ||= (...args: unknown[]) => { w.dataLayer!.push(args); };
+    w.gtag ||= createGoogleTagQueue(w.dataLayer);
     if (initializedId.current !== gaId) {
       w.gtag('consent', 'default', { analytics_storage: 'granted', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
       w.gtag('js', new Date());

@@ -7,6 +7,15 @@ export interface TrackingSettings {
   footerScripts: string;
 }
 
+/** gtag's command queue uses native Arguments objects, not rest-parameter arrays. */
+export function createGoogleTagQueue(dataLayer: unknown[]): (...args: unknown[]) => void {
+  return function gtag() {
+    // Google's loader distinguishes this command protocol from dataLayer arrays.
+    // eslint-disable-next-line prefer-rest-params
+    dataLayer.push(arguments);
+  };
+}
+
 function validId(value: unknown, pattern: RegExp): string {
   return typeof value === 'string' && pattern.test(value.trim()) ? value.trim() : '';
 }
