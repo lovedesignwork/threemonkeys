@@ -227,10 +227,10 @@ export function Footer() {
       <div className="border-t border-white/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-white/30 text-xs font-[family-name:var(--font-inter)]">
+            <p className="text-white/60 text-xs font-[family-name:var(--font-inter)]">
               {tFooter('rights_reserved', { year: currentYear })}
             </p>
-            <p className="text-white/30 text-xs font-[family-name:var(--font-inter)]">
+            <p className="text-white/60 text-xs font-[family-name:var(--font-inter)]">
               Powered by{' '}
               <a 
                 href="https://onebooking.co" 

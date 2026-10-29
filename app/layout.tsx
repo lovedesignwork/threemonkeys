@@ -49,9 +49,9 @@ export default function RootLayout({
       </head>
       <body className="antialiased font-[family-name:var(--font-inter)]">
         <TrackingScriptsBody />
+        <TrackingScriptsHead />
         {children}
         <LiveChat />
-        <TrackingScriptsHead />
       </body>
     </html>
   );

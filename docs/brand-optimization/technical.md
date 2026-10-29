@@ -2,6 +2,38 @@
 
 Checked 29 October 2026, Asia/Bangkok. Baseline source: `6a0c3ea`, including the CMS blog work in `9dc0349` and the earlier SEO release `c70675c`.
 
+## Production release verification
+
+Release `53c8857` was deployed to `https://threemonkeysphuket.com/` on 29 October. `node scripts/smoke-seo.mjs https://threemonkeysphuket.com` passed all ten endpoint checks, including real server-rendered headings on English and Chinese booking routes, canonical metadata, Search Console verification, private checkout noindex, sitemap, robots, llms, existing GA configuration and unauthenticated admin denial (401). Browser interaction and analytics checks are recorded separately by the release owner.
+
+### Official PageSpeed after deployment
+
+Fresh official report captured **29 October 2026, 19:12 Bangkok**, Lighthouse 13.5.0. [Mobile report](https://pagespeed.web.dev/analysis/https-threemonkeysphuket-com/e6uctrrpry?form_factor=mobile) and [desktop report](https://pagespeed.web.dev/analysis/https-threemonkeysphuket-com/e6uctrrpry?form_factor=desktop).
+
+| Check | Mobile | Desktop |
+| --- | ---: | ---: |
+| Performance | **86** | **93** |
+| Accessibility | 97 | 97 |
+| Best practices | 100 | 100 |
+| SEO | 100 | 100 |
+| Agentic browsing | 3/3 | 3/3 |
+| FCP | 1.4 s | 0.4 s |
+| LCP | 3.8 s | 0.9 s |
+| TBT | 20 ms | 30 ms |
+| CLS | 0 | 0.001 |
+| Speed index | 4.4 s | 2.6 s |
+
+The consent paragraph is the reported LCP element. The mobile detailed timing identifies 1,190 ms of element render delay and 610 ms TTFB. Mobile diagnostics estimate 510 ms for document latency, 510 ms for render-blocking requests, and 152 KiB unused JavaScript. Desktop estimates 170 KiB image-delivery savings and 124 KiB unused JavaScript. A safe accessibility follow-up is to increase the footer copyright and ONEBOOKING credit contrast: both currently use `text-white/30` against `#0a0a0a`. No content or feature removal is needed.
+
+Historical 28-day Core Web Vitals remain failed (mobile LCP 3.1 s / CLS 0.49; desktop LCP 2.8 s / CLS 0.13). These field measurements cover past visits and must not be presented as measurements of only this release. Local screenshots: `docs/verification/psi-mobile-2026-10-29.jpg` and `psi-desktop-2026-10-29.jpg` (ignored artifacts).
+
+### Measured follow-up prepared after the first report
+
+- Footer copyright and ONEBOOKING credit now use `text-white/60` instead of `/30`, preserving their text and layout while improving contrast against `#0a0a0a`.
+- The existing consent component was already server-rendered, but appeared after the full page content at byte 650,098 of a 724,335-byte production response. It now appears before page content inside the body. This makes the fixed consent panel available to the HTML parser earlier without altering its choices, storage, events or blocking defaults. Local production HTML confirms consent at byte 9,010 before `<main>` at byte 15,415, with no Google vendor script before consent. The local environment uses a placeholder CMS service key, so the article stream fell back locally; this check validates ordering and markup, not local CMS content.
+- Production build, TypeScript, 13 analytics/tracking tests, targeted ESLint and `git diff --check` passed. The local production server was stopped after testing. These follow-up changes still need deployment and a new official PageSpeed run; do not attribute the earlier 86/93 result to them.
+- Remaining blocking resources are three first-party stylesheets totaling 27.3 KiB transferred. Fonts already use `next/font`, self-hosting, preload and swap. Deferring all CSS or changing the brand's slideshow animation would risk visual behavior and is not part of this minimal follow-up.
+
 ## Verified current production
 
 - `https://threemonkeysphuket.com/sitemap.xml` and `/robots.txt` both returned 200.
