@@ -1,5 +1,9 @@
 # Optional review card and staff guide
 
+## Owner rule for public replies — October 30, 2026
+
+Do not automatically reply to any 1-, 2- or 3-star review. Leave these for special care by the owner or staff and record them as requiring attention. Only verified 4- and 5-star reviews are eligible for routine personalized replies; hold unknown ratings for review. Preserve existing replies. This rule overrides the earlier all-unanswered-reviews instruction, including older backlog items. Explicit review-specific owner instructions are required before replying to a 1–3-star review.
+
 Verified official review URL: https://g.page/r/CVMO-9VMLOZ3EBE/review
 
 Evidence: on 29 October 2026, the root agent obtained this URL from **Get more reviews** in the managed Three Monkeys Google Business Profile, ID `12311846240019152719`. It opened the Three Monkeys Google Maps business `0x305031da4052c4f1:0x77e62c4cd5fb0e53` and the write-review dialog. This is the verified brand link, not a constructed link from a management ID.

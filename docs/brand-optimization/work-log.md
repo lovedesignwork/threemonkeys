@@ -4,6 +4,8 @@ Timezone: Asia/Bangkok. Owner account: lovedesignwork@gmail.com. Production: htt
 
 ## Owner decisions
 
+- October 30 review policy supersedes earlier instructions to reply to all unanswered reviews: NEVER automatically reply to 1-, 2- or 3-star reviews. Leave them unanswered and flag for owner/staff special care. Only verified 4- or 5-star reviews are eligible for the routine reply workflow; unknown ratings must be held for review. Existing replies are preserved. A future reply to a 1–3-star review requires explicit review-specific owner instructions.
+
 - Guest deposits are non-refundable; rescheduling is allowed. Correct the FAQ and contradictory website copy. Preserve existing restaurant-cancellation remedies and existing rescheduling notice requirements.
 - Publish the first campaign item on October 29 as an explicit exception to the already-exceeded October publishing cap. Continue November 2, 5 and 9 at 09:00 Bangkok.
 - Activate native scheduling plus local Monday/Thursday checks. No new paid service or outbound guest review invitations.
